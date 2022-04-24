@@ -1,6 +1,8 @@
+import { Button } from '@chakra-ui/react';
 import React from 'react';
 
 import { GoogleLogin } from 'react-google-login';
+import { FcGoogle } from 'react-icons/fc';
 // import refreshTokenSetup from '../../function/refreshToken';
 
 const clientId = process.env.REACT_APP_OAUTH_ID;
@@ -46,6 +48,18 @@ function GoogleLoginButton() {
       cookiePolicy="single_host_origin"
       style={{ marginTop: '100px' }}
       isSignedIn
+      render={(renderProps) => (
+        <Button
+          size="lg"
+          variant="pendown"
+          leftIcon={<FcGoogle />}
+          onClick={renderProps.onClick}
+          disabled={renderProps.disabled}
+        >
+
+          Continue with Google
+        </Button>
+      )}
     />
   );
 }

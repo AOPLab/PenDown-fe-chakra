@@ -1,5 +1,6 @@
 import { extendTheme } from '@chakra-ui/react';
 import foundations from './foundations';
+import components from './components';
 
 const direction = 'ltr';
 
@@ -12,6 +13,7 @@ const config = {
 export const theme = {
   direction,
   ...foundations,
+  components,
   config,
 };
 

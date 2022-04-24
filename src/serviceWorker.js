@@ -1,4 +1,3 @@
-/* eslint no-param-reassign: ["error", { "props": false }] */
 // This optional code is used to register a service worker.
 // register() is not called by default.
 
@@ -25,6 +24,7 @@ function registerValidSW(swUrl, config) {
   navigator.serviceWorker
     .register(swUrl)
     .then((registration) => {
+      // eslint-disable-next-line no-param-reassign
       registration.onupdatefound = () => {
         const installingWorker = registration.installing;
         if (installingWorker == null) {
@@ -95,18 +95,6 @@ function checkValidServiceWorker(swUrl, config) {
     });
 }
 
-export function unregister() {
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.ready
-      .then((registration) => {
-        registration.unregister();
-      })
-      .catch((error) => {
-        console.error(error.message);
-      });
-  }
-}
-
 export function register(config) {
   if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
     // The URL constructor is available in all browsers that support SW.
@@ -138,5 +126,17 @@ export function register(config) {
         registerValidSW(swUrl, config);
       }
     });
+  }
+}
+
+export function unregister() {
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.ready
+      .then((registration) => {
+        registration.unregister();
+      })
+      .catch((error) => {
+        console.error(error.message);
+      });
   }
 }
