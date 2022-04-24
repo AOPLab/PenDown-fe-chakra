@@ -1,0 +1,50 @@
+{
+  "root": true,
+  "extends": ["airbnb", "airbnb/hooks", "plugin:react/recommended"],
+  "plugins": ["unused-imports"],
+  "rules": {
+    "no-console": "off",
+    "react/jsx-filename-extension": [
+      1,
+      {
+        "extensions": ["js", ".jsx"]
+      }
+    ],
+    "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
+    "react-hooks/exhaustive-deps": "warn",
+    "import/no-named-as-default": 0,
+    "import/no-named-as-default-member": 0,
+    "react/destructuring-assignment": [0, "never"],
+    "eqeqeq": ["error", "smart"],
+    "no-unused-vars": "warn",
+    "react/no-unused-state": "warn",
+    "no-extra-boolean-cast": "off",
+    "react/static-property-placement": "off",
+    "comma-dangle": [2, "always-multiline"],
+    "linebreak-style": 0,
+    "import/named": "off",
+    "react/prop-types": "off",
+    "max-len": "off",
+    "camelcase": "off",
+    "unused-imports/no-unused-imports": "error",
+    "unused-imports/no-unused-vars": [
+      "warn",
+      {
+        "vars": "all",
+        "varsIgnorePattern": "^_",
+        "args": "after-used",
+        "argsIgnorePattern": "^_"
+      }
+    ]
+  },
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "sourceType": "module",
+    "allowImportExportEverywhere": "true"
+  },
+  "env": {
+    "browser": true,
+    "es6": true,
+    "node": true
+  }
+}
