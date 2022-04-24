@@ -16,7 +16,6 @@ import {
   Divider,
   Text,
 } from '@chakra-ui/react';
-// import { MdVisibility, MdVisibilityOff } from 'react-icons/md';
 import { HiEye, HiEyeOff } from 'react-icons/hi';
 import { useSelector, useDispatch } from 'react-redux';
 import { userSignIn } from '../../actions/user/auth';
@@ -117,7 +116,7 @@ export default function LoginForm() {
 
   return (
     <Stack spacing="8">
-      <Box rounded="lg" borderRadius="card" border="2px solid black" bg={useColorModeValue('white', 'gray.700')} boxShadow="lg" p={8}>
+      <Box borderRadius="card" border="2px solid black" bg={useColorModeValue('white', 'gray.700')} boxShadow="lg" p={8}>
         <Stack spacing="8">
           <Stack direction="row" align="center" justify="center">
             <Image boxSize="70%" alt="Logo" src="../logo/big-logo.png" />
@@ -132,79 +131,86 @@ export default function LoginForm() {
               <Divider />
             </HStack>
           </Stack>
-          <Stack spacing={4}>
+          <form onSubmit={(e) => handleSubmit(e)}>
             <Stack spacing={4}>
-              <FormControl id="username">
-                <Input
-                  type="text"
-                  id="login-username"
-                  label="Username"
-                  placeholder="Username"
-                  value={username}
-                  onChange={(e) => handleUsernameChange(e)}
-                  focusBorderColor="primary.400"
-                  borderRadius="pendown"
-                  error={errors.username}
-                  size="lg"
-                  helperText={errorTexts.username}
-                />
-              </FormControl>
-              <FormControl id="password">
-                <InputGroup>
-                  <InputRightElement>
-                    <IconButton
-                      onClick={onClickReveal}
-                      icon={isOpen ? <HiEye /> : <HiEyeOff />}
-                      aria-label={isOpen ? 'Mask password' : 'Reveal password'}
-                      variant="link"
-                      border="none"
+              <Stack spacing={4}>
+                <FormControl id="username">
+                  <Input
+                    type="text"
+                    id="login-username"
+                    label="Username"
+                    placeholder="Username"
+                    value={username}
+                    onChange={(e) => handleUsernameChange(e)}
+                    focusBorderColor="primary.400"
+                    borderWidth="2px"
+                    borderRadius="pendown"
+                    error={errors.username}
+                    size="lg"
+                    borderColor="black"
+                    helperText={errorTexts.username}
+                  />
+                </FormControl>
+                <FormControl id="password">
+                  <InputGroup>
+                    <Input
+                      id="login-password"
+                      type={isOpen ? 'text' : 'password'}
+                      label="Password"
+                      value={password}
+                      onChange={(e) => handlePasswordChange(e)}
+                      focusBorderColor="primary.400"
+                      borderRadius="pendown"
+                      borderColor="black"
+                      borderWidth="2px"
+                      error={errors.password}
+                      placeholder="Password"
+                      size="lg"
+                      required
+                      helperText={errorTexts.password}
+                    />
+                    <InputRightElement>
+                      <IconButton
+                        onClick={onClickReveal}
+                        icon={isOpen ? <HiEye /> : <HiEyeOff />}
+                        aria-label={isOpen ? 'Mask password' : 'Reveal password'}
+                        variant="link"
+                        border="none"
                     // size="lg"
                     // marginY="auto"
-                      marginTop="10px"
-                      _focus={{ bg: 'gray.100', border: 'none', borderRadius: 'full' }}
-                      marginRight="10px"
-                      paddingY="5px"
-                      fontSize="24px"
-                      isRound
-                    />
-                  </InputRightElement>
-                  <Input
-                    id="login-password"
-                    type={isOpen ? 'text' : 'password'}
-                    label="Password"
-                    value={password}
-                    onChange={(e) => handlePasswordChange(e)}
-                    focusBorderColor="primary.400"
-                    borderRadius="pendown"
-                    error={errors.password}
-                    placeholder="Password"
-                    size="lg"
-                    required
-                    helperText={errorTexts.password}
-                  />
-                </InputGroup>
-              </FormControl>
-            </Stack>
-            <Stack spacing={8}>
-              <Button
-                variant="pendown-primary"
-                size="lg"
-              >
-                Sign in
-              </Button>
-              <Stack direction="row" align="center" justify="center">
-                <Link fontSize="sm" fontWeight={800} to="/">Forgot your password?</Link>
+                        marginTop="10px"
+                        _focus={{ bg: 'gray.100', border: 'none', borderRadius: 'full' }}
+                        marginRight="10px"
+                        paddingY="5px"
+                        fontSize="24px"
+                        isRound
+                      />
+                    </InputRightElement>
+                  </InputGroup>
+                </FormControl>
+              </Stack>
+              <Stack spacing={8}>
+                <Button
+                  variant="pendown-primary"
+                  size="lg"
+                  type="submit"
+                >
+                  Sign in
+                </Button>
+                <Stack direction="row" align="center" justify="center">
+                  <Link fontSize="sm" fontWeight={800} to="/">Forgot your password?</Link>
+                </Stack>
               </Stack>
             </Stack>
-          </Stack>
+          </form>
         </Stack>
       </Box>
-      <Box rounded="lg" borderRadius="card" border="2px solid black" bg={useColorModeValue('white', 'gray.700')} boxShadow="lg" p={8}>
+      <Box borderRadius="card" border="2px solid black" bg={useColorModeValue('white', 'gray.700')} boxShadow="lg" p={8}>
         <Stack spacing="8">
           <Text align="center" fontSize="sm" fontWeight={800}>
             Don&apos;t have an account?
             {' '}
-            <Link to="/">Join now</Link>
+            <Link to="/register">Join now</Link>
           </Text>
 
         </Stack>

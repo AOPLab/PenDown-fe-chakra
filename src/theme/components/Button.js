@@ -18,11 +18,22 @@ export default {
 
     pendown: {
       _hover: { boxShadow: '0px 4px 0px #18191F', filter: 'brightness(90%)' },
+      _focus: { outline: 0 },
+    },
+    'pendown-round': {
+      border: '2px solid',
+      borderRadius: '50%',
+      padding: '0px',
+      bg: 'white',
+      _hover: { boxShadow: '0px 4px 0px #18191F', bg: 'primary.100' },
+      _focus: { outline: 0 },
     },
     'pendown-primary': {
       bg: 'primary.300',
       color: 'black',
       _hover: { boxShadow: '0px 4px 0px #18191F', bg: 'primary.400' },
+      _focus: { outline: 0 },
+      _active: { outline: 0 },
     },
     // 4. We can override existing variants
     // solid: (props) => ({

@@ -9,9 +9,8 @@ import {
 } from '@chakra-ui/react';
 import theme from './theme';
 import Login from './containers/auth/Login';
-// import Index from './containers';
-// import Register from './containers/auth/Register';
-// import Index from './containers';
+import Register from './containers/auth/Register';
+import Index from './containers';
 import NoMatch from './components/noMatch';
 import store from './store';
 
@@ -30,8 +29,8 @@ function App() {
         <Router>
           <Switch>
             <Route path="/login" component={Login} />
-            {/* <Route path="/register" component={Register} /> */}
-            {/* <Route path="/" component={Index} /> */}
+            <Route path="/register" component={Register} />
+            <Route path="/" component={Index} />
             <Route component={NoMatch} />
           </Switch>
         </Router>

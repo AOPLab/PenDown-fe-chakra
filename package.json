@@ -12,6 +12,7 @@
     "@ckeditor/ckeditor5-react": "^3.0.2",
     "@emotion/react": "^11.0.0",
     "@emotion/styled": "^11.0.0",
+    "@fontsource/caveat": "^4.5.7",
     "@fontsource/montserrat": "^4.5.7",
     "@hypertheme-editor/chakra-ui": "^0.1.5",
     "@testing-library/jest-dom": "^5.9.0",

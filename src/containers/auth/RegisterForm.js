@@ -1,44 +1,25 @@
-import { useState, useEffect } from 'react';
-import React, { useSelector, useDispatch } from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import {
-  Button,
-  TextField,
-  Typography,
-  Card,
-  CardContent,
-  InputAdornment,
-  IconButton,
+  Box,
+  FormControl,
+  Input,
+  Stack,
   Link,
-  makeStyles,
-} from '@material-ui/core';
-import { Visibility, VisibilityOff } from '@material-ui/icons';
-
-import { Link as RouterLink, useHistory } from 'react-router-dom';
+  Button,
+  Image,
+  IconButton,
+  useColorModeValue,
+  InputGroup,
+  InputRightElement,
+  HStack,
+  Divider,
+  Text,
+} from '@chakra-ui/react';
+import { HiEye, HiEyeOff } from 'react-icons/hi';
+import { useHistory, Link as RouterLink } from 'react-router-dom';
 import { userRegister } from '../../actions/user/auth';
-
-const useStyles = makeStyles((theme) => ({
-  authForm: {
-    width: '70%',
-  },
-  authTextFields: {
-    width: '100%',
-    marginTop: '50px',
-  },
-  authTextFieldsComplex: {
-    width: '100%',
-    marginTop: '40px',
-  },
-  authButtons: {
-    marginTop: '44px',
-    marginBottom: '30px',
-  },
-  authLink: {
-    color: theme.palette.grey.A400,
-  },
-  snackbar: {
-    width: '400px',
-  },
-}));
+import GoogleLoginButton from '../../components/auth/GoogleLogin';
 
 function checkPassword(password1, password2) {
   if (password1 === password2) {
@@ -48,7 +29,6 @@ function checkPassword(password1, password2) {
 }
 
 export default function RegisterForm() {
-  const classNames = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
   const registerLoading = useSelector((state) => state.loading.user.auth.signup);
@@ -78,6 +58,7 @@ export default function RegisterForm() {
   });
 
   const [showPassword, setShowPassword] = useState(false);
+
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [hasRequest, setHasRequest] = useState(false);
 
@@ -188,7 +169,186 @@ export default function RegisterForm() {
 
   return (
     <>
-      <Card className="auth-form register-form" variant="outlined">
+      <Stack spacing="8">
+        <Box borderRadius="card" border="2px solid black" bg={useColorModeValue('white', 'gray.700')} boxShadow="lg" p={8}>
+          <Stack spacing="8">
+            <Stack align="center" justify="center" spacing="8">
+              <Image boxSize="70%" alt="Logo" src="../logo/big-logo.png" />
+              <Text align="center" fontWeight={800} color="gray.600">Sign up to see notes from other note-takers from all over the world.</Text>
+            </Stack>
+            <Stack spacing="8">
+              <GoogleLoginButton />
+              <HStack>
+                <Divider />
+                <Text fontSize="sm" whiteSpace="nowrap" color="muted">
+                  or
+                </Text>
+                <Divider />
+              </HStack>
+            </Stack>
+            <form>
+              <Stack spacing={4}>
+                <Stack spacing={4}>
+                  <FormControl id="fullname">
+                    <Input
+                      type="text"
+                      id="fullName"
+                      name="fullName"
+                      label="Full Name"
+                      value={inputs.fullName}
+                      onChange={(e) => handleChange(e)}
+                      error={errors.fullName}
+                      helperText={errorTexts.fullName}
+                      placeholder="Full name"
+                      focusBorderColor="primary.400"
+                      borderColor="black"
+                      borderWidth="2px"
+                      borderRadius="pendown"
+                      size="lg"
+                    />
+                  </FormControl>
+                  <FormControl id="username">
+                    <Input
+                      type="text"
+                      label="Username"
+                      placeholder="Username"
+                      focusBorderColor="primary.400"
+                      borderRadius="pendown"
+                      size="lg"
+                      id="username"
+                      name="username"
+                      value={inputs.username}
+                      onChange={(e) => handleChange(e)}
+                      borderWidth="2px"
+                      borderColor="black"
+                      error={errors.username}
+                      helperText={errorTexts.username}
+                    />
+                  </FormControl>
+                  <FormControl id="email">
+                    <Input
+                      name="email"
+                      label="Email"
+                      value={inputs.email}
+                      onChange={(e) => handleChange(e)}
+                      error={errors.email}
+                      helperText={errorTexts.email}
+                      placeholder="Email"
+                      focusBorderColor="primary.400"
+                      borderRadius="pendown"
+                      borderColor="black"
+                      borderWidth="2px"
+                      size="lg"
+                      id="username"
+                    />
+                  </FormControl>
+                  <FormControl id="password">
+                    <InputGroup>
+                      <InputRightElement>
+                        <IconButton
+                          onClick={() => setShowPassword(!showPassword)}
+                          icon={showPassword ? <HiEye /> : <HiEyeOff />}
+                          aria-label={showPassword ? 'Mask password' : 'Reveal password'}
+                          variant="link"
+                          border="none"
+                    // size="lg"
+                    // marginY="auto"
+                          marginTop="10px"
+                          _focus={{ bg: 'gray.100', border: 'none', borderRadius: 'full' }}
+                          marginRight="10px"
+                          paddingY="5px"
+                          fontSize="24px"
+                          isRound
+                        />
+                      </InputRightElement>
+                      <Input
+                        name="password"
+                        label="Password"
+                        type={showPassword ? 'text' : 'password'}
+                // placeholder="New Password"
+                        value={inputs.password}
+                        onChange={(e) => handleChange(e)}
+                        error={errors.password}
+                        helperText={errorTexts.password}
+                        id="password"
+                        focusBorderColor="primary.400"
+                        borderColor="black"
+                        borderWidth="2px"
+                        borderRadius="pendown"
+                        placeholder="Password"
+                        size="lg"
+                        required
+                      />
+                    </InputGroup>
+                  </FormControl>
+                  <FormControl id="password">
+                    <InputGroup>
+                      <InputRightElement>
+                        <IconButton
+                          onClick={() => setShowPassword(!showPassword)}
+                          icon={showPassword ? <HiEye /> : <HiEyeOff />}
+                          aria-label={showPassword ? 'Mask password' : 'Reveal password'}
+                          variant="link"
+                          border="none"
+                    // size="lg"
+                    // marginY="auto"
+                          marginTop="10px"
+                          _focus={{ bg: 'gray.100', border: 'none', borderRadius: 'full' }}
+                          marginRight="10px"
+                          paddingY="5px"
+                          fontSize="24px"
+                          isRound
+                        />
+                      </InputRightElement>
+                      <Input
+                        id="confirm-password"
+                        type={showPassword ? 'text' : 'password'}
+                        name="confirmPassword"
+                        error={errors.confirmPassword}
+                        label="Confirm Password"
+                        value={inputs.confirmPassword}
+                        borderWidth="2px"
+                        helperText={errorTexts.confirmPassword}
+                        onChange={(e) => handleChange(e)}
+                        focusBorderColor="primary.400"
+                        borderColor="black"
+                        borderRadius="pendown"
+                        placeholder="Confirm Password"
+                        size="lg"
+                        required
+                      />
+                    </InputGroup>
+                  </FormControl>
+                </Stack>
+                <Stack spacing={8}>
+                  <Button
+                    variant="pendown-primary"
+                    size="lg"
+                    onClick={() => onSubmit()}
+                  >
+                    Sign up
+                  </Button>
+                  <Stack direction="row" align="center" justify="center">
+                    <Text fontSize="sm" align="center" fontWeight={800} color="gray.600">By signing up, you agree to our Terms, Data Policy and Cookies Policy.</Text>
+                  </Stack>
+                </Stack>
+              </Stack>
+            </form>
+          </Stack>
+        </Box>
+        <Box borderRadius="card" border="2px solid black" bg={useColorModeValue('white', 'gray.700')} boxShadow="lg" p={8}>
+          <Stack spacing="8">
+            <Text align="center" fontSize="sm" fontWeight={800}>
+              Already have an account?
+              {' '}
+              <Link component={RouterLink} to="/login">Login</Link>
+            </Text>
+
+          </Stack>
+
+        </Box>
+      </Stack>
+      {/* <Card className="auth-form register-form" variant="outlined">
         <CardContent className="auth-form-content">
           <form className={`auth-form-content ${classNames.authForm}`}>
             <TextField
@@ -284,7 +444,7 @@ export default function RegisterForm() {
             </Link>
           </Typography>
         </CardContent>
-      </Card>
+      </Card> */}
     </>
   );
 }

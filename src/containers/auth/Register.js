@@ -1,23 +1,17 @@
 import React from 'react';
-import { Grid } from '@material-ui/core';
+import {
+  Flex,
+  Stack,
+  useColorModeValue,
+} from '@chakra-ui/react';
 import RegisterForm from './RegisterForm';
-
-import '../../styles/auth.css';
-import '../../styles/index.css';
 
 export default function Register() {
   return (
-    <div className="page auth-page">
-      <Grid className="auth-page-container" container direction="row" justifyContent="center" alignItems="center">
-        {/* <Grid container item xs={6} className="auth-page-col auth-page-col-left" justifyContent="center">
-          <Typography className="auth-title" variant="h3">
-            Register...
-          </Typography>
-        </Grid> */}
-        <Grid container item xs={12} className="auth-page-col auth-page-col-right" justifyContent="center">
-          <RegisterForm />
-        </Grid>
-      </Grid>
-    </div>
+    <Flex minH="100vh" align="center" justify="center" bg={useColorModeValue('gray.50', 'gray.800')}>
+      <Stack spacing={8} mx="auto" maxW="md" py={12} px={6}>
+        <RegisterForm />
+      </Stack>
+    </Flex>
   );
 }

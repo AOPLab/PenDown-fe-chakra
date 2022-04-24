@@ -4,182 +4,36 @@ import React, {
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import {
-  makeStyles, Typography, AppBar, Toolbar, useTheme, Paper, InputBase, MenuItem, Select, OutlinedInput,
-} from '@material-ui/core';
-import ResizeObserver from 'react-resize-observer';
+  Box,
+  Flex,
+  Avatar,
+  Button,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  Select,
+  useDisclosure,
+  InputGroup,
+  InputLeftElement,
+  useColorModeValue,
+  Stack,
+  Input,
+  useColorMode,
+} from '@chakra-ui/react';
+import { AiOutlineSearch } from 'react-icons/ai';
+import { FiBell, FiPlus } from 'react-icons/fi';
+import { ArrowForwardIcon } from '@chakra-ui/icons';
 import Icon from './icon/index';
+
 import { userLogout } from '../../actions/user/auth';
 
-const useStyles = makeStyles((theme) => ({
-  image: {
-    width: '40px',
-    height: '40px',
-    display: 'block',
-    borderRadius: '50%',
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    opacity: '1',
-    zIndex: '-1',
-  },
-  logo: {
-    '&:hover': {
-      cursor: 'pointer',
-    },
-    display: 'flex',
-    alignItems: 'center',
-    color: theme.palette.grey[0],
-    margin: '0 40px 0 30px',
-  },
-  noLogo: {
-    marginLeft: '50px',
-  },
-  appbar: {
-    left: 0,
-    right: 'auto',
-    minHeight: '65px',
-    height: '65px',
-    background: theme.headerStyle.background,
-    minWidth: 'max-content',
-    borderBottom: '3px black solid',
-  },
-  toolbar: {
-    minHeight: '65px',
-    height: '65px',
-    paddingLeft: '0px',
-    justifyContent: 'space-between',
-  },
-
-  // header left
-  item: {
-    marginRight: '50px',
-    '&:hover': {
-      cursor: 'pointer',
-    },
-    '@media (max-width: 760px)': {
-      marginRight: '20px',
-    },
-    color: theme.headerStyle.color,
-  },
-
-  itemActiveIndicator: {
-    position: 'absolute',
-    top: 52,
-    height: 3,
-    borderRadius: '3px 3px 0px 0px',
-    backgroundColor: theme.headerStyle.color,
-    transition: '0.3s',
-    '-webkit-transform': 'translateZ(0)',
-  },
-
-  // header center
-  center: {
-    display: 'flex',
-  },
-  searchCol: {
-    borderRadius: '10px',
-    width: '20vw',
-  },
-  searchIcon: {
-    marginLeft: '10px',
-    marginRight: '10px',
-    verticalAlign: 'middle',
-  },
-  selectCol: {
-    marginLeft: '10px',
-    width: '16vw',
-    minWidth: '100px',
-  },
-  searchButton: {
-    marginLeft: '5px',
-    height: '45px',
-    minHeight: '45px',
-    '&:hover': {
-      cursor: 'pointer',
-    },
-  },
-
-  // header right
-  right: {
-    marginRight: 0,
-    paddingTop: 5,
-    paddingLeft: 15,
-  },
-  notificationContainer: {
-    position: 'relative',
-    display: 'inline-block',
-    '&:hover': {
-      cursor: 'pointer',
-    },
-  },
-  notificationIcon: {
-    width: '35px',
-    margin: '5px 5px 5px 5px',
-  },
-  userContainer: {
-    position: 'relative',
-    display: 'inline-block',
-    marginRight: '15px',
-    bottom: '22px',
-  },
-  userContainer2: {
-    position: 'relative',
-    display: 'inline-block',
-    marginRight: '20px',
-  },
-  userButton: {
-    backgroundColor: 'transparent',
-    color: theme.headerStyle.color,
-    border: 'none',
-    '&:hover': {
-      cursor: 'pointer',
-    },
-  },
-  active: {
-    textDecoration: 'none',
-    color: theme.headerStyle.activeColor, // temporary
-  },
-  userDropdownContent: {
-    position: 'fixed',
-    backgroundColor: theme.palette.grey.white,
-    top: '48px',
-    right: '30px',
-    minWidth: '140px',
-    zIndex: '1',
-    boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.25)',
-    borderRadius: '10px',
-    '& span': {
-      color: theme.palette.black.dark, // theme.palette.black.main,
-      padding: '12px',
-      textDecoration: 'none',
-      textAlign: 'center',
-      display: 'block',
-      '&:nth-child(1)': {
-        borderRadius: '10px 10px 0 0',
-      },
-      '&:last-child': {
-        borderRadius: '0 0 10px 10px',
-      },
-    },
-    '& span:hover': {
-      cursor: 'pointer',
-      backgroundColor: theme.palette.grey.A100,
-    },
-  },
-  hide: {
-    display: 'none',
-  },
-  logoContent: {
-    width: 'auto',
-    height: '40px',
-  },
-}));
-
 export default function Header() {
-  const theme = useTheme();
+  // chakra
+  const { colorMode, toggleColorMode } = useColorMode();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   const dispatch = useDispatch();
-  const classes = useStyles();
   const history = useHistory();
   const location = useLocation();
 
@@ -270,78 +124,74 @@ export default function Header() {
   };
 
   return (
-    <div>
-      <AppBar className={classes.appbar} elevation={0}>
-        <Toolbar className={classes.toolbar}>
-          <div className={classes.logo}>
-            <Icon.SmallLogo className={classes.logoContent} onClick={() => history.push('/home')} />
-            {/* {auth.isAuthenticated ? <Icon.SmallLogo className={classes.logoContent} onClick={() => history.push('/home')} />
-              : <Icon.BigLogo className={classes.logoContent} onClick={() => history.push('/home')} />} */}
-          </div>
-          {theme.headerStyle.hasIndicator && <div className={classes.itemActiveIndicator} style={indicatorStyles} />}
+    <>
+      <Box as="header" position="fixed" w="100%" zIndex={200} bg={useColorModeValue('gray.100', 'gray.900')} px={4} borderBottom="2px">
+        <Flex h={16} alignItems="center" justifyContent="space-between">
+          <Box as="button" onClick={() => history.push('/home')}><Icon.SmallLogo /></Box>
 
-          <div className={classes.center}>
-            <Paper
-              component="form"
-              sx={{
-                p: '2px 4px', display: 'flex', alignItems: 'center', width: 400,
-              }}
-            >
-              <Icon.SearchIcon className={classes.searchIcon} />
-              <InputBase
-                sx={{ ml: 1, flex: 1 }}
-                className={classes.searchCol}
-                placeholder="Search"
-                inputProps={{ 'aria-label': 'search' }}
-              />
-            </Paper>
-            <Select
-              defaultValue="Choose Note Type"
-              value={noteType}
-              onChange={handleNoteTypeChange}
-              input={<OutlinedInput />}
-              className={classes.selectCol}
-            >
-              <MenuItem key="Choose Note Type" value="Choose Note Type">Choose Note Type</MenuItem>
-              <MenuItem key="All" value="All">All</MenuItem>
-              <MenuItem key="Notability" value="Notability">Notability</MenuItem>
-              <MenuItem key="Goodnotes" value="Goodnotes">Goodnotes</MenuItem>
-            </Select>
-            <Icon.Search className={classes.searchButton} onClick={handleSubmit} />
-          </div>
+          <Flex alignItems="center">
+            <Stack direction="row" spacing={4}>
+              <InputGroup>
+                <InputLeftElement pointerEvents="none">
+                  <AiOutlineSearch />
+                </InputLeftElement>
+                <Input
+                  type="tel"
+                  focusBorderColor="primary.400"
+                  bg="white"
+                  borderColor="black"
+                  borderRadius="pendown"
+                  placeholder="IM 3007"
+                  borderWidth="2px"
+                />
+              </InputGroup>
+              <Select
+                defaultValue="Choose Note Type"
+                value={noteType}
+                focusBorderColor="primary.400"
+                bg="white"
+                borderColor="black"
+                borderWidth="2px"
+                borderRadius="pendown"
+                onChange={handleNoteTypeChange}
+              >
+                <option key="Choose Note Type" value="Choose Note Type">Choose Note Type</option>
+                <option key="All" value="All">All</option>
+                <option key="Notability" value="Notability">Notability</option>
+                <option key="Goodnotes" value="Goodnotes">Goodnotes</option>
+              </Select>
+            </Stack>
+          </Flex>
 
-          <div className={classes.right}>
+          <Flex alignItems="center">
             {auth.isAuthenticated
               ? (
-                <>
-                  <div
-                    className={classes.notificationContainer}
-                    role="button"
-                    tabIndex="0"
-                  >
-                    <Icon.AddButton onClick={clickAddNote} className={classes.notificationIcon} />
-                    <Icon.Notification className={classes.notificationIcon} />
-                  </div>
-                  <div
-                    className={classes.userContainer}
-                    onClick={toggleUser}
-                    onKeyDown={toggleUser}
-                    role="button"
-                    tabIndex="-1"
-                  >
-                    <button type="button" className={classes.userButton} ref={userButtonRef}>
-                      <Typography
-                        variant="h6"
-                        className={userButtonActive && !theme.headerStyle.hasIndicator ? classes.active : null}
-                      >
-                        <ResizeObserver onReflow={(rect) => setUserButtonRect(rect)} />
-                        {user.username}
-                      </Typography>
-                    </button>
-                    {userDropdown && (
-                    <div className={classes.userDropdownContent} ref={userRef}>
+                <Stack direction="row" spacing={4}>
+                  <Button size="lg" fontSize="24px" variant="pendown-round">
+                    <FiPlus />
+                  </Button>
+                  <Button size="lg" fontSize="24px" variant="pendown-round">
+                    <FiBell />
+                  </Button>
+
+                  <Menu>
+                    <MenuButton
+                      as={Button}
+                      rounded="full"
+                      variant="link"
+                      cursor="pointer"
+                      border="none"
+                      minW={0}
+                    >
+                      <Avatar
+                        border="2px solid black"
+                        size="md"
+                        src="https://avatars.dicebear.com/api/male/username.svg"
+                      />
+                    </MenuButton>
+                    <MenuList alignItems="center">
                       {menuList.map((item) => (
-                        <span
+                        <MenuItem
                           key={item.link}
                           tabIndex={item.link}
                           role="button"
@@ -349,35 +199,137 @@ export default function Header() {
                           onKeyDown={() => goto(item.link)}
                         >
                           {item.title}
-                        </span>
+                        </MenuItem>
                       ))}
-                    </div>
-                    )}
-                  </div>
-                </>
+                    </MenuList>
+                  </Menu>
+                </Stack>
               )
               : (
-                <div
-                  className={classes.userContainer2}
+                <Button
+                  variant="pendown-primary"
+                  size="md"
                   onClick={() => history.push('/login')}
                   onKeyDown={() => history.push('/login')}
-                  role="button"
                   tabIndex="-1"
+                  role="button"
+                  rightIcon={<ArrowForwardIcon />}
                 >
-                  <button type="button" className={classes.userButton} ref={userButtonRef}>
-                    <Typography
-                      variant="h6"
-                      className={userButtonActive && !theme.headerStyle.hasIndicator ? classes.active : null}
-                    >
-                      <ResizeObserver onReflow={(rect) => setUserButtonRect(rect)} />
-                      Sign in
-                    </Typography>
-                  </button>
-                </div>
+                  Sign in
+                </Button>
               )}
-          </div>
-        </Toolbar>
-      </AppBar>
-    </div>
+
+          </Flex>
+        </Flex>
+      </Box>
+    </>
   );
 }
+
+// <AppBar className={classes.appbar} elevation={0}>
+// {/* <Toolbar className={classes.toolbar}>
+// <div className={classes.logo}>
+//   <Icon.SmallLogo className={classes.logoContent} onClick={() => history.push('/home')} />
+//   {/* {auth.isAuthenticated ? <Icon.SmallLogo className={classes.logoContent} onClick={() => history.push('/home')} />
+//     : <Icon.BigLogo className={classes.logoContent} onClick={() => history.push('/home')} />} */}
+// </div>
+// {theme.headerStyle.hasIndicator && <div className={classes.itemActiveIndicator} style={indicatorStyles} />}
+
+// <div className={classes.center}>
+//   <Paper
+//     component="form"
+//     sx={{
+//       p: '2px 4px', display: 'flex', alignItems: 'center', width: 400,
+//     }}
+//   >
+//     <Icon.SearchIcon className={classes.searchIcon} />
+//     <InputBase
+//       sx={{ ml: 1, flex: 1 }}
+//       className={classes.searchCol}
+//       placeholder="Search"
+//       inputProps={{ 'aria-label': 'search' }}
+//     />
+//   </Paper>
+//   <Select
+//     defaultValue="Choose Note Type"
+//     value={noteType}
+//     onChange={handleNoteTypeChange}
+//     input={<OutlinedInput />}
+//     className={classes.selectCol}
+//   >
+//     <MenuItem key="Choose Note Type" value="Choose Note Type">Choose Note Type</MenuItem>
+//     <MenuItem key="All" value="All">All</MenuItem>
+//     <MenuItem key="Notability" value="Notability">Notability</MenuItem>
+//     <MenuItem key="Goodnotes" value="Goodnotes">Goodnotes</MenuItem>
+//   </Select>
+//   <Icon.Search className={classes.searchButton} onClick={handleSubmit} />
+// </div>
+
+// <div className={classes.right}>
+//   {auth.isAuthenticated
+//     ? (
+//       <>
+//         <div
+//           className={classes.notificationContainer}
+//           role="button"
+//           tabIndex="0"
+//         >
+//           <Icon.AddButton onClick={clickAddNote} className={classes.notificationIcon} />
+//           <Icon.Notification className={classes.notificationIcon} />
+//         </div>
+//         <div
+//           className={classes.userContainer}
+//           onClick={toggleUser}
+//           onKeyDown={toggleUser}
+//           role="button"
+//           tabIndex="-1"
+//         >
+//           <button type="button" className={classes.userButton} ref={userButtonRef}>
+//             <Typography
+//               variant="h6"
+//               className={userButtonActive && !theme.headerStyle.hasIndicator ? classes.active : null}
+//             >
+//               <ResizeObserver onReflow={(rect) => setUserButtonRect(rect)} />
+//               {user.username}
+//             </Typography>
+//           </button>
+//           {userDropdown && (
+//           <div className={classes.userDropdownContent} ref={userRef}>
+//             {menuList.map((item) => (
+//               <span
+//                 key={item.link}
+//                 tabIndex={item.link}
+//                 role="button"
+//                 onClick={() => goto(item.link)}
+//                 onKeyDown={() => goto(item.link)}
+//               >
+//                 {item.title}
+//               </span>
+//             ))}
+//           </div>
+//           )}
+//         </div>
+//       </>
+//     )
+//     : (
+//       <div
+//         className={classes.userContainer2}
+//         onClick={() => history.push('/login')}
+//         onKeyDown={() => history.push('/login')}
+//         role="button"
+//         tabIndex="-1"
+//       >
+//         <button type="button" className={classes.userButton} ref={userButtonRef}>
+//           <Typography
+//             variant="h6"
+//             className={userButtonActive && !theme.headerStyle.hasIndicator ? classes.active : null}
+//           >
+//             <ResizeObserver onReflow={(rect) => setUserButtonRect(rect)} />
+//             Sign in
+//           </Typography>
+//         </button>
+//       </div>
+//     )}
+// </div>
+// </Toolbar>
+// </AppBar> */}

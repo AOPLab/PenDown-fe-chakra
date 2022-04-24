@@ -14,7 +14,6 @@ import Tag from './tag/index';
 import Note from './note';
 import Header from '../components/ui/Header';
 import { getUserInfo } from '../actions/user/auth';
-import '../styles/index.css';
 import NoMatch from '../components/noMatch';
 
 // const useStyles = makeStyles(() => ({
