@@ -15,11 +15,9 @@ import {
   HStack,
   Divider,
   Text,
-  Heading,
 } from '@chakra-ui/react';
 import { HiEye, HiEyeOff } from 'react-icons/hi';
 import { useSelector, useDispatch } from 'react-redux';
-import Card from '../../components/ui/Card';
 import { userSignIn } from '../../actions/user/auth';
 import GoogleLoginButton from '../../components/auth/GoogleLogin';
 
@@ -216,24 +214,7 @@ export default function LoginForm() {
           </Text>
 
         </Stack>
-
       </Box>
-      <Card variant="rounded">
-        <Image
-          src="https://chakra-ui.com/eric.jpg"
-          rounded="full"
-          w={32}
-          h={32}
-          boxShadow="md"
-        />
-        <Heading mt={6} maxW={60} size="lg" textAlign="center" color="gray.700">
-          Welcome back, Eric
-        </Heading>
-        <Text mt={6} mb={6} size="sm" color="blackAlpha.500">
-          Use your fingerprint to continue.
-        </Text>
-        <Image src="./logo/big-logo.png" w={32} h={32} />
-      </Card>
     </Stack>
   );
 }
