@@ -1,6 +1,7 @@
 import { ColorModeScript } from '@chakra-ui/react';
 import React, { StrictMode } from 'react';
 import ReactDOM from 'react-dom';
+import { CookiesProvider } from 'react-cookie';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import * as serviceWorker from './serviceWorker';
@@ -8,9 +9,11 @@ import * as serviceWorker from './serviceWorker';
 ReactDOM.render(
   <StrictMode>
     <ColorModeScript />
-    <App />
+    <CookiesProvider>
+      <App />
+    </CookiesProvider>
   </StrictMode>,
-  document.getElementById('root')
+  document.getElementById('root'),
 );
 
 // If you want your app to work offline and load faster, you can change

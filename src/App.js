@@ -1,46 +1,41 @@
 import '@fontsource/montserrat';
 
-import React from 'react';
+import React, { useEffect } from 'react';
+import { Provider } from 'react-redux';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import {
   ChakraProvider,
-  Box,
-  Text,
-  Link,
-  VStack,
-  Code,
-  Grid,
-  Heading,
   // theme,
 } from '@chakra-ui/react';
-import { ColorModeSwitcher } from './ColorModeSwitcher';
-import { Logo } from './Logo';
 import theme from './theme';
+import Login from './containers/auth/Login';
+// import Index from './containers';
+// import Register from './containers/auth/Register';
+// import Index from './containers';
+import NoMatch from './components/noMatch';
+import store from './store';
 
 function App() {
+  useEffect(() => {
+    const url = window.location.origin;
+
+    if (!url.includes('localhost') && !url.includes('https')) {
+      window.location = `https:${url.split(':')[1]}`;
+    }
+  }, []);
+
   return (
     <ChakraProvider theme={theme}>
-      <Box textAlign="center" fontSize="xl">
-        <Grid minH="100vh" p={3}>
-          <ColorModeSwitcher justifySelf="flex-end" />
-          <VStack spacing={8}>
-            <Heading>Hello</Heading>
-            <Logo h="40vmin" pointerEvents="none" />
-            <Text>
-              Edit <Code fontSize="xl">src/App.js</Code> and save to reload.
-            </Text>
-            <Link
-              color="red.500"
-              href="https://chakra-ui.com"
-              fontSize="md"
-              fontWeight={800}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learn Chakra
-            </Link>
-          </VStack>
-        </Grid>
-      </Box>
+      <Provider store={store}>
+        <Router>
+          <Switch>
+            <Route path="/login" component={Login} />
+            {/* <Route path="/register" component={Register} /> */}
+            {/* <Route path="/" component={Index} /> */}
+            <Route component={NoMatch} />
+          </Switch>
+        </Router>
+      </Provider>
     </ChakraProvider>
   );
 }
