@@ -1,15 +1,4 @@
 import React, { useEffect, useState } from 'react';
-// import {
-//   Button,
-//   TextField,
-//   Card,
-//   CardContent,
-//   Link,
-//   InputAdornment,
-//   IconButton,
-//   Typography,
-//   makeStyles,
-// } from '@material-ui/core';
 import {
   Box,
   FormControl,
@@ -33,44 +22,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { userSignIn } from '../../actions/user/auth';
 import GoogleLoginButton from '../../components/auth/GoogleLogin';
 
-// const useStyles = makeStyles((theme) => ({
-//   authForm: {
-//     width: '80%',
-//   },
-//   authTextFields: {
-//     width: '100%',
-//     marginTop: '40px',
-//   },
-//   authButtons: {
-//     marginTop: '15px',
-//     marginBottom: '30px',
-//   },
-//   authLink: {
-//     color: theme.palette.grey.A400,
-//     marginTop: '30px',
-//   },
-//   caption: {
-//     width: '80%',
-//     textAlign: 'center',
-//   },
-//   caption2: {
-//     width: '80%',
-//     color: '#969bab',
-//     textAlign: 'center',
-//   },
-//   img: {
-//     width: '80%',
-//     height: 'auto',
-//     marginBottom: '20px',
-//   },
-//   loginButton: {
-//     color: 'yellow',
-//   },
-// }));
-
 export default function LoginForm() {
   const dispatch = useDispatch();
-  // const classNames = useStyles();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({
@@ -258,69 +211,5 @@ export default function LoginForm() {
 
       </Box>
     </Stack>
-
-  // <Card className="auth-form login-form" variant="outlined">
-  //   <CardContent className="auth-form-content">
-  //     <img alt="Logo" src="../logo/big-logo.png" className={classNames.img} />
-  //     <Typography variant="body2" className={classNames.caption2}>
-  //       Sign up to see notes from other note-takes from all over the world.
-  //     </Typography>
-  //     <div className={classNames.authButtons}>
-  //       <GoogleLoginButton />
-  //     </div>
-  //     <Typography variant="caption" className={classNames.caption}>
-  //       OR
-  //     </Typography>
-  //     <form className={`auth-form-content ${classNames.authForm}`} onSubmit={(e) => handleSubmit(e)}>
-  //       <TextField
-  //         className={`auth-form-input ${classNames.authTextFields}`}
-  //         id="login-username"
-  //         label="Username"
-  //         value={username}
-  //         onChange={(e) => handleUsernameChange(e)}
-  //         error={errors.username}
-  //         helperText={errorTexts.username}
-  //       />
-  //       <TextField
-  //         id="login-password"
-  //         type={showPassword ? 'text' : 'password'}
-  //         className={`auth-form-input ${classNames.authTextFields}`}
-  //         label="Password"
-  //         value={password}
-  //         onChange={(e) => handlePasswordChange(e)}
-  //         error={errors.password}
-  //         helperText={errorTexts.password}
-  //         InputProps={{
-  //           endAdornment: (
-  //             <InputAdornment position="end">
-  //               <IconButton aria-label="toggle password visibility" onClick={handleClickShowPassword} edge="end">
-  //                 {showPassword ? <Visibility /> : <VisibilityOff />}
-  //               </IconButton>
-  //             </InputAdornment>
-  //           ),
-  //         }}
-  //       />
-  //       <div className={classNames.authButtons}>
-  //         <Button color="primary" type="submit">
-  //           Login
-  //         </Button>
-  //         {/* <ContraButton appearance="teritary" type="submit" className={classNames.loginButton}>Login</ContraButton> */}
-  //       </div>
-  //     </form>
-
-  //     <Typography variant="caption" className={classNames.caption}>
-  //       By signing up, you agree to our Terms, Data Policy and Cookies Policy.
-  //     </Typography>
-
-  //     <Typography variant="body2" className={classNames.authLink}>
-  //       {"Don't have an account?"}
-  //       {' '}
-  //       <Link component={RouterLink} to="/register">
-  //         Join
-  //       </Link>
-  //       {' '}
-  //     </Typography>
-  //   </CardContent>
-  // </Card>
   );
 }
