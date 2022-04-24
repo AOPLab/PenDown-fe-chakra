@@ -10,7 +10,7 @@ const config = {
   cssVarPrefix: 'chakra',
 };
 
-export const theme = {
+const theme = {
   direction,
   ...foundations,
   components,
