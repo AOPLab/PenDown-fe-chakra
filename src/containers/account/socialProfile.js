@@ -1,3 +1,4 @@
+import { Container, Box } from '@chakra-ui/react';
 import React from 'react';
 
 function SocialProfile() {
@@ -8,9 +9,11 @@ function SocialProfile() {
   // const dispatch = useDispatch();
 
   return (
-    <>
-      <h1>This is container about social profile.</h1>
-    </>
+    <Box borderBottom="2px solid black" pt="20">
+      <Container maxW="3xl">
+        <h1>This is container about social profile.</h1>
+      </Container>
+    </Box>
   );
 }
 
