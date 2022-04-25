@@ -4,17 +4,17 @@ import { authConstants, userConstants } from '../actions/user/constants';
 const initialState = {
   id: '',
   token: '',
-  username: 'pd_test',
-  fullName: '',
-  email: '',
-  description: '',
-  status: '',
-  bean: '',
-  followersNum: null,
-  followingNum: null,
+  username: 'Gary Hu',
+  fullName: 'Zoe Chen',
+  email: 'imaoplab@gmail.com',
+  description: 'hello world',
+  status: 'BASIC',
+  bean: 136,
+  followersNum: 0,
+  followingNum: 0,
   followersIds: [],
   followingIds: [],
-  noteNum: null,
+  noteNum: 27,
   uploadedNotes: {
     all: {},
     allTotalCnt: null,
@@ -39,16 +39,16 @@ const initialState = {
     goodnote: {},
     goodnoteTotalCnt: null,
   },
-  isGoogle: null,
-  hasPassword: null,
+  isGoogle: false,
+  hasPassword: true,
 };
 
 // note store format
-// key stands for order, value stands for note_id
+// key stands for page, value stands for note ids for per page
 // all: {
-//   '1': 3,
-//   '2': 4,
-//   '4': 6,
+//   '1': [1,2,3,4,5],
+//   '2': [6,7,8,9,10],
+//   '4': [11,12,13,14,15],
 // },
 
 const user = (state = initialState, action) => {
@@ -60,10 +60,53 @@ const user = (state = initialState, action) => {
       };
     case authConstants.AUTH_LOGOUT:
       return initialState;
-    case userConstants.EDIT_SELF_ACCOUNT_SUCCESS: {
+
+    case userConstants.READ_SELF_ACCOUNT_SUCCESS: {
       return {
         ...state,
-        username: action.payload.username,
+        ...action.payload,
+      };
+    }
+
+    case userConstants.FETCH_ACCOUNT_FOLLOWERS_SUCCESS: {
+      const { id, followers } = action.payload;
+      if (id !== state.id) return state;
+      return {
+        ...state,
+        followersNum: followers.length,
+        followersIds: followers.map(({ account_id }) => account_id),
+      };
+    }
+
+    case userConstants.FETCH_ACCOUNT_FOLLOWINGS_SUCCESS: {
+      const { id, followings } = action.payload;
+      if (id !== state.id) return state;
+      return {
+        ...state,
+        followingNum: followings.length,
+        followingIds: followings.map(({ account_id }) => account_id),
+      };
+    }
+    case userConstants.CHECK_ACCOUNT_FOLLOWING_SUCCESS: {
+      const { following_id, following } = action.payload;
+      if (following === false) return state;
+      return {
+        ...state,
+        followingIds: [...new Set([following_id, ...state.followingIds])],
+      };
+    }
+    case userConstants.ADD_ACCOUNT_FOLLOWING_SUCCESS: {
+      return {
+        ...state,
+        followingNum: state.followingNum + 1,
+        followingIds: [...new Set([action.payload, ...state.followingIds])],
+      };
+    }
+    case userConstants.DELETE_ACCOUNT_FOLLOWING_SUCCESS: {
+      return {
+        ...state,
+        followingNum: state.followingNum - 1,
+        followingIds: state.followingIds.filter((id) => id !== action.payload),
       };
     }
 
