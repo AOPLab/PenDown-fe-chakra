@@ -1,6 +1,5 @@
 import { combineReducers } from 'redux';
 import { userConstants } from '../actions/user/constants';
-import { commonConstants } from '../actions/common/constant';
 
 const prototype = {
   id: null,
@@ -9,8 +8,8 @@ const prototype = {
   status: null,
   description: null,
   bean: null,
-  followersNum: null,
-  followingNum: null,
+  followersNum: 0,
+  followingNum: 0,
   followersIds: [],
   followingIds: [],
   noteNum: null,
@@ -53,28 +52,51 @@ const byId = (state = {}, action) => {
       };
     }
 
-    // case accountConstants.FETCH_ACCOUNTS_SUCCESS: {
-    //   return action.payload.reduce(
-    //     (acc, item) => ({
-    //       ...acc,
-    //       [item.id]: {
-    //         ...prototype,
-    //         ...state[action.payload.id],
-    //         ...item,
-    //       },
-    //     }),
-    //     state,
-    //   );
-    // }
-
-    case commonConstants.FETCH_ACCOUNT_SUCCESS: {
+    case userConstants.FETCH_ACCOUNT_FOLLOWERS_SUCCESS: {
+      const { id, followers } = action.payload;
+      const data = {};
+      const ids = followers.map((item) => {
+        data[item.account_id] = {
+          ...prototype,
+          ...state[item.account_id],
+          ...item,
+          id: item.account_id,
+        };
+        return item.account_id;
+      });
       return {
         ...state,
-        [action.payload.id]: {
+        [id]: {
           ...prototype,
-          ...state[action.payload.id],
-          ...action.payload,
+          ...state[id],
+          followersNum: ids.length,
+          followersIds: ids,
         },
+        ...data,
+      };
+    }
+
+    case userConstants.FETCH_ACCOUNT_FOLLOWINGS_SUCCESS: {
+      const { id, followings } = action.payload;
+      const data = {};
+      const ids = followings.map((item) => {
+        data[item.account_id] = {
+          ...prototype,
+          ...state[item.account_id],
+          ...item,
+          id: item.account_id,
+        };
+        return item.account_id;
+      });
+      return {
+        ...state,
+        [id]: {
+          ...prototype,
+          ...state[id],
+          followingNum: ids.length,
+          followingIds: ids,
+        },
+        ...data,
       };
     }
 
@@ -85,13 +107,16 @@ const byId = (state = {}, action) => {
 
 const allIds = (state = [], action) => {
   switch (action.type) {
-    case commonConstants.FETCH_ACCOUNT_SUCCESS: {
-      const { id } = action.payload;
-      return [...new Set([id, ...state])];
-    }
-
     case userConstants.READ_OTHERS_ACCOUNT_SUCCESS: {
       return [...new Set([action.payload.id, ...state])];
+    }
+    case userConstants.FETCH_ACCOUNT_FOLLOWERS_SUCCESS: {
+      const { id, followers } = action.payload;
+      return [...new Set([id, followers.map((item) => item.account_id), ...state])];
+    }
+    case userConstants.FETCH_ACCOUNT_FOLLOWINGS_SUCCESS: {
+      const { id, followings } = action.payload;
+      return [...new Set([id, followings.map((item) => item.account_id), ...state])];
     }
 
     default:
