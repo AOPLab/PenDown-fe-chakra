@@ -10,8 +10,8 @@ const initialState = {
   description: 'hello world',
   status: 'BASIC',
   bean: 136,
-  followersNum: 290,
-  followingNum: 150,
+  followersNum: 0,
+  followingNum: 0,
   followersIds: [],
   followingIds: [],
   noteNum: 27,
@@ -65,6 +65,48 @@ const user = (state = initialState, action) => {
       return {
         ...state,
         ...action.payload,
+      };
+    }
+
+    case userConstants.FETCH_ACCOUNT_FOLLOWERS_SUCCESS: {
+      const { id, followers } = action.payload;
+      if (id !== state.id) return state;
+      return {
+        ...state,
+        followersNum: followers.length,
+        followersIds: followers.map(({ account_id }) => account_id),
+      };
+    }
+
+    case userConstants.FETCH_ACCOUNT_FOLLOWINGS_SUCCESS: {
+      const { id, followings } = action.payload;
+      if (id !== state.id) return state;
+      return {
+        ...state,
+        followingNum: followings.length,
+        followingIds: followings.map(({ account_id }) => account_id),
+      };
+    }
+    case userConstants.CHECK_ACCOUNT_FOLLOWING_SUCCESS: {
+      const { following_id, following } = action.payload;
+      if (following === false) return state;
+      return {
+        ...state,
+        followingIds: [...new Set([following_id, ...state.followingIds])],
+      };
+    }
+    case userConstants.ADD_ACCOUNT_FOLLOWING_SUCCESS: {
+      return {
+        ...state,
+        followingNum: state.followingNum + 1,
+        followingIds: [...new Set([action.payload, ...state.followingIds])],
+      };
+    }
+    case userConstants.DELETE_ACCOUNT_FOLLOWING_SUCCESS: {
+      return {
+        ...state,
+        followingNum: state.followingNum - 1,
+        followingIds: state.followingIds.filter((id) => id !== action.payload),
       };
     }
 

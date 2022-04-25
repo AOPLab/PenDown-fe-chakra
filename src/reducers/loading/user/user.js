@@ -5,6 +5,11 @@ const initialState = {
   editPassword: false,
   readOthersAccount: false,
   readSelfAccount: false,
+  fetchAccountFollowers: false,
+  fetchAccountFollowings: false,
+  checkAccountFollowing: false,
+  addAccountFollowing: false,
+  deleteAccountFollowing: false,
 };
 
 export default function user(state = initialState, action) {
@@ -57,6 +62,71 @@ export default function user(state = initialState, action) {
       return {
         ...state,
         editPassword: false,
+      };
+    }
+
+    case userConstants.FETCH_ACCOUNT_FOLLOWERS_START:
+      return {
+        ...state,
+        fetchAccountFollowers: true,
+      };
+    case userConstants.FETCH_ACCOUNT_FOLLOWERS_SUCCESS:
+    case userConstants.FETCH_ACCOUNT_FOLLOWERS_FAIL: {
+      return {
+        ...state,
+        fetchAccountFollowers: false,
+      };
+    }
+
+    case userConstants.FETCH_ACCOUNT_FOLLOWINGS_START:
+      return {
+        ...state,
+        fetchAccountFollowings: true,
+      };
+    case userConstants.FETCH_ACCOUNT_FOLLOWINGS_SUCCESS:
+    case userConstants.FETCH_ACCOUNT_FOLLOWINGS_FAIL: {
+      return {
+        ...state,
+        fetchAccountFollowings: false,
+      };
+    }
+
+    case userConstants.CHECK_ACCOUNT_FOLLOWING_START:
+      return {
+        ...state,
+        checkAccountFollowing: true,
+      };
+    case userConstants.CHECK_ACCOUNT_FOLLOWING_SUCCESS:
+    case userConstants.CHECK_ACCOUNT_FOLLOWING_FAIL: {
+      return {
+        ...state,
+        checkAccountFollowing: false,
+      };
+    }
+
+    case userConstants.ADD_ACCOUNT_FOLLOWING_START:
+      return {
+        ...state,
+        addAccountFollowing: true,
+      };
+    case userConstants.ADD_ACCOUNT_FOLLOWING_SUCCESS:
+    case userConstants.ADD_ACCOUNT_FOLLOWING_FAIL: {
+      return {
+        ...state,
+        addAccountFollowing: false,
+      };
+    }
+
+    case userConstants.DELETE_ACCOUNT_FOLLOWING_START:
+      return {
+        ...state,
+        deleteAccountFollowing: true,
+      };
+    case userConstants.DELETE_ACCOUNT_FOLLOWING_SUCCESS:
+    case userConstants.DELETE_ACCOUNT_FOLLOWING_FAIL: {
+      return {
+        ...state,
+        deleteAccountFollowing: false,
       };
     }
 

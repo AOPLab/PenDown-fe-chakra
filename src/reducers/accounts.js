@@ -8,8 +8,8 @@ const prototype = {
   status: null,
   description: null,
   bean: null,
-  followersNum: null,
-  followingNum: null,
+  followersNum: 0,
+  followingNum: 0,
   followersIds: [],
   followingIds: [],
   noteNum: null,
@@ -52,6 +52,54 @@ const byId = (state = {}, action) => {
       };
     }
 
+    case userConstants.FETCH_ACCOUNT_FOLLOWERS_SUCCESS: {
+      const { id, followers } = action.payload;
+      const data = {};
+      const ids = followers.map((item) => {
+        data[item.account_id] = {
+          ...prototype,
+          ...state[item.account_id],
+          ...item,
+          id: item.account_id,
+        };
+        return item.account_id;
+      });
+      return {
+        ...state,
+        [id]: {
+          ...prototype,
+          ...state[id],
+          followersNum: ids.length,
+          followersIds: ids,
+        },
+        ...data,
+      };
+    }
+
+    case userConstants.FETCH_ACCOUNT_FOLLOWINGS_SUCCESS: {
+      const { id, followings } = action.payload;
+      const data = {};
+      const ids = followings.map((item) => {
+        data[item.account_id] = {
+          ...prototype,
+          ...state[item.account_id],
+          ...item,
+          id: item.account_id,
+        };
+        return item.account_id;
+      });
+      return {
+        ...state,
+        [id]: {
+          ...prototype,
+          ...state[id],
+          followingNum: ids.length,
+          followingIds: ids,
+        },
+        ...data,
+      };
+    }
+
     default:
       return state;
   }
@@ -61,6 +109,14 @@ const allIds = (state = [], action) => {
   switch (action.type) {
     case userConstants.READ_OTHERS_ACCOUNT_SUCCESS: {
       return [...new Set([action.payload.id, ...state])];
+    }
+    case userConstants.FETCH_ACCOUNT_FOLLOWERS_SUCCESS: {
+      const { id, followers } = action.payload;
+      return [...new Set([id, followers.map((item) => item.account_id), ...state])];
+    }
+    case userConstants.FETCH_ACCOUNT_FOLLOWINGS_SUCCESS: {
+      const { id, followings } = action.payload;
+      return [...new Set([id, followings.map((item) => item.account_id), ...state])];
     }
 
     default:
