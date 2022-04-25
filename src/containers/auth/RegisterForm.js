@@ -198,6 +198,7 @@ export default function RegisterForm() {
                       value={inputs.fullName}
                       onChange={(e) => handleChange(e)}
                       error={errors.fullName}
+                      _hover={{ borderColor: 'primary.400' }}
                       helperText={errorTexts.fullName}
                       placeholder="Full name"
                       focusBorderColor="primary.400"
@@ -211,6 +212,7 @@ export default function RegisterForm() {
                     <Input
                       type="text"
                       label="Username"
+                      _hover={{ borderColor: 'primary.400' }}
                       placeholder="Username"
                       focusBorderColor="primary.400"
                       borderRadius="pendown"
@@ -234,6 +236,7 @@ export default function RegisterForm() {
                       error={errors.email}
                       helperText={errorTexts.email}
                       placeholder="Email"
+                      _hover={{ borderColor: 'primary.400' }}
                       focusBorderColor="primary.400"
                       borderRadius="pendown"
                       borderColor="black"
@@ -244,23 +247,6 @@ export default function RegisterForm() {
                   </FormControl>
                   <FormControl id="password">
                     <InputGroup>
-                      <InputRightElement>
-                        <IconButton
-                          onClick={() => setShowPassword(!showPassword)}
-                          icon={showPassword ? <HiEye /> : <HiEyeOff />}
-                          aria-label={showPassword ? 'Mask password' : 'Reveal password'}
-                          variant="link"
-                          border="none"
-                    // size="lg"
-                    // marginY="auto"
-                          marginTop="10px"
-                          _focus={{ bg: 'gray.100', border: 'none', borderRadius: 'full' }}
-                          marginRight="10px"
-                          paddingY="5px"
-                          fontSize="24px"
-                          isRound
-                        />
-                      </InputRightElement>
                       <Input
                         name="password"
                         label="Password"
@@ -274,15 +260,12 @@ export default function RegisterForm() {
                         focusBorderColor="primary.400"
                         borderColor="black"
                         borderWidth="2px"
+                        _hover={{ borderColor: 'primary.400' }}
                         borderRadius="pendown"
                         placeholder="Password"
                         size="lg"
                         required
                       />
-                    </InputGroup>
-                  </FormControl>
-                  <FormControl id="password">
-                    <InputGroup>
                       <InputRightElement>
                         <IconButton
                           onClick={() => setShowPassword(!showPassword)}
@@ -292,7 +275,7 @@ export default function RegisterForm() {
                           border="none"
                     // size="lg"
                     // marginY="auto"
-                          marginTop="10px"
+                          marginTop="8px"
                           _focus={{ bg: 'gray.100', border: 'none', borderRadius: 'full' }}
                           marginRight="10px"
                           paddingY="5px"
@@ -300,6 +283,10 @@ export default function RegisterForm() {
                           isRound
                         />
                       </InputRightElement>
+                    </InputGroup>
+                  </FormControl>
+                  <FormControl id="password">
+                    <InputGroup>
                       <Input
                         id="confirm-password"
                         type={showPassword ? 'text' : 'password'}
@@ -315,8 +302,26 @@ export default function RegisterForm() {
                         borderRadius="pendown"
                         placeholder="Confirm Password"
                         size="lg"
+                        _hover={{ borderColor: 'primary.400' }}
                         required
                       />
+                      <InputRightElement>
+                        <IconButton
+                          onClick={() => setShowPassword(!showPassword)}
+                          icon={showPassword ? <HiEye /> : <HiEyeOff />}
+                          aria-label={showPassword ? 'Mask password' : 'Reveal password'}
+                          variant="link"
+                          border="none"
+                    // size="lg"
+                    // marginY="auto"
+                          marginTop="8px"
+                          _focus={{ bg: 'gray.100', border: 'none', borderRadius: 'full' }}
+                          marginRight="10px"
+                          paddingY="5px"
+                          fontSize="24px"
+                          isRound
+                        />
+                      </InputRightElement>
                     </InputGroup>
                   </FormControl>
                 </Stack>

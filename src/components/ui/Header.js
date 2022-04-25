@@ -6,36 +6,24 @@ import { useHistory, useLocation } from 'react-router-dom';
 import {
   Box,
   Flex,
-  Avatar,
-  Button,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
-  Select,
+  Button, HStack,
   useDisclosure,
-  Center,
-  InputGroup,
-  InputLeftElement,
-  useColorModeValue,
-  Stack,
-  Text,
-  Input,
-  MenuDivider,
+  useColorModeValue, MenuDivider, MenuItem, Stack, Menu, MenuButton, MenuList, Avatar, Center, Text,
   useColorMode,
 } from '@chakra-ui/react';
-import { AiOutlineSearch } from 'react-icons/ai';
-import { FiBell, FiPlus } from 'react-icons/fi';
-import { ArrowForwardIcon } from '@chakra-ui/icons';
 import { useGoogleLogout } from 'react-google-login';
+import { ArrowForwardIcon } from '@chakra-ui/icons';
+import { FiPlus, FiBell } from 'react-icons/fi';
 import Icon from './icon/index';
 import { userLogout } from '../../actions/user/auth';
+import SearchField from './SearchField';
 
 const clientId = process.env.REACT_APP_OAUTH_ID;
 export default function Header() {
   // chakra
   const { colorMode, toggleColorMode } = useColorMode();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const mobileNav = useDisclosure();
   const { signOut } = useGoogleLogout({ clientId });
 
   const dispatch = useDispatch();
@@ -131,12 +119,14 @@ export default function Header() {
 
   return (
     <>
-      <Box as="header" position="fixed" w="100%" zIndex={200} bg={useColorModeValue('gray.100', 'gray.900')} px={4} borderBottom="2px">
+      <Box as="header" position="fixed" w="100%" zIndex={200} bg={useColorModeValue('grayAlpha.800', 'blackAlpha.800')} px={4} py={1} borderBottom="2px" css={{ backdropFilter: 'saturate(180%) blur(20px)' }}>
         <Flex h={16} alignItems="center" justifyContent="space-between">
-          <Box as="button" onClick={() => history.push('/home')}><Icon.SmallLogo /></Box>
+          <Box as="button" variant="pendown" onClick={() => history.push('/home')}><Icon.SmallLogo /></Box>
 
           <Flex alignItems="center">
-            <Stack direction="row" spacing={4}>
+            <SearchField />
+            {/* FIXME */}
+            {/* <Stack direction="row" spacing={4}>
               <InputGroup>
                 <InputLeftElement pointerEvents="none">
                   <AiOutlineSearch />
@@ -166,20 +156,93 @@ export default function Header() {
                 <option key="Notability" value="Notability">Notability</option>
                 <option key="Goodnotes" value="Goodnotes">Goodnotes</option>
               </Select>
-            </Stack>
+            </Stack> */}
           </Flex>
 
           <Flex alignItems="center">
-            {auth.isAuthenticated
-              ? (
-                <Stack direction="row" spacing={4}>
-                  <Button size="lg" fontSize="24px" variant="pendown-round">
-                    <FiPlus />
-                  </Button>
-                  <Button size="lg" fontSize="24px" variant="pendown-round">
-                    <FiBell />
-                  </Button>
+            <HStack
+              spacing={1}
+              mr={0}
+              color="brand.500"
+              display={{ base: 'none', md: 'inline-flex' }}
+            >
+              {auth.isAuthenticated
+                ? (
+                  <Stack direction="row" spacing={2}>
+                    <Button size="lg" fontSize="24px" variant="pendown-round">
+                      <FiPlus />
+                    </Button>
+                    <Button size="lg" fontSize="24px" variant="pendown-round">
+                      <FiBell />
+                    </Button>
 
+                    <Menu>
+                      <MenuButton
+                        as={Button}
+                        rounded="full"
+                        variant="link"
+                        cursor="pointer"
+                        border="none"
+                        _hover={{ boxShadow: '0px 4px 0px #18191F' }}
+                        minW={0}
+                      >
+                        <Avatar
+                          border="2px solid black"
+                          size="md"
+                          src={`https://source.boringavatars.com/beam/40/${user.username}?colors=264653,2a9d8f,e9c46a,f4a261,e76f51`}
+                        />
+                      </MenuButton>
+                      <MenuList alignItems="center">
+                        <br />
+                        <Center>
+                          <Avatar
+                            border="2px solid black"
+                            size="xl"
+                            src={`https://source.boringavatars.com/beam/40/${user.username}?colors=264653,2a9d8f,e9c46a,f4a261,e76f51`}
+                          />
+                        </Center>
+                        <br />
+                        <Center>
+                          <Text fontWeight="bold">{user.username}</Text>
+                        </Center>
+                        <br />
+                        <MenuDivider />
+                        {menuList.map((item, index) => (
+                          <>
+                            {index === 2 ? <MenuDivider /> : <></>}
+                            <MenuItem
+                              key={item.link}
+                              tabIndex={item.link}
+                              role="button"
+                              onClick={() => goto(item.link)}
+                              onKeyDown={() => goto(item.link)}
+                            >
+                              {item.title}
+                            </MenuItem>
+                          </>
+                        ))}
+                      </MenuList>
+                    </Menu>
+                  </Stack>
+                )
+                : (
+                  <Button
+                    variant="pendown-primary"
+                    size="md"
+                    onClick={() => history.push('/login')}
+                    onKeyDown={() => history.push('/login')}
+                    tabIndex="-1"
+                    role="button"
+                    rightIcon={<ArrowForwardIcon />}
+                  >
+                    Sign in
+                  </Button>
+                )}
+            </HStack>
+            <Box display={{ base: 'inline-flex', md: 'none' }} ml={2}>
+
+              {auth.isAuthenticated
+                ? (
                   <Menu>
                     <MenuButton
                       as={Button}
@@ -187,10 +250,12 @@ export default function Header() {
                       variant="link"
                       cursor="pointer"
                       border="none"
+                      _hover={{ boxShadow: '0px 4px 0px #18191F' }}
                       minW={0}
                     >
                       <Avatar
                         border="2px solid black"
+                        variant="pendown-navbar"
                         size="md"
                         src={`https://source.boringavatars.com/beam/40/${user.username}?colors=264653,2a9d8f,e9c46a,f4a261,e76f51`}
                       />
@@ -200,6 +265,7 @@ export default function Header() {
                       <Center>
                         <Avatar
                           border="2px solid black"
+                          variant="pendown-navbar"
                           size="xl"
                           src={`https://source.boringavatars.com/beam/40/${user.username}?colors=264653,2a9d8f,e9c46a,f4a261,e76f51`}
                         />
@@ -209,6 +275,25 @@ export default function Header() {
                         <Text fontWeight="bold">{user.username}</Text>
                       </Center>
                       <br />
+                      <MenuDivider />
+                      <MenuItem
+                        key="/"
+                        tabIndex="/"
+                        role="button"
+                        onClick={() => goto('/')}
+                        onKeyDown={() => goto('/')}
+                      >
+                        Add note
+                      </MenuItem>
+                      <MenuItem
+                        key="/"
+                        tabIndex="/"
+                        role="button"
+                        onClick={() => goto('/')}
+                        onKeyDown={() => goto('/')}
+                      >
+                        Notifications
+                      </MenuItem>
                       <MenuDivider />
                       {menuList.map((item, index) => (
                         <>
@@ -226,23 +311,24 @@ export default function Header() {
                       ))}
                     </MenuList>
                   </Menu>
-                </Stack>
-              )
-              : (
-                <Button
-                  variant="pendown-primary"
-                  size="md"
-                  onClick={() => history.push('/login')}
-                  onKeyDown={() => history.push('/login')}
-                  tabIndex="-1"
-                  role="button"
-                  rightIcon={<ArrowForwardIcon />}
-                >
-                  Sign in
-                </Button>
-              )}
+                )
+                : (
+                  <Button
+                    variant="pendown-primary"
+                    size="md"
+                    onClick={() => history.push('/login')}
+                    onKeyDown={() => history.push('/login')}
+                    tabIndex="-1"
+                    role="button"
+                    rightIcon={<ArrowForwardIcon />}
+                  >
+                    Sign in
+                  </Button>
+                )}
 
+            </Box>
           </Flex>
+
         </Flex>
       </Box>
     </>

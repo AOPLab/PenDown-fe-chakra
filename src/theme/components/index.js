@@ -1,11 +1,13 @@
 import Button from './Button';
 import Link from './Link';
 import Card from './Card';
+import Avatar from './Avatar';
 
 export default {
   Link,
   Button,
   Card,
+  Avatar,
 };
 
 // export const Card = () => {

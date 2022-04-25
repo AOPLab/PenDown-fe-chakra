@@ -140,6 +140,7 @@ export default function LoginForm() {
                   <Input
                     type="text"
                     id="login-username"
+                    _hover={{ borderColor: 'primary.400' }}
                     label="Username"
                     placeholder="Username"
                     value={username}
@@ -158,6 +159,7 @@ export default function LoginForm() {
                     <Input
                       id="login-password"
                       type={isOpen ? 'text' : 'password'}
+                      _hover={{ borderColor: 'primary.400' }}
                       label="Password"
                       value={password}
                       onChange={(e) => handlePasswordChange(e)}
@@ -180,7 +182,7 @@ export default function LoginForm() {
                         border="none"
                     // size="lg"
                     // marginY="auto"
-                        marginTop="10px"
+                        marginTop="8px"
                         _focus={{ bg: 'gray.100', border: 'none', borderRadius: 'full' }}
                         marginRight="10px"
                         paddingY="5px"
