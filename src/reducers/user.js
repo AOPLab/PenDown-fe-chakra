@@ -5,16 +5,16 @@ const initialState = {
   id: '',
   token: '',
   username: 'Gary Hu',
-  fullName: '',
-  email: '',
-  description: '',
-  status: '',
-  bean: '',
-  followersNum: null,
-  followingNum: null,
+  fullName: 'Zoe Chen',
+  email: 'imaoplab@gmail.com',
+  description: 'hello world',
+  status: 'BASIC',
+  bean: 136,
+  followersNum: 290,
+  followingNum: 150,
   followersIds: [],
   followingIds: [],
-  noteNum: null,
+  noteNum: 27,
   uploadedNotes: {
     all: {},
     allTotalCnt: null,
@@ -39,16 +39,16 @@ const initialState = {
     goodnote: {},
     goodnoteTotalCnt: null,
   },
-  isGoogle: null,
-  hasPassword: null,
+  isGoogle: false,
+  hasPassword: true,
 };
 
 // note store format
-// key stands for order, value stands for note_id
+// key stands for page, value stands for note ids for per page
 // all: {
-//   '1': 3,
-//   '2': 4,
-//   '4': 6,
+//   '1': [1,2,3,4,5],
+//   '2': [6,7,8,9,10],
+//   '4': [11,12,13,14,15],
 // },
 
 const user = (state = initialState, action) => {

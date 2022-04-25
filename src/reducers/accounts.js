@@ -33,11 +33,11 @@ const prototype = {
 };
 
 // note store format
-// key stands for order, value stands for note_id
+// key stands for page, value stands for note ids for per page
 // all: {
-//   '1': 3,
-//   '2': 4,
-//   '4': 6,
+//   '1': [1,2,3,4,5],
+//   '2': [6,7,8,9,10],
+//   '4': [11,12,13,14,15],
 // },
 
 const byId = (state = {}, action) => {
