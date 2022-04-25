@@ -41,26 +41,18 @@ export default function user(state = initialState, action) {
         editAccount: true,
       };
     case userConstants.EDIT_SELF_ACCOUNT_SUCCESS:
-      return {
-        ...state,
-        editAccount: false,
-      };
     case userConstants.EDIT_SELF_ACCOUNT_FAIL:
       return {
         ...state,
         editAccount: false,
       };
+
     case userConstants.EDIT_SELF_PASSWORD_START:
       return {
         ...state,
         editPassword: true,
       };
-    case userConstants.EDIT_SELF_PASSWORD_SUCCESS: {
-      return {
-        ...state,
-        editPassword: false,
-      };
-    }
+    case userConstants.EDIT_SELF_PASSWORD_SUCCESS:
     case userConstants.EDIT_SELF_PASSWORD_FAIL: {
       return {
         ...state,
