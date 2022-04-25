@@ -1,5 +1,3 @@
-import '@fontsource/montserrat';
-
 import React, { useEffect } from 'react';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';

@@ -18,6 +18,7 @@ import {
 } from '@chakra-ui/react';
 import { HiEye, HiEyeOff } from 'react-icons/hi';
 import { useSelector, useDispatch } from 'react-redux';
+import { Link as ReactRouterLink } from 'react-router-dom';
 import { userSignIn } from '../../actions/user/auth';
 import GoogleLoginButton from '../../components/auth/GoogleLogin';
 
@@ -210,7 +211,7 @@ export default function LoginForm() {
           <Text align="center" fontSize="sm" fontWeight={800}>
             Don&apos;t have an account?
             {' '}
-            <Link to="/register">Join now</Link>
+            <Link as={ReactRouterLink} to="/register">Join now</Link>
           </Text>
 
         </Stack>

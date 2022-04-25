@@ -14,11 +14,14 @@ import {
   MenuItem,
   Select,
   useDisclosure,
+  Center,
   InputGroup,
   InputLeftElement,
   useColorModeValue,
   Stack,
+  Text,
   Input,
+  MenuDivider,
   useColorMode,
 } from '@chakra-ui/react';
 import { AiOutlineSearch } from 'react-icons/ai';
@@ -186,20 +189,37 @@ export default function Header() {
                       <Avatar
                         border="2px solid black"
                         size="md"
-                        src="https://avatars.dicebear.com/api/male/username.svg"
+                        src={`https://source.boringavatars.com/beam/40/${user.username}?colors=264653,2a9d8f,e9c46a,f4a261,e76f51`}
                       />
                     </MenuButton>
                     <MenuList alignItems="center">
-                      {menuList.map((item) => (
-                        <MenuItem
-                          key={item.link}
-                          tabIndex={item.link}
-                          role="button"
-                          onClick={() => goto(item.link)}
-                          onKeyDown={() => goto(item.link)}
-                        >
-                          {item.title}
-                        </MenuItem>
+                      <br />
+                      <Center>
+                        <Avatar
+                          border="2px solid black"
+                          size="xl"
+                          src={`https://source.boringavatars.com/beam/40/${user.username}?colors=264653,2a9d8f,e9c46a,f4a261,e76f51`}
+                        />
+                      </Center>
+                      <br />
+                      <Center>
+                        <Text fontWeight="bold">{user.username}</Text>
+                      </Center>
+                      <br />
+                      <MenuDivider />
+                      {menuList.map((item, index) => (
+                        <>
+                          {index === 2 ? <MenuDivider /> : <></>}
+                          <MenuItem
+                            key={item.link}
+                            tabIndex={item.link}
+                            role="button"
+                            onClick={() => goto(item.link)}
+                            onKeyDown={() => goto(item.link)}
+                          >
+                            {item.title}
+                          </MenuItem>
+                        </>
                       ))}
                     </MenuList>
                   </Menu>

@@ -1,3 +1,4 @@
+import { Box, Container, Heading } from '@chakra-ui/react';
 import React from 'react';
 
 function PersonalProfile() {
@@ -8,9 +9,11 @@ function PersonalProfile() {
   // const dispatch = useDispatch();
 
   return (
-    <>
-      <h1>This is container about personal profile.</h1>
-    </>
+    <Box borderBottom="2px solid black" pt="20">
+      <Container maxW="3xl">
+        <Heading fontWeight={900}>This is container about personal profile.</Heading>
+      </Container>
+    </Box>
   );
 }
 

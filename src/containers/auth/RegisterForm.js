@@ -17,7 +17,7 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { HiEye, HiEyeOff } from 'react-icons/hi';
-import { useHistory, Link as RouterLink } from 'react-router-dom';
+import { useHistory, Link as ReactRouterLink } from 'react-router-dom';
 import { userRegister } from '../../actions/user/auth';
 import GoogleLoginButton from '../../components/auth/GoogleLogin';
 
@@ -341,7 +341,7 @@ export default function RegisterForm() {
             <Text align="center" fontSize="sm" fontWeight={800}>
               Already have an account?
               {' '}
-              <Link component={RouterLink} to="/login">Login</Link>
+              <Link as={ReactRouterLink} to="/login">Login</Link>
             </Text>
 
           </Stack>
