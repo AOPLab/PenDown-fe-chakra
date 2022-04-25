@@ -4,7 +4,7 @@ import { authConstants, userConstants } from '../actions/user/constants';
 const initialState = {
   id: '',
   token: '',
-  username: 'Gary Hu',
+  username: 'pd_test',
   fullName: '',
   email: '',
   description: '',

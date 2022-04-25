@@ -38,7 +38,7 @@ function Home() {
 
   return (
     <>
-      <Box borderBottom="2px solid black">
+      <Box borderBottom="2px solid black" pt="16">
         <Container maxW="3xl">
           <Stack
             as={Box}
@@ -74,7 +74,7 @@ function Home() {
             py={{ base: 20, md: 36 }}
           >
             <Heading
-              fontWeight={600}
+              fontWeight={900}
               fontSize={{ base: '2xl', sm: '4xl', md: '6xl' }}
               lineHeight="110%"
             >
