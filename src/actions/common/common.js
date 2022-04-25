@@ -1,24 +1,6 @@
 import agent from '../agent';
 import { commonConstants } from './constant';
 
-const fetchAccount = (token, accountId) => async (dispatch) => {
-  try {
-    const config = {
-      headers: {
-        'auth-token': token,
-      },
-    };
-    dispatch({ type: commonConstants.FETCH_ACCOUNT_START });
-    const res = await agent.get(`/account/${accountId}`, config);
-    dispatch({ type: commonConstants.FETCH_ACCOUNT_SUCCESS, payload: res.data.data });
-  } catch (error) {
-    dispatch({
-      type: commonConstants.FETCH_ACCOUNT_FAIL,
-      error,
-    });
-  }
-};
-
 // get file URL and download
 const downloadFile = (token, file, onSuccess = null, onError = null) => async (dispatch) => {
   // in 'file' parameter, you should include uuid, filename, and as_attachment as attributes
@@ -81,30 +63,7 @@ const fetchDownloadFileUrl = (token, file) => async (dispatch) => {
   }
 };
 
-const getAccountBatch = (token, accountId) => async (dispatch) => {
-  dispatch({ type: commonConstants.GET_ACCOUNT_BATCH_START });
-  const config = {
-    headers: { 'auth-token': token },
-    params: { account_ids: JSON.stringify([accountId]) },
-  };
-  try {
-    const res = await agent.get('/account-summary/batch', config);
-
-    dispatch({
-      type: commonConstants.GET_ACCOUNT_BATCH_SUCCESS,
-      payload: { data: res.data.data[0], accountId },
-    });
-  } catch (error) {
-    dispatch({
-      type: commonConstants.GET_ACCOUNT_BATCH_FAIL,
-      error,
-    });
-  }
-};
-
 export {
-  fetchAccount,
   downloadFile,
   fetchDownloadFileUrl,
-  getAccountBatch,
 };
