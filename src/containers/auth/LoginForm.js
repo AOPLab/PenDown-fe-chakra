@@ -18,12 +18,13 @@ import {
 } from '@chakra-ui/react';
 import { HiEye, HiEyeOff } from 'react-icons/hi';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link as ReactRouterLink } from 'react-router-dom';
+import { useHistory, Link as ReactRouterLink } from 'react-router-dom';
 import { userSignIn } from '../../actions/user/auth';
 import GoogleLoginButton from '../../components/auth/GoogleLogin';
 
 export default function LoginForm() {
   const dispatch = useDispatch();
+  const history = useHistory();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({
@@ -119,7 +120,7 @@ export default function LoginForm() {
     <Stack spacing="8">
       <Box borderRadius="card" border="2px solid black" bg={useColorModeValue('white', 'gray.700')} boxShadow="lg" p={8}>
         <Stack spacing="8">
-          <Stack direction="row" align="center" justify="center">
+          <Stack direction="row" align="center" justify="center" onClick={() => history.push('/home')}>
             <Image boxSize="70%" alt="Logo" src="../logo/big-logo.png" />
           </Stack>
           <Stack spacing="8">

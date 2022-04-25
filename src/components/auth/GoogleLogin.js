@@ -4,39 +4,20 @@ import React from 'react';
 import { GoogleLogin } from 'react-google-login';
 import { FcGoogle } from 'react-icons/fc';
 // import refreshTokenSetup from '../../function/refreshToken';
+import { useDispatch } from 'react-redux';
+import { userGoogleSignIn } from '../../actions/user/auth';
 
 const clientId = process.env.REACT_APP_OAUTH_ID;
 
-// const useStyles = makeStyles(() => ({
-//   authButtons: {
-//     color: 'black',
-//   },
-// }));
-
 function GoogleLoginButton() {
-  // const classNames = useStyles();
-  //   const onSuccess = (res) => {
-  //     console.log('Login Success: currentUser:', res.profileObj);
-  //      // refreshTokenSetup(res);
-  //   };
+  const dispatch = useDispatch();
 
   const handleLogin = async (googleData) => {
-    // const res = await fetch('/api/v1/auth/google', {
-    //   method: 'POST',
-    //   body: JSON.stringify({
-    //     token: googleData.tokenId,
-    //   }),
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    // });
-    // const data = await res.json();
-    // store returned user somehow
-    console.log(googleData);
+    dispatch(userGoogleSignIn(googleData.tokenId, googleData.profileObj.name));
   };
 
   const onFailure = (res) => {
-    console.log('Login failed: res:', res);
+    console.log('Google Login failed: ', res);
   };
 
   return (

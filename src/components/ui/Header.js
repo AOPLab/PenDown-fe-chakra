@@ -27,14 +27,16 @@ import {
 import { AiOutlineSearch } from 'react-icons/ai';
 import { FiBell, FiPlus } from 'react-icons/fi';
 import { ArrowForwardIcon } from '@chakra-ui/icons';
+import { useGoogleLogout } from 'react-google-login';
 import Icon from './icon/index';
-
 import { userLogout } from '../../actions/user/auth';
 
+const clientId = process.env.REACT_APP_OAUTH_ID;
 export default function Header() {
   // chakra
   const { colorMode, toggleColorMode } = useColorMode();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { signOut } = useGoogleLogout({ clientId });
 
   const dispatch = useDispatch();
   const history = useHistory();
@@ -120,6 +122,7 @@ export default function Header() {
     if (link === '/logout') {
       localStorage.removeItem('token');
       localStorage.removeItem('id');
+      signOut();
       dispatch(userLogout(history));
     } else {
       history.push(link);
