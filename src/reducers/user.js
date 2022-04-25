@@ -3,7 +3,6 @@ import { authConstants, userConstants } from '../actions/user/constants';
 // self information
 const initialState = {
   id: '',
-  token: '',
   username: 'Gary Hu',
   fullName: 'Zoe Chen',
   email: 'imaoplab@gmail.com',
@@ -56,7 +55,7 @@ const user = (state = initialState, action) => {
     case authConstants.AUTH_SUCCESS:
       return {
         ...state,
-        id: action.user.id,
+        ...action.user,
       };
     case authConstants.AUTH_LOGOUT:
       return initialState;
