@@ -60,10 +60,11 @@ const user = (state = initialState, action) => {
       };
     case authConstants.AUTH_LOGOUT:
       return initialState;
-    case userConstants.EDIT_SELF_ACCOUNT_SUCCESS: {
+
+    case userConstants.READ_SELF_ACCOUNT_SUCCESS: {
       return {
         ...state,
-        username: action.payload.username,
+        ...action.payload,
       };
     }
 

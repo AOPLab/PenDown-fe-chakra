@@ -6,6 +6,7 @@ const initialState = {
   getNotify: null,
   readNotify: null,
   readOthersAccount: null,
+  readSelfAccount: null,
 };
 
 export default function user(state = initialState, action) {
@@ -20,6 +21,18 @@ export default function user(state = initialState, action) {
       return {
         ...state,
         readOthersAccount: action.error,
+      };
+
+    case userConstants.READ_SELF_ACCOUNT_SUCCESS: {
+      return {
+        ...state,
+        readSelfAccount: null,
+      };
+    }
+    case userConstants.READ_SELF_ACCOUNT_FAIL:
+      return {
+        ...state,
+        readSelfAccount: action.error,
       };
 
     case userConstants.EDIT_SELF_ACCOUNT_SUCCESS: {

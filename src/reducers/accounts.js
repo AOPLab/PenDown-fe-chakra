@@ -1,6 +1,5 @@
 import { combineReducers } from 'redux';
 import { userConstants } from '../actions/user/constants';
-import { commonConstants } from '../actions/common/constant';
 
 const prototype = {
   id: null,
@@ -53,31 +52,6 @@ const byId = (state = {}, action) => {
       };
     }
 
-    // case accountConstants.FETCH_ACCOUNTS_SUCCESS: {
-    //   return action.payload.reduce(
-    //     (acc, item) => ({
-    //       ...acc,
-    //       [item.id]: {
-    //         ...prototype,
-    //         ...state[action.payload.id],
-    //         ...item,
-    //       },
-    //     }),
-    //     state,
-    //   );
-    // }
-
-    case commonConstants.FETCH_ACCOUNT_SUCCESS: {
-      return {
-        ...state,
-        [action.payload.id]: {
-          ...prototype,
-          ...state[action.payload.id],
-          ...action.payload,
-        },
-      };
-    }
-
     default:
       return state;
   }
@@ -85,11 +59,6 @@ const byId = (state = {}, action) => {
 
 const allIds = (state = [], action) => {
   switch (action.type) {
-    case commonConstants.FETCH_ACCOUNT_SUCCESS: {
-      const { id } = action.payload;
-      return [...new Set([id, ...state])];
-    }
-
     case userConstants.READ_OTHERS_ACCOUNT_SUCCESS: {
       return [...new Set([action.payload.id, ...state])];
     }

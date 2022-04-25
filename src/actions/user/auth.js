@@ -23,6 +23,28 @@ const userSignIn = (username, password) => async (dispatch) => {
   }
 };
 
+const userGoogleSignIn = (google_token, name) => async (dispatch) => {
+  try {
+    const res = await agent.post('/api/login/google', { google_token, name });
+    const { account_id, token } = res.data;
+
+    // TODO: get user info
+
+    dispatch({
+      type: authConstants.AUTH_SUCCESS,
+      user: {
+        token,
+        id: account_id,
+      },
+    });
+  } catch (error) {
+    dispatch({
+      type: authConstants.AUTH_FAIL,
+      error,
+    });
+  }
+};
+
 // resume logged in status from local storage
 const getUserInfo = (id, token) => async (dispatch) => {
   dispatch({
@@ -88,6 +110,7 @@ const userRegister = (username, fullName, email, password) => async (dispatch) =
 export {
   getUserInfo,
   userSignIn,
+  userGoogleSignIn,
   userLogout,
   userRegister,
 };

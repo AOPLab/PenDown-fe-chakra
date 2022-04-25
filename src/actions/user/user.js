@@ -1,7 +1,5 @@
-import moment from 'moment';
 import agent from '../agent';
 import { userConstants } from './constants';
-import browseParamsTransForm from '../../function/browseParamsTransform';
 
 const editAccount = (token, id, username, nickname, email) => async (dispatch) => {
   try {
@@ -64,44 +62,22 @@ const editPassword = (token, id, oldPassword, newPassword, onSuccess, onError) =
     });
 };
 
-// browse all active announcement
-const userBrowseAnnouncement = (authToken) => async (dispatch) => {
-  const currentTime = moment().toISOString();
-  const config = {
-    headers: {
-      'auth-token': authToken,
-    },
-    params: browseParamsTransForm({
-      filter: [['expire_time', '>', currentTime]],
-    }),
-  };
-
-  try {
-    const notifyRes = await agent.get('/announcement', config);
-    dispatch({
-      type: userConstants.USER_BROWSE_ANNOUNCEMENT_SUCCESS,
-      payload: notifyRes.data.data.data,
-    });
-  } catch (error) {
-    dispatch({
-      type: userConstants.USER_BROWSE_ANNOUNCEMENT_FAIL,
-      error,
-    });
-  }
-};
-
-const readAccount = (token, accountId) => async (dispatch) => {
+const readAccount = (accountId) => async (dispatch) => {
   dispatch({ type: userConstants.READ_OTHERS_ACCOUNT_START });
   try {
-    const config = {
-      headers: {
-        'Auth-Token': token,
-      },
-    };
-    const res = await agent.get(`/account/${accountId}`, config);
+    const res = await agent.get(`/api/account/${accountId}/profile`);
     dispatch({
       type: userConstants.READ_OTHERS_ACCOUNT_SUCCESS,
-      payload: res.data.data,
+      payload: {
+        id: res.data.account_id,
+        username: res.data.username,
+        status: res.data.status,
+        description: res.data.description,
+        bean: res.data.bean,
+        followersNum: res.data.followers_num,
+        followingNum: res.data.following_num,
+        noteNum: res.data.note_num,
+      },
     });
   } catch (error) {
     dispatch({
@@ -111,9 +87,44 @@ const readAccount = (token, accountId) => async (dispatch) => {
   }
 };
 
+const readSelfAccount = (token) => async (dispatch) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  dispatch({ type: userConstants.READ_SELF_ACCOUNT_START });
+  try {
+    const res = await agent.get('/api/account', config);
+    dispatch({
+      type: userConstants.READ_SELF_ACCOUNT_SUCCESS,
+      payload: {
+        id: res.data.account_id,
+        username: res.data.username,
+        fullName: res.data.full_name,
+        status: res.data.status,
+        description: res.data.description,
+        bean: res.data.bean,
+        email: res.data.email,
+        followersNum: res.data.followers_num,
+        followingNum: res.data.following_num,
+        noteNum: res.data.note_num,
+        isGoogle: res.data.is_google,
+        hasPassword: res.data.has_password,
+      },
+    });
+  } catch (error) {
+    dispatch({
+      type: userConstants.READ_SELF_ACCOUNT_FAIL,
+      error,
+    });
+  }
+};
+
 export {
   editAccount,
   editPassword,
-  userBrowseAnnouncement,
   readAccount,
+  readSelfAccount,
 };

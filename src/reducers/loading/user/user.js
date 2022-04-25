@@ -4,6 +4,7 @@ const initialState = {
   editAccount: false,
   editPassword: false,
   readOthersAccount: false,
+  readSelfAccount: false,
 };
 
 export default function user(state = initialState, action) {
@@ -13,17 +14,26 @@ export default function user(state = initialState, action) {
         ...state,
         readOthersAccount: true,
       };
-    case userConstants.READ_OTHERS_ACCOUNT_SUCCESS: {
+    case userConstants.READ_OTHERS_ACCOUNT_SUCCESS:
+    case userConstants.READ_OTHERS_ACCOUNT_FAIL: {
       return {
         ...state,
         readOthersAccount: false,
       };
     }
-    case userConstants.READ_OTHERS_ACCOUNT_FAIL:
+
+    case userConstants.READ_SELF_ACCOUNT_START:
       return {
         ...state,
-        readOthersAccount: false,
+        readSelfAccount: true,
       };
+    case userConstants.READ_SELF_ACCOUNT_SUCCESS:
+    case userConstants.READ_SELF_ACCOUNT_FAIL: {
+      return {
+        ...state,
+        readSelfAccount: false,
+      };
+    }
 
     case userConstants.EDIT_SELF_ACCOUNT_START:
       return {
