@@ -7,6 +7,7 @@ import {
   Text,
   Button,
   Stack,
+  HStack,
   Icon,
   Link,
   Image,
@@ -131,68 +132,42 @@ function Home() {
         </Container>
       </Box>
       <Box borderBottom="2px solid black">
-        <Container maxW="3xl">
-          <Stack
-            as={Box}
-            textAlign="center"
-            spacing={{ base: 8, md: 14 }}
-            py={{ base: 20, md: 36 }}
+        <Box
+          textAlign="center"
+          spacing={{ base: 8, md: 14 }}
+          py={{ base: 20, md: 36 }}
+        >
+          <Heading
+            fontSize={{ base: 'xl', sm: '2xl', md: '5xl' }}
+            fontWeight={900}
+            lineHeight="110%"
           >
-            <Heading
-              fontWeight={600}
-              fontSize={{ base: '2xl', sm: '4xl', md: '6xl' }}
-              lineHeight="110%"
-            >
-              Make money from
-              {' '}
-              <br />
-              <Text as="span" color="green.400">
-                your audience
-              </Text>
-            </Heading>
-            <Text color="gray.500">
-              Monetize your content by charging your most loyal readers and reward
-              them loyalty points. Give back to your loyal readers by granting
-              them access to your pre-releases and sneak-peaks.
+            Get Started in
+            <Text as="span" color="yellow.600">
+              &nbsp; Just 3 Steps
             </Text>
-            <Stack
-              direction="column"
-              spacing={3}
-              align="center"
-              alignSelf="center"
-              position="relative"
+          </Heading>
+        </Box>
+        <Container maxW="4xl">
+          <HStack>
+            <Box
+              width="50%"
             >
-              <Button
-                variant="pendown-primary"
-                px={6}
+              <Heading
+                align="left"
+                fontSize={{ base: 'xl', sm: 'xl', md: '2xl' }}
+                fontWeight={900}
+                lineHeight="110%"
               >
-                Get Started
-              </Button>
-              <Link size="sm" to="/">
-                Learn more
-              </Link>
-              <Box>
-                <Icon
-                  as={Arrow}
-                  color={useColorModeValue('gray.800', 'gray.300')}
-                  w={71}
-                  position="absolute"
-                  right={-71}
-                  top="10px"
-                />
-                <Text
-                  fontSize="lg"
-                  fontFamily="Caveat"
-                  position="absolute"
-                  right="-125px"
-                  top="-15px"
-                  transform="rotate(10deg)"
-                >
-                  Starting at $15/mo
-                </Text>
-              </Box>
-            </Stack>
-          </Stack>
+                Step 1
+              </Heading>
+            </Box>
+            <Box
+              width="50%"
+            >
+              anc
+            </Box>
+          </HStack>
         </Container>
       </Box>
     </>
