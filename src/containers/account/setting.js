@@ -1,3 +1,4 @@
+import { Container, Box, Heading } from '@chakra-ui/react';
 import React from 'react';
 
 function AccountSetting() {
@@ -8,10 +9,22 @@ function AccountSetting() {
   // const dispatch = useDispatch();
 
   return (
-    <>
-      <h1>This is container about setting of account.</h1>
-      {/* <AccountSetting /> */}
-    </>
+    <Box borderBottom="2px solid black" pt="20">
+      <Container maxW="3xl">
+        <Heading>This is container about setting of account.</Heading>
+        <h1>This is container about setting of account.</h1>
+        <h1>This is container about setting of account.</h1>
+        <h1>This is container about setting of account.</h1>
+        <h1>This is container about setting of account.</h1>
+        <h1>This is container about setting of account.</h1>
+        <h1>This is container about setting of account.</h1>
+        <h1>This is container about setting of account.</h1>
+        <h1>This is container about setting of account.</h1>
+        <h1>This is container about setting of account.</h1>
+        {/* <AccountSetting /> */}
+
+      </Container>
+    </Box>
   );
 }
 
