@@ -1,12 +1,14 @@
-import React from 'react';
-import {
-  HStack, Flex, Divider, Text,
-} from '@chakra-ui/react';
+import React, { useState } from 'react';
+import { Flex, Divider } from '@chakra-ui/react';
+import { Document, Page } from 'react-pdf/dist/esm/entry.webpack';
 import FileUpload from '../../util/FileUpload';
 
 // FiEye, FiHeart, FiBookmark
 
 export default function AddNotes({ control }) {
+  const [pdfFile, setPdfFile] = useState(null);
+  // const [noteFile, setNoteFile] = useState(null);
+  console.log(pdfFile);
   return (
     <>
       <Flex py={4}>
@@ -16,12 +18,19 @@ export default function AddNotes({ control }) {
           isRequired
           placeholder="Choose .pdf file"
           control={control}
+          setValue={setPdfFile}
         >
           Upload PDF File
         </FileUpload>
       </Flex>
       <Divider />
-      <Flex py={4}>
+      {pdfFile === null ? <></>
+        : (
+          <Document file={pdfFile}>
+            <Page pageNumber={1} />
+          </Document>
+        )}
+      {/* <Flex py={4}>
         <FileUpload
           name="PDF File"
           acceptedFileTypes=".note"
@@ -47,7 +56,7 @@ export default function AddNotes({ control }) {
         >
           Upload .goodnotes file for Goodnotes
         </FileUpload>
-      </Flex>
+      </Flex> */}
     </>
   );
 }
