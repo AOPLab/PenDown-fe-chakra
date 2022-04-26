@@ -7,10 +7,13 @@ import {
   ModalBody,
   ModalCloseButton,
   Button,
-  Flex, Heading, Text,
+  Flex, Heading,
 } from '@chakra-ui/react';
 import { Step, Steps, useSteps } from 'chakra-ui-steps';
 import { FiUpload, FiEdit3 } from 'react-icons/fi';
+import { useForm } from 'react-hook-form';
+import AddNotes from './uploadmodal/AddNotes';
+import AddDescriptions from './uploadmodal/AddDescriptions';
 
 const steps = [
   { label: 'Upload notes', icon: FiUpload },
@@ -26,6 +29,19 @@ export default function NoteUpload({
     initialStep: 0,
   });
 
+  const {
+    handleSubmit,
+    register,
+    setError,
+    control,
+    formState: { errors, isSubmitting },
+  } = useForm();
+
+  const contents = [
+    <AddNotes key="1" control={control} />,
+    <AddDescriptions key="1" control={control} />,
+  ];
+
   return (
     <Modal
       blockScrollOnMount={false}
@@ -34,6 +50,7 @@ export default function NoteUpload({
       finalFocusRef={finalFocusRef}
       scrollBehavior={scrollBehavior}
       size="xl"
+      isCentered
     >
       <ModalOverlay
         backdropFilter="blur(10px)"
@@ -47,9 +64,7 @@ export default function NoteUpload({
             <Steps activeStep={activeStep} colorScheme="secondary">
               {steps.map(({ label, icon }, index) => (
                 <Step label={label} key={label} icon={icon}>
-                  <Flex py={4}>
-                    <Text>fjksdfdfds</Text>
-                  </Flex>
+                  {contents[index]}
                 </Step>
               ))}
             </Steps>
@@ -78,7 +93,7 @@ export default function NoteUpload({
                   Prev
                 </Button>
                 <Button onClick={nextStep} variant="pendown-primary">
-                  {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+                  {activeStep === steps.length - 1 ? 'Submit' : 'Next'}
                 </Button>
               </Flex>
             )}
