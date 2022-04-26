@@ -29,33 +29,41 @@ function Footer(props) {
     >
       <Stack
         id="footer-content"
+        color="white"
+        pt={{ base: '6', md: '12' }}
+        margin="0 5vw 0 5vw"
+      >
+        <Stack
+          direction={{ base: 'column', sm: 'row' }}
+          marginInlineStart="0rem"
+        >
+          <Icon.SmallLogo />
+          <Text
+            align="left"
+            direction="column"
+            fontSize={{ base: 'xl', md: '4xl' }}
+            fontWeight={900}
+          >
+            PenDown
+          </Text>
+        </Stack>
+      </Stack>
+      <Stack
+        id="footer-content"
         textAlign="left middle"
         color="white"
         direction={{ base: 'column', md: 'row' }}
-        justify="space-evenly"
-        py={{ base: '6', md: '12' }}
-        px="4"
+        spacing="4vw"
+        margin="0 5vw 0 5vw"
+        pt={{ base: '6', md: '12' }}
+        pb="3vh"
+        paddingLeft="4px"
       >
         <Stack
           minW="300px"
           spacing={{ base: '6', md: '8' }}
           align="start"
         >
-          <Stack
-            direction={{ base: 'column', sm: 'row' }}
-            px="0"
-            marginInlineStart="0rem"
-          >
-            <Icon.SmallLogo />
-            <Text
-              align="left"
-              direction="column"
-              fontSize={{ base: 'xl', md: '4xl' }}
-              fontWeight={900}
-            >
-              PenDown
-            </Text>
-          </Stack>
           <Text
             fontSize={{ base: 'xl', md: '2xl' }}
             fontWeight={700}
@@ -63,7 +71,7 @@ function Footer(props) {
             Subscribe to get newsletter from us. You can cancel anytime.
           </Text>
           <Stack spacing="4" direction={{ base: 'column', sm: 'row' }}>
-            <Input id="subscribe_input" color="blackAlpha.700" placeholder="Enter your email" bg="white" type="email" required w="100%" />
+            <Input id="subscribe_input" color="blackAlpha.700" borderRadius="pendown" placeholder="Enter your email" bg="white" type="email" required w="40vw" maxW="420px" />
             <Button id="subscribe_btn" variant="primary" type="submit" width="150px" flexShrink={0} _hover={{ color: 'black', bg: 'secondary.500' }}>
               Subscribe
             </Button>
@@ -80,9 +88,9 @@ function Footer(props) {
         <SimpleGrid
           columns={2}
           verticalAlign="center"
-          height="200px"
+          height={{ base: '200px', sm: '100px' }}
           maxW="30%"
-          minW="300px"
+          minW="350px"
         >
           <FooterBtn>
             About

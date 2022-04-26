@@ -12,8 +12,10 @@ function FooterBtn(props) {
       <Button
         variant="link"
         border="none"
+        borderRadius="pendown"
         color="white"
         _hover={{ color: 'primary.500' }}
+        _focus={{ borderRadius: 'pendown' }}
       >
         {props.children}
       </Button>
