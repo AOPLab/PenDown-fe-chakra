@@ -1,13 +1,12 @@
 import '@fontsource/caveat';
 import React from 'react';
 import {
-  Box,
   Heading,
   Container,
   Text,
+  Box,
   Button,
   Stack,
-  HStack,
   Icon,
   Link,
   Image,
@@ -16,6 +15,8 @@ import {
 } from '@chakra-ui/react';
 
 import Card from '../../components/ui/Card';
+import Steps from '../../components/ui/Steps';
+import Footer from '../../components/ui/Footer';
 
 const Arrow = createIcon({
   displayName: 'Arrow',
@@ -131,45 +132,8 @@ function Home() {
           </Stack>
         </Container>
       </Box>
-      <Box borderBottom="2px solid black">
-        <Box
-          textAlign="center"
-          spacing={{ base: 8, md: 14 }}
-          py={{ base: 20, md: 36 }}
-        >
-          <Heading
-            fontSize={{ base: 'xl', sm: '2xl', md: '5xl' }}
-            fontWeight={900}
-            lineHeight="110%"
-          >
-            Get Started in
-            <Text as="span" color="yellow.600">
-              &nbsp; Just 3 Steps
-            </Text>
-          </Heading>
-        </Box>
-        <Container maxW="4xl">
-          <HStack>
-            <Box
-              width="50%"
-            >
-              <Heading
-                align="left"
-                fontSize={{ base: 'xl', sm: 'xl', md: '2xl' }}
-                fontWeight={900}
-                lineHeight="110%"
-              >
-                Step 1
-              </Heading>
-            </Box>
-            <Box
-              width="50%"
-            >
-              anc
-            </Box>
-          </HStack>
-        </Container>
-      </Box>
+      <Steps />
+      <Footer />
     </>
   );
 }
