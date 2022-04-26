@@ -162,7 +162,7 @@ export default function Header() {
           <Flex alignItems="center">
             <HStack
               spacing={1}
-              mr={0}
+              // ml={2}
               color="brand.500"
               display={{ base: 'none', md: 'inline-flex' }}
             >
