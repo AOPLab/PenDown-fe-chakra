@@ -27,7 +27,7 @@ export default function AddNotes({ control }) {
       {pdfFile === null ? <></>
         : (
           <Document file={pdfFile}>
-            <Page pageNumber={1} />
+            <Page pageNumber={1} width={500} />
           </Document>
         )}
       {/* <Flex py={4}>
