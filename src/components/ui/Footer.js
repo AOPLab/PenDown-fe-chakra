@@ -63,7 +63,7 @@ function Footer(props) {
             Subscribe to get newsletter from us. You can cancel anytime.
           </Text>
           <Stack spacing="4" direction={{ base: 'column', sm: 'row' }}>
-            <Input id="subscribe_input" placeholder="Enter your email" bg="white" type="email" required w="100%" />
+            <Input id="subscribe_input" color="blackAlpha.700" placeholder="Enter your email" bg="white" type="email" required w="100%" />
             <Button id="subscribe_btn" variant="primary" type="submit" width="150px" flexShrink={0} _hover={{ color: 'black', bg: 'secondary.500' }}>
               Subscribe
             </Button>
@@ -80,6 +80,7 @@ function Footer(props) {
         <SimpleGrid
           columns={2}
           verticalAlign="center"
+          height="200px"
           maxW="30%"
           minW="300px"
         >
