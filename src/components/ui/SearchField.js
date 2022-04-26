@@ -7,7 +7,7 @@ import { Search2Icon, TriangleDownIcon } from '@chakra-ui/icons';
 export default function SearchField() {
   const filters = [
     {
-      title: 'Categories',
+      title: 'Types',
       items: ['Notability', 'Goodnotes'],
     },
   ];
@@ -76,6 +76,7 @@ export default function SearchField() {
                     <MenuItemOption
                       key={item}
                       value={item}
+                      isChecked
                     >
                       {item}
                     </MenuItemOption>

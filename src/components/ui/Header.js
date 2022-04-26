@@ -245,7 +245,7 @@ export default function Header() {
                 : (
                   <Button
                     variant="pendown-primary"
-                    size="md"
+                    size="lg"
                     onClick={() => history.push('/login')}
                     onKeyDown={() => history.push('/login')}
                     tabIndex="-1"
@@ -333,7 +333,7 @@ export default function Header() {
                 : (
                   <Button
                     variant="pendown-primary"
-                    size="md"
+                    size="lg"
                     onClick={() => history.push('/login')}
                     onKeyDown={() => history.push('/login')}
                     tabIndex="-1"
