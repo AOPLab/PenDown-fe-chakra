@@ -28,7 +28,7 @@ function Footer(props) {
       verticalAlign="center"
     >
       <Stack
-        id="footer-content"
+        id="footer-logo"
         color="white"
         pt={{ base: '6', md: '12' }}
         margin="0 5vw 0 5vw"
@@ -56,7 +56,6 @@ function Footer(props) {
         spacing="4vw"
         margin="0 5vw 0 5vw"
         pt={{ base: '6', md: '12' }}
-        pb="3vh"
         paddingLeft="4px"
       >
         <Stack
@@ -65,24 +64,17 @@ function Footer(props) {
           align="start"
         >
           <Text
-            fontSize={{ base: 'xl', md: '2xl' }}
+            fontSize={{ base: 'xl', sm: 'xl', md: '2xl' }}
             fontWeight={700}
           >
             Subscribe to get newsletter from us. You can cancel anytime.
           </Text>
           <Stack spacing="4" direction={{ base: 'column', sm: 'row' }}>
-            <Input id="subscribe_input" color="blackAlpha.700" borderRadius="pendown" placeholder="Enter your email" bg="white" type="email" required w="40vw" maxW="420px" />
-            <Button id="subscribe_btn" variant="primary" type="submit" width="150px" flexShrink={0} _hover={{ color: 'black', bg: 'secondary.500' }}>
+            <Input id="subscribe_input" color="blackAlpha.700" borderRadius="pendown" placeholder="Enter your email" bg="white" type="email" required w="70%" maxW="420px" />
+            <Button id="subscribe_btn" variant="primary" type="submit" width="100px" flexShrink={0} _hover={{ color: 'black', bg: 'secondary.500' }}>
               Subscribe
             </Button>
           </Stack>
-          <Text fontSize="sm" color="subtle">
-            &copy;
-            {' '}
-            {new Date().getFullYear()}
-            {' '}
-            PenDown, Inc. All rights reserved.
-          </Text>
         </Stack>
         <br />
         <SimpleGrid
@@ -111,6 +103,20 @@ function Footer(props) {
             Discover
           </FooterBtn>
         </SimpleGrid>
+      </Stack>
+      <Stack
+        color="white"
+        pt={{ base: '6', md: '12' }}
+        pb="3vh"
+        margin="0 5vw 0 5vw"
+      >
+        <Text fontSize="sm" color="whiteAlpha.900">
+          &copy;
+          {' '}
+          {new Date().getFullYear()}
+          {' '}
+          PenDown, Inc. All rights reserved.
+        </Text>
       </Stack>
     </Container>
   );

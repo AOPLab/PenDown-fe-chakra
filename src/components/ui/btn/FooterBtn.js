@@ -14,6 +14,7 @@ function FooterBtn(props) {
         border="none"
         borderRadius="pendown"
         color="white"
+        fontSize={{ sm: '0.8em', md: '1em' }}
         _hover={{ color: 'primary.500' }}
         _focus={{ borderRadius: 'pendown' }}
       >

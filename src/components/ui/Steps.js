@@ -2,13 +2,10 @@
 import {
   Heading,
   Box,
-  Stack,
   Image,
-  HStack,
   Text,
   SimpleGrid,
   useStyleConfig,
-  Center,
 } from '@chakra-ui/react';
 
 function Steps(props) {
@@ -27,114 +24,33 @@ function Steps(props) {
         <Heading
           fontSize={{ base: 'xl', sm: '2xl', md: '5xl' }}
           fontWeight={900}
-          lineHeight="110%"
+          lineHeight="150%"
         >
-          Get Started in
+          Get Connected to
+          <br />
+          <Text as="span" color="green.600">
+            Pen
+          </Text>
           <Text as="span" color="yellow.600">
-          &nbsp; Just 3 Steps
+            Down
+          </Text>
+          &nbsp; Universe
+          <br />
+          in
+          <Text as="span" color="red.600">
+            &nbsp; Just 4 Steps
           </Text>
         </Heading>
       </Box>
-      <Stack
-        align="center"
-        w="100%"
+      <SimpleGrid
+        columns={{ sm: '1', md: '2' }}
+        spacing={10}
+        margin="0 10vw 0 10vw"
+        padding="5vh 0 5vh 0"
+        alignItems="center"
       >
-        <HStack
-          w="4xl"
-          align="center"
-        >
-          <Box
-            w="50%"
-          >
-            <Heading
-              align="left"
-              fontSize={{ base: 'xl', sm: '1.5xl', md: '3xl' }}
-              fontWeight={800}
-              lineHeight="150%"
-              py="2"
-            >
-              Step 1
-              <Text
-                fontWeight={400}
-              >
-                Create an account.
-              </Text>
-            </Heading>
-          </Box>
-          <Box
-            w="50%"
-          >
-            <Image w="100%" src="https://opendoodles.s3-us-west-1.amazonaws.com/laying.png" />
-          </Box>
-        </HStack>
-        <HStack
-          w="4xl"
-          align="center"
-        >
-          <Box
-            w="50%"
-          >
-            <Image w="100%" src="https://opendoodles.s3-us-west-1.amazonaws.com/laying.png" />
-          </Box>
-          <Box
-            w="50%"
-          >
-            <Heading
-              align="left"
-              fontSize={{ base: 'xl', sm: '1.5xl', md: '3xl' }}
-              fontWeight={800}
-              lineHeight="150%"
-              py="2"
-            >
-              Step 2
-              <Text
-                fontWeight={400}
-              >
-                Start browsing!
-              </Text>
-            </Heading>
-          </Box>
-        </HStack>
-        <HStack
-          w="4xl"
-          align="center"
-        >
-          <Box
-            w="50%"
-          >
-            <Heading
-              align="left"
-              fontSize={{ base: 'xl', sm: '1.5xl', md: '3xl' }}
-              fontWeight={800}
-              lineHeight="150%"
-              py="2"
-            >
-              Step 3
-              <Text
-                fontWeight={400}
-              >
-                Purchase and download your favorite notes!
-              </Text>
-            </Heading>
-          </Box>
-          <Box
-            w="50%"
-          >
-            <Image w="100%" src="https://opendoodles.s3-us-west-1.amazonaws.com/ballet.png" />
-          </Box>
-        </HStack>
-      </Stack>
-      <SimpleGrid columns={2} spacing={10} px="15%">
-        <Center
-          bg="tomato"
-          height="200px"
-          position="relative"
-        >
+        <Box textAlign="left" minW="300px">
           <Heading
-            verticalAlign="middle"
-            position="absolute"
-            top="50%"
-            bottom="50%"
             fontSize={{ base: 'xl', sm: '1.5xl', md: '3xl' }}
             fontWeight={800}
             lineHeight="150%"
@@ -146,12 +62,72 @@ function Steps(props) {
               Create an account.
             </Text>
           </Heading>
-        </Center>
-        <Box height="200px">
+        </Box>
+        <Box height="100%" align="center">
           <Image
-            w="80%"
+            w="100%"
             src="https://opendoodles.s3-us-west-1.amazonaws.com/laying.png"
           />
+        </Box>
+        <Box height="100%" align="center">
+          <Image
+            w="100%"
+            src="https://opendoodles.s3-us-west-1.amazonaws.com/levitate.gif"
+          />
+        </Box>
+        <Box textAlign="left" minW="300px">
+          <Heading
+            fontSize={{ base: 'xl', sm: '1.5xl', md: '3xl' }}
+            fontWeight={800}
+            lineHeight="150%"
+          >
+            Step 2
+            <Text
+              fontWeight={400}
+            >
+              Login and start browsing.
+            </Text>
+          </Heading>
+        </Box>
+        <Box textAlign="left" minW="300px">
+          <Heading
+            fontSize={{ base: 'xl', sm: '1.5xl', md: '3xl' }}
+            fontWeight={800}
+            lineHeight="150%"
+          >
+            Step 3
+            <Text
+              fontWeight={400}
+            >
+              Purchase and download the note you need!
+            </Text>
+          </Heading>
+        </Box>
+        <Box height="100%" align="center">
+          <Image
+            w="100%"
+            src="https://opendoodles.s3-us-west-1.amazonaws.com/coffee.gif"
+          />
+        </Box>
+        <Box height="100%" align="center">
+          <Image
+            w="100%"
+            src="https://opendoodles.s3-us-west-1.amazonaws.com/sprinting.gif"
+          />
+        </Box>
+        <Box textAlign="left" minW="300px">
+          <Heading
+            fontSize={{ base: 'xl', sm: '1.5xl', md: '3xl' }}
+            fontWeight={800}
+            lineHeight="150%"
+          >
+            Step 4
+            <Text
+              fontWeight={400}
+            >
+              Upload your pen-down and make your pen-down more valuable.
+            </Text>
+          </Heading>
         </Box>
       </SimpleGrid>
     </Box>
