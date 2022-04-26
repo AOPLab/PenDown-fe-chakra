@@ -5,7 +5,7 @@ const Card = {
     flexDirection: 'column',
     background: 'white',
     alignItems: 'center',
-    gap: 2,
+    // gap: 2,
     border: '2px',
     borderRadius: 'pendown',
     _hover: { boxShadow: '0px 4px 0px #18191F' },
@@ -13,8 +13,9 @@ const Card = {
   // Two variants: rounded and smooth
   variants: {
     pendown: {
-      padding: 6,
-      borderRadius: 'pendown',
+      // padding: 6,
+      borderRadius: '18px', // "pendown creates a weird white space around the corner(s)"
+      cursor: 'pointer',
       transition: '.2s ease-in-out',
       _hover: { boxShadow: '0px 4px 0px #18191F', transform: 'translateY(-5px) scale(1.02)' },
     },
