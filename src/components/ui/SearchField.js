@@ -7,20 +7,21 @@ import { Search2Icon, TriangleDownIcon } from '@chakra-ui/icons';
 export default function SearchField() {
   const filters = [
     {
-      title: 'Categories',
+      title: 'Types',
       items: ['Notability', 'Goodnotes'],
     },
   ];
   return (
     <HStack
       flex={1}
+      mr={2}
       spacing={2}
       minWidth={['100%', '100%', 'initial']}
       maxWidth={[null, null, '100%']}
       alignItems="center"
     >
 
-      <InputGroup flex={1}>
+      <InputGroup flex={1} ml={2}>
         <InputLeftElement pointerEvents="none">
           <Search2Icon color="gray.300" display="flex" marginTop="8px" />
         </InputLeftElement>
@@ -44,7 +45,7 @@ export default function SearchField() {
           variant="pendown-yellow"
           padding={3}
           bg="white"
-          display="flex"
+          display={{ base: 'none', md: 'flex' }}
           size="lg"
           fontWeight={500}
           // onClick={handleClick}
@@ -75,6 +76,7 @@ export default function SearchField() {
                     <MenuItemOption
                       key={item}
                       value={item}
+                      isChecked
                     >
                       {item}
                     </MenuItemOption>

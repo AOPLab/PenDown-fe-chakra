@@ -6,10 +6,20 @@ import { useHistory, useLocation } from 'react-router-dom';
 import {
   Box,
   Flex,
-  Button, HStack,
-  useDisclosure,
-  useColorModeValue, MenuDivider, MenuItem, Stack, Menu, MenuButton, MenuList, Avatar, Center, Text,
+  Button,
+  HStack,
+  MenuDivider,
+  MenuItem,
+  Stack,
+  Menu,
+  MenuButton,
+  MenuList,
+  Avatar,
+  Center,
+  Text,
+  useColorModeValue,
   useColorMode,
+  useDisclosure,
 } from '@chakra-ui/react';
 import { useGoogleLogout } from 'react-google-login';
 import { ArrowForwardIcon } from '@chakra-ui/icons';
@@ -17,12 +27,19 @@ import { FiPlus, FiBell } from 'react-icons/fi';
 import Icon from './icon/index';
 import { userLogout } from '../../actions/user/auth';
 import SearchField from './SearchField';
+import NoteUpload from './NoteUpload';
 
 const clientId = process.env.REACT_APP_OAUTH_ID;
 export default function Header() {
   // chakra
   const { colorMode, toggleColorMode } = useColorMode();
+
+  // modal trigger
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [scrollBehavior, setScrollBehavior] = React.useState('inside');
+  const btnRef = React.useRef();
+  // modal trigger end
+
   const mobileNav = useDisclosure();
   const { signOut } = useGoogleLogout({ clientId });
 
@@ -103,7 +120,7 @@ export default function Header() {
   };
 
   const clickAddNote = () => {
-    console.log('add note');
+    onOpen();
   };
 
   const goto = (link) => {
@@ -162,14 +179,14 @@ export default function Header() {
           <Flex alignItems="center">
             <HStack
               spacing={1}
-              mr={0}
+              // ml={2}
               color="brand.500"
               display={{ base: 'none', md: 'inline-flex' }}
             >
               {auth.isAuthenticated
                 ? (
                   <Stack direction="row" spacing={2}>
-                    <Button size="lg" fontSize="24px" variant="pendown-round">
+                    <Button size="lg" fontSize="24px" variant="pendown-round" ref={btnRef} onClick={onOpen}>
                       <FiPlus />
                     </Button>
                     <Button size="lg" fontSize="24px" variant="pendown-round">
@@ -228,7 +245,7 @@ export default function Header() {
                 : (
                   <Button
                     variant="pendown-primary"
-                    size="md"
+                    size="lg"
                     onClick={() => history.push('/login')}
                     onKeyDown={() => history.push('/login')}
                     tabIndex="-1"
@@ -280,7 +297,8 @@ export default function Header() {
                         key="/"
                         tabIndex="/"
                         role="button"
-                        onClick={() => goto('/')}
+                        // onClick={() => goto('/')}
+                        onClick={onOpen}
                         onKeyDown={() => goto('/')}
                       >
                         Add note
@@ -315,7 +333,7 @@ export default function Header() {
                 : (
                   <Button
                     variant="pendown-primary"
-                    size="md"
+                    size="lg"
                     onClick={() => history.push('/login')}
                     onKeyDown={() => history.push('/login')}
                     tabIndex="-1"
@@ -331,6 +349,13 @@ export default function Header() {
 
         </Flex>
       </Box>
+      <NoteUpload
+        isNoteOpen={isOpen}
+        onNoteClose={onClose}
+        finalFocusRef={btnRef}
+        scrollBehavior={scrollBehavior}
+      />
+
     </>
   );
 }
