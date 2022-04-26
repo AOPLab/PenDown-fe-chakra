@@ -1,3 +1,4 @@
+import { StepsStyleConfig as Steps } from 'chakra-ui-steps';
 import Button from './Button';
 import Link from './Link';
 import Card from './Card';
@@ -8,6 +9,7 @@ export default {
   Button,
   Card,
   Avatar,
+  Steps,
 };
 
 // export const Card = () => {
