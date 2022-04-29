@@ -3,17 +3,17 @@ import { authConstants, userConstants } from '../actions/user/constants';
 // self information
 const initialState = {
   id: '',
-  username: 'Gary Hu',
-  fullName: 'Zoe Chen',
-  email: 'imaoplab@gmail.com',
-  description: 'hello world',
+  username: '',
+  fullName: '',
+  email: '',
+  description: '',
   status: 'BASIC',
-  bean: 136,
+  bean: 0,
   followersNum: 0,
   followingNum: 0,
   followersIds: [],
   followingIds: [],
-  noteNum: 27,
+  noteNum: 0,
   uploadedNotes: {
     all: {},
     allTotalCnt: null,

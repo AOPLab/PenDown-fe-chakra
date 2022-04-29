@@ -42,6 +42,7 @@ const readSelfAccount = (token) => async (dispatch) => {
       type: userConstants.READ_SELF_ACCOUNT_SUCCESS,
       payload: {
         id: res.data.account_id,
+        token,
         username: res.data.username,
         fullName: res.data.full_name,
         status: res.data.status,
