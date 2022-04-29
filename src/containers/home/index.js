@@ -15,8 +15,9 @@ import {
 } from '@chakra-ui/react';
 
 import Card from '../../components/ui/Card';
-import Steps from '../../components/ui/Steps';
-import Footer from '../../components/ui/Footer';
+import Steps from '../../components/landing/Steps';
+import Section from '../../components/landing/Section';
+import Footer from '../../components/landing/Footer';
 
 const Arrow = createIcon({
   displayName: 'Arrow',
@@ -133,6 +134,7 @@ function Home() {
         </Container>
       </Box>
       <Steps />
+      <Section />
       <Footer />
     </>
   );

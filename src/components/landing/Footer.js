@@ -11,8 +11,8 @@ import {
 } from '@chakra-ui/react';
 import * as React from 'react';
 
-import Icon from './icon/index';
-import FooterBtn from './btn/FooterBtn';
+import Icon from '../ui/icon/index';
+import FooterBtn from '../ui/btn/FooterBtn';
 
 function Footer(props) {
   // const { variant, ...rest } = props;

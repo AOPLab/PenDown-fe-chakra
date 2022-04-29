@@ -46,7 +46,7 @@ function Steps(props) {
         columns={{ sm: '1', md: '2' }}
         spacing={10}
         margin="0 10vw 0 10vw"
-        padding="5vh 0 5vh 0"
+        padding="3vh 0 3vh 0"
         alignItems="center"
       >
         <Box textAlign="left" minW="300px">
