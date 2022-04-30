@@ -28,7 +28,7 @@ export const FileUpload = ({
 
   return (
     <>
-      <FormControl isInvalid={false} isRequired>
+      <FormControl isInvalid={false} isRequired={isRequired}>
         <FormLabel htmlFor="writeUpFile">{children}</FormLabel>
         <InputGroup>
           <InputLeftElement
@@ -53,8 +53,8 @@ export const FileUpload = ({
           />
         </InputGroup>
         {/* <FormErrorMessage>
-        {invalid}
-      </FormErrorMessage> */}
+          {invalid}
+        </FormErrorMessage> */}
       </FormControl>
     </>
   );

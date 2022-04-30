@@ -140,40 +140,14 @@ export default function Header() {
         <Flex h={16} alignItems="center" justifyContent="space-between">
           <Box as="button" variant="pendown" onClick={() => history.push('/home')}><Icon.SmallLogo /></Box>
 
-          <Flex alignItems="center">
-            <SearchField />
-            {/* FIXME */}
-            {/* <Stack direction="row" spacing={4}>
-              <InputGroup>
-                <InputLeftElement pointerEvents="none">
-                  <AiOutlineSearch />
-                </InputLeftElement>
-                <Input
-                  type="tel"
-                  focusBorderColor="primary.400"
-                  bg="white"
-                  borderColor="black"
-                  borderRadius="pendown"
-                  placeholder="IM 3007"
-                  borderWidth="2px"
-                />
-              </InputGroup>
-              <Select
-                defaultValue="Choose Note Type"
-                value={noteType}
-                focusBorderColor="primary.400"
-                bg="white"
-                borderColor="black"
-                borderWidth="2px"
-                borderRadius="pendown"
-                onChange={handleNoteTypeChange}
-              >
-                <option key="Choose Note Type" value="Choose Note Type">Choose Note Type</option>
-                <option key="All" value="All">All</option>
-                <option key="Notability" value="Notability">Notability</option>
-                <option key="Goodnotes" value="Goodnotes">Goodnotes</option>
-              </Select>
-            </Stack> */}
+          <Flex
+            alignItems="center"
+            // flexGrow={1}
+            // mx={{
+            //   base: 'none', sm: '10', md: '10', lg: '20', xl: '200',
+            // }}
+          >
+            <SearchField noteType={noteType} handleNoteTypeChange={handleNoteTypeChange} />
           </Flex>
 
           <Flex alignItems="center">

@@ -1,10 +1,10 @@
 import React from 'react';
 import {
-  Button, HStack, Input, InputGroup, InputLeftElement, Menu, MenuButton, MenuItemOption, MenuList, MenuOptionGroup,
+  Button, HStack, Input, InputGroup, InputLeftElement, Select,
 } from '@chakra-ui/react';
-import { Search2Icon, TriangleDownIcon } from '@chakra-ui/icons';
+import { Search2Icon } from '@chakra-ui/icons';
 
-export default function SearchField() {
+export default function SearchField({ noteType, handleNoteTypeChange }) {
   const filters = [
     {
       title: 'Types',
@@ -39,7 +39,28 @@ export default function SearchField() {
         />
       </InputGroup>
 
-      <Menu closeOnSelect={false}>
+      <Select
+        defaultValue="Choose Note Type"
+        display={{ base: 'none', md: 'flex' }}
+        value={noteType}
+        focusBorderColor="primary.400"
+        size="lg"
+        bg="white"
+        width={{ base: '20%', md: '20%', lg: '30%' }}
+        borderColor="black"
+        borderWidth="2px"
+        borderRadius="pendown"
+        onChange={handleNoteTypeChange}
+        alignItems="center"
+        justifyContent="center"
+      >
+        <option key="Choose Note Type" value="Choose Note Type">Note Type</option>
+        <option key="All" value="All">All</option>
+        <option key="Notability" value="Notability">Notability</option>
+        <option key="Goodnotes" value="Goodnotes">Goodnotes</option>
+      </Select>
+
+      {/* <Menu closeOnSelect={false}>
         <MenuButton
           as={Button}
           variant="pendown-yellow"
@@ -55,9 +76,9 @@ export default function SearchField() {
           justifyContent="center"
         >
           Note Type
-        </MenuButton>
+        </MenuButton> */}
 
-        <MenuList>
+      {/* <MenuList>
           {
             filters.map(({ title, items }) => (
               <MenuOptionGroup
@@ -85,8 +106,8 @@ export default function SearchField() {
               </MenuOptionGroup>
             ))
           }
-        </MenuList>
-      </Menu>
+        </MenuList> */}
+      {/* </Menu> */}
       <Button size="lg" fontSize="20px" variant="pendown-yellow" px="0"><Search2Icon /></Button>
     </HStack>
   );

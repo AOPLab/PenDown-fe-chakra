@@ -1,5 +1,5 @@
 import {
-  Box, useColorModeValue, Image, Badge, Icon, HStack, VStack, Avatar, Spacer,
+  Box, useColorModeValue, Image, Icon, HStack, VStack, Avatar, Spacer,
 } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import {
@@ -8,6 +8,7 @@ import {
 // FiEye, FiHeart, FiBookmark
 import { pdfjs } from 'react-pdf';
 import Card from './Card';
+import CardBadge from './CardBadge';
 
 export default function NoteCard(props) {
   const property = {
@@ -42,19 +43,25 @@ export default function NoteCard(props) {
       >
         <Box css={{ display: 'block', position: 'relative' }} align="center" alignItems="center" borderBottom="2px solid black">
           {property.notability && (
-          <Badge
-            rounded="tag"
-            px="4"
-            py="2"
-            colorScheme="gray"
-            bottom={4}
-            right={3}
-            position="absolute"
-            border="2px black solid"
-            fontWeight={800}
-          >
-            Notability
-          </Badge>
+          <>
+            <CardBadge
+              content="Notability"
+              style={{ bottom: '1rem', right: '0.75rem', position: 'absolute' }}
+            />
+            {/* <Badge
+              rounded="tag"
+              px="4"
+              py="2"
+              colorScheme="gray"
+              bottom={4}
+              right={3}
+              position="absolute"
+              border="2px black solid"
+              fontWeight={800}
+            >
+              Notability
+            </Badge> */}
+          </>
           )}
           {/* FIXME: PDF RENDERING
           <Document
@@ -67,6 +74,7 @@ export default function NoteCard(props) {
             src={props.imageUrl}
             alt={property.imageAlt}
             height="376px"
+            width="275px"
             roundedTop="pendown"
           />
 
