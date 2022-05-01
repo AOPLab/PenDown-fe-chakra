@@ -14,3 +14,10 @@ steps:
       - yarn
       - yarn build
       - cp -rf build /home/imaoplab/PenDown-fe
+
+trigger:
+  branch:
+    - main
+  event:
+    exclude:
+      - pull_request
