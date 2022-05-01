@@ -137,7 +137,7 @@ export default function SimpleSideBar({ children: content }) {
           <SidebarContent w="full" borderRight="none" />
         </DrawerContent>
       </Drawer>
-      <Box ml={{ base: 0, md: 60 }} transition=".3s ease">
+      <Box ml={{ base: 0, md: 60 }} transition=".3s ease" mt={[0, '-6px']}>
         <IconButton
           aria-label="Menu"
           display={{ base: 'inline-flex', md: 'none' }}
