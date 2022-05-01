@@ -27,7 +27,7 @@ export default function All() {
       <Box pt="0">
         {/* <SideBar /> */}
         <SimpleSideBar>
-          <Flex direction="column">
+          <Flex direction="column" mt={{ base: '-24', md: '-5' }}>
             {/* <Container maxW="5xl"> */}
 
             <People />
