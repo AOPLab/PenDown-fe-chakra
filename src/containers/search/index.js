@@ -1,9 +1,18 @@
 import React from 'react';
+// import { useSelector, useDispatch } from 'react-redux';
 import {
-  Box, Heading, Container,
-} from '@chakra-ui/react';
-// import SideBar from '../../components/ui/sidebar/index';
-import SimpleSideBar from '../../components/ui/sidebar/SimpleSideBar';
+  Switch, Route, // useHistory, useLocation,
+} from 'react-router-dom';
+// import { makeStyles } from '@material-ui/core';
+
+import People from './people';
+import Tags from './tags';
+import Schools from './schools';
+import Courses from './courses';
+import Notes from './notes';
+import Templates from './templates';
+import All from './all';
+import NoMatch from '../../components/noMatch';
 
 function Search() {
   // const history = useHistory();
@@ -14,35 +23,16 @@ function Search() {
 
   return (
     <>
-      <Box pt="20">
-        {/* <SideBar /> */}
-        <SimpleSideBar>
-          <Box>
-            <Container maxW="5xl">
-
-              <Box borderWidth="4px" border="3px black" borderStyle="solid" borderRadius="pendown" h="40" p="8" my="2">
-                <Heading>People</Heading>
-              </Box>
-              <Box borderWidth="4px" border="3px black" borderStyle="solid" borderRadius="pendown" h="40" p="8" my="2">
-                <Heading>Tags</Heading>
-              </Box>
-              <Box borderWidth="4px" border="3px black" borderStyle="solid" borderRadius="pendown" h="40" p="8" my="2">
-                <Heading>Schools</Heading>
-              </Box>
-              <Box borderWidth="4px" border="3px black" borderStyle="solid" borderRadius="pendown" h="40" p="8" my="2">
-                <Heading>Courses</Heading>
-              </Box>
-              <Box borderWidth="4px" border="3px black" borderStyle="solid" borderRadius="pendown" h="40" p="8" my="2">
-                <Heading>Notes</Heading>
-              </Box>
-              <Box borderWidth="4px" border="3px black" borderStyle="solid" borderRadius="pendown" h="40" p="8" my="2">
-                <Heading>Templates</Heading>
-              </Box>
-            </Container>
-          </Box>
-
-        </SimpleSideBar>
-      </Box>
+      <Switch>
+        <Route exact path="/search/all" component={All} />
+        <Route path="/search/people" component={People} />
+        <Route path="/search/tags" component={Tags} />
+        <Route path="/search/schools" component={Schools} />
+        <Route path="/search/courses" component={Courses} />
+        <Route path="/search/notes" component={Notes} />
+        <Route path="/search/templates" component={Templates} />
+        <Route path="/" component={NoMatch} />
+      </Switch>
     </>
   );
 }

@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Button, HStack, Input, InputGroup, InputLeftElement, Select, useDisclosure,
   Drawer,
   DrawerOverlay,
   DrawerContent, DrawerBody,
+  useColorModeValue,
 } from '@chakra-ui/react';
 import { Search2Icon } from '@chakra-ui/icons';
 import { useHistory } from 'react-router-dom';
@@ -17,11 +18,9 @@ export default function SearchField({ noteType, handleNoteTypeChange }) {
       items: ['Notability', 'Goodnotes'],
     },
   ];
-  const [searchList] = useState([
-    { title: 'Search', link: '/search' },
-    { title: 'Settings', link: '/account/my-profile/setting' },
-    { title: 'Logout', link: '/logout' },
-  ]);
+
+  const searchLink = '/search/all';
+
   return (
     <>
       <HStack
@@ -119,7 +118,7 @@ export default function SearchField({ noteType, handleNoteTypeChange }) {
           }
         </MenuList> */}
         {/* </Menu> */}
-        <Button size="lg" fontSize="20px" variant="pendown-yellow" px="0" onClick={() => history.push('/search')}><Search2Icon /></Button>
+        <Button size="lg" fontSize="20px" variant="pendown-yellow" px="0" onClick={() => history.push(searchLink)}><Search2Icon /></Button>
       </HStack>
       <Drawer placement="top" onClose={onClose} isOpen={isOpen}>
         <DrawerOverlay />
@@ -130,13 +129,13 @@ export default function SearchField({ noteType, handleNoteTypeChange }) {
             <p>Some contents...</p>
             <p>Some contents...</p>
           </DrawerBody> */}
-          <DrawerBody p="12px">
+          <DrawerBody p="12px" bg={useColorModeValue('grayAlpha.600', 'blackAlpha.800')}>
             <HStack
               flex={1}
               mx="auto"
               spacing={2}
-              minWidth={['100%', '100%', '50%']}
-              maxWidth={['100%', '100%', '50%']}
+              minWidth={['100%', '100%', '80%', '50%']}
+              maxWidth={['100%', '100%', '90%', '70%', '50%']}
               alignItems="center"
             >
 
@@ -178,7 +177,7 @@ export default function SearchField({ noteType, handleNoteTypeChange }) {
                 <option key="Notability" value="Notability">Notability</option>
                 <option key="Goodnotes" value="Goodnotes">Goodnotes</option>
               </Select>
-              <Button size="lg" fontSize="20px" variant="pendown-yellow" px="0"><Search2Icon /></Button>
+              <Button size="lg" fontSize="20px" variant="pendown-yellow" px="0" onClick={() => history.push(searchLink)}><Search2Icon /></Button>
             </HStack>
           </DrawerBody>
         </DrawerContent>

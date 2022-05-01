@@ -43,7 +43,7 @@ export default function SimpleSideBar({ children: content }) {
         align="center"
         px="4"
         pl="2"
-        py="3"
+        py="2"
         cursor="pointer"
         color={useColorModeValue('inherit', 'gray.400')}
         _hover={{
@@ -52,6 +52,7 @@ export default function SimpleSideBar({ children: content }) {
         }}
         role="group"
         fontWeight="semibold"
+        fontSize="md"
         transition=".15s ease"
         {...rest}
       >
@@ -59,9 +60,12 @@ export default function SimpleSideBar({ children: content }) {
           <Icon
             mx="2"
             boxSize="4"
-            _groupHover={{
-              color,
+            _hover={{
+              color: 'red.600',
             }}
+            // _groupHover={{
+            //   color,
+            // }}
             as={icon}
           />
         )}
@@ -137,7 +141,7 @@ export default function SimpleSideBar({ children: content }) {
           <SidebarContent w="full" borderRight="none" />
         </DrawerContent>
       </Drawer>
-      <Box ml={{ base: 0, md: 60 }} transition=".3s ease" mt={[0, '-6px']}>
+      <Box ml={{ base: 0, md: 60 }} transition=".3s ease" mt={[0]}>
         <IconButton
           aria-label="Menu"
           display={{ base: 'inline-flex', md: 'none' }}
@@ -145,7 +149,7 @@ export default function SimpleSideBar({ children: content }) {
           icon={<FiFilter />}
           variant="pendown"
           size="sm"
-          mt={2}
+          mt={4}
           ml={4}
         />
         {/* <Flex
