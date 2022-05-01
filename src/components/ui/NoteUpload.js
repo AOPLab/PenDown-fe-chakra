@@ -63,11 +63,14 @@ export default function NoteUpload({
     gnote: setGNoteFile,
 
   };
+
   const files = {
     pdf: pdfFile,
     nota: noteFile,
     gnote: gnoteFile,
   };
+
+  console.log(`PDF file: ${files.pdf}`);
 
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm();
 
@@ -76,6 +79,7 @@ export default function NoteUpload({
       setTimeout(() => {
         alert(JSON.stringify(values, null, 2));
         resolve();
+        reset();
         onNoteClose();
       }, 3000);
     });
@@ -137,7 +141,7 @@ export default function NoteUpload({
                   Prev
                 </Button>
                 {activeStep === steps.length - 1 ? <Button onClick={handleSubmit(onSubmit)} isLoading={isSubmitting} variant="pendown-primary" type="submit">Submit</Button> : (
-                  <Button onClick={nextStep} variant="pendown-primary">
+                  <Button isDisabled={typeof (files.pdf) === 'undefined'} onClick={nextStep} variant="pendown-primary">
                     Next
                   </Button>
                 )}

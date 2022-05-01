@@ -1,5 +1,6 @@
 /* eslint-disable react/jsx-no-bind */
 /* eslint-disable react/jsx-props-no-spreading */
+/* eslint-disable react/no-array-index-key */
 import React, { useRef, useState } from 'react';
 import { Document, Page } from 'react-pdf/dist/esm/entry.webpack';
 import {
@@ -14,10 +15,18 @@ import {
   InputRightElement,
   VStack, Stack,
   Box, Icon, HStack, Textarea,
+  RadioGroup, Radio,
 } from '@chakra-ui/react';
+import {
+  AutoComplete,
+  AutoCompleteInput,
+  AutoCompleteItem,
+  AutoCompleteList,
+} from '@choc-ui/chakra-autocomplete';
+import { CUIAutoComplete } from 'chakra-ui-autocomplete';
 import { CheckIcon } from '@chakra-ui/icons';
 import {
-  FiCalendar,
+  FiCalendar, FiChevronRight, FiChevronDown,
 } from 'react-icons/fi';
 import Editable from '../../util/Editable';
 import CardBadge from '../CardBadge';
@@ -38,6 +47,46 @@ const property = {
   notability: true,
 };
 
+const universities = [
+  'National Taiwan University (NTU)',
+  'National Taipei University',
+  'National Cheng Kung University',
+  'Harvard University',
+  'Columbia University',
+  'Princeton University',
+  'University of California, Berkeley',
+  'University of California, Los Angeles',
+  'University of California, San Diego',
+  'University of California, San Francisco',
+  'University of California, Irvine',
+  'University of California, Davis',
+  'University of California, Merced',
+  'University of California, Riverside',
+  'University of California, San Jose',
+  'University of California, Sonoma',
+  'University of California, Santa Barbara',
+  'University of California, Santa Cruz',
+];
+
+const courses = [
+  'CS 545',
+  'CS 546',
+  'CS 547',
+  'IM 3007',
+  'CS 50',
+  'CS 51',
+];
+
+const tagList = [
+  { value: 'funny', label: 'funny' },
+  { value: 'presentation', label: 'presentation' },
+  { value: 'night-life', label: 'night-life' },
+  { value: 'beach', label: 'beach' },
+  { value: 'note-taking', label: 'note-taking' },
+  { value: 'harvard', label: 'harvard' },
+  { value: 'family', label: 'family' },
+];
+
 export default function AddNotes({
   handleSubmit, errors, onClose, isSubmitting, register, files,
 }) {
@@ -54,6 +103,23 @@ export default function AddNotes({
 
   const [fileName, setFileName] = useState(files.pdf.name.split('.').slice(0, -1).join('.'));
   const inputRef = useRef();
+
+  // form's state
+  const [courseOption, setCourseOption] = useState('Yes');
+
+  const [pickerItems, setPickerItems] = useState(tagList);
+  const [selectedItems, setSelectedItems] = useState([]);
+
+  const handleCreateItem = (item) => {
+    setPickerItems((curr) => [...curr, item]);
+    setSelectedItems((curr) => [...curr, item]);
+  };
+
+  const handleSelectedItemsChange = (slcItems) => {
+    if (slcItems) {
+      setSelectedItems(slcItems);
+    }
+  };
 
   return (
     <>
@@ -117,11 +183,16 @@ export default function AddNotes({
           </Box>
         </VStack>
       </Flex>
-      <Stack spacing="8" px="0" py="8">
-        <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Stack spacing="8" px="4" py="8" marginTop="-16">
           <FormControl isInvalid={errors.name} isRequired>
-            <FormLabel htmlFor="name">Description</FormLabel>
+            <FormLabel fontSize="lg" fontWeight="bold" marginBottom="4" htmlFor="name">Description</FormLabel>
             <Textarea
+              borderWidth="2px"
+              borderColor="black"
+              borderRadius="pendown"
+              focusBorderColor="primary.400"
+              _hover={{ borderColor: 'primary.400' }}
               id="name"
               placeholder="What is good about this note?"
               {...register('Description', { required: true })}
@@ -130,8 +201,131 @@ export default function AddNotes({
               {errors.name && errors.name.message}
             </FormErrorMessage>
           </FormControl>
-        </form>
-      </Stack>
+          <FormControl isInvalid={errors.course} isRequired>
+            <FormLabel fontSize="lg" fontWeight="bold" marginBottom="4" htmlFor="course">Are you taking this for a course?</FormLabel>
+            <RadioGroup onChange={setCourseOption} value={courseOption}>
+              <Stack direction="row" spacing={16}>
+                <Radio {...register('Are you taking this for a course?', { required: true })} type="radio" value="Yes" size="lg" colorScheme="primary">Yes</Radio>
+                <Radio {...register('Are you taking this for a course?', { required: true })} type="radio" value="No" size="lg" colorScheme="primary">No</Radio>
+              </Stack>
+            </RadioGroup>
+            <FormErrorMessage>
+              {errors.course && errors.course.message}
+            </FormErrorMessage>
+          </FormControl>
+          {courseOption === 'Yes' && (
+            <>
+              <FormControl isRequired={courseOption === 'Yes'}>
+                <AutoComplete openOnFocus>
+                  {({ isOpen }) => (
+                    <>
+                      <InputGroup>
+                        <AutoCompleteInput
+                          variant="filled"
+                          placeholder="Pick your school"
+                          borderWidth="2px"
+                          borderColor="black"
+                          borderRadius="pendown"
+                          focusBorderColor="primary.400"
+                          size="lg"
+                          bg="white"
+                          _hover={{ borderColor: 'primary.400' }}
+                        />
+                        <InputRightElement>
+                          <Icon as={isOpen ? FiChevronRight : FiChevronDown} marginTop="8px" />
+                        </InputRightElement>
+                      </InputGroup>
+                      <AutoCompleteList>
+                        {universities.map((country, cid) => (
+                          <AutoCompleteItem
+                            key={`option-${cid}`}
+                            value={country}
+                          >
+                            {country}
+                          </AutoCompleteItem>
+                        ))}
+                      </AutoCompleteList>
+                    </>
+                  )}
+                </AutoComplete>
+                {/* <FormHelperText>Who do you support.</FormHelperText> */}
+              </FormControl>
+              <FormControl isRequired={courseOption === 'Yes'}>
+                <AutoComplete openOnFocus>
+                  {({ isOpen }) => (
+                    <>
+                      <InputGroup>
+                        <AutoCompleteInput
+                          variant="filled"
+                          placeholder="Pick a course"
+                          borderWidth="2px"
+                          borderColor="black"
+                          borderRadius="pendown"
+                          focusBorderColor="primary.400"
+                          bg="white"
+                          size="lg"
+                          _hover={{ borderColor: 'primary.400' }}
+                        />
+                        <InputRightElement>
+                          <Icon as={isOpen ? FiChevronRight : FiChevronDown} marginTop="8px" />
+                        </InputRightElement>
+                      </InputGroup>
+                      <AutoCompleteList>
+                        {courses.map((country, cid) => (
+                          <AutoCompleteItem
+                            key={`option-${cid}`}
+                            value={country}
+                          >
+                            {country}
+                          </AutoCompleteItem>
+                        ))}
+                      </AutoCompleteList>
+                    </>
+                  )}
+                </AutoComplete>
+                {/* <FormHelperText>Who do you support.</FormHelperText> */}
+              </FormControl>
+            </>
+          )}
+          <FormControl isInvalid={errors.template} isRequired>
+            <FormLabel fontSize="lg" fontWeight="bold" marginBottom="4" htmlFor="template">Is this a template note?</FormLabel>
+            <RadioGroup>
+              <Stack direction="row" spacing={16}>
+                <Radio {...register('Is this a template note?', { required: true })} type="radio" value="Yes" size="lg" colorScheme="primary">Yes</Radio>
+                <Radio {...register('Is this a template note?', { required: true })} type="radio" value="No" size="lg" colorScheme="primary">No</Radio>
+              </Stack>
+            </RadioGroup>
+            <FormErrorMessage>
+              {errors.template && errors.template.message}
+            </FormErrorMessage>
+          </FormControl>
+          <FormControl id="tag" isRequired>
+            {/* <FormLabel fontSize="lg" fontWeight="bold" marginBottom="4" htmlFor="tag">Tags</FormLabel> */}
+            <CUIAutoComplete
+              label="Choose tags"
+              labelStyleProps={{ fontSize: 'lg', fontWeight: 'bold', marginBottom: '0' }}
+              inputStyleProps={{
+                borderWidth: '2px',
+                borderColor: 'black',
+                borderRadius: 'pendown',
+                focusBorderColor: 'primary.400',
+                size: 'lg',
+                bg: 'white',
+                _hover: { borderColor: 'primary.400' },
+              }}
+              toggleButtonStyleProps={{
+                size: 'lg',
+                variant: 'pendown-yellow',
+              }}
+              placeholder="Search tags"
+              onCreateItem={handleCreateItem}
+              items={pickerItems}
+              selectedItems={selectedItems}
+              onSelectedItemsChange={(changes) => handleSelectedItemsChange(changes.selectedItems)}
+            />
+          </FormControl>
+        </Stack>
+      </form>
     </>
   );
 }
