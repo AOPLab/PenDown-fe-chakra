@@ -7,7 +7,9 @@ import {
   ModalBody,
   ModalCloseButton,
   Button,
-  Flex, Heading,
+  Flex,
+  Heading,
+  useBreakpointValue,
 } from '@chakra-ui/react';
 import { Step, Steps, useSteps } from 'chakra-ui-steps';
 import { FiUpload, FiEdit3 } from 'react-icons/fi';
@@ -70,7 +72,7 @@ export default function NoteUpload({
     gnote: gnoteFile,
   };
 
-  console.log(`PDF file: ${files.pdf}`);
+  // console.log(`PDF file: ${files.pdf}`);
 
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm();
 
@@ -90,6 +92,9 @@ export default function NoteUpload({
     <AddDescriptions key="2" handleSubmit={handleSubmit} errors={errors} onClose={onNoteClose} isSubmitting={isSubmitting} register={register} files={files} />,
   ];
 
+  const modalSize = useBreakpointValue({ base: 'full', md: 'xl' });
+  const modalRadius = useBreakpointValue({ base: 'md', md: 'pendown' });
+
   return (
     <Modal
       blockScrollOnMount={false}
@@ -97,14 +102,14 @@ export default function NoteUpload({
       onClose={onNoteClose}
       finalFocusRef={finalFocusRef}
       scrollBehavior={scrollBehavior}
-      size="xl"
+      size={modalSize}
       isCentered
     >
       <ModalOverlay
         backdropFilter="blur(10px)"
         bg="blackAlpha.300"
       />
-      <ModalContent border="2px solid black" borderRadius="pendown">
+      <ModalContent border="2px solid black" borderRadius={modalRadius}>
         <ModalHeader fontWeight="bold" borderBottom="2px solid black">Publish your ✨ note</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
