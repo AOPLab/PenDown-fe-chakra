@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Button, HStack, Input, InputGroup, InputLeftElement, Select, useDisclosure,
   Drawer,
@@ -6,15 +6,22 @@ import {
   DrawerContent, DrawerBody,
 } from '@chakra-ui/react';
 import { Search2Icon } from '@chakra-ui/icons';
+import { useHistory } from 'react-router-dom';
 
 export default function SearchField({ noteType, handleNoteTypeChange }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const history = useHistory();
   const filters = [
     {
       title: 'Types',
       items: ['Notability', 'Goodnotes'],
     },
   ];
+  const [searchList] = useState([
+    { title: 'Search', link: '/search' },
+    { title: 'Settings', link: '/account/my-profile/setting' },
+    { title: 'Logout', link: '/logout' },
+  ]);
   return (
     <>
       <HStack
@@ -112,7 +119,7 @@ export default function SearchField({ noteType, handleNoteTypeChange }) {
           }
         </MenuList> */}
         {/* </Menu> */}
-        <Button size="lg" fontSize="20px" variant="pendown-yellow" px="0"><Search2Icon /></Button>
+        <Button size="lg" fontSize="20px" variant="pendown-yellow" px="0" onClick={() => history.push('/search')}><Search2Icon /></Button>
       </HStack>
       <Drawer placement="top" onClose={onClose} isOpen={isOpen}>
         <DrawerOverlay />

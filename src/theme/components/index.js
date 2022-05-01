@@ -3,6 +3,7 @@ import Button from './Button';
 import Link from './Link';
 import Card from './Card';
 import Avatar from './Avatar';
+// import Divider from './Divider';
 
 export default {
   Link,
@@ -10,6 +11,7 @@ export default {
   Card,
   Avatar,
   Steps,
+  // Divider,
 };
 
 // export const Card = () => {

@@ -271,7 +271,7 @@ export default function Header() {
                         role="button"
                         // onClick={() => goto('/')}
                         onClick={onOpen}
-                        onKeyDown={() => goto('/')}
+                        // onKeyDown={() => goto('/')}
                       >
                         Add note
                       </MenuItem>
