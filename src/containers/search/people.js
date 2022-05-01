@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Container, Box, Heading, SimpleGrid,
+  Container, Box, Heading, SimpleGrid, Button, Center,
 } from '@chakra-ui/react';
 import SearchAvatar from '../../components/ui/search/SearchAvatar';
 
@@ -37,9 +37,23 @@ export default function People() {
               <SearchAvatar username="Shannon" />
               <SearchAvatar username="guanyiii" />
               <SearchAvatar username="chienyu" />
-              <SearchAvatar username="pd_test" />
+              {/* <SearchAvatar username="pd_test" />
               <SearchAvatar username="aoplab" />
+              <SearchAvatar username="ntuim" />
+              <SearchAvatar username="pendown.fan" /> */}
             </SimpleGrid>
+            <Center mt={8}>
+              <Button
+                variant="pendown-primary"
+                size="lg"
+                    // onClick={() => history.push('/login')}
+                    // onKeyDown={() => history.push('/login')}
+                tabIndex="-1"
+                role="button"
+              >
+                View More
+              </Button>
+            </Center>
           </Box>
         </Container>
       </Box>
