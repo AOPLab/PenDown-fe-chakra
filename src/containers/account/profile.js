@@ -2,7 +2,7 @@ import {
   Box, Container, Flex, SimpleGrid,
 } from '@chakra-ui/react';
 import React from 'react';
-import NoteCard from '../../components/ui/NoteCard';
+import NoteCard from '../../components/ui/cards/NoteCard';
 
 function PersonalProfile() {
   // const history = useHistory();

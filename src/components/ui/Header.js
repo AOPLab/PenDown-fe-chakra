@@ -15,8 +15,6 @@ import {
   MenuButton,
   MenuList,
   Avatar,
-  Center,
-  Text,
   useColorModeValue,
   useColorMode,
   useDisclosure,
@@ -184,7 +182,7 @@ export default function Header() {
                         />
                       </MenuButton>
                       <MenuList alignItems="center">
-                        <br />
+                        {/* <br />
                         <Center>
                           <Avatar
                             border="2px solid black"
@@ -197,7 +195,7 @@ export default function Header() {
                           <Text fontWeight="bold">{user.username}</Text>
                         </Center>
                         <br />
-                        <MenuDivider />
+                        <MenuDivider /> */}
                         {menuList.map((item, index) => (
                           <>
                             {index === 2 ? <MenuDivider /> : <></>}
@@ -252,7 +250,7 @@ export default function Header() {
                       />
                     </MenuButton>
                     <MenuList alignItems="center">
-                      <br />
+                      {/* <br />
                       <Center>
                         <Avatar
                           border="2px solid black"
@@ -266,7 +264,7 @@ export default function Header() {
                         <Text fontWeight="bold">{user.username}</Text>
                       </Center>
                       <br />
-                      <MenuDivider />
+                      <MenuDivider /> */}
                       <MenuItem
                         key="/"
                         tabIndex="/"

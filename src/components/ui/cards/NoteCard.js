@@ -7,7 +7,7 @@ import {
 } from 'react-icons/fi';
 // FiEye, FiHeart, FiBookmark
 import { pdfjs } from 'react-pdf';
-import Card from './Card';
+import Card from '../Card';
 import CardBadge from './CardBadge';
 
 export default function NoteCard(props) {

@@ -29,7 +29,7 @@ import {
   FiCalendar, FiChevronRight, FiChevronDown,
 } from 'react-icons/fi';
 import Editable from '../../util/Editable';
-import CardBadge from '../CardBadge';
+import CardBadge from '../cards/CardBadge';
 // using react hook form without control this time
 
 // FiEye, FiHeart, FiBookmark
