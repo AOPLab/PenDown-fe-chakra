@@ -134,6 +134,7 @@ export default function AddNotes({
           <Heading
             fontSize="2xl"
             fontWeight="bold"
+            width="80%"
           >
             <Editable
               text={fileName}
