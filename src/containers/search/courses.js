@@ -25,39 +25,37 @@ export default function Courses() {
 
   return (
     <>
-      <Box pt="20">
-        <Container maxW="5xl">
-          <Box borderWidth="4px" border="3px black" borderBottom="3px solid black" py="8" my="2">
-            <Heading>{pageProperties.title}</Heading>
+      <Container maxW="5xl">
+        <Box borderWidth="4px" border="3px black" borderBottom="3px solid black" py="8" my="2">
+          <Heading>{pageProperties.title}</Heading>
 
-            <Flex
-              w="full"
-              justifyContent="center"
-              alignItems="center"
+          <Flex
+            w="full"
+            justifyContent="center"
+            alignItems="center"
+          >
+            <SimpleGrid
+              columns={{
+                base: 1, md: 2, lg: 2, xl: 3,
+              }}
+              spacing={10}
+              mt={8}
+              px={0}
+              py={0}
+              mx="auto"
             >
-              <SimpleGrid
-                columns={{
-                  base: 1, md: 2, lg: 2, xl: 3,
-                }}
-                spacing={10}
-                mt={8}
-                px={0}
-                py={0}
-                mx="auto"
-              >
-                <MiscCard property={property} />
-                <MiscCard property={property} />
-                <MiscCard property={property} />
-                <MiscCard property={property} />
-                <MiscCard property={property} />
-                <MiscCard property={property} />
-                <MiscCard property={property} />
+              <MiscCard property={property} />
+              <MiscCard property={property} />
+              <MiscCard property={property} />
+              <MiscCard property={property} />
+              <MiscCard property={property} />
+              <MiscCard property={property} />
+              <MiscCard property={property} />
 
-              </SimpleGrid>
-            </Flex>
-          </Box>
-        </Container>
-      </Box>
+            </SimpleGrid>
+          </Flex>
+        </Box>
+      </Container>
     </>
   );
 }

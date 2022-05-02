@@ -38,7 +38,7 @@ function Home() {
 
   return (
     <>
-      <Box borderBottom="2px solid black" pt="16">
+      <Box borderBottom="2px solid black">
         <Container maxW="3xl">
           <Stack
             as={Box}

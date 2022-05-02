@@ -31,15 +31,15 @@ export default function All() {
             {/* <Container maxW="5xl"> */}
 
             <People />
-            <Spacer mt="-16" />
+            <Spacer mt="-4" />
             <Tags />
-            <Spacer mt="-16" />
+            <Spacer mt="-4" />
             <Schools />
-            <Spacer mt="-16" />
+            <Spacer mt="-4" />
             <Courses />
-            <Spacer mt="-16" />
+            <Spacer mt="-4" />
             <Notes />
-            <Spacer mt="-16" />
+            <Spacer mt="-4" />
             <Templates />
             {/* </Container> */}
           </Flex>

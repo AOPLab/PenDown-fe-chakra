@@ -1,5 +1,6 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
+import { Container } from '@chakra-ui/react';
 
 function Note() {
   const { noteId } = useParams();
@@ -11,12 +12,15 @@ function Note() {
 
   return (
     <>
-      <h1>This is note page</h1>
-      <h2>
-        Note ID:
-        {' '}
-        {noteId}
-      </h2>
+      <Container maxW="5xl">
+
+        <h1>This is note page</h1>
+        <h2>
+          Note ID:
+          {' '}
+          {noteId}
+        </h2>
+      </Container>
     </>
   );
 }
