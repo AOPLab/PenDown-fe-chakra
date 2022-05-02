@@ -16,8 +16,8 @@ export default function Courses() {
 
   const property = {
     dateCreated: 'Mar. 12, 2022',
-    title: 'IM 3007',
-    description: 'System Analysis and Design',
+    title: 'IM 3007: System Analysis and Design',
+    description: 'National Taiwan University',
     noteCount: '116',
     viewCount: '3.2k',
     savedCount: '32',
