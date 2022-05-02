@@ -78,13 +78,13 @@ const courses = [
 ];
 
 const tagList = [
-  { value: 'funny', label: 'funny' },
-  { value: 'presentation', label: 'presentation' },
-  { value: 'night-life', label: 'night-life' },
-  { value: 'beach', label: 'beach' },
-  { value: 'note-taking', label: 'note-taking' },
-  { value: 'harvard', label: 'harvard' },
-  { value: 'family', label: 'family' },
+  { value: '1', label: 'funny' },
+  { value: '2', label: 'presentation' },
+  { value: '3', label: 'night-life' },
+  { value: '4', label: 'beach' },
+  { value: '5', label: 'note-taking' },
+  { value: '6', label: 'harvard' },
+  { value: '7', label: 'family' },
 ];
 
 export default function AddNotes({
@@ -120,6 +120,8 @@ export default function AddNotes({
       setSelectedItems(slcItems);
     }
   };
+
+  console.log(selectedItems);
 
   return (
     <>
