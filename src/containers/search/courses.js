@@ -38,7 +38,7 @@ export default function Courses() {
               columns={{
                 base: 1, md: 2, lg: 2, xl: 3,
               }}
-              spacing={10}
+              spacing={{ base: 8, md: 10 }}
               mt={8}
               px={0}
               py={0}
