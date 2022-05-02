@@ -48,7 +48,17 @@ function Note() {
       {/* <Container maxW="5xl"> */}
       <Flex minH="100vh" align="center" justify="center" bg={useColorModeValue('gray.50', 'gray.800')}>
         <Stack spacing={8} mx="auto" maxW="3xl" py={12} px={6}>
-          <Box width={{ base: 'md', md: '2xl' }} maxW="2xl" borderRadius="md" border="2px solid black" bg={useColorModeValue('white', 'gray.700')} boxShadow="md" p={0}>
+          <Box
+            width={{
+              base: 'lg', xs: 'lg', sm: 'xl', md: '2xl',
+            }}
+            maxW="2xl"
+            borderRadius="md"
+            border="2px solid black"
+            bg={useColorModeValue('white', 'gray.700')}
+            boxShadow="md"
+            p={0}
+          >
             <MainSection property={property} />
             <Divider style={{ borderBottom: '2px black solid', opacity: 1, width: '100%' }} />
             <DescriptionSection property={property} />
