@@ -149,8 +149,9 @@ export default function SimpleSideBar({ children: content }) {
           icon={<FiFilter />}
           variant="pendown"
           size="sm"
-          mt={24}
+          mt={8}
           ml={8}
+          mb={16}
         />
         {/* <Flex
           as="header"

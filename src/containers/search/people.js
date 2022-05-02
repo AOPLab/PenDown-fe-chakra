@@ -2,7 +2,7 @@ import React from 'react';
 import {
   Container, Box, Heading, SimpleGrid, Button, Center,
 } from '@chakra-ui/react';
-import SearchAvatar from '../../components/ui/search/SearchAvatar';
+import SearchAvatar from '../../components/ui/avatar/SearchAvatar';
 
 export default function People() {
   // const history = useHistory();

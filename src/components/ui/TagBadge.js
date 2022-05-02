@@ -1,9 +1,10 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import {
   Badge, Box, Center, Text,
 } from '@chakra-ui/react';
 import React from 'react';
 
-export default function TagBadge({ children, style }) {
+export default function TagBadge({ children, style, ...props }) {
   return (
     <Box>
       <Badge
@@ -16,6 +17,7 @@ export default function TagBadge({ children, style }) {
         px="10px"
         py="10px"
         fontWeight={800}
+        {...props}
       >
         <Center>
           <Text isTruncated size="md">

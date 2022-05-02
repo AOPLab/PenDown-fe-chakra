@@ -55,7 +55,7 @@ function Index() {
     <>
       <div className="wrapper">
         <Header />
-        <Box pt="20">
+        <Box pt="16">
           <div>
             <div
               className="layout-content-container layout-content-container-no-sidebar"
