@@ -14,6 +14,10 @@ agent.interceptors.response.use(
       dispatch({ type: authConstants.TOKEN_EXPIRED });
       return Promise.reject(res.data.error);
     }
+    if (res.status === 400) {
+      console.log(res);
+      return Promise.reject(res.data.error);
+    }
     return res;
   },
   (error) => Promise.reject(error), // not 2xx

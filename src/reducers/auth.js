@@ -2,7 +2,7 @@ import { authConstants, userConstants } from '../actions/user/constants';
 
 const initialState = {
   isAuthenticated: false,
-  token: '',
+  token: null,
   tokenExpired: false,
 };
 
