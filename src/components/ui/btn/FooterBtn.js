@@ -1,4 +1,4 @@
-/* eslint-disable react/react-in-jsx-scope */
+import * as React from 'react';
 import { Box, Button, useStyleConfig } from '@chakra-ui/react';
 
 function FooterBtn(props) {

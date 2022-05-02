@@ -1,9 +1,5 @@
-/* eslint-disable react/react-in-jsx-scope */
-import {
-  Heading,
-  Box,
-  SimpleGrid,
-} from '@chakra-ui/react';
+import * as React from 'react';
+import { Heading, Box, SimpleGrid } from '@chakra-ui/react';
 
 import SectionImage from './SectionImage';
 
@@ -15,16 +11,8 @@ function Section(props) {
   // Pass the computed styles into the `__css` prop
   return (
     <Box borderBottom="2px solid black">
-      <Box
-        textAlign="center"
-        spacing={{ base: 8, md: 14 }}
-        py={{ base: 4, md: 8 }}
-      >
-        <Heading
-          fontSize={{ base: 'xl', sm: '2xl', md: '5xl' }}
-          fontWeight={900}
-          lineHeight="150%"
-        >
+      <Box textAlign="center" spacing={{ base: 8, md: 14 }} py={{ base: 4, md: 8 }}>
+        <Heading fontSize={{ base: 'xl', sm: '2xl', md: '5xl' }} fontWeight={900} lineHeight="150%">
           Share Your Notes,
           <br />
           Someone Out There Needs It!

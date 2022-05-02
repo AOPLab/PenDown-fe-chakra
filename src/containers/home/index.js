@@ -1,5 +1,5 @@
 import '@fontsource/caveat';
-import React from 'react';
+import * as React from 'react';
 import {
   Heading,
   Container,
@@ -43,21 +43,9 @@ function Home() {
     <>
       <Box borderBottom="2px solid black" pt="16">
         <Container maxW="3xl">
-          <Stack
-            as={Box}
-            textAlign="center"
-            spacing={{ base: 8, md: 14 }}
-            py={{ base: 16, md: 16 }}
-          >
-
+          <Stack as={Box} textAlign="center" spacing={{ base: 8, md: 14 }} py={{ base: 16, md: 16 }}>
             <Card variant="rounded">
-              <Image
-                src="https://chakra-ui.com/eric.jpg"
-                rounded="full"
-                w={32}
-                h={32}
-                boxShadow="md"
-              />
+              <Image src="https://chakra-ui.com/eric.jpg" rounded="full" w={32} h={32} boxShadow="md" />
               <Heading mt={6} maxW={60} size="lg" textAlign="center" color="gray.700">
                 Welcome back, Brian
               </Heading>
@@ -70,40 +58,19 @@ function Home() {
       </Box>
       <Box borderBottom="2px solid black">
         <Container maxW="3xl">
-          <Stack
-            as={Box}
-            textAlign="center"
-            spacing={{ base: 8, md: 14 }}
-            py={{ base: 20, md: 36 }}
-          >
-            <Heading
-              fontWeight={900}
-              fontSize={{ base: '2xl', sm: '4xl', md: '6xl' }}
-              lineHeight="110%"
-            >
-              Make money from
-              {' '}
-              <br />
+          <Stack as={Box} textAlign="center" spacing={{ base: 8, md: 14 }} py={{ base: 20, md: 36 }}>
+            <Heading fontWeight={900} fontSize={{ base: '2xl', sm: '4xl', md: '6xl' }} lineHeight="110%">
+              Make money from <br />
               <Text as="span" color="green.400">
                 your audience
               </Text>
             </Heading>
             <Text color="gray.500">
-              Monetize your content by charging your most loyal readers and reward
-              them loyalty points. Give back to your loyal readers by granting
-              them access to your pre-releases and sneak-peaks.
+              Monetize your content by charging your most loyal readers and reward them loyalty points. Give back to
+              your loyal readers by granting them access to your pre-releases and sneak-peaks.
             </Text>
-            <Stack
-              direction="column"
-              spacing={3}
-              align="center"
-              alignSelf="center"
-              position="relative"
-            >
-              <Button
-                variant="pendown-primary"
-                px={6}
-              >
+            <Stack direction="column" spacing={3} align="center" alignSelf="center" position="relative">
+              <Button variant="pendown-primary" px={6}>
                 Get Started
               </Button>
               <Link size="sm" to="/">
