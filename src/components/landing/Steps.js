@@ -1,6 +1,6 @@
 import React from 'react';
-import { 
-  Heading, Box, Image, Text, SimpleGrid, useStyleConfig 
+import {
+  Heading, Box, Image, Text, SimpleGrid, useStyleConfig,
 } from '@chakra-ui/react';
 
 function Steps(props) {
@@ -38,7 +38,8 @@ function Steps(props) {
       >
         <Box textAlign="left" minW="300px">
           <Heading fontSize={{ base: 'xl', sm: '1.5xl', md: '3xl' }} fontWeight={800} lineHeight="150%">
-            Step 1<Text fontWeight={400}>Create an account.</Text>
+            Step 1
+            <Text fontWeight={400}>Create an account.</Text>
           </Heading>
         </Box>
         <Box height="100%" align="center">
@@ -49,12 +50,14 @@ function Steps(props) {
         </Box>
         <Box textAlign="left" minW="300px">
           <Heading fontSize={{ base: 'xl', sm: '1.5xl', md: '3xl' }} fontWeight={800} lineHeight="150%">
-            Step 2<Text fontWeight={400}>Login and start browsing.</Text>
+            Step 2
+            <Text fontWeight={400}>Login and start browsing.</Text>
           </Heading>
         </Box>
         <Box textAlign="left" minW="300px">
           <Heading fontSize={{ base: 'xl', sm: '1.5xl', md: '3xl' }} fontWeight={800} lineHeight="150%">
-            Step 3<Text fontWeight={400}>Purchase and download the note you need!</Text>
+            Step 3
+            <Text fontWeight={400}>Purchase and download the note you need!</Text>
           </Heading>
         </Box>
         <Box height="100%" align="center">
@@ -65,7 +68,8 @@ function Steps(props) {
         </Box>
         <Box textAlign="left" minW="300px">
           <Heading fontSize={{ base: 'xl', sm: '1.5xl', md: '3xl' }} fontWeight={800} lineHeight="150%">
-            Step 4<Text fontWeight={400}>Upload your pen-down and make your pen-down more valuable.</Text>
+            Step 4
+            <Text fontWeight={400}>Upload your pen-down and make your pen-down more valuable.</Text>
           </Heading>
         </Box>
       </SimpleGrid>

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Box, Image, Text } from '@chakra-ui/react';
 
 import '../../styles/SectionImage.css';

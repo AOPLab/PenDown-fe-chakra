@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   SimpleGrid,
   Stack,
@@ -8,7 +9,6 @@ import {
   useStyleConfig,
   // Center,
 } from '@chakra-ui/react';
-import * as React from 'react';
 
 import Icon from '../ui/icon/index';
 import FooterBtn from '../ui/btn/FooterBtn';

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Heading, Box, SimpleGrid } from '@chakra-ui/react';
 
 import SectionImage from './SectionImage';
