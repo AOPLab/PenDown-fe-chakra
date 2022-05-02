@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Modal,
   ModalOverlay,
@@ -7,7 +7,9 @@ import {
   ModalBody,
   ModalCloseButton,
   Button,
-  Flex, Heading,
+  Flex,
+  Heading,
+  useBreakpointValue,
 } from '@chakra-ui/react';
 import { Step, Steps, useSteps } from 'chakra-ui-steps';
 import { FiUpload, FiEdit3 } from 'react-icons/fi';
@@ -30,17 +32,68 @@ export default function NoteUpload({
   });
 
   const {
-    handleSubmit,
-    register,
-    setError,
-    control,
-    formState: { errors, isSubmitting },
+    handleSubmit: pdfHandleSubmit,
+    register: pdfRegister,
+    setError: pdfSetError,
+    control: pdfControl,
+    formState: { errors: pdfErrors, isSubmitting: pdfIsSubmitting },
   } = useForm();
 
+  const {
+    handleSubmit: notaHandleSubmit,
+    register: notaRegister,
+    setError: notaSetError,
+    control: notaControl,
+    formState: { errors: notaErrors, isSubmitting: notaIsSubmitting },
+  } = useForm();
+
+  const {
+    handleSubmit: gnHandleSubmit,
+    register: gnRegister,
+    setError: gnSetError,
+    control: gnControl,
+    formState: { errors: gnErrors, isSubmitting: gnIsSubmitting },
+  } = useForm();
+
+  const [pdfFile, setPdfFile] = useState(null);
+  const [noteFile, setNoteFile] = useState(null);
+  const [gnoteFile, setGNoteFile] = useState(null);
+
+  const setFile = {
+    pdf: setPdfFile,
+    nota: setNoteFile,
+    gnote: setGNoteFile,
+
+  };
+
+  const files = {
+    pdf: pdfFile,
+    nota: noteFile,
+    gnote: gnoteFile,
+  };
+
+  // console.log(`PDF file: ${files.pdf}`);
+
+  const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm();
+
+  function onSubmit(values) {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        alert(JSON.stringify(values, null, 2));
+        resolve();
+        reset();
+        onNoteClose();
+      }, 3000);
+    });
+  }
+
   const contents = [
-    <AddNotes key="1" control={control} />,
-    <AddDescriptions key="1" control={control} />,
+    <AddNotes key="1" pdfControl={pdfControl} notaControl={notaControl} gnControl={gnControl} setFile={setFile} files={files} />,
+    <AddDescriptions key="2" handleSubmit={handleSubmit} errors={errors} onClose={onNoteClose} isSubmitting={isSubmitting} register={register} files={files} />,
   ];
+
+  const modalSize = useBreakpointValue({ base: 'full', md: 'xl' });
+  const modalRadius = useBreakpointValue({ base: 'md', md: 'pendown' });
 
   return (
     <Modal
@@ -49,14 +102,14 @@ export default function NoteUpload({
       onClose={onNoteClose}
       finalFocusRef={finalFocusRef}
       scrollBehavior={scrollBehavior}
-      size="xl"
+      size={modalSize}
       isCentered
     >
       <ModalOverlay
         backdropFilter="blur(10px)"
         bg="blackAlpha.300"
       />
-      <ModalContent border="2px solid black" borderRadius="pendown">
+      <ModalContent border="2px solid black" borderRadius={modalRadius}>
         <ModalHeader fontWeight="bold" borderBottom="2px solid black">Publish your ✨ note</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
@@ -92,9 +145,14 @@ export default function NoteUpload({
                 >
                   Prev
                 </Button>
-                <Button onClick={nextStep} variant="pendown-primary">
+                {activeStep === steps.length - 1 ? <Button onClick={handleSubmit(onSubmit)} isLoading={isSubmitting} variant="pendown-primary" type="submit">Submit</Button> : (
+                  <Button isDisabled={typeof (files.pdf) === 'undefined'} onClick={nextStep} variant="pendown-primary">
+                    Next
+                  </Button>
+                )}
+                {/* <Button onClick={nextStep} variant="pendown-primary">
                   {activeStep === steps.length - 1 ? 'Submit' : 'Next'}
-                </Button>
+                </Button> */}
               </Flex>
             )}
           </Flex>

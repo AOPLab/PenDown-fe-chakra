@@ -1,14 +1,18 @@
-import React, { useState } from 'react';
-import { Flex, Divider } from '@chakra-ui/react';
-import { Document, Page } from 'react-pdf/dist/esm/entry.webpack';
+import React from 'react';
+import {
+  Flex, Divider, HStack, Text,
+} from '@chakra-ui/react';
 import FileUpload from '../../util/FileUpload';
 
 // FiEye, FiHeart, FiBookmark
 
-export default function AddNotes({ control }) {
-  const [pdfFile, setPdfFile] = useState(null);
+export default function AddNotes({
+  pdfControl, notaControl, gnControl, setFile, files,
+}) {
+  // const [pdfFile, setPdfFile] = useState(null);
   // const [noteFile, setNoteFile] = useState(null);
-  console.log(pdfFile);
+  // const [gnoteFile, setGNoteFile] = useState(null);
+  // console.log(pdfFile);
   return (
     <>
       <Flex py={4}>
@@ -17,46 +21,54 @@ export default function AddNotes({ control }) {
           acceptedFileTypes=".pdf"
           isRequired
           placeholder="Choose .pdf file"
-          control={control}
-          setValue={setPdfFile}
+          control={pdfControl}
+          setValue={setFile.pdf}
         >
           Upload PDF File
         </FileUpload>
       </Flex>
-      <Divider />
-      {pdfFile === null ? <></>
+
+      {/* <Divider />
+      {files.pdf === null ? <Center />
         : (
-          <Document file={pdfFile}>
-            <Page pageNumber={1} width={500} />
-          </Document>
-        )}
-      {/* <Flex py={4}>
+          <Center>
+            <Document file={files.pdf}>
+              <Page pageNumber={1} width={375} />
+            </Document>
+          </Center>
+        )} */}
+      <Divider />
+      <Divider />
+      <Divider />
+      <Flex py={4}>
         <FileUpload
-          name="PDF File"
+          name="Notability File"
           acceptedFileTypes=".note"
           placeholder="Choose .note file"
-          control={control}
+          control={notaControl}
+          setValue={setFile.nota}
         >
           Upload .note file for Notability
         </FileUpload>
       </Flex>
       <HStack>
-        <Divider />
+        <Divider variant="dashed" />
         <Text fontSize="sm" whiteSpace="nowrap" color="muted">
           or
         </Text>
-        <Divider />
+        <Divider variant="dashed" />
       </HStack>
       <Flex py={4}>
         <FileUpload
-          name="PDF File"
+          name="GoodNotes File"
           acceptedFileTypes=".goodnotes"
           placeholder="Choose .goodnotes file"
-          control={control}
+          control={gnControl}
+          setValue={setFile.gnote}
         >
-          Upload .goodnotes file for Goodnotes
+          Upload .goodnotes file for GoodNotes
         </FileUpload>
-      </Flex> */}
+      </Flex>
     </>
   );
 }

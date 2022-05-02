@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
   Switch, Route, useHistory, useLocation,
 } from 'react-router-dom';
+import { Box } from '@chakra-ui/react';
 // import { makeStyles } from '@material-ui/core';
 // import { makeStyles, Fab } from '@material-ui/core';
 // import { Feedback } from '@material-ui/icons';
@@ -54,23 +55,25 @@ function Index() {
     <>
       <div className="wrapper">
         <Header />
-        <div>
-          <div
-            className="layout-content-container layout-content-container-no-sidebar"
-          >
-            <div className="layout-content">
-              <Switch>
-                <Route path="/home" component={Home} />
-                <Route path="/account" component={Account} />
-                <Route path="/school" component={Campus} />
-                <Route path="/search" component={Search} />
-                <Route path="/tag/:tagId" component={Tag} />
-                <Route path="/note/:noteId" component={Note} />
-                <Route path="/" component={NoMatch} />
-              </Switch>
+        <Box pt="16">
+          <div>
+            <div
+              className="layout-content-container layout-content-container-no-sidebar"
+            >
+              <div className="layout-content">
+                <Switch>
+                  <Route path="/home" component={Home} />
+                  <Route path="/account" component={Account} />
+                  <Route path="/school" component={Campus} />
+                  <Route path="/search" component={Search} />
+                  <Route path="/tag/:tagId" component={Tag} />
+                  <Route path="/note/:noteId" component={Note} />
+                  <Route path="/" component={NoMatch} />
+                </Switch>
+              </div>
             </div>
           </div>
-        </div>
+        </Box>
       </div>
     </>
   );

@@ -38,8 +38,7 @@ function Home() {
 
   return (
     <>
-      <Box borderBottom="2px solid black" pt="16">
-        <h1>{window.location.origin}</h1>
+      <Box borderBottom="2px solid black">
         <Container maxW="3xl">
           <Stack
             as={Box}

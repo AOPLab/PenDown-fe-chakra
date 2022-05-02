@@ -16,6 +16,13 @@ export default {
   // 3. We can add a new visual variant
   variants: {
 
+    clean: {
+      border: 'none',
+      borderRadius: '8px',
+      padding: '5px',
+      _hover: { bg: 'gray.100' },
+      _focus: { outline: 0 },
+    },
     pendown: {
       _hover: { boxShadow: '0px 4px 0px #18191F', filter: 'brightness(99%)' },
       _focus: { outline: 0 },
