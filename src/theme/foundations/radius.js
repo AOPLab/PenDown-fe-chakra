@@ -9,7 +9,7 @@ const radii = {
   '3xl': '1.5rem',
   full: '9999px',
   pendown: '16px',
-  card: '3px',
+  tag: '12px',
 };
 
 export default radii;

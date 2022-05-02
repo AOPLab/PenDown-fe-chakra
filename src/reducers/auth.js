@@ -1,4 +1,4 @@
-import { authConstants } from '../actions/user/constants';
+import { authConstants, userConstants } from '../actions/user/constants';
 
 const initialState = {
   isAuthenticated: false,
@@ -12,6 +12,12 @@ export default function auth(state = initialState, action) {
       return {
         isAuthenticated: !!action.user,
         token: action.user.token,
+        tokenExpired: false,
+      };
+    case userConstants.READ_SELF_ACCOUNT_SUCCESS:
+      return {
+        isAuthenticated: true,
+        token: action.payload.token,
         tokenExpired: false,
       };
     case authConstants.AUTH_LOGOUT:

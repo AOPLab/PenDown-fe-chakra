@@ -13,7 +13,7 @@ import Campus from './campus';
 import Tag from './tag/index';
 import Note from './note';
 import Header from '../components/ui/Header';
-import { getUserInfo } from '../actions/user/auth';
+import { readSelfAccount } from '../actions/user/user';
 import NoMatch from '../components/noMatch';
 
 // const useStyles = makeStyles(() => ({
@@ -38,7 +38,7 @@ function Index() {
           localStorage.removeItem('token');
           localStorage.removeItem('id');
         } else {
-          dispatch(getUserInfo(localStorage.getItem('id'), localStorage.getItem('token')));
+          dispatch(readSelfAccount(localStorage.getItem('token')));
         }
       }
     }
