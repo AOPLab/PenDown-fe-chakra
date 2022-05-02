@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Container, Box, Heading, SimpleGrid, Flex,
+  Container, Box, Heading, SimpleGrid, Flex, Center, Button,
 } from '@chakra-ui/react';
 import MiscCard from '../../components/ui/cards/MiscCard';
 
@@ -55,6 +55,18 @@ export default function Schools() {
 
             </SimpleGrid>
           </Flex>
+          <Center mt={8}>
+            <Button
+              variant="pendown-primary"
+              size="lg"
+                    // onClick={() => history.push('/login')}
+                    // onKeyDown={() => history.push('/login')}
+              tabIndex="-1"
+              role="button"
+            >
+              View More
+            </Button>
+          </Center>
         </Box>
       </Container>
     </>
