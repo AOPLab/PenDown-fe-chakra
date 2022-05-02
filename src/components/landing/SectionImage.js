@@ -9,7 +9,7 @@ function SectionImage(props) {
   // Pass the computed styles into the `__css` prop
   return (
     <Box className="container">
-      <Image src={props.image} className="image" />
+      <Image src={props.image} className="image" borderRadius="pendown" />
       <Box className="overlay" bg="green.500">
         <Text className="text" fontSize={{ base: 'l', sm: 'xl', md: '2xl' }}>
           {props.text}
