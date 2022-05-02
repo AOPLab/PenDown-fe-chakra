@@ -79,6 +79,8 @@ export default function NoteUpload({
   function onSubmit(values) {
     return new Promise((resolve) => {
       setTimeout(() => {
+        console.log('hello', files);
+        console.log(register);
         alert(JSON.stringify(values, null, 2));
         resolve();
         reset();

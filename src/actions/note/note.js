@@ -15,6 +15,7 @@ const addNote = (
   goodnotes_file = null,
   tag_id_arr,
   new_tag_arr,
+  history,
 ) => async (dispatch) => {
   const config = {
     headers: {
@@ -23,18 +24,14 @@ const addNote = (
   };
   dispatch({ type: noteConstants.ADD_NOTE_START });
   try {
-    const res = await agent.post(
-      '/api/notes',
-      {
-        title,
-        description,
-        is_template,
-        school_id,
-        course_id,
-        bean,
-      },
-      config,
-    );
+    const res = await agent.post('/api/notes', {
+      title,
+      description,
+      is_template,
+      school_id,
+      course_id,
+      bean,
+    }, config);
 
     const { note_id } = res.data;
 
@@ -62,9 +59,10 @@ const addNote = (
       const tag_res = await agent.post('/api/tag', { tag_name: item });
       return tag_res.data.tag_id;
     }));
-    Promise.all(new_tag_id_arr.map((item) => agent.post(`/api/notes/20/tags/${item}`, {}, config)));
-    Promise.all(tag_id_arr.map((item) => agent.post(`/api/notes/20/tags/${item}`, {}, config)));
+    Promise.all(new_tag_id_arr.map((item) => agent.post(`/api/notes/${note_id}/tags/${item}`, {}, config)));
+    Promise.all(tag_id_arr.map((item) => agent.post(`/api/notes/${note_id}/tags/${item}`, {}, config)));
     dispatch({ type: noteConstants.ADD_NOTE_SUCCESS });
+    history.push(`/notes/${note_id}`);
   } catch (error) {
     dispatch({
       type: noteConstants.ADD_NOTE_FAIL,

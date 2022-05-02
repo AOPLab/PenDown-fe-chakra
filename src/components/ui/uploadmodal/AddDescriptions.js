@@ -99,7 +99,7 @@ export default function AddNotes({
       }, 3000);
     });
   }
-  console.log(files.pdf.name);
+  // console.log(files.pdf.name);
 
   const [fileName, setFileName] = useState(files.pdf.name.split('.').slice(0, -1).join('.'));
   const inputRef = useRef();
@@ -121,7 +121,7 @@ export default function AddNotes({
     }
   };
 
-  console.log(selectedItems);
+  // console.log(selectedItems);
 
   return (
     <>
@@ -186,7 +186,7 @@ export default function AddNotes({
           </Box>
         </VStack>
       </Flex>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit()}>
         <Stack spacing="8" px="4" py="8" marginTop="-16">
           <FormControl isInvalid={errors.name} isRequired>
             <FormLabel fontSize="lg" fontWeight="bold" marginBottom="4" htmlFor="name">Description</FormLabel>
