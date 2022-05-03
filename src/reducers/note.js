@@ -30,7 +30,7 @@ const prototype = {
 
 const byId = (state = {}, action) => {
   switch (action.type) {
-    case noteConstants.READ_NOTE_SUCCESS: {
+    case noteConstants.GET_NOTE_SUCCESS: {
       return {
         ...state,
         [action.payload.id]: {
@@ -40,6 +40,22 @@ const byId = (state = {}, action) => {
         },
       };
     }
+    case noteConstants.BROWSE_NOTES_BY_TAG_SUCCESS: {
+      const { notes } = action.payload;
+      const data = {};
+      notes.map((item) => {
+        data[item.note_id] = {
+          ...prototype,
+          ...state[item.note_id],
+          ...item,
+        };
+        return item;
+      });
+      return {
+        ...state,
+        ...data,
+      };
+    }
     default:
       return state;
   }
@@ -47,7 +63,7 @@ const byId = (state = {}, action) => {
 
 const allIds = (state = [], action) => {
   switch (action.type) {
-    case noteConstants.READ_NOTE_SUCCESS: {
+    case noteConstants.GET_NOTE_SUCCESS: {
       return [...new Set([action.payload.id, ...state])];
     }
     default:

@@ -2,7 +2,8 @@ import { noteConstants } from '../../../actions/note/constant';
 
 const initialState = {
   addNote: false,
-  searchNote: false,
+  getNote: false,
+  browseNotesByTag: false,
 };
 
 export default function note(state = initialState, action) {
@@ -17,6 +18,30 @@ export default function note(state = initialState, action) {
       return {
         ...state,
         addNote: false,
+      };
+    }
+    case noteConstants.GET_NOTE_START:
+      return {
+        ...state,
+        getNote: true,
+      };
+    case noteConstants.GET_NOTE_SUCCESS:
+    case noteConstants.GET_NOTE_FAIL: {
+      return {
+        ...state,
+        getNote: false,
+      };
+    }
+    case noteConstants.BROWSE_NOTES_BY_TAG_START:
+      return {
+        ...state,
+        browseNotesByTag: true,
+      };
+    case noteConstants.BROWSE_NOTES_BY_TAG_SUCCESS:
+    case noteConstants.BROWSE_NOTES_BY_TAG_FAIL: {
+      return {
+        ...state,
+        browseNotesByTag: false,
       };
     }
 
