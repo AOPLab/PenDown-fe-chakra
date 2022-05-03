@@ -65,10 +65,10 @@ const courses = [
 //   { value: '16', label: 'management' },
 // ];
 
-export default function AddNotes({
+export default function AddDescriptions({
   errors, register, files, setContent, tagLists,
 }) {
-  const [fileName, setFileName] = useState(files.pdf.name.split('.').slice(0, -1).join('.'));
+  const [fileName, setFileName] = useState(files.pdf ? files.pdf.name.split('.').slice(0, -1).join('.') : '');
   const inputRef = useRef();
 
   // form's state

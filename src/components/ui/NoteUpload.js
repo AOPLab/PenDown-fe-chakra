@@ -73,11 +73,11 @@ export default function NoteUpload({
   };
 
   const {
-    reset: resetDescription, register, getValues, formState: { errors },
+    reset: resetDescription, register, handleSubmit, getValues, formState: { errors, isSubmitting },
   } = useForm();
 
-  function onSubmit() {
-    const values = getValues();
+  function onSubmit(values) {
+    // const values = getValues();
     const existTagArray = content.selectedItems.filter((item) => item.value !== item.label);
     const tagArray = existTagArray.map((item) => parseInt(item.value, 10));
     const newTagArray = content.selectedItems.filter((item) => item.value === item.label).map((newItem) => newItem.label);
@@ -93,7 +93,7 @@ export default function NoteUpload({
   }
 
   const contents = [
-    <AddNotes key="1" pdfControl={pdfControl} notaControl={notaControl} gnControl={gnControl} setFile={setFile} files={files} />,
+    <AddNotes key="1" pdfControl={pdfControl} notaControl={notaControl} gnControl={gnControl} setFile={setFile} />,
     <AddDescriptions key="2" errors={errors} register={register} files={files} setContent={setContent} tagLists={tagList} />,
   ];
 
@@ -159,7 +159,7 @@ export default function NoteUpload({
                   Prev
                 </Button>
                 {activeStep === steps.length - 1
-                  ? <Button onClick={() => onSubmit()} isLoading={loading.addNote} variant="pendown-primary">Submit</Button> : (
+                  ? <Button onClick={handleSubmit(onSubmit)} isLoading={isSubmitting} variant="pendown-primary">Submit</Button> : (
                     <Button isDisabled={typeof (files.pdf) === 'undefined'} onClick={nextStep} variant="pendown-primary">
                       Next
                     </Button>
