@@ -75,10 +75,12 @@ export default function NoteUpload({
   const { register, handleSubmit, formState: { errors } } = useForm();
 
   function onSubmit(values) {
+    alert('alert');
     const existTagArray = content.selectedItems.filter((item) => item.value !== item.label);
     const tagArray = existTagArray.map((item) => parseInt(item.value, 10));
     const newTagArray = content.selectedItems.filter((item) => item.value === item.label).map((newItem) => newItem.label);
     dispatch(addNote(config.token, content.title, values.description, values.isTemplate === 'Yes', parseInt(content.courseId, 10), parseInt(values.bean, 10), pdfFile, noteFile, gnoteFile, tagArray, newTagArray, history, onNoteClose()));
+    alert('alert');
   }
 
   const contents = [
