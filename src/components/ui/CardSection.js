@@ -27,13 +27,13 @@ function CardSection({ noteType, handleNoteTypeChange }) {
           <Flex w="full" direction="column" align="flex-end">
             <Select
               defaultValue="Choose Note Type"
-              display={{ base: 'none', md: 'flex' }}
+              display="flex"
               value={noteType}
               focusBorderColor="primary.400"
               _hover={{ borderColor: 'primary.400' }}
               size="xs"
               bg="white"
-              width="12%"
+              width="120px"
               borderColor="black"
               borderWidth="2px"
               borderRadius="pendown"
@@ -49,9 +49,10 @@ function CardSection({ noteType, handleNoteTypeChange }) {
             </Select>
           </Flex>
           <SimpleGrid
-            columns={{ base: 1, md: 2, lg: 3 }}
+            columns={{
+              base: 1, md: 2, lg: 3,
+            }}
             spacing={10}
-      // px={{ base: 4, lg: 8, xl: 12 }}
             py={4}
             pb={10}
             mx="auto"
@@ -79,7 +80,7 @@ function CardSection({ noteType, handleNoteTypeChange }) {
               _hover={{ borderColor: 'primary.400' }}
               size="xs"
               bg="white"
-              width="12%"
+              width="120px"
               borderColor="black"
               borderWidth="2px"
               borderRadius="pendown"
@@ -97,7 +98,6 @@ function CardSection({ noteType, handleNoteTypeChange }) {
           <SimpleGrid
             columns={{ base: 1, md: 2, lg: 3 }}
             spacing={10}
-      // px={{ base: 4, lg: 8, xl: 12 }}
             py={4}
             pb={10}
             mx="auto"
@@ -116,7 +116,7 @@ function CardSection({ noteType, handleNoteTypeChange }) {
 
   function DataTabs({ data }) {
     return (
-      <Tabs isLazy size="lg" width="100%" colorScheme="primary">
+      <Tabs isLazy size="lg" width="100%" colorScheme="primary" borderBottomWidth="2px" borderBottomColor="black">
         <TabList>
           {data.map((tab, index) => (
             <Tab key={tab.label}>{tab.label}</Tab>
@@ -125,7 +125,15 @@ function CardSection({ noteType, handleNoteTypeChange }) {
         <TabPanels>
           {data.map((tab, index) => (
             <TabPanel p={4} key={tab.label}>
-              {tab.content}
+              <Flex
+                w="full"
+                justifyContent="center"
+                alignItems="center"
+                flexDirection="column"
+                px={{ base: 4, lg: 8, xl: 12 }}
+              >
+                {tab.content}
+              </Flex>
             </TabPanel>
           ))}
         </TabPanels>
@@ -135,15 +143,7 @@ function CardSection({ noteType, handleNoteTypeChange }) {
 
   return (
     <>
-      <Flex
-        w="full"
-        justifyContent="center"
-        alignItems="center"
-        flexDirection="column"
-        px={{ base: 4, lg: 8, xl: 12 }}
-      >
-        <DataTabs data={tabData} />
-      </Flex>
+      <DataTabs data={tabData} />
     </>
   );
 }
