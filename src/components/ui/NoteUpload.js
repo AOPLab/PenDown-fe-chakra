@@ -86,10 +86,10 @@ export default function NoteUpload({
     setNoteFile(null);
     setGNoteFile(null);
     reset();
-    // resetGnoteFile();
-    // resetNoteFile();
-    // resetPdfFile();
-    // resetDescription();
+    resetGnoteFile();
+    resetNoteFile();
+    resetPdfFile();
+    resetDescription();
   }
 
   const contents = [
@@ -158,11 +158,12 @@ export default function NoteUpload({
                 >
                   Prev
                 </Button>
-                {activeStep === steps.length - 1 ? <Button onClick={() => onSubmit()} isLoading={loading.addNote} variant="pendown-primary">Submit</Button> : (
-                  <Button isDisabled={typeof (files.pdf) === 'undefined'} onClick={nextStep} variant="pendown-primary">
-                    Next
-                  </Button>
-                )}
+                {activeStep === steps.length - 1
+                  ? <Button onClick={() => onSubmit()} isLoading={loading.addNote} variant="pendown-primary">Submit</Button> : (
+                    <Button isDisabled={typeof (files.pdf) === 'undefined'} onClick={nextStep} variant="pendown-primary">
+                      Next
+                    </Button>
+                  )}
                 {/* <Button onClick={nextStep} variant="pendown-primary">
                   {activeStep === steps.length - 1 ? 'Submit' : 'Next'}
                 </Button> */}
