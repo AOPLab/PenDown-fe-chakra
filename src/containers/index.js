@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
   Switch, Route, useHistory, useLocation,
 } from 'react-router-dom';
-import { Box } from '@chakra-ui/react';
+import { Box, Container } from '@chakra-ui/react';
 // import { makeStyles } from '@material-ui/core';
 // import { makeStyles, Fab } from '@material-ui/core';
 // import { Feedback } from '@material-ui/icons';
@@ -55,11 +55,9 @@ function Index() {
     <>
       <div className="wrapper">
         <Header />
-        <Box pt="16">
+        <Box pt="20">
           <div>
-            <div
-              className="layout-content-container layout-content-container-no-sidebar"
-            >
+            <Container maxW="5xl">
               <div className="layout-content">
                 <Switch>
                   <Route path="/home" component={Home} />
@@ -71,7 +69,7 @@ function Index() {
                   <Route path="/" component={NoMatch} />
                 </Switch>
               </div>
-            </div>
+            </Container>
           </div>
         </Box>
       </div>
