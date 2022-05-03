@@ -283,7 +283,6 @@ export default function AddDescriptions({
           </FormErrorMessage>
         </FormControl>
         <FormControl id="tag" isRequired>
-          {/* <FormLabel fontSize="lg" fontWeight="bold" marginBottom="4" htmlFor="tag">Tags</FormLabel> */}
           <CUIAutoComplete
             label="Choose tags"
             labelStyleProps={{ fontSize: 'lg', fontWeight: 'bold', marginBottom: '0' }}
@@ -308,11 +307,12 @@ export default function AddDescriptions({
           />
         </FormControl>
         <FormControl isInvalid={errors.name} isRequired>
-          <FormLabel fontSize="lg" fontWeight="bold" marginBottom="4" htmlFor="description">Beans required for this note</FormLabel>
+          <FormLabel fontSize="lg" fontWeight="bold" marginTop="-6" marginBottom="4" htmlFor="description">Beans required for this note</FormLabel>
           <Input
             borderWidth="2px"
             borderColor="black"
             borderRadius="pendown"
+            size="lg"
             focusBorderColor="primary.400"
             _hover={{ borderColor: 'primary.400' }}
             id="bean"
