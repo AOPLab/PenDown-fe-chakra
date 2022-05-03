@@ -9,7 +9,6 @@ import theme from './theme';
 import Login from './containers/auth/Login';
 import Register from './containers/auth/Register';
 import Index from './containers';
-import NoMatch from './components/noMatch';
 import store from './store';
 
 function App() {
@@ -29,7 +28,6 @@ function App() {
             <Route path="/login" component={Login} />
             <Route path="/register" component={Register} />
             <Route path="/" component={Index} />
-            <Route component={NoMatch} />
           </Switch>
         </Router>
       </Provider>

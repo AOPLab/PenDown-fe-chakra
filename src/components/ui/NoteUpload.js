@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import {
@@ -19,6 +19,7 @@ import { useForm } from 'react-hook-form';
 import AddNotes from './uploadmodal/AddNotes';
 import AddDescriptions from './uploadmodal/AddDescriptions';
 import { addNote } from '../../actions/note/note';
+import { fetchAllTags } from '../../actions/tag/tag';
 
 const steps = [
   { label: 'Upload notes', icon: FiUpload },
@@ -39,6 +40,7 @@ export default function NoteUpload({
   const history = useHistory();
   const config = useSelector((state) => state.auth);
   const loading = useSelector((state) => state.loading);
+  const tags = useSelector((state) => state.tag);
   const dispatch = useDispatch();
 
   const {
@@ -47,34 +49,16 @@ export default function NoteUpload({
     initialStep: 0,
   });
 
-  const {
-    handleSubmit: pdfHandleSubmit,
-    register: pdfRegister,
-    setError: pdfSetError,
-    control: pdfControl,
-    formState: { errors: pdfErrors, isSubmitting: pdfIsSubmitting },
-  } = useForm();
-
-  const {
-    handleSubmit: notaHandleSubmit,
-    register: notaRegister,
-    setError: notaSetError,
-    control: notaControl,
-    formState: { errors: notaErrors, isSubmitting: notaIsSubmitting },
-  } = useForm();
-
-  const {
-    handleSubmit: gnHandleSubmit,
-    register: gnRegister,
-    setError: gnSetError,
-    control: gnControl,
-    formState: { errors: gnErrors, isSubmitting: gnIsSubmitting },
-  } = useForm();
+  const { control: pdfControl } = useForm();
+  const { control: notaControl } = useForm();
+  const { control: gnControl } = useForm();
 
   const [pdfFile, setPdfFile] = useState(null);
   const [noteFile, setNoteFile] = useState(null);
   const [gnoteFile, setGNoteFile] = useState(null);
   const [content, setContent] = useState(initialContent);
+  const [tagList, setTagList] = useState([]);
+  const [hasInitialized, setHasInitialized] = useState(false);
 
   const setFile = {
     pdf: setPdfFile,
@@ -89,32 +73,39 @@ export default function NoteUpload({
     gnote: gnoteFile,
   };
 
-  // console.log(`PDF file: ${files.pdf}`);
-
-  const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm();
+  const { register, handleSubmit, formState: { errors } } = useForm();
 
   function onSubmit(values) {
-    console.log('hello world');
-    console.log(content);
-    console.log(values);
-    console.log('finish and test api');
-    const tagArray = content.selectedItems.map((item) => parseInt(item.value, 10));
-    dispatch(addNote(config.token, content.title, values.description, values.isTemplate === 'Yes', parseInt(content.courseId, 10), parseInt(values.bean, 10), pdfFile, noteFile, gnoteFile, tagArray, [], history, onNoteClose()));
+    const existTagArray = content.selectedItems.filter((item) => item.value !== item.label);
+    const tagArray = existTagArray.map((item) => parseInt(item.value, 10));
+    const newTagArray = content.selectedItems.filter((item) => item.value === item.label).map((newItem) => newItem.label);
+    dispatch(addNote(config.token, content.title, values.description, values.isTemplate === 'Yes', parseInt(content.courseId, 10), parseInt(values.bean, 10), pdfFile, noteFile, gnoteFile, tagArray, newTagArray, history, onNoteClose()));
+    setHasInitialized(false);
   }
 
   const contents = [
     <AddNotes key="1" pdfControl={pdfControl} notaControl={notaControl} gnControl={gnControl} setFile={setFile} files={files} />,
-    <AddDescriptions key="2" errors={errors} register={register} files={files} setContent={setContent} />,
+    <AddDescriptions key="2" errors={errors} register={register} files={files} setContent={setContent} tagLists={tagList} />,
   ];
 
   const modalSize = useBreakpointValue({ base: 'full', md: 'xl' });
   const modalRadius = useBreakpointValue({ base: 'md', md: 'pendown' });
 
+  useEffect(() => {
+    setTagList(tags.allIds.map((id) => ({ value: id, label: tags.byId[id].name })));
+  }, [tags.allIds, tags.byId]);
+
+  useEffect(() => {
+    if (!hasInitialized) {
+      dispatch(fetchAllTags());
+    }
+    setHasInitialized(true);
+  }, [dispatch, hasInitialized]);
+
   return (
     <Modal
       blockScrollOnMount={false}
       isOpen={isNoteOpen}
-      onClose={onNoteClose}
       finalFocusRef={finalFocusRef}
       scrollBehavior={scrollBehavior}
       size={modalSize}
@@ -160,7 +151,7 @@ export default function NoteUpload({
                 >
                   Prev
                 </Button>
-                {activeStep === steps.length - 1 ? <Button onClick={handleSubmit(onSubmit)} isLoading={loading.addNote} variant="pendown-primary" type="submit">Submit</Button> : (
+                {activeStep === steps.length - 1 ? <Button onClick={handleSubmit(onSubmit)} isLoading={loading.addNote} variant="pendown-primary">Submit</Button> : (
                   <Button isDisabled={typeof (files.pdf) === 'undefined'} onClick={nextStep} variant="pendown-primary">
                     Next
                   </Button>
@@ -172,7 +163,6 @@ export default function NoteUpload({
             )}
           </Flex>
         </ModalBody>
-
       </ModalContent>
     </Modal>
   );

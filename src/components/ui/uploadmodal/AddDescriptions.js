@@ -1,6 +1,4 @@
-/* eslint-disable react/jsx-no-bind */
 /* eslint-disable react/jsx-props-no-spreading */
-/* eslint-disable react/no-array-index-key */
 import React, { useRef, useState, useEffect } from 'react';
 import { Document, Page } from 'react-pdf/dist/esm/entry.webpack';
 import {
@@ -30,6 +28,7 @@ import {
 } from 'react-icons/fi';
 import Editable from '../../util/Editable';
 import CardBadge from '../cards/CardBadge';
+
 // using react hook form without control this time
 
 // FiEye, FiHeart, FiBookmark
@@ -59,15 +58,15 @@ const courses = [
   { id: '3', name: 'Software Project Management', no: 'IM5028' },
 ];
 
-const tagList = [
-  { value: '1', label: 'system' },
-  { value: '2', label: 'analysis' },
-  { value: '15', label: 'software' },
-  { value: '16', label: 'management' },
-];
+// const tagList = [
+//   { value: '1', label: 'system' },
+//   { value: '2', label: 'analysis' },
+//   { value: '15', label: 'software' },
+//   { value: '16', label: 'management' },
+// ];
 
 export default function AddNotes({
-  errors, register, files, setContent,
+  errors, register, files, setContent, tagLists,
 }) {
   const [fileName, setFileName] = useState(files.pdf.name.split('.').slice(0, -1).join('.'));
   const inputRef = useRef();
@@ -77,7 +76,7 @@ export default function AddNotes({
   const [schoolId, setSchoolId] = useState('');
   const [courseId, setCourseId] = useState('');
 
-  const [pickerItems, setPickerItems] = useState(tagList);
+  const [pickerItems, setPickerItems] = useState(tagLists);
   const [selectedItems, setSelectedItems] = useState([]);
 
   useEffect(() => {
@@ -100,8 +99,6 @@ export default function AddNotes({
       setSelectedItems(slcItems);
     }
   };
-
-  // console.log(selectedItems);
 
   return (
     <>
@@ -218,9 +215,9 @@ export default function AddNotes({
                     </InputRightElement>
                   </InputGroup>
                   <AutoCompleteList>
-                    {universities.map(({ id, name }, cid) => (
+                    {universities.map(({ id, name }) => (
                       <AutoCompleteItem
-                        key={`option-${cid}`}
+                        key={`option-${id}`}
                         value={id}
                         label={name}
                       >
@@ -254,9 +251,9 @@ export default function AddNotes({
                     </InputRightElement>
                   </InputGroup>
                   <AutoCompleteList>
-                    {courses.map(({ id, name, no }, cid) => (
+                    {courses.map(({ id, name, no }) => (
                       <AutoCompleteItem
-                        key={`option-${cid}`}
+                        key={`option-${id}`}
                         value={id}
                         label={`${no} ${name}`}
                       >

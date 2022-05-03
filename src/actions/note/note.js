@@ -61,8 +61,8 @@ const addNote = (
     Promise.all(new_tag_id_arr.map((item) => agent.post(`/api/notes/${note_id}/tags/${item}`, {}, config)));
     Promise.all(tag_id_arr.map((item) => agent.post(`/api/notes/${note_id}/tags/${item}`, {}, config)));
     dispatch({ type: noteConstants.ADD_NOTE_SUCCESS });
-    onClose();
     history.push(`/notes/${note_id}`);
+    onClose();
   } catch (error) {
     dispatch({
       type: noteConstants.ADD_NOTE_FAIL,
