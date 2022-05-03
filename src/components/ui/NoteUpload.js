@@ -58,7 +58,6 @@ export default function NoteUpload({
   const [gnoteFile, setGNoteFile] = useState(null);
   const [content, setContent] = useState(initialContent);
   const [tagList, setTagList] = useState([]);
-  const [hasInitialized, setHasInitialized] = useState(false);
 
   const setFile = {
     pdf: setPdfFile,
@@ -80,7 +79,6 @@ export default function NoteUpload({
     const tagArray = existTagArray.map((item) => parseInt(item.value, 10));
     const newTagArray = content.selectedItems.filter((item) => item.value === item.label).map((newItem) => newItem.label);
     dispatch(addNote(config.token, content.title, values.description, values.isTemplate === 'Yes', parseInt(content.courseId, 10), parseInt(values.bean, 10), pdfFile, noteFile, gnoteFile, tagArray, newTagArray, history, onNoteClose()));
-    setHasInitialized(false);
   }
 
   const contents = [
@@ -96,16 +94,14 @@ export default function NoteUpload({
   }, [tags.allIds, tags.byId]);
 
   useEffect(() => {
-    if (!hasInitialized) {
-      dispatch(fetchAllTags());
-    }
-    setHasInitialized(true);
-  }, [dispatch, hasInitialized]);
+    dispatch(fetchAllTags());
+  }, [dispatch]);
 
   return (
     <Modal
       blockScrollOnMount={false}
       isOpen={isNoteOpen}
+      onClose={onNoteClose}
       finalFocusRef={finalFocusRef}
       scrollBehavior={scrollBehavior}
       size={modalSize}
