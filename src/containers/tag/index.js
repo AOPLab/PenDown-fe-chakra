@@ -25,7 +25,7 @@ function Tag() {
 
   return (
     <>
-      <Flex direction="column" gap={10}>
+      <Flex direction="column" gap={10} pt={4}>
         <Flex direction="column" align="left" gap={4} py={4}>
           <Text color="gray.600" fontWeight={600} fontSize="md">tags/</Text>
           <Flex minWidth="60%" width="60%" alignItems="center" gap="2" flexWrap="wrap">
