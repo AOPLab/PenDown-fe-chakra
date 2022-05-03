@@ -39,7 +39,7 @@ export default function NoteUpload({
 }) {
   const history = useHistory();
   const config = useSelector((state) => state.auth);
-  const loading = useSelector((state) => state.loading);
+  // const loading = useSelector((state) => state.loading);
   const tags = useSelector((state) => state.tag);
   const dispatch = useDispatch();
 
@@ -63,7 +63,6 @@ export default function NoteUpload({
     pdf: setPdfFile,
     nota: setNoteFile,
     gnote: setGNoteFile,
-
   };
 
   const files = {
@@ -73,23 +72,23 @@ export default function NoteUpload({
   };
 
   const {
-    reset: resetDescription, register, handleSubmit, getValues, formState: { errors, isSubmitting },
+    reset: resetDescription, register, handleSubmit, formState: { errors, isSubmitting },
   } = useForm();
 
   const onSubmit = async (values) => {
-    // const values = getValues();
     const existTagArray = content.selectedItems.filter((item) => item.value !== item.label);
     const tagArray = existTagArray.map((item) => parseInt(item.value, 10));
     const newTagArray = content.selectedItems.filter((item) => item.value === item.label).map((newItem) => newItem.label);
-    await dispatch(addNote(config.token, content.title, values.description, values.isTemplate === 'Yes', parseInt(content.courseId, 10), parseInt(values.bean, 10), pdfFile, noteFile, gnoteFile, tagArray, newTagArray, history, onNoteClose()));
+    await dispatch(addNote(config.token, content.title, values.description, values.isTemplate === 'Yes', parseInt(content.courseId, 10), parseInt(values.bean, 10), pdfFile, noteFile, gnoteFile, tagArray, newTagArray, history));
+    reset();
+    resetGnoteFile({ 'GoodNotes File': null });
+    resetNoteFile({ 'Notability File': null });
+    resetPdfFile({ 'PDF File': null });
+    resetDescription();
     setPdfFile(null);
     setNoteFile(null);
     setGNoteFile(null);
-    reset();
-    resetGnoteFile();
-    resetNoteFile();
-    resetPdfFile();
-    resetDescription();
+    onNoteClose();
   };
 
   const contents = [
