@@ -31,7 +31,7 @@ function CardSection({ noteType, handleNoteTypeChange }) {
               value={noteType}
               focusBorderColor="primary.400"
               _hover={{ borderColor: 'primary.400' }}
-              size="xs"
+              size="sm"
               bg="white"
               width="120px"
               borderColor="black"
@@ -78,7 +78,7 @@ function CardSection({ noteType, handleNoteTypeChange }) {
               value={noteType}
               focusBorderColor="primary.400"
               _hover={{ borderColor: 'primary.400' }}
-              size="xs"
+              size="sm"
               bg="white"
               width="120px"
               borderColor="black"
