@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import {
   Modal,
   ModalOverlay,
@@ -16,15 +18,29 @@ import { FiUpload, FiEdit3 } from 'react-icons/fi';
 import { useForm } from 'react-hook-form';
 import AddNotes from './uploadmodal/AddNotes';
 import AddDescriptions from './uploadmodal/AddDescriptions';
+import { addNote } from '../../actions/note/note';
 
 const steps = [
   { label: 'Upload notes', icon: FiUpload },
   { label: 'Add descriptions', icon: FiEdit3 },
 ];
 
+const initialContent = {
+  courseId: null,
+  schoolId: null,
+  title: null,
+  courseOption: null,
+  selectedItems: [],
+};
+
 export default function NoteUpload({
   isNoteOpen, onNoteClose, scrollBehavior, finalFocusRef,
 }) {
+  const history = useHistory();
+  const config = useSelector((state) => state.auth);
+  const loading = useSelector((state) => state.loading);
+  const dispatch = useDispatch();
+
   const {
     nextStep, prevStep, reset, activeStep,
   } = useSteps({
@@ -58,6 +74,7 @@ export default function NoteUpload({
   const [pdfFile, setPdfFile] = useState(null);
   const [noteFile, setNoteFile] = useState(null);
   const [gnoteFile, setGNoteFile] = useState(null);
+  const [content, setContent] = useState(initialContent);
 
   const setFile = {
     pdf: setPdfFile,
@@ -77,21 +94,17 @@ export default function NoteUpload({
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm();
 
   function onSubmit(values) {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        console.log('hello', files);
-        console.log(register);
-        alert(JSON.stringify(values, null, 2));
-        resolve();
-        reset();
-        onNoteClose();
-      }, 3000);
-    });
+    console.log('hello world');
+    console.log(content);
+    console.log(values);
+    console.log('finish and test api');
+    const tagArray = content.selectedItems.map((item) => parseInt(item.value, 10));
+    dispatch(addNote(config.token, content.title, values.description, values.isTemplate === 'Yes', parseInt(content.courseId, 10), parseInt(values.bean, 10), pdfFile, noteFile, gnoteFile, tagArray, [], history, onNoteClose()));
   }
 
   const contents = [
     <AddNotes key="1" pdfControl={pdfControl} notaControl={notaControl} gnControl={gnControl} setFile={setFile} files={files} />,
-    <AddDescriptions key="2" handleSubmit={handleSubmit} errors={errors} onClose={onNoteClose} isSubmitting={isSubmitting} register={register} files={files} />,
+    <AddDescriptions key="2" errors={errors} register={register} files={files} setContent={setContent} />,
   ];
 
   const modalSize = useBreakpointValue({ base: 'full', md: 'xl' });
@@ -147,7 +160,7 @@ export default function NoteUpload({
                 >
                   Prev
                 </Button>
-                {activeStep === steps.length - 1 ? <Button onClick={handleSubmit(onSubmit)} isLoading={isSubmitting} variant="pendown-primary" type="submit">Submit</Button> : (
+                {activeStep === steps.length - 1 ? <Button onClick={handleSubmit(onSubmit)} isLoading={loading.addNote} variant="pendown-primary" type="submit">Submit</Button> : (
                   <Button isDisabled={typeof (files.pdf) === 'undefined'} onClick={nextStep} variant="pendown-primary">
                     Next
                   </Button>

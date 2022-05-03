@@ -1,11 +1,11 @@
 import { noteConstants } from '../../../actions/note/constant';
 
 const initialState = {
-  addNote: null,
-  searchNote: null,
+  addNote: false,
+  searchNote: false,
 };
 
-export default function user(state = initialState, action) {
+export default function note(state = initialState, action) {
   switch (action.type) {
     case noteConstants.ADD_NOTE_START:
       return {
