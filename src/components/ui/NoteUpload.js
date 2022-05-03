@@ -49,9 +49,9 @@ export default function NoteUpload({
     initialStep: 0,
   });
 
-  const { control: pdfControl } = useForm();
-  const { control: notaControl } = useForm();
-  const { control: gnControl } = useForm();
+  const { control: pdfControl, reset: resetPdfFile } = useForm();
+  const { control: notaControl, reset: resetNoteFile } = useForm();
+  const { control: gnControl, reset: resetGnoteFile } = useForm();
 
   const [pdfFile, setPdfFile] = useState(null);
   const [noteFile, setNoteFile] = useState(null);
@@ -72,15 +72,24 @@ export default function NoteUpload({
     gnote: gnoteFile,
   };
 
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const {
+    reset: resetDescription, register, getValues, formState: { errors },
+  } = useForm();
 
-  function onSubmit(values) {
-    alert('alert');
+  function onSubmit() {
+    const values = getValues();
     const existTagArray = content.selectedItems.filter((item) => item.value !== item.label);
     const tagArray = existTagArray.map((item) => parseInt(item.value, 10));
     const newTagArray = content.selectedItems.filter((item) => item.value === item.label).map((newItem) => newItem.label);
     dispatch(addNote(config.token, content.title, values.description, values.isTemplate === 'Yes', parseInt(content.courseId, 10), parseInt(values.bean, 10), pdfFile, noteFile, gnoteFile, tagArray, newTagArray, history, onNoteClose()));
-    alert('alert');
+    setPdfFile(null);
+    setNoteFile(null);
+    setGNoteFile(null);
+    reset();
+    // resetGnoteFile();
+    // resetNoteFile();
+    // resetPdfFile();
+    // resetDescription();
   }
 
   const contents = [
@@ -149,7 +158,7 @@ export default function NoteUpload({
                 >
                   Prev
                 </Button>
-                {activeStep === steps.length - 1 ? <Button onClick={handleSubmit(onSubmit)} isLoading={loading.addNote} variant="pendown-primary">Submit</Button> : (
+                {activeStep === steps.length - 1 ? <Button onClick={() => onSubmit()} isLoading={loading.addNote} variant="pendown-primary">Submit</Button> : (
                   <Button isDisabled={typeof (files.pdf) === 'undefined'} onClick={nextStep} variant="pendown-primary">
                     Next
                   </Button>
