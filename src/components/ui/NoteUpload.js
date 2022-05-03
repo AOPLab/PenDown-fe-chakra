@@ -76,12 +76,12 @@ export default function NoteUpload({
     reset: resetDescription, register, handleSubmit, getValues, formState: { errors, isSubmitting },
   } = useForm();
 
-  function onSubmit(values) {
+  const onSubmit = async (values) => {
     // const values = getValues();
     const existTagArray = content.selectedItems.filter((item) => item.value !== item.label);
     const tagArray = existTagArray.map((item) => parseInt(item.value, 10));
     const newTagArray = content.selectedItems.filter((item) => item.value === item.label).map((newItem) => newItem.label);
-    dispatch(addNote(config.token, content.title, values.description, values.isTemplate === 'Yes', parseInt(content.courseId, 10), parseInt(values.bean, 10), pdfFile, noteFile, gnoteFile, tagArray, newTagArray, history, onNoteClose()));
+    await dispatch(addNote(config.token, content.title, values.description, values.isTemplate === 'Yes', parseInt(content.courseId, 10), parseInt(values.bean, 10), pdfFile, noteFile, gnoteFile, tagArray, newTagArray, history, onNoteClose()));
     setPdfFile(null);
     setNoteFile(null);
     setGNoteFile(null);
@@ -90,7 +90,7 @@ export default function NoteUpload({
     resetNoteFile();
     resetPdfFile();
     resetDescription();
-  }
+  };
 
   const contents = [
     <AddNotes key="1" pdfControl={pdfControl} notaControl={notaControl} gnControl={gnControl} setFile={setFile} />,
