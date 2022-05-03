@@ -10,20 +10,20 @@ import '@fontsource/montserrat/900.css';
 
 import { ColorModeScript } from '@chakra-ui/react';
 import React, { StrictMode } from 'react';
-import { createRoot } from 'react-dom/client';
+import ReactDOM from 'react-dom';
 import { CookiesProvider } from 'react-cookie';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import * as serviceWorker from './serviceWorker';
 
-const root = createRoot(document.getElementById('root'));
-root.render(
+ReactDOM.render(
   <StrictMode>
     <ColorModeScript />
     <CookiesProvider>
       <App />
     </CookiesProvider>
   </StrictMode>,
+  document.getElementById('root'),
 );
 
 // If you want your app to work offline and load faster, you can change
