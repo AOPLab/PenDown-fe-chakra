@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import {
   useToast, Button, Box, Flex,
   FormControl, FormLabel, Input, Stack, Icon,
@@ -8,17 +9,57 @@ import {
   FiUser, FiAtSign, FiMail, FiEdit2,
 } from 'react-icons/fi';
 
-function ProfileSetting({ onSubmit }) {
-  // const history = useHistory();
-  // const location = useLocation();
-  // const config = useSelector((state) => state.auth);
-  // const user = useSelector((state) => state.user);
-  // const dispatch = useDispatch();
-  const [username, setUsername] = useState('icheft');
-  const [fullName, setFullName] = useState('Brian L. Chen');
-  const [email, setEmail] = useState('pendown@example.com');
+import { editAccount } from '../../actions/user/user';
+
+function ProfileSetting() {
+  const config = useSelector((state) => state.auth);
+  const user = useSelector((state) => state.user);
+  const error = useSelector((state) => state.error.user.user);
+  const dispatch = useDispatch();
+
+  const [editError, setEditError] = useState(null);
+  const [username, setUsername] = useState('');
+  const [fullName, setFullName] = useState('');
+  const [email, setEmail] = useState('');
   const [bio, setBio] = useState('');
   const errorToast = useToast();
+
+  const onSubmit = () => {
+    dispatch(editAccount(config.token, username, fullName, email, bio));
+  };
+
+  const onCancel = () => {
+    setUsername(user.username ? user.username : '');
+    setFullName(user.fullName ? user.fullName : '');
+    setEmail(user.email ? user.email : '');
+    setBio(user.description ? user.description : '');
+  };
+
+  useEffect(() => {
+    setUsername(user.username ? user.username : '');
+    setFullName(user.fullName ? user.fullName : '');
+    setEmail(user.email ? user.email : '');
+    setBio(user.description ? user.description : '');
+  }, [user.description, user.email, user.fullName, user.username]);
+
+  useEffect(() => {
+    if (error.editAccount) {
+      setEditError('Username Exists');
+    }
+  }, [error.editAccount, errorToast]);
+
+  useEffect(() => {
+    if (editError) {
+      errorToast({
+        title: 'Edit Account',
+        description: editError,
+        status: 'error',
+        duration: 2000,
+        isClosable: true,
+      });
+      setEditError(null);
+    }
+  }, [editError, errorToast]);
 
   return (
     <>
@@ -50,7 +91,7 @@ function ProfileSetting({ onSubmit }) {
                     label="full-name"
                     placeholder="Full name"
                     value={fullName}
-                    onChange={(e) => setFullName(e.value)}
+                    onChange={(e) => setFullName(e.target.value)}
                     size="lg"
                     borderColor="black"
                     focusBorderColor="primary.400"
@@ -82,7 +123,7 @@ function ProfileSetting({ onSubmit }) {
                     label="username"
                     placeholder="Username"
                     value={username}
-                    onChange={(e) => setUsername(e.value)}
+                    onChange={(e) => setUsername(e.target.value)}
                     size="lg"
                     borderColor="black"
                     focusBorderColor="primary.400"
@@ -114,7 +155,7 @@ function ProfileSetting({ onSubmit }) {
                     label="email"
                     placeholder="Email"
                     value={email}
-                    onChange={(e) => setEmail(e.value)}
+                    onChange={(e) => setEmail(e.target.value)}
                     size="lg"
                     borderColor="black"
                     focusBorderColor="primary.400"
@@ -152,7 +193,7 @@ function ProfileSetting({ onSubmit }) {
                     label="bio"
                     placeholder="Describe yourself"
                     value={bio}
-                    onChange={(e) => setBio(e.value)}
+                    onChange={(e) => setBio(e.target.value)}
                     size="lg"
                     borderColor="black"
                     focusBorderColor="primary.400"
@@ -167,13 +208,14 @@ function ProfileSetting({ onSubmit }) {
             <Button
               variant="pendown-primary"
               size="lg"
-              onSubmit={onSubmit}
+              onClick={onSubmit}
             >
               Save
             </Button>
             <Button
               variant="pendown"
               size="lg"
+              onClick={onCancel}
             >
               Cancel
             </Button>

@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import {
   useToast, Button, Box, Flex,
   FormControl, FormLabel, Input, Stack, Icon,
@@ -10,42 +11,19 @@ import {
 } from '@chakra-ui/react';
 import { FiLock, FiCheck } from 'react-icons/fi';
 import { HiEye, HiEyeOff } from 'react-icons/hi';
+import { editPassword } from '../../actions/user/user';
 
-function PasswordSetting({ onSubmit }) {
-  // const history = useHistory();
-  // const location = useLocation();
-  // const config = useSelector((state) => state.auth);
-  // const user = useSelector((state) => state.user);
-  // const dispatch = useDispatch();
-  const [password, setPassword] = useState('');
-  const [errors, setErrors] = useState({
-    username: false,
-    password: false,
-  });
-  const [errorTexts, setErrorTexts] = useState({
-    username: '',
-    password: '',
-  });
+function PasswordSetting() {
+  const config = useSelector((state) => state.auth);
+  const user = useSelector((state) => state.user);
+  const error = useSelector((state) => state.error.user.user);
+  const dispatch = useDispatch();
+  const [oldPassword, setOldPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [matchError, setMatchError] = useState(false);
+  const [editError, setEditError] = useState(null);
   const errorToast = useToast();
-
-  const handlePasswordChange = (e) => {
-    if (e.target.value !== '') {
-      if (errors.password && errorTexts.password === 'Incorrect username or password') {
-        setErrors({
-          username: false,
-          password: false,
-        });
-        setErrorTexts({
-          username: '',
-          password: '',
-        });
-      } else {
-        setErrors((ori) => ({ ...ori, password: false }));
-        setErrorTexts((ori) => ({ ...ori, password: '' }));
-      }
-    }
-    setPassword(e.target.value);
-  };
 
   const { isOpen, onToggle } = useDisclosure();
   const inputRef = React.useRef<HTMLInputElement>(null);
@@ -56,6 +34,57 @@ function PasswordSetting({ onSubmit }) {
       inputRef.current.focus({ preventScroll: true });
     }
   };
+
+  const onCancel = () => {
+    setOldPassword('');
+    setNewPassword('');
+    setConfirmPassword('');
+  };
+
+  const onSubmit = () => {
+    if (newPassword !== confirmPassword) {
+      setMatchError(true);
+      return;
+    }
+    dispatch(editPassword(config.token, user.id, oldPassword, newPassword));
+  };
+
+  useEffect(() => {
+    if (newPassword === confirmPassword) {
+      setMatchError(false);
+    }
+  }, [confirmPassword, newPassword]);
+
+  useEffect(() => {
+    if (matchError) {
+      errorToast({
+        title: 'Edit Password',
+        description: 'Password Not Match',
+        status: 'error',
+        duration: 2000,
+        isClosable: true,
+      });
+    }
+  }, [errorToast, matchError]);
+
+  useEffect(() => {
+    if (error.editPassword) {
+      setEditError(true);
+    }
+  }, [error.editPassword]);
+
+  useEffect(() => {
+    if (editError) {
+      errorToast({
+        title: 'Edit Password',
+        description: editError,
+        status: 'error',
+        duration: 2000,
+        isClosable: true,
+      });
+      setEditError(null);
+    }
+  }, [editError, errorToast]);
 
   return (
     <>
@@ -82,21 +111,19 @@ function PasswordSetting({ onSubmit }) {
                   </FormLabel>
                   <InputGroup>
                     <Input
-                      id="login-password"
+                      id="login-password1"
                       type={isOpen ? 'text' : 'password'}
                       _hover={{ borderColor: 'primary.400' }}
                       label="Password"
-                      value={password}
-                      onChange={(e) => handlePasswordChange(e)}
+                      value={oldPassword}
+                      onChange={(e) => setOldPassword(e.target.value)}
                       focusBorderColor="primary.400"
                       borderRadius="pendown"
                       borderColor="black"
                       borderWidth="2px"
-                      error={errors.password}
                       placeholder="Password"
                       size="lg"
                       required
-                      helperText={errorTexts.password}
                     />
                     <InputRightElement>
                       <IconButton
@@ -136,21 +163,21 @@ function PasswordSetting({ onSubmit }) {
                   </FormLabel>
                   <InputGroup>
                     <Input
-                      id="login-password"
+                      id="login-password2"
                       type={isOpen ? 'text' : 'password'}
                       _hover={{ borderColor: 'primary.400' }}
                       label="Password"
-                      value={password}
-                      onChange={(e) => handlePasswordChange(e)}
+                      value={newPassword}
+                      onChange={(e) => setNewPassword(e.target.value)}
                       focusBorderColor="primary.400"
                       borderRadius="pendown"
                       borderColor="black"
                       borderWidth="2px"
-                      error={errors.password}
                       placeholder="Password"
                       size="lg"
                       required
-                      helperText={errorTexts.password}
+                      isInvalid={matchError}
+                      errorBorderColor="primary.400"
                     />
                     <InputRightElement>
                       <IconButton
@@ -190,21 +217,21 @@ function PasswordSetting({ onSubmit }) {
                   </FormLabel>
                   <InputGroup>
                     <Input
-                      id="login-password"
+                      id="login-password3"
                       type={isOpen ? 'text' : 'password'}
                       _hover={{ borderColor: 'primary.400' }}
                       label="Password"
-                      value={password}
-                      onChange={(e) => handlePasswordChange(e)}
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
                       focusBorderColor="primary.400"
                       borderRadius="pendown"
                       borderColor="black"
                       borderWidth="2px"
-                      error={errors.password}
                       placeholder="Password"
                       size="lg"
                       required
-                      helperText={errorTexts.password}
+                      isInvalid={matchError}
+                      errorBorderColor="primary.400"
                     />
                     <InputRightElement>
                       <IconButton
@@ -239,6 +266,7 @@ function PasswordSetting({ onSubmit }) {
             <Button
               variant="pendown"
               size="lg"
+              onClick={onCancel}
             >
               Cancel
             </Button>
