@@ -22,6 +22,7 @@ const addNote = (
     },
   };
   dispatch({ type: noteConstants.ADD_NOTE_START });
+  let note_id;
   try {
     const res = await agent.post('/api/notes', {
       title,
@@ -30,9 +31,14 @@ const addNote = (
       course_id,
       bean,
     }, config);
-
-    const { note_id } = res.data;
-
+    note_id = res.data.note_id;
+  } catch (error) {
+    dispatch({
+      type: noteConstants.ADD_NOTE_FAIL,
+      error,
+    });
+  }
+  try {
     const fileconfig = {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -62,6 +68,7 @@ const addNote = (
     dispatch({ type: noteConstants.ADD_NOTE_SUCCESS });
     history.push(`/note/${note_id}`);
   } catch (error) {
+    await agent.delete(`/api/notes/${note_id}`, config);
     dispatch({
       type: noteConstants.ADD_NOTE_FAIL,
       error,
