@@ -1,26 +1,38 @@
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import {
   Tab, Tabs, TabList, TabPanels, TabPanel, Box,
 } from '@chakra-ui/react';
-
-import React from 'react';
 import ProfileSetting from '../../components/account/ProfileSetting';
 import PasswordSetting from '../../components/account/PasswordSetting';
 
 function AccountSetting() {
-  const settingPages = [
+  const user = useSelector((state) => state.user);
+  const [pages, setPages] = useState([
     {
       label: 'Profile',
       content: <ProfileSetting />,
     },
-    {
-      label: 'Password',
-      content: <PasswordSetting />,
-    },
-  ];
+  ]);
+
+  useEffect(() => {
+    if (user.isGoogle === false) {
+      setPages([
+        {
+          label: 'Profile',
+          content: <ProfileSetting />,
+        },
+        {
+          label: 'Password',
+          content: <PasswordSetting />,
+        },
+      ]);
+    }
+  }, [user.isGoogle]);
 
   function SettingsTab({ page }) {
     return (
-      <Tabs isLazy size="lg" width="100%" colorScheme="primary" defaultIndex={1}>
+      <Tabs isLazy size="lg" width="100%" colorScheme="primary" defaultIndex={0}>
         <TabList borderBottomWidth="2px" borderBottomColor="black">
           {page.map((tab) => (
             <Tab key={tab.label}>{tab.label}</Tab>
@@ -40,7 +52,7 @@ function AccountSetting() {
   return (
     <>
       <Box px={4} py={8}>
-        <SettingsTab page={settingPages} />
+        <SettingsTab page={pages} />
       </Box>
     </>
 

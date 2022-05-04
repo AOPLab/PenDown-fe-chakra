@@ -38,7 +38,7 @@ const initialState = {
     goodnote: {},
     goodnoteTotalCnt: null,
   },
-  isGoogle: false,
+  isGoogle: true,
   hasPassword: true,
 };
 
