@@ -6,7 +6,7 @@ const initialState = {
   browseNotesByTag: null,
 };
 
-export default function user(state = initialState, action) {
+export default function note(state = initialState, action) {
   switch (action.type) {
     case noteConstants.ADD_NOTE_SUCCESS: {
       return {

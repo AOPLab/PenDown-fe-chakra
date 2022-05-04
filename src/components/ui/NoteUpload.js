@@ -12,6 +12,7 @@ import {
   Flex,
   Heading,
   useBreakpointValue,
+  useToast,
 } from '@chakra-ui/react';
 import { Step, Steps, useSteps } from 'chakra-ui-steps';
 import { FiUpload, FiEdit3 } from 'react-icons/fi';
@@ -39,8 +40,10 @@ export default function NoteUpload({
 }) {
   const history = useHistory();
   const config = useSelector((state) => state.auth);
-  // const loading = useSelector((state) => state.loading);
+  const loading = useSelector((state) => state.loading.note.note);
+  const error = useSelector((state) => state.error.note);
   const tags = useSelector((state) => state.tag);
+  const errorToast = useToast();
   const dispatch = useDispatch();
 
   const {
@@ -58,6 +61,7 @@ export default function NoteUpload({
   const [gnoteFile, setGNoteFile] = useState(null);
   const [content, setContent] = useState(initialContent);
   const [tagList, setTagList] = useState([]);
+  const [submitDone, setSubmitDone] = useState(false);
 
   const setFile = {
     pdf: setPdfFile,
@@ -72,23 +76,26 @@ export default function NoteUpload({
   };
 
   const {
-    reset: resetDescription, register, handleSubmit, formState: { errors, isSubmitting },
+    reset: resetDescription, register, handleSubmit, formState: { errors, isSubmitting }, setError,
   } = useForm();
 
   const onSubmit = async (values) => {
+    if (!Number.isInteger(Number(values.bean))) {
+      setError('bean', { type: 'focus', message: 'Not Integer!' }, { shouldFocus: true });
+      errorToast({
+        title: 'Bean',
+        description: 'Not Integer!',
+        status: 'error',
+        duration: 2000,
+        isClosable: true,
+      });
+      return;
+    }
     const existTagArray = content.selectedItems.filter((item) => item.value !== item.label);
     const tagArray = existTagArray.map((item) => parseInt(item.value, 10));
     const newTagArray = content.selectedItems.filter((item) => item.value === item.label).map((newItem) => newItem.label);
     await dispatch(addNote(config.token, content.title, values.description, values.isTemplate === 'Yes', parseInt(content.courseId, 10), parseInt(values.bean, 10), pdfFile, noteFile, gnoteFile, tagArray, newTagArray, history));
-    reset();
-    resetGnoteFile({ 'GoodNotes File': null });
-    resetNoteFile({ 'Notability File': null });
-    resetPdfFile({ 'PDF File': null });
-    resetDescription();
-    setPdfFile(null);
-    setNoteFile(null);
-    setGNoteFile(null);
-    onNoteClose();
+    setSubmitDone(true);
   };
 
   const contents = [
@@ -106,6 +113,31 @@ export default function NoteUpload({
   useEffect(() => {
     dispatch(fetchAllTags());
   }, [dispatch]);
+
+  useEffect(() => {
+    if (submitDone === true && loading.addNote === false) {
+      if (error.addNote) {
+        errorToast({
+          title: 'Add Note Fail',
+          description: error.addNote,
+          status: 'error',
+          duration: 3000,
+          isClosable: true,
+        });
+      } else {
+        reset();
+        resetGnoteFile({ 'GoodNotes File': null });
+        resetNoteFile({ 'Notability File': null });
+        resetPdfFile({ 'PDF File': null });
+        resetDescription();
+        setPdfFile(null);
+        setNoteFile(null);
+        setGNoteFile(null);
+        onNoteClose();
+      }
+      setSubmitDone(false);
+    }
+  }, [error, error.addNote, errorToast, loading, loading.addNote, onNoteClose, reset, resetDescription, resetGnoteFile, resetNoteFile, resetPdfFile, submitDone]);
 
   return (
     <Modal
