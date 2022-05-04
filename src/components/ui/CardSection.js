@@ -116,8 +116,8 @@ function CardSection({ noteType, handleNoteTypeChange }) {
 
   function DataTabs({ data }) {
     return (
-      <Tabs isLazy size="lg" width="100%" colorScheme="primary" borderBottomWidth="2px" borderBottomColor="black">
-        <TabList>
+      <Tabs isLazy size="lg" width="100%" colorScheme="primary">
+        <TabList borderBottomWidth="2px" borderBottomColor="black">
           {data.map((tab, index) => (
             <Tab key={tab.label}>{tab.label}</Tab>
           ))}
