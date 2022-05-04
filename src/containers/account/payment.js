@@ -1,3 +1,4 @@
+/* eslint-disable no-sparse-arrays */
 import React, { useState } from 'react';
 import {
   Heading,
@@ -10,10 +11,13 @@ import {
   Text,
   Flex,
   Stack,
-  Button,
+  Box,
+  chakra,
+  SimpleGrid,
 } from '@chakra-ui/react';
 
 import CustomIcon from '../../components/ui/icon/index';
+import PaymentCard from '../../components/ui/cards/PaymentCard';
 
 function Payment() {
   // const history = useHistory();
@@ -22,6 +26,41 @@ function Payment() {
   // const user = useSelector((state) => state.user);
   // const dispatch = useDispatch();
   const [frequency, setFrequency] = useState('month');
+
+  const featureList = {
+    basic: [
+      'Email APIs, SMTP Relay, and Webhooks',
+      'Suppression Management',
+      'Email Tracking and Analytics',
+      '99.99% Guaranteed Uptime SLA',
+    ],
+  };
+
+  const Feature = (props) => (
+    <Flex align="center">
+      <Flex shrink={0}>
+        <Icon
+          boxSize={5}
+          mt={1}
+          mr={2}
+          color={useColorModeValue('brand.500', 'brand.300')}
+          viewBox="0 0 20 20"
+          fill="currentColor"
+        >
+          <path
+            fillRule="evenodd"
+            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+            clipRule="evenodd"
+          />
+        </Icon>
+      </Flex>
+      <Box ml={4}>
+        <chakra.span mt={2} color={useColorModeValue('gray.700', 'gray.400')}>
+          {props.children}
+        </chakra.span>
+      </Box>
+    </Flex>
+  );
 
   return (
     <>
@@ -54,38 +93,29 @@ function Payment() {
         <Flex direction="column" gap={8} pb={8}>
           <Heading fontSize="3xl">Tiers</Heading>
           {/* content */}
-          <Flex justify="center" mx={['auto', 0]} mb={-2}>
-            <Stack
-              direction="row"
-              justify="space-between"
-              // p="2"
-              textAlign="center"
-              rounded="pendown"
-              bg={useColorModeValue('gray.100', 'gray.500')}
-              border="2px solid black"
-            >
-              <Button
-                // colorScheme="brand"
-                variant={frequency === 'month' ? 'pendown-primary' : 'pendown'}
-                onClick={() => setFrequency('month')}
-                px={6}
-                border="hidden"
-                _hover={{ shadow: 'none' }}
-              >
-                Popular
-              </Button>
-              <Button
-                // colorScheme="brand"
-                variant={frequency === 'year' ? 'pendown-primary' : 'pendown'}
-                onClick={() => setFrequency('year')}
-                px={6}
-                border="hidden"
-                _hover={{ shadow: 'none' }}
-              >
-                Recent
-              </Button>
-            </Stack>
-          </Flex>
+          <SimpleGrid columns={[1, , , 3]} gap={[16, 8]}>
+            <PaymentCard
+              tierName="Basic"
+              tierPrice="0"
+              features={featureList.basic}
+              tierStatus="Subscribed"
+              bgColor="red.500"
+            />
+            <PaymentCard
+              tierName="VIP"
+              tierPrice="15"
+              features={featureList.basic}
+              tierStatus="Subscribe"
+              bgColor="primary.500"
+            />
+            <PaymentCard
+              tierName="DEPOSIT"
+              tierPrice="5"
+              features={featureList.basic}
+              tierStatus="Deposit"
+              bgColor="pink.500"
+            />
+          </SimpleGrid>
         </Flex>
       </Stack>
     </>
