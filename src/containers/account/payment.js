@@ -1,5 +1,6 @@
 /* eslint-disable no-sparse-arrays */
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import {
   Heading,
   useColorModeValue,
@@ -20,13 +21,9 @@ import CustomIcon from '../../components/ui/icon/index';
 import PaymentCard from '../../components/ui/cards/PaymentCard';
 
 function Payment() {
-  // const history = useHistory();
-  // const location = useLocation();
-  // const config = useSelector((state) => state.auth);
-  // const user = useSelector((state) => state.user);
-  // const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
+
   const [frequency, setFrequency] = useState('month');
-  const [beanBalance, setBeanBalance] = useState(50);
 
   const featureList = {
     basic: [
@@ -94,7 +91,7 @@ function Payment() {
             <StatNumber fontSize="2xl" fontWeight="bold">
               <HStack>
                 <Icon as={CustomIcon.NoteBeanOriginal} />
-                <Text>{beanBalance}</Text>
+                <Text>{user.bean}</Text>
               </HStack>
             </StatNumber>
           </Stat>
