@@ -60,12 +60,12 @@ function Index() {
             <Container maxW="5xl">
               <div className="layout-content">
                 <Switch>
-                  <Route path="/home" component={Home} />
                   <Route path="/account" component={Account} />
                   <Route path="/school" component={Campus} />
                   <Route path="/search" component={Search} />
                   <Route path="/tag/:tagId" component={Tag} />
                   <Route path="/note/:noteId" component={Note} />
+                  <Route path="/home" component={Home} />
                   <Route path="/" component={NoMatch} />
                 </Switch>
               </div>

@@ -1,7 +1,6 @@
-/* eslint-disable react/jsx-no-bind */
 /* eslint-disable react/jsx-props-no-spreading */
-/* eslint-disable react/no-array-index-key */
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Document, Page } from 'react-pdf/dist/esm/entry.webpack';
 import {
   FormErrorMessage,
@@ -30,6 +29,7 @@ import {
 } from 'react-icons/fi';
 import Editable from '../../util/Editable';
 import CardBadge from '../cards/CardBadge';
+
 // using react hook form without control this time
 
 // FiEye, FiHeart, FiBookmark
@@ -47,68 +47,55 @@ const property = {
   notability: true,
 };
 
-const universities = [
-  'National Taiwan University (NTU)',
-  'National Taipei University',
-  'National Cheng Kung University',
-  'Harvard University',
-  'Columbia University',
-  'Princeton University',
-  'University of California, Berkeley',
-  'University of California, Los Angeles',
-  'University of California, San Diego',
-  'University of California, San Francisco',
-  'University of California, Irvine',
-  'University of California, Davis',
-  'University of California, Merced',
-  'University of California, Riverside',
-  'University of California, San Jose',
-  'University of California, Sonoma',
-  'University of California, Santa Barbara',
-  'University of California, Santa Cruz',
-];
+// const universities = [
+//   { id: '1', name: 'National Taiwan University' },
+//   { id: '2', name: 'National Tsing Hua University' },
+//   { id: '3', name: 'National Chengchi University' },
+// ];
 
-const courses = [
-  'CS 545',
-  'CS 546',
-  'CS 547',
-  'IM 3007',
-  'CS 50',
-  'CS 51',
-];
+// const courses = [
+//   { id: '1', name: 'System Analysis and Design', no: 'IM3007' },
+//   { id: '2', name: 'Database Management', no: 'IM3008' },
+//   { id: '3', name: 'Software Project Management', no: 'IM5028' },
+// ];
 
-const tagList = [
-  { value: '1', label: 'funny' },
-  { value: '2', label: 'presentation' },
-  { value: '3', label: 'night-life' },
-  { value: '4', label: 'beach' },
-  { value: '5', label: 'note-taking' },
-  { value: '6', label: 'harvard' },
-  { value: '7', label: 'family' },
-];
+// const tagList = [
+//   { value: '1', label: 'system' },
+//   { value: '2', label: 'analysis' },
+//   { value: '15', label: 'software' },
+//   { value: '16', label: 'management' },
+// ];
 
-export default function AddNotes({
-  handleSubmit, errors, onClose, isSubmitting, register, files,
+export default function AddDescriptions({
+  errors, register, files, setContent, tagLists,
 }) {
-  function onSubmit(values) {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        alert(JSON.stringify(values, null, 2));
-        resolve();
-        onClose();
-      }, 3000);
-    });
-  }
-  console.log(files.pdf.name);
+  const schools = useSelector((state) => state.school);
+  const courses = useSelector((state) => state.course);
+  const dispatch = useDispatch();
 
-  const [fileName, setFileName] = useState(files.pdf.name.split('.').slice(0, -1).join('.'));
+  const [universities, setUniversities] = useState([]);
+  const [courseList, setCourseList] = useState([]);
+
+  const [fileName, setFileName] = useState(files.pdf ? files.pdf.name.split('.').slice(0, -1).join('.') : '');
   const inputRef = useRef();
 
   // form's state
   const [courseOption, setCourseOption] = useState('Yes');
+  const [schoolId, setSchoolId] = useState('');
+  const [courseId, setCourseId] = useState('');
 
-  const [pickerItems, setPickerItems] = useState(tagList);
+  const [pickerItems, setPickerItems] = useState(tagLists);
   const [selectedItems, setSelectedItems] = useState([]);
+
+  useEffect(() => {
+    setContent({
+      title: fileName,
+      courseOption,
+      selectedItems,
+      schoolId,
+      courseId,
+    });
+  }, [courseId, courseOption, fileName, schoolId, selectedItems, setContent]);
 
   const handleCreateItem = (item) => {
     setPickerItems((curr) => [...curr, item]);
@@ -121,7 +108,13 @@ export default function AddNotes({
     }
   };
 
-  console.log(selectedItems);
+  useEffect(() => {
+    setUniversities(schools.allIds.map((id) => ({ id: String(id), name: schools.byId[id].name })));
+  }, [schools.allIds, schools.byId]);
+
+  useEffect(() => {
+    setCourseList(courses.allIds.map((id) => ({ id: String(id), name: courses.byId[id].name, no: courses.byId[id].no })));
+  }, [courses.allIds, courses.byId]);
 
   return (
     <>
@@ -165,7 +158,7 @@ export default function AddNotes({
             </Editable>
           </Heading>
           <CardBadge
-            content="Notability"
+            content={files.nota ? 'Notability' : 'GoodNotes'}
           />
           <Box display="flex" alignItems="center">
             <HStack>
@@ -186,149 +179,164 @@ export default function AddNotes({
           </Box>
         </VStack>
       </Flex>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Stack spacing="8" px="4" py="8" marginTop="-16">
-          <FormControl isInvalid={errors.name} isRequired>
-            <FormLabel fontSize="lg" fontWeight="bold" marginBottom="4" htmlFor="name">Description</FormLabel>
-            <Textarea
-              borderWidth="2px"
-              borderColor="black"
-              borderRadius="pendown"
-              focusBorderColor="primary.400"
-              _hover={{ borderColor: 'primary.400' }}
-              id="name"
-              placeholder="What is good about this note?"
-              {...register('Description', { required: true })}
-            />
-            <FormErrorMessage>
-              {errors.name && errors.name.message}
-            </FormErrorMessage>
+      <Stack spacing="8" px="4" py="8" marginTop="-16">
+        <FormControl isInvalid={errors.name} isRequired>
+          <FormLabel fontSize="lg" fontWeight="bold" marginBottom="4" htmlFor="name">Description</FormLabel>
+          <Textarea
+            borderWidth="2px"
+            borderColor="black"
+            borderRadius="pendown"
+            focusBorderColor="primary.400"
+            _hover={{ borderColor: 'primary.400' }}
+            id="name"
+            placeholder="What is good about this note?"
+            {...register('description', { required: true })}
+          />
+          <FormErrorMessage>
+            {errors.name && errors.name.message}
+          </FormErrorMessage>
+        </FormControl>
+        <FormControl isInvalid={errors.course} isRequired>
+          <FormLabel fontSize="lg" fontWeight="bold" marginBottom="4" htmlFor="course">Are you taking this for a course?</FormLabel>
+          <RadioGroup onChange={setCourseOption} value={courseOption}>
+            <Stack direction="row" spacing={16}>
+              <Radio {...register('isCourse?', { required: true })} type="radio" value="Yes" size="lg" colorScheme="primary">Yes</Radio>
+              <Radio {...register('isCourse?', { required: true })} type="radio" value="No" size="lg" colorScheme="primary">No</Radio>
+            </Stack>
+          </RadioGroup>
+          <FormErrorMessage>
+            {errors.course && errors.course.message}
+          </FormErrorMessage>
+        </FormControl>
+        {courseOption === 'Yes' && (
+        <>
+          <FormControl isRequired={courseOption === 'Yes'}>
+            <AutoComplete openOnFocus onChange={(e) => setSchoolId(e)}>
+              {({ isOpen }) => (
+                <>
+                  <InputGroup>
+                    <AutoCompleteInput
+                      variant="filled"
+                      placeholder="Pick your school"
+                      borderWidth="2px"
+                      borderColor="black"
+                      borderRadius="pendown"
+                      focusBorderColor="primary.400"
+                      size="lg"
+                      bg="white"
+                      _hover={{ borderColor: 'primary.400' }}
+                    />
+                    <InputRightElement>
+                      <Icon as={isOpen ? FiChevronRight : FiChevronDown} marginTop="8px" />
+                    </InputRightElement>
+                  </InputGroup>
+                  <AutoCompleteList>
+                    {universities.map(({ id, name }) => (
+                      <AutoCompleteItem
+                        key={`option-${id}`}
+                        value={id}
+                        label={name}
+                      >
+                        {name}
+                      </AutoCompleteItem>
+                    ))}
+                  </AutoCompleteList>
+                </>
+              )}
+            </AutoComplete>
+            {/* <FormHelperText>Who do you support.</FormHelperText> */}
           </FormControl>
-          <FormControl isInvalid={errors.course} isRequired>
-            <FormLabel fontSize="lg" fontWeight="bold" marginBottom="4" htmlFor="course">Are you taking this for a course?</FormLabel>
-            <RadioGroup onChange={setCourseOption} value={courseOption}>
-              <Stack direction="row" spacing={16}>
-                <Radio {...register('Are you taking this for a course?', { required: true })} type="radio" value="Yes" size="lg" colorScheme="primary">Yes</Radio>
-                <Radio {...register('Are you taking this for a course?', { required: true })} type="radio" value="No" size="lg" colorScheme="primary">No</Radio>
-              </Stack>
-            </RadioGroup>
-            <FormErrorMessage>
-              {errors.course && errors.course.message}
-            </FormErrorMessage>
+          <FormControl isRequired={courseOption === 'Yes'}>
+            <AutoComplete openOnFocus onChange={(e) => setCourseId(e)}>
+              {({ isOpen }) => (
+                <>
+                  <InputGroup>
+                    <AutoCompleteInput
+                      variant="filled"
+                      placeholder="Pick a course"
+                      borderWidth="2px"
+                      borderColor="black"
+                      borderRadius="pendown"
+                      focusBorderColor="primary.400"
+                      bg="white"
+                      size="lg"
+                      _hover={{ borderColor: 'primary.400' }}
+                    />
+                    <InputRightElement>
+                      <Icon as={isOpen ? FiChevronRight : FiChevronDown} marginTop="8px" />
+                    </InputRightElement>
+                  </InputGroup>
+                  <AutoCompleteList>
+                    {courseList.map(({ id, name, no }) => (
+                      <AutoCompleteItem
+                        key={`option-${id}`}
+                        value={id}
+                        label={`${no} ${name}`}
+                      >
+                        {no}
+                        {' '}
+                        {name}
+                      </AutoCompleteItem>
+                    ))}
+                  </AutoCompleteList>
+                </>
+              )}
+            </AutoComplete>
+            {/* <FormHelperText>Who do you support.</FormHelperText> */}
           </FormControl>
-          {courseOption === 'Yes' && (
-            <>
-              <FormControl isRequired={courseOption === 'Yes'}>
-                <AutoComplete openOnFocus>
-                  {({ isOpen }) => (
-                    <>
-                      <InputGroup>
-                        <AutoCompleteInput
-                          variant="filled"
-                          placeholder="Pick your school"
-                          borderWidth="2px"
-                          borderColor="black"
-                          borderRadius="pendown"
-                          focusBorderColor="primary.400"
-                          size="lg"
-                          bg="white"
-                          _hover={{ borderColor: 'primary.400' }}
-                        />
-                        <InputRightElement>
-                          <Icon as={isOpen ? FiChevronRight : FiChevronDown} marginTop="8px" />
-                        </InputRightElement>
-                      </InputGroup>
-                      <AutoCompleteList>
-                        {universities.map((country, cid) => (
-                          <AutoCompleteItem
-                            key={`option-${cid}`}
-                            value={country}
-                          >
-                            {country}
-                          </AutoCompleteItem>
-                        ))}
-                      </AutoCompleteList>
-                    </>
-                  )}
-                </AutoComplete>
-                {/* <FormHelperText>Who do you support.</FormHelperText> */}
-              </FormControl>
-              <FormControl isRequired={courseOption === 'Yes'}>
-                <AutoComplete openOnFocus>
-                  {({ isOpen }) => (
-                    <>
-                      <InputGroup>
-                        <AutoCompleteInput
-                          variant="filled"
-                          placeholder="Pick a course"
-                          borderWidth="2px"
-                          borderColor="black"
-                          borderRadius="pendown"
-                          focusBorderColor="primary.400"
-                          bg="white"
-                          size="lg"
-                          _hover={{ borderColor: 'primary.400' }}
-                        />
-                        <InputRightElement>
-                          <Icon as={isOpen ? FiChevronRight : FiChevronDown} marginTop="8px" />
-                        </InputRightElement>
-                      </InputGroup>
-                      <AutoCompleteList>
-                        {courses.map((country, cid) => (
-                          <AutoCompleteItem
-                            key={`option-${cid}`}
-                            value={country}
-                          >
-                            {country}
-                          </AutoCompleteItem>
-                        ))}
-                      </AutoCompleteList>
-                    </>
-                  )}
-                </AutoComplete>
-                {/* <FormHelperText>Who do you support.</FormHelperText> */}
-              </FormControl>
-            </>
-          )}
-          <FormControl isInvalid={errors.template} isRequired>
-            <FormLabel fontSize="lg" fontWeight="bold" marginBottom="4" htmlFor="template">Is this a template note?</FormLabel>
-            <RadioGroup>
-              <Stack direction="row" spacing={16}>
-                <Radio {...register('Is this a template note?', { required: true })} type="radio" value="Yes" size="lg" colorScheme="primary">Yes</Radio>
-                <Radio {...register('Is this a template note?', { required: true })} type="radio" value="No" size="lg" colorScheme="primary">No</Radio>
-              </Stack>
-            </RadioGroup>
-            <FormErrorMessage>
-              {errors.template && errors.template.message}
-            </FormErrorMessage>
-          </FormControl>
-          <FormControl id="tag" isRequired>
-            {/* <FormLabel fontSize="lg" fontWeight="bold" marginBottom="4" htmlFor="tag">Tags</FormLabel> */}
-            <CUIAutoComplete
-              label="Choose tags"
-              labelStyleProps={{ fontSize: 'lg', fontWeight: 'bold', marginBottom: '0' }}
-              inputStyleProps={{
-                borderWidth: '2px',
-                borderColor: 'black',
-                borderRadius: 'pendown',
-                focusBorderColor: 'primary.400',
-                size: 'lg',
-                bg: 'white',
-                _hover: { borderColor: 'primary.400' },
-              }}
-              toggleButtonStyleProps={{
-                size: 'lg',
-                variant: 'pendown-yellow',
-              }}
-              placeholder="Search tags"
-              onCreateItem={handleCreateItem}
-              items={pickerItems}
-              selectedItems={selectedItems}
-              onSelectedItemsChange={(changes) => handleSelectedItemsChange(changes.selectedItems)}
-            />
-          </FormControl>
-        </Stack>
-      </form>
+        </>
+        )}
+        <FormControl isInvalid={errors.template} isRequired>
+          <FormLabel fontSize="lg" fontWeight="bold" marginBottom="4" htmlFor="template">Is this a template note?</FormLabel>
+          <RadioGroup>
+            <Stack direction="row" spacing={16}>
+              <Radio {...register('isTemplate', { required: true })} type="radio" value="Yes" size="lg" colorScheme="primary">Yes</Radio>
+              <Radio {...register('isTemplate', { required: true })} type="radio" value="No" size="lg" colorScheme="primary">No</Radio>
+            </Stack>
+          </RadioGroup>
+          <FormErrorMessage>
+            {errors.template && errors.template.message}
+          </FormErrorMessage>
+        </FormControl>
+        <FormControl id="tag" isRequired>
+          <CUIAutoComplete
+            label="Choose tags"
+            labelStyleProps={{ fontSize: 'lg', fontWeight: 'bold', marginBottom: '0' }}
+            inputStyleProps={{
+              borderWidth: '2px',
+              borderColor: 'black',
+              borderRadius: 'pendown',
+              focusBorderColor: 'primary.400',
+              size: 'lg',
+              bg: 'white',
+              _hover: { borderColor: 'primary.400' },
+            }}
+            toggleButtonStyleProps={{
+              size: 'lg',
+              variant: 'pendown-yellow',
+            }}
+            placeholder="Search tags"
+            onCreateItem={handleCreateItem}
+            items={pickerItems}
+            selectedItems={selectedItems}
+            onSelectedItemsChange={(changes) => handleSelectedItemsChange(changes.selectedItems)}
+          />
+        </FormControl>
+        <FormControl isInvalid={errors.name} isRequired>
+          <FormLabel fontSize="lg" fontWeight="bold" marginTop="-6" marginBottom="4" htmlFor="description">Beans required for this note</FormLabel>
+          <Input
+            borderWidth="2px"
+            borderColor="black"
+            borderRadius="pendown"
+            size="lg"
+            focusBorderColor="primary.400"
+            _hover={{ borderColor: 'primary.400' }}
+            id="bean"
+            placeholder="50"
+            {...register('bean', { required: true })}
+          />
+        </FormControl>
+      </Stack>
     </>
   );
 }
