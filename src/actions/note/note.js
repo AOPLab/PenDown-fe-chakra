@@ -2,71 +2,6 @@ import agent from '../agent';
 import { noteConstants } from './constant';
 
 // add a new note
-const addNote2 = (
-  token,
-  title,
-  description,
-  is_template,
-  course_id,
-  bean,
-  pdf_file,
-  notability_file = null,
-  goodnotes_file = null,
-  tag_id_arr,
-  new_tag_arr,
-  history,
-  onClose,
-) => async () => {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
-  try {
-    const res = await agent.post('/api/notes', {
-      title,
-      description,
-      is_template,
-      course_id,
-      bean,
-    }, config);
-
-    const { note_id } = res.data;
-
-    const fileconfig = {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'multipart/form-data',
-      },
-    };
-    const formdata = new FormData();
-    formdata.append('file', pdf_file);
-    await agent.post(`/api/notes/${note_id}/pdf`, formdata, fileconfig);
-
-    if (notability_file) {
-      const formdata2 = new FormData();
-      formdata2.append('file', notability_file);
-      await agent.post(`/api/notes/${note_id}/notability`, formdata2, fileconfig);
-    }
-    if (goodnotes_file) {
-      const formdata3 = new FormData();
-      formdata3.append('file', goodnotes_file);
-      await agent.post(`/api/notes/${note_id}/goodnotes`, formdata3, fileconfig);
-    }
-    const new_tag_id_arr = await Promise.all(new_tag_arr.map(async (item) => {
-      const tag_res = await agent.post('/api/tag', { tag_name: item });
-      return tag_res.data.tag_id;
-    }));
-    Promise.all(new_tag_id_arr.map((item) => agent.post(`/api/notes/${note_id}/tags/${item}`, {}, config)));
-    Promise.all(tag_id_arr.map((item) => agent.post(`/api/notes/${note_id}/tags/${item}`, {}, config)));
-    // history.push(`/note/${note_id}`);
-    // onClose();
-  } catch (error) {
-    console.log('efg');
-  }
-};
-
-// add a new note
 const addNote = (
   token,
   title,
@@ -433,7 +368,6 @@ const editNote = (token, note_id, title, description, school_id, course_id, bean
 
 export {
   addNote,
-  addNote2,
   searchNotes,
   browseNotesByTag,
   browseNotesByCourse,
