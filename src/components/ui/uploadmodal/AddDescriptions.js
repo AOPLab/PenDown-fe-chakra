@@ -1,5 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useRef, useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Document, Page } from 'react-pdf/dist/esm/entry.webpack';
 import {
   FormErrorMessage,
@@ -46,17 +47,17 @@ const property = {
   notability: true,
 };
 
-const universities = [
-  { id: '1', name: 'National Taiwan University' },
-  { id: '2', name: 'National Tsing Hua University' },
-  { id: '3', name: 'National Chengchi University' },
-];
+// const universities = [
+//   { id: '1', name: 'National Taiwan University' },
+//   { id: '2', name: 'National Tsing Hua University' },
+//   { id: '3', name: 'National Chengchi University' },
+// ];
 
-const courses = [
-  { id: '1', name: 'System Analysis and Design', no: 'IM3007' },
-  { id: '2', name: 'Database Management', no: 'IM3008' },
-  { id: '3', name: 'Software Project Management', no: 'IM5028' },
-];
+// const courses = [
+//   { id: '1', name: 'System Analysis and Design', no: 'IM3007' },
+//   { id: '2', name: 'Database Management', no: 'IM3008' },
+//   { id: '3', name: 'Software Project Management', no: 'IM5028' },
+// ];
 
 // const tagList = [
 //   { value: '1', label: 'system' },
@@ -68,6 +69,13 @@ const courses = [
 export default function AddDescriptions({
   errors, register, files, setContent, tagLists,
 }) {
+  const schools = useSelector((state) => state.school);
+  const courses = useSelector((state) => state.course);
+  const dispatch = useDispatch();
+
+  const [universities, setUniversities] = useState([]);
+  const [courseList, setCourseList] = useState([]);
+
   const [fileName, setFileName] = useState(files.pdf ? files.pdf.name.split('.').slice(0, -1).join('.') : '');
   const inputRef = useRef();
 
@@ -99,6 +107,14 @@ export default function AddDescriptions({
       setSelectedItems(slcItems);
     }
   };
+
+  useEffect(() => {
+    setUniversities(schools.allIds.map((id) => ({ id: String(id), name: schools.byId[id].name })));
+  }, [schools.allIds, schools.byId]);
+
+  useEffect(() => {
+    setCourseList(courses.allIds.map((id) => ({ id: String(id), name: courses.byId[id].name, no: courses.byId[id].no })));
+  }, [courses.allIds, courses.byId]);
 
   return (
     <>
@@ -142,7 +158,7 @@ export default function AddDescriptions({
             </Editable>
           </Heading>
           <CardBadge
-            content="Notability"
+            content={files.nota ? 'Notability' : 'GoodNotes'}
           />
           <Box display="flex" alignItems="center">
             <HStack>
@@ -251,7 +267,7 @@ export default function AddDescriptions({
                     </InputRightElement>
                   </InputGroup>
                   <AutoCompleteList>
-                    {courses.map(({ id, name, no }) => (
+                    {courseList.map(({ id, name, no }) => (
                       <AutoCompleteItem
                         key={`option-${id}`}
                         value={id}

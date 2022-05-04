@@ -91,6 +91,16 @@ export default function NoteUpload({
       });
       return;
     }
+    if (noteFile === null && gnoteFile === null) {
+      errorToast({
+        title: 'Note',
+        description: 'You must upload at least one note file!',
+        status: 'error',
+        duration: 2000,
+        isClosable: true,
+      });
+      return;
+    }
     const existTagArray = content.selectedItems.filter((item) => item.value !== item.label);
     const tagArray = existTagArray.map((item) => parseInt(item.value, 10));
     const newTagArray = content.selectedItems.filter((item) => item.value === item.label).map((newItem) => newItem.label);
