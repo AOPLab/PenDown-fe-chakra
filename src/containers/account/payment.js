@@ -30,10 +30,18 @@ function Payment() {
 
   const featureList = {
     basic: [
-      'Email APIs, SMTP Relay, and Webhooks',
-      'Suppression Management',
-      'Email Tracking and Analytics',
-      '99.99% Guaranteed Uptime SLA',
+      'Earn beans by uploading your notes',
+      'Unlimited notes',
+    ],
+    vip: [
+      'Everything from BASIC',
+      'Download every note without uploading',
+      'Buffet time!',
+    ],
+    deposit: [
+      'Everything from BASIC',
+      'You get to choose how much you want to deposit',
+      'Every coin is worth 2 beans',
     ],
   };
 
@@ -101,20 +109,23 @@ function Payment() {
               features={featureList.basic}
               tierStatus="Subscribed"
               bgColor="red.500"
+              disabled
             />
             <PaymentCard
               tierName="VIP"
               tierPrice="15"
-              features={featureList.basic}
-              tierStatus="Subscribe"
+              features={featureList.vip}
+              tierStatus="Yet Ready :'("
               bgColor="primary.500"
+              disabled
             />
             <PaymentCard
-              tierName="DEPOSIT"
+              tierName="Deposit"
               tierPrice="5"
-              features={featureList.basic}
-              tierStatus="Deposit"
+              features={featureList.deposit}
+              tierStatus="Yet Ready :'("
               bgColor="pink.500"
+              disabled
             />
           </SimpleGrid>
         </Flex>

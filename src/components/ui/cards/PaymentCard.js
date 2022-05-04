@@ -7,14 +7,14 @@ import {
   Stack,
   Box,
   chakra,
-  Link,
+  Button,
 } from '@chakra-ui/react';
 import React from 'react';
 
 // FiEye, FiHeart, FiBookmark
 
 export default function PaymentCard({
-  tierName, tierPrice, features, tierStatus, bgColor,
+  tierName, tierPrice, features, tierStatus, bgColor, disabled,
 }) {
   const Feature = ({ children: fc }) => (
     <Flex align="center">
@@ -76,24 +76,26 @@ export default function PaymentCard({
         >
           $
           {tierPrice}
-          <chakra.span
-            fontSize="2xl"
-            fontWeight="medium"
-            color={useColorModeValue('gray.50', 'gray.600')}
-          >
-            {' '}
-            /
-            month
-          </chakra.span>
+          {tierName === 'Deposit' ? <></> : (
+            <chakra.span
+              fontSize="2xl"
+              fontWeight="medium"
+              color="gray.50"
+            >
+              {' '}
+              /
+              month
+            </chakra.span>
+          )}
         </Text>
-        <Link
+        <Button
           // w={['full', , 'auto']}
           w="full"
           display="inline-flex"
           alignItems="center"
           justifyContent="center"
           px={5}
-          py={3}
+          py={5}
           border="solid transparent"
           fontWeight="bold"
           rounded="pendown"
@@ -103,10 +105,11 @@ export default function PaymentCard({
             bg: useColorModeValue('gray.800', 'brand.600'),
             shadow: 'pendown-light',
           }}
-          to="/"
+          disabled={disabled}
+          // to="/"
         >
           {tierStatus}
-        </Link>
+        </Button>
       </Flex>
       <Stack direction="column" p="6" spacing="3" flexGrow="1">
         {features.map((feature, i) => <Feature key={feature}>{feature}</Feature>)}
