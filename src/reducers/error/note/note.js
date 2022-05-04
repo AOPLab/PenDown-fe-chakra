@@ -4,6 +4,7 @@ const initialState = {
   addNote: null,
   getNote: null,
   browseNotesByTag: null,
+  brewseNotesHot: null,
 };
 
 export default function note(state = initialState, action) {
@@ -42,6 +43,18 @@ export default function note(state = initialState, action) {
       return {
         ...state,
         browseNotesByTag: action.error,
+      };
+    }
+    case noteConstants.BROWSE_NOTES_HOT_SUCCESS: {
+      return {
+        ...state,
+        brewseNotesHot: null,
+      };
+    }
+    case noteConstants.BROWSE_NOTES_HOT_FAIL: {
+      return {
+        ...state,
+        brewseNotesHot: action.error,
       };
     }
     default: {

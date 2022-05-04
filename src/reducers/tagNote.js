@@ -1,4 +1,3 @@
-import { combineReducers } from 'redux';
 import { noteConstants } from '../actions/note/constant';
 
 const initialState = {
@@ -13,9 +12,9 @@ const initialState = {
 //   6: [2,5,4,6]
 // }
 
-const tagNotes = (state = initialState, action) => {
+export default function tagNotes(state = initialState, action) {
   switch (action.type) {
-    case noteConstants.BROWSE_NOTE_BY_TAG_SUCCESS: {
+    case noteConstants.BROWSE_NOTES_BY_TAG_SUCCESS: {
       const {
         tagnoteIds, tag_id, type, filter, offset,
       } = action.payload;
@@ -38,6 +37,4 @@ const tagNotes = (state = initialState, action) => {
     default:
       return state;
   }
-};
-
-export default combineReducers({ tagNotes });
+}

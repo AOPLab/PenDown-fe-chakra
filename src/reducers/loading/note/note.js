@@ -4,6 +4,7 @@ const initialState = {
   addNote: false,
   getNote: false,
   browseNotesByTag: false,
+  brewseNotesHot: false,
 };
 
 export default function note(state = initialState, action) {
@@ -42,6 +43,18 @@ export default function note(state = initialState, action) {
       return {
         ...state,
         browseNotesByTag: false,
+      };
+    }
+    case noteConstants.BROWSE_NOTES_HOT_START:
+      return {
+        ...state,
+        brewseNotesHot: true,
+      };
+    case noteConstants.BROWSE_NOTES_HOT_SUCCESS:
+    case noteConstants.BROWSE_NOTES_HOT_FAIL: {
+      return {
+        ...state,
+        brewseNotesHot: false,
       };
     }
 

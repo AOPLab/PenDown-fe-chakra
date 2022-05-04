@@ -44,9 +44,25 @@ const byId = (state = {}, action) => {
       const { notes } = action.payload;
       const data = {};
       notes.map((item) => {
-        data[item.note_id] = {
+        data[item.id] = {
           ...prototype,
-          ...state[item.note_id],
+          ...state[item.id],
+          ...item,
+        };
+        return item;
+      });
+      return {
+        ...state,
+        ...data,
+      };
+    }
+    case noteConstants.BROWSE_NOTES_HOT_SUCCESS: {
+      const { notes } = action.payload;
+      const data = {};
+      notes.map((item) => {
+        data[item.id] = {
+          ...prototype,
+          ...state[item.id],
           ...item,
         };
         return item;
