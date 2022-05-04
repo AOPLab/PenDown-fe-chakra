@@ -8,15 +8,18 @@ const agent = axios.create({
 
 const { dispatch } = store;
 agent.interceptors.response.use(
-  (res) => {
-    if (res.status === 401) {
-      console.log(res);
-      dispatch({ type: authConstants.TOKEN_EXPIRED });
-      return Promise.reject(res.data.error);
+  (res) => res,
+  (error) => {
+    if (error.response.status === 400) {
+      return Promise.reject(error.response.data.error);
     }
-    return res;
-  },
-  (error) => Promise.reject(error), // not 2xx
+    if (error.response.status === 401) {
+      dispatch({ type: authConstants.TOKEN_EXPIRED });
+      return Promise.reject(error.response.data.error);
+    }
+    return Promise.reject(error);
+  }
+  ,
 );
 
 export default agent;

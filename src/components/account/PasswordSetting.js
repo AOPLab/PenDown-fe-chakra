@@ -11,7 +11,7 @@ import {
 import { FiLock, FiCheck } from 'react-icons/fi';
 import { HiEye, HiEyeOff } from 'react-icons/hi';
 
-function PasswordSetting() {
+function PasswordSetting({ onSubmit }) {
   // const history = useHistory();
   // const location = useLocation();
   // const config = useSelector((state) => state.auth);
@@ -232,6 +232,7 @@ function PasswordSetting() {
             <Button
               variant="pendown-primary"
               size="lg"
+              onClick={onSubmit}
             >
               Save
             </Button>

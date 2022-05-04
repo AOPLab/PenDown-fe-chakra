@@ -8,7 +8,7 @@ import {
   FiUser, FiAtSign, FiMail, FiEdit2,
 } from 'react-icons/fi';
 
-function ProfileSetting() {
+function ProfileSetting({ onSubmit }) {
   // const history = useHistory();
   // const location = useLocation();
   // const config = useSelector((state) => state.auth);
@@ -167,6 +167,7 @@ function ProfileSetting() {
             <Button
               variant="pendown-primary"
               size="lg"
+              onSubmit={onSubmit}
             >
               Save
             </Button>

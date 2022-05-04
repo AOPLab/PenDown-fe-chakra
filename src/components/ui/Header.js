@@ -50,19 +50,15 @@ export default function Header() {
   const auth = useSelector((state) => state.auth);
   // const systemLoading = useSelector((state) => state.loading.admin.system);
   const [menuList] = useState([
-    { title: 'View Profile', link: '/account/my-profile' },
-    { title: 'Settings', link: '/account/my-profile/setting' },
-    { title: 'Logout', link: '/logout' },
+    { id: 1, title: 'View Profile', link: '/account/my-profile' },
+    { id: 2, title: 'Settings', link: '/account/my-profile/setting' },
+    { id: 3, title: 'Logout', link: '/logout' },
   ]);
-  const [userDropdown, setUserDropdown] = useState(false);
-  const [userAlreadyClose, setUserAlreadyClose] = useState(false);
 
   const [activeHeaderItemIndex] = useState(0);
   const [userButtonActive, setUserButtonActive] = useState(false);
 
   const headerItemRef = useRef([]);
-  const userRef = useRef(null);
-  const userButtonRef = useRef(null);
   const [userButtonRect, setUserButtonRect] = useState({ left: 0, width: 0 });
 
   const [noteType, setNoteType] = useState('Choose Note Type');
@@ -85,41 +81,11 @@ export default function Header() {
     setUserButtonActive(location.pathname === '/account/my-profile' || location.pathname === '/account/my-profile/setting');
   }, [location.pathname]);
 
-  const handleUserClickOutside = (event) => {
-    if (userRef.current && !userRef.current.contains(event.target)) {
-      setUserAlreadyClose(true);
-      setUserDropdown(false);
-      setTimeout(() => setUserAlreadyClose(false), 300);
-    }
-  };
-
-  useEffect(() => {
-    document.addEventListener('click', handleUserClickOutside, true);
-    return () => {
-      document.removeEventListener('click', handleUserClickOutside, true);
-    };
-  });
-
-  const toggleUser = () => {
-    if (!userAlreadyClose) {
-      setUserDropdown(true);
-    }
-    setUserAlreadyClose(false);
-  };
-
   const handleNoteTypeChange = (event) => {
     const {
       target: { value },
     } = event;
     setNoteType(value);
-  };
-
-  const handleSubmit = () => {
-    console.log('start search');
-  };
-
-  const clickAddNote = () => {
-    onOpen();
   };
 
   const goto = (link) => {
@@ -200,10 +166,10 @@ export default function Header() {
                         <MenuDivider /> */}
                         {menuList.map((item, index) => (
                           <>
-                            {index === 2 ? <MenuDivider /> : <></>}
+                            {index === 2 ? <MenuDivider key="divider" /> : <></>}
                             <MenuItem
                               key={item.link}
-                              tabIndex={item.link}
+                              tabIndex={item.id}
                               role="button"
                               onClick={() => goto(item.link)}
                               onKeyDown={() => goto(item.link)}

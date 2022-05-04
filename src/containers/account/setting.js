@@ -1,27 +1,44 @@
-import React, { useState } from 'react';
 import {
-  useToast, Tab, Tabs, TabList, TabPanels, TabPanel, Box,
+  Tab, Tabs, TabList, TabPanels, TabPanel, Box,
 } from '@chakra-ui/react';
 
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import ProfileSetting from '../../components/account/ProfileSetting';
 import PasswordSetting from '../../components/account/PasswordSetting';
+import { editAccount } from '../../actions/user/user';
 
 function AccountSetting() {
-  // const history = useHistory();
-  // const location = useLocation();
-  // const config = useSelector((state) => state.auth);
-  // const user = useSelector((state) => state.user);
-  // const dispatch = useDispatch();
-  const [username, setUsername] = useState('icheft');
-  const [fullName, setFullName] = useState('Brian L. Chen');
-  const [email, setEmail] = useState('pendown@example.com');
-  const [bio, setBio] = useState('');
-  const errorToast = useToast();
+  const config = useSelector((state) => state.auth);
+  const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
+  const [username, setUsername] = useState('');
+  const [fullName, setFullName] = useState('');
+  const [email, setEmail] = useState('');
+  const [description, setDescription] = useState('');
+
+  const onSubmit = () => {
+    dispatch(editAccount(config.token, username, fullName, email, description));
+  };
+
+  useEffect(() => {
+    setUsername(user.username);
+    setFullName(user.fullName);
+    setEmail(user.email);
+    setDescription(user.description);
+  }, [user.description, user.email, user.fullName, user.username]);
+
+  // const [username, setUsername] = useState('icheft');
+  // const [fullName, setFullName] = useState('Brian L. Chen');
+  // const [email, setEmail] = useState('pendown@example.com');
+  // const [bio, setBio] = useState('');
+  // const errorToast = useToast();
 
   const settingPages = [
     {
       label: 'Profile',
-      content: <ProfileSetting />,
+      content: <ProfileSetting onSubmit={onSubmit} />,
     },
     {
       label: 'Password',

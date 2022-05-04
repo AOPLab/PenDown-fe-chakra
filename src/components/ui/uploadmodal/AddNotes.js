@@ -7,7 +7,7 @@ import FileUpload from '../../util/FileUpload';
 // FiEye, FiHeart, FiBookmark
 
 export default function AddNotes({
-  pdfControl, notaControl, gnControl, setFile, files,
+  pdfControl, notaControl, gnControl, setFile,
 }) {
   // const [pdfFile, setPdfFile] = useState(null);
   // const [noteFile, setNoteFile] = useState(null);
