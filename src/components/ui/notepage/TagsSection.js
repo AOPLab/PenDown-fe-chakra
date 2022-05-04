@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import {
   // Container,
   Box,
@@ -13,7 +14,7 @@ function TagsSection({ property }) {
   // const history = useHistory();
   // const location = useLocation();
   // const config = useSelector((state) => state.auth);
-  // const user = useSelector((state) => state.user);
+  const tags = useSelector((state) => state.tag.byId);
   // const dispatch = useDispatch();
 
   return (
@@ -37,13 +38,16 @@ function TagsSection({ property }) {
             py={0}
             mx="auto"
           >
-            <TagBadge>#funny</TagBadge>
+            {property.tagIds.map((id) => (
+              <TagBadge key={id}>{`#${tags[id].name}`}</TagBadge>
+            ))}
+            {/* <TagBadge>#funny</TagBadge>
             <TagBadge>#presentation</TagBadge>
             <TagBadge>#tutorial</TagBadge>
             <TagBadge>#class-note</TagBadge>
             <TagBadge>#note-taking</TagBadge>
             <TagBadge>#multinational</TagBadge>
-            <TagBadge>#brainstorming</TagBadge>
+            <TagBadge>#brainstorming</TagBadge> */}
           </SimpleGrid>
         </Box>
       </VStack>

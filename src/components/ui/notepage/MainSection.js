@@ -1,4 +1,6 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
+import moment from 'moment';
 import {
   // Container,
   Box,
@@ -24,9 +26,13 @@ import CardBadge from '../cards/CardBadge';
 import NoteBigAvatar from '../avatar/NoteBigAvatar';
 import CustomIcon from '../icon/index';
 
+const hoverStyle = {
+  '&:hover': { opacity: '0.5', cursor: 'pointer' },
+};
+
 function MainSection({ property }) {
   // const { noteId } = useParams();
-  // const history = useHistory();
+  const history = useHistory();
   // const location = useLocation();
   // const config = useSelector((state) => state.auth);
   // const user = useSelector((state) => state.user);
@@ -50,7 +56,7 @@ function MainSection({ property }) {
           <HStack>
             <Icon as={FiCalendar} w="18px" h="18px" css={{ strokeWidth: '3' }} />
             <Box as="span" color="black" fontSize="sm">
-              {property.dateCreated}
+              {moment(property.dateCreated).format('YYYY-MM-DD HH:mm:ss')}
             </Box>
           </HStack>
         </Box>
@@ -82,43 +88,91 @@ function MainSection({ property }) {
               </Box>
             </HStack>
             <Box py={1} />
-            <NoteBigAvatar username={property.username} fullName={property.fullName} />
+            {property.username && property.fullName
+              ? <NoteBigAvatar username={property.username} fullName={property.fullName} />
+              : <></>}
           </Flex>
           <VStack
             color="gray.500"
             fontWeight="semibold"
           >
-            <Button
-              variant="pendown-primary"
-              size="lg"
-              isFullWidth
+            {property.is_saved
+              ? (
+                <Button
+                  variant="pendown-primary"
+                  size="lg"
+                  isFullWidth
+                  justifyContent="flex-start"
+                  tabIndex="-1"
+                  role="button"
+                  leftIcon={<Icon as={FiBookmark} color="black" css={{ strokeWidth: '3' }} />}
+                  disabled
+                >
+                  <Text align="left">Saved</Text>
+                </Button>
+              )
+              : (
+                <Button
+                  variant="pendown-primary"
+                  size="lg"
+                  isFullWidth
                     // onClick={() => history.push('/login')}
                     // onKeyDown={() => history.push('/login')}
-              justifyContent="flex-start"
-              tabIndex="-1"
-              role="button"
-              leftIcon={<Icon as={FiBookmark} color="black" css={{ strokeWidth: '3' }} />}
-            >
-              <Text align="left">Save</Text>
-            </Button>
-            <Button
-              variant="pendown-primary"
-              size="lg"
-              isFullWidth
-              justifyContent="flex-start"
+                  justifyContent="flex-start"
+                  tabIndex="-1"
+                  role="button"
+                  leftIcon={<Icon as={FiBookmark} color="black" css={{ strokeWidth: '3' }} />}
+                >
+                  <Text align="left">Save</Text>
+                </Button>
+              )}
+
+            {property.pdf_filename && property.pdf_filename !== ''
+              ? (
+                <Button
+                  variant="pendown-primary"
+                  size="lg"
+                  isFullWidth
+                  justifyContent="flex-start"
+                                // onClick={() => history.push('/login')}
+                                // onKeyDown={() => history.push('/login')}
+                  tabIndex="-1"
+                  role="button"
+                  leftIcon={<Icon as={CustomIcon.NoteBean} color="black" css={{ strokeWidth: '3' }} />}
+                >
+                  Download
+                </Button>
+              )
+              : (
+                <Button
+                  variant="pendown-primary"
+                  size="lg"
+                  isFullWidth
+                  justifyContent="flex-start"
                     // onClick={() => history.push('/login')}
                     // onKeyDown={() => history.push('/login')}
-              tabIndex="-1"
-              role="button"
-              leftIcon={<Icon as={CustomIcon.NoteBean} color="black" css={{ strokeWidth: '3' }} />}
-            >
-              I&apos;ll trade for 50 beans
-            </Button>
+                  tabIndex="-1"
+                  role="button"
+                  leftIcon={<Icon as={CustomIcon.NoteBean} color="black" css={{ strokeWidth: '3' }} />}
+                >
+                  {`It will trade for ${property.formattedPrice} beans`}
+                </Button>
+              )}
             <Box width="100%">
               <Text align="right" color="gray.600" fontWeight={500} fontSize="xs">
                 Not enough beans?
                 {' '}
-                <Text as="span" color="red.500">Learn more</Text>
+                <Text
+                  as="span"
+                  color="red.500"
+                  style={{
+                    '&:hover': { opacity: '0.5', cursor: 'pointer' },
+                  }}
+                  onClick={() => history.push('/account/payment')}
+                >
+                  Learn more
+
+                </Text>
               </Text>
             </Box>
           </VStack>

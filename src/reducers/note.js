@@ -33,10 +33,10 @@ const byId = (state = {}, action) => {
     case noteConstants.GET_NOTE_SUCCESS: {
       return {
         ...state,
-        [action.payload.id]: {
+        [action.payload.note.id]: {
           ...prototype,
-          ...state[action.payload.id],
-          ...action.payload,
+          ...state[action.payload.note.id],
+          ...action.payload.note,
         },
       };
     }
@@ -80,7 +80,7 @@ const byId = (state = {}, action) => {
 const allIds = (state = [], action) => {
   switch (action.type) {
     case noteConstants.GET_NOTE_SUCCESS: {
-      return [...new Set([action.payload.id, ...state])];
+      return [...new Set([action.payload.note.id, ...state])];
     }
     default:
       return state;

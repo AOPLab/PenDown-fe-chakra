@@ -27,28 +27,33 @@ function Note() {
   // const user = useSelector((state) => state.user);
 
   const [property, setProperty] = useState({
-    imageUrl: 'https://p.calameoassets.com/180515111509-087734d3ab9181b3dbabd2c3eab490b6/p1.jpg',
-    imageAlt: 'Alt',
-    dateCreated: 'Mar. 12, 2022',
-    title: 'IM 3007 Midterm Note',
-    formattedPrice: '$1,900.00',
-    description: 'The description of the note. Users can explain as much as he/she wants in this section.',
-    school: 'National Taiwan University',
-    course: 'IM 3007: System Analysis and Design',
-    reviewCount: 34,
-    viewCount: '3.2k',
-    savedCount: '32',
-    notability: true,
-    noteType: 'Notability',
-    username: 'cutey',
-    fullName: 'Cindy L. Jhou',
-    template: true,
+    noteId: null,
+    imageUrl: null,
+    imageAlt: null,
+    dateCreated: null,
+    title: null,
+    formattedPrice: null,
+    description: null,
+    school: null,
+    course: null,
+    viewCount: 0,
+    savedCount: 0,
+    noteType: null,
+    username: null,
+    fullName: null,
+    template: false,
+    tagIds: [],
+    is_saved: false,
+    pdf_filename: null,
+    notability_filename: null,
+    goodnotes_filename: null,
   });
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (notes[noteId]) {
       setProperty({
+        noteId: notes[noteId].id,
         imageUrl: notes[noteId].preview_url,
         imageAlt: 'No Preview Image!',
         dateCreated: notes[noteId].created_at,
@@ -59,12 +64,16 @@ function Note() {
         course: `${notes[noteId].course_no} ${notes[noteId].course_name}`,
         viewCount: notes[noteId].view_cnt,
         savedCount: notes[noteId].saved_cnt,
-        notability: true,
         noteType: notes[noteId].note_type,
         userId: notes[noteId].account_id,
         username: notes[noteId].username,
         fullName: notes[noteId].username,
         template: notes[noteId].is_template,
+        tagIds: notes[noteId].tagIds,
+        is_saved: notes[noteId].is_saved,
+        pdf_filename: notes[noteId].pdf_filename,
+        notability_filename: notes[noteId].notability_filename,
+        goodnotes_filename: notes[noteId].goodnotes_filename,
       });
     }
   }, [noteId, notes]);
