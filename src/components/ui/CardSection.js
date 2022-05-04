@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   Flex, SimpleGrid, Select, Tab, Tabs, TabList, TabPanels, TabPanel,
+  Stack, useColorModeValue,
 } from '@chakra-ui/react';
 
 import NoteCard from './cards/NoteCard';
@@ -116,12 +117,32 @@ function CardSection({ noteType, handleNoteTypeChange }) {
 
   function DataTabs({ data }) {
     return (
-      <Tabs isLazy size="lg" width="100%" colorScheme="primary">
-        <TabList borderBottomWidth="2px" borderBottomColor="black">
-          {data.map((tab, index) => (
-            <Tab key={tab.label}>{tab.label}</Tab>
-          ))}
-        </TabList>
+      <Tabs isLazy size="lg" width="100%" border="hidden" variant="unstyled">
+        <Flex justify="center" mx={['auto', 0]} mb={-2}>
+          <Stack
+            direction="row"
+            justify="space-between"
+              // p="2"
+            textAlign="center"
+            rounded="pendown"
+            bg={useColorModeValue('gray.100', 'gray.500')}
+            border="2px solid black"
+          >
+
+            <TabList borderBottom="hidden">
+              {data.map((tab, index) => (
+                <Tab
+                  key={tab.label}
+                  _selected={{ bg: 'primary.400', borderRadius: 'pendown' }}
+                  fontSize="md"
+                  fontWeight="bold"
+                >
+                  {tab.label}
+                </Tab>
+              ))}
+            </TabList>
+          </Stack>
+        </Flex>
         <TabPanels>
           {data.map((tab, index) => (
             <TabPanel p={4} key={tab.label}>
@@ -143,7 +164,9 @@ function CardSection({ noteType, handleNoteTypeChange }) {
 
   return (
     <>
+
       <DataTabs data={tabData} />
+
     </>
   );
 }

@@ -7,6 +7,7 @@ import {
 import SocialProfile from './socialProfile';
 import PersonalProfile from './profile';
 import AccountSetting from './setting';
+import Payment from './payment';
 import NoMatch from '../../components/noMatch';
 
 function Account() {
@@ -19,8 +20,8 @@ function Account() {
     <Switch>
       <Route exact path="/account/my-profile" component={PersonalProfile} />
       <Route path="/account/my-profile/setting" component={AccountSetting} />
+      <Route path="/account/payment" component={Payment} />
       <Route path="/account/:accountId" component={SocialProfile} />
-      <Route path="/account/payment" />
       <Route path="/" component={NoMatch} />
     </Switch>
   );
