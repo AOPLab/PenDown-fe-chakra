@@ -7,6 +7,7 @@ import {
 } from 'react-icons/fi';
 // FiEye, FiHeart, FiBookmark
 import { pdfjs } from 'react-pdf';
+import { avatarSrc } from '../../util/Helper';
 import Card from '../Card';
 import CardBadge from './CardBadge';
 
@@ -22,6 +23,7 @@ export default function NoteCard(props) {
     viewCount: '3.2k',
     savedCount: '32',
     notability: true,
+    username: 'cutey',
   };
 
   pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
@@ -106,9 +108,9 @@ export default function NoteCard(props) {
               <Avatar
                 border="2px solid black"
                 size="sm"
-                src="https://source.boringavatars.com/beam/40/icheft?colors=264653,2a9d8f,e9c46a,f4a261,e76f51"
+                src={avatarSrc(property.username)}
               />
-              <Box as="span" color="black" fontSize="sm" fontWeight={800}>icheft</Box>
+              <Box as="span" color="black" fontSize="sm" fontWeight={800}>{property.username}</Box>
             </HStack>
             <Spacer />
             <HStack

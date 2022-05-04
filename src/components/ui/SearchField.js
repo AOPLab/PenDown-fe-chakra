@@ -50,10 +50,10 @@ export default function SearchField({ noteType, handleNoteTypeChange }) {
           />
         </InputGroup>
         <Select
-          defaultValue="Choose Note Type"
           display={{ base: 'none', md: 'flex' }}
           value={noteType}
           focusBorderColor="primary.400"
+          _hover={{ borderColor: 'primary.400' }}
           size="lg"
           bg="white"
           width={{ base: '20%', md: '20%', lg: '30%' }}
@@ -157,7 +157,6 @@ export default function SearchField({ noteType, handleNoteTypeChange }) {
                 />
               </InputGroup>
               <Select
-                defaultValue="Choose Note Type"
                 flex={1}
                 // display={{ base: 'none', md: 'flex' }}
                 value={noteType}

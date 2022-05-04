@@ -46,7 +46,7 @@ function Note() {
   return (
     <>
       {/* <Container maxW="5xl"> */}
-      <Flex minH="100vh" align="center" justify="center" bg={useColorModeValue('gray.50', 'gray.800')}>
+      <Flex minH="100vh" align="center" justify="center">
         <Stack spacing={8} mx="auto" maxW="3xl" py={12} px={6}>
           <Box
             width={{
@@ -56,7 +56,7 @@ function Note() {
             borderRadius="md"
             border="2px solid black"
             bg={useColorModeValue('white', 'gray.700')}
-            boxShadow="md"
+            boxShadow="lg"
             p={0}
           >
             <MainSection property={property} />
