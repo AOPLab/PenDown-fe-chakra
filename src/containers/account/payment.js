@@ -26,6 +26,7 @@ function Payment() {
   // const user = useSelector((state) => state.user);
   // const dispatch = useDispatch();
   const [frequency, setFrequency] = useState('month');
+  const [beanBalance, setBeanBalance] = useState(50);
 
   const featureList = {
     basic: [
@@ -85,7 +86,7 @@ function Payment() {
             <StatNumber fontSize="2xl" fontWeight="bold">
               <HStack>
                 <Icon as={CustomIcon.NoteBeanOriginal} />
-                <Text>50</Text>
+                <Text>{beanBalance}</Text>
               </HStack>
             </StatNumber>
           </Stat>
