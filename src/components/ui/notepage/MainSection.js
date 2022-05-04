@@ -22,13 +22,13 @@ import {
   FiInfo,
 } from 'react-icons/fi';
 
+import { FaBookmark } from 'react-icons/fa';
+
 import CardBadge from '../cards/CardBadge';
 import NoteBigAvatar from '../avatar/NoteBigAvatar';
 import CustomIcon from '../icon/index';
 
-const hoverStyle = {
-  '&:hover': { opacity: '0.5', cursor: 'pointer' },
-};
+import '../../../theme/css/note.css';
 
 function MainSection({ property }) {
   // const { noteId } = useParams();
@@ -105,8 +105,7 @@ function MainSection({ property }) {
                   justifyContent="flex-start"
                   tabIndex="-1"
                   role="button"
-                  leftIcon={<Icon as={FiBookmark} color="black" css={{ strokeWidth: '3' }} />}
-                  disabled
+                  leftIcon={<Icon as={FaBookmark} color="black" css={{ strokeWidth: '3' }} />}
                 >
                   <Text align="left">Saved</Text>
                 </Button>
@@ -165,13 +164,10 @@ function MainSection({ property }) {
                 <Text
                   as="span"
                   color="red.500"
-                  style={{
-                    '&:hover': { opacity: '0.5', cursor: 'pointer' },
-                  }}
+                  className="textHover"
                   onClick={() => history.push('/account/payment')}
                 >
                   Learn more
-
                 </Text>
               </Text>
             </Box>
