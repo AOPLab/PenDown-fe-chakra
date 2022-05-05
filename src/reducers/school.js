@@ -7,14 +7,22 @@ const prototype = {
   name: null,
 };
 
-const byId = (state = {}, action) => {
+const initialById = {
+  1: { id: 1, name: 'National Taiwan University' },
+  2: { id: 2, name: 'National Tsing Hua University' },
+  3: { id: 3, name: 'National Chengchi University' },
+};
+
+const initialAllId = [1, 2, 3];
+
+const byId = (state = initialById, action) => {
   switch (action.type) {
     default:
       return state;
   }
 };
 
-const allIds = (state = [], action) => {
+const allIds = (state = initialAllId, action) => {
   switch (action.type) {
     default:
       return state;

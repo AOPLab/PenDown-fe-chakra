@@ -15,8 +15,6 @@ import {
   MenuButton,
   MenuList,
   Avatar,
-  Center,
-  Text,
   useColorModeValue,
   useColorMode,
   useDisclosure,
@@ -28,6 +26,7 @@ import Icon from './icon/index';
 import { userLogout } from '../../actions/user/auth';
 import SearchField from './SearchField';
 import NoteUpload from './NoteUpload';
+import { avatarSrc } from '../util/Helper';
 
 const clientId = process.env.REACT_APP_OAUTH_ID;
 export default function Header() {
@@ -51,19 +50,15 @@ export default function Header() {
   const auth = useSelector((state) => state.auth);
   // const systemLoading = useSelector((state) => state.loading.admin.system);
   const [menuList] = useState([
-    { title: 'View Profile', link: '/account/my-profile' },
-    { title: 'Settings', link: '/account/my-profile/setting' },
-    { title: 'Logout', link: '/logout' },
+    { id: 1, title: 'View Profile', link: '/account/my-profile' },
+    { id: 2, title: 'Settings', link: '/account/my-profile/setting' },
+    { id: 3, title: 'Logout', link: '/logout' },
   ]);
-  const [userDropdown, setUserDropdown] = useState(false);
-  const [userAlreadyClose, setUserAlreadyClose] = useState(false);
 
   const [activeHeaderItemIndex] = useState(0);
   const [userButtonActive, setUserButtonActive] = useState(false);
 
   const headerItemRef = useRef([]);
-  const userRef = useRef(null);
-  const userButtonRef = useRef(null);
   const [userButtonRect, setUserButtonRect] = useState({ left: 0, width: 0 });
 
   const [noteType, setNoteType] = useState('Choose Note Type');
@@ -86,41 +81,11 @@ export default function Header() {
     setUserButtonActive(location.pathname === '/account/my-profile' || location.pathname === '/account/my-profile/setting');
   }, [location.pathname]);
 
-  const handleUserClickOutside = (event) => {
-    if (userRef.current && !userRef.current.contains(event.target)) {
-      setUserAlreadyClose(true);
-      setUserDropdown(false);
-      setTimeout(() => setUserAlreadyClose(false), 300);
-    }
-  };
-
-  useEffect(() => {
-    document.addEventListener('click', handleUserClickOutside, true);
-    return () => {
-      document.removeEventListener('click', handleUserClickOutside, true);
-    };
-  });
-
-  const toggleUser = () => {
-    if (!userAlreadyClose) {
-      setUserDropdown(true);
-    }
-    setUserAlreadyClose(false);
-  };
-
   const handleNoteTypeChange = (event) => {
     const {
       target: { value },
     } = event;
     setNoteType(value);
-  };
-
-  const handleSubmit = () => {
-    console.log('start search');
-  };
-
-  const clickAddNote = () => {
-    onOpen();
   };
 
   const goto = (link) => {
@@ -136,44 +101,18 @@ export default function Header() {
 
   return (
     <>
-      <Box as="header" position="fixed" w="100%" zIndex={200} bg={useColorModeValue('grayAlpha.800', 'blackAlpha.800')} px={4} py={1} borderBottom="2px" css={{ backdropFilter: 'saturate(180%) blur(20px)' }}>
+      <Box as="header" position="fixed" w="100%" zIndex={200} bg={useColorModeValue('grayAlpha.600', 'blackAlpha.800')} px={4} py={1} borderBottom="2px" css={{ backdropFilter: 'saturate(180%) blur(20px)' }}>
         <Flex h={16} alignItems="center" justifyContent="space-between">
           <Box as="button" variant="pendown" onClick={() => history.push('/home')}><Icon.SmallLogo /></Box>
 
-          <Flex alignItems="center">
-            <SearchField />
-            {/* FIXME */}
-            {/* <Stack direction="row" spacing={4}>
-              <InputGroup>
-                <InputLeftElement pointerEvents="none">
-                  <AiOutlineSearch />
-                </InputLeftElement>
-                <Input
-                  type="tel"
-                  focusBorderColor="primary.400"
-                  bg="white"
-                  borderColor="black"
-                  borderRadius="pendown"
-                  placeholder="IM 3007"
-                  borderWidth="2px"
-                />
-              </InputGroup>
-              <Select
-                defaultValue="Choose Note Type"
-                value={noteType}
-                focusBorderColor="primary.400"
-                bg="white"
-                borderColor="black"
-                borderWidth="2px"
-                borderRadius="pendown"
-                onChange={handleNoteTypeChange}
-              >
-                <option key="Choose Note Type" value="Choose Note Type">Choose Note Type</option>
-                <option key="All" value="All">All</option>
-                <option key="Notability" value="Notability">Notability</option>
-                <option key="Goodnotes" value="Goodnotes">Goodnotes</option>
-              </Select>
-            </Stack> */}
+          <Flex
+            alignItems="center"
+            // flexGrow={1}
+            // mx={{
+            //   base: 'none', sm: '10', md: '10', lg: '20', xl: '200',
+            // }}
+          >
+            <SearchField noteType={noteType} handleNoteTypeChange={handleNoteTypeChange} />
           </Flex>
 
           <Flex alignItems="center">
@@ -206,11 +145,12 @@ export default function Header() {
                         <Avatar
                           border="2px solid black"
                           size="md"
-                          src={`https://source.boringavatars.com/beam/40/${user.username}?colors=264653,2a9d8f,e9c46a,f4a261,e76f51`}
+                          // src={`https://source.boringavatars.com/beam/40/${user.username}?colors=00C6AE,FFBD12,FF89BB,F95A2C,1947E5`}
+                          src={avatarSrc(user.username)}
                         />
                       </MenuButton>
                       <MenuList alignItems="center">
-                        <br />
+                        {/* <br />
                         <Center>
                           <Avatar
                             border="2px solid black"
@@ -223,13 +163,13 @@ export default function Header() {
                           <Text fontWeight="bold">{user.username}</Text>
                         </Center>
                         <br />
-                        <MenuDivider />
+                        <MenuDivider /> */}
                         {menuList.map((item, index) => (
                           <>
-                            {index === 2 ? <MenuDivider /> : <></>}
+                            {index === 2 ? <MenuDivider key="divider" /> : <></>}
                             <MenuItem
                               key={item.link}
-                              tabIndex={item.link}
+                              tabIndex={item.id}
                               role="button"
                               onClick={() => goto(item.link)}
                               onKeyDown={() => goto(item.link)}
@@ -274,11 +214,12 @@ export default function Header() {
                         border="2px solid black"
                         variant="pendown-navbar"
                         size="md"
-                        src={`https://source.boringavatars.com/beam/40/${user.username}?colors=264653,2a9d8f,e9c46a,f4a261,e76f51`}
+                        // src={`https://source.boringavatars.com/beam/40/${user.username}?colors=00C6AE,FFBD12,FF89BB,F95A2C,1947E5`}
+                        src={avatarSrc(user.username)}
                       />
                     </MenuButton>
                     <MenuList alignItems="center">
-                      <br />
+                      {/* <br />
                       <Center>
                         <Avatar
                           border="2px solid black"
@@ -292,14 +233,14 @@ export default function Header() {
                         <Text fontWeight="bold">{user.username}</Text>
                       </Center>
                       <br />
-                      <MenuDivider />
+                      <MenuDivider /> */}
                       <MenuItem
                         key="/"
                         tabIndex="/"
                         role="button"
                         // onClick={() => goto('/')}
                         onClick={onOpen}
-                        onKeyDown={() => goto('/')}
+                        // onKeyDown={() => goto('/')}
                       >
                         Add note
                       </MenuItem>

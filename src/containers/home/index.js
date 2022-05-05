@@ -41,8 +41,7 @@ function Home() {
 
   return (
     <>
-      <Box borderBottom="2px solid black" pt="16">
-        <h1>{window.location.origin}</h1>
+      <Box borderBottom="2px solid black">
         <Container maxW="3xl">
           <Stack as={Box} textAlign="center" spacing={{ base: 8, md: 14 }} py={{ base: 16, md: 16 }}>
             <Card variant="rounded">

@@ -65,7 +65,7 @@ const readSelfAccount = (token) => async (dispatch) => {
 };
 
 // Use to edit self info
-const editAccount = (token, id, username, full_name, email, description) => async (dispatch) => {
+const editAccount = (token, username, full_name, email, description) => async (dispatch) => {
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
