@@ -8,7 +8,7 @@ function FooterBtn(props) {
 
   // Pass the computed styles into the `__css` prop
   return (
-    <Box as="button" textAlign="left">
+    <Box textAlign="left">
       <Button
         variant="link"
         border="none"
