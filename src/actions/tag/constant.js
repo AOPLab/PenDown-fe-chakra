@@ -1,2 +1,6 @@
 // eslint-disable-next-line import/prefer-default-export
-export const tagConstants = {};
+export const tagConstants = {
+  BROWSE_TAG_START: 'BROWSE_TAG_START',
+  BROWSE_TAG_SUCCESS: 'BROWSE_TAG_SUCCESS',
+  BROWSE_TAG_FAIL: 'BROWSE_TAG_FAIL',
+};

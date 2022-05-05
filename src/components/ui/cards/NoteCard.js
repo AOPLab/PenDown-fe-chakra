@@ -1,5 +1,5 @@
 import {
-  Box, useColorModeValue, Image, Badge, Icon, HStack, VStack, Avatar, Spacer,
+  Box, useColorModeValue, Image, Icon, HStack, VStack, Avatar, Spacer,
 } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import {
@@ -7,7 +7,9 @@ import {
 } from 'react-icons/fi';
 // FiEye, FiHeart, FiBookmark
 import { pdfjs } from 'react-pdf';
-import Card from './Card';
+import { avatarSrc } from '../../util/Helper';
+import Card from '../Card';
+import CardBadge from './CardBadge';
 
 export default function NoteCard(props) {
   const property = {
@@ -21,6 +23,7 @@ export default function NoteCard(props) {
     viewCount: '3.2k',
     savedCount: '32',
     notability: true,
+    username: 'cutey',
   };
 
   pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
@@ -42,19 +45,25 @@ export default function NoteCard(props) {
       >
         <Box css={{ display: 'block', position: 'relative' }} align="center" alignItems="center" borderBottom="2px solid black">
           {property.notability && (
-          <Badge
-            rounded="tag"
-            px="4"
-            py="2"
-            colorScheme="gray"
-            bottom={4}
-            right={3}
-            position="absolute"
-            border="2px black solid"
-            fontWeight={800}
-          >
-            Notability
-          </Badge>
+          <>
+            <CardBadge
+              content="Notability"
+              style={{ bottom: '1rem', right: '0.75rem', position: 'absolute' }}
+            />
+            {/* <Badge
+              rounded="tag"
+              px="4"
+              py="2"
+              colorScheme="gray"
+              bottom={4}
+              right={3}
+              position="absolute"
+              border="2px black solid"
+              fontWeight={800}
+            >
+              Notability
+            </Badge> */}
+          </>
           )}
           {/* FIXME: PDF RENDERING
           <Document
@@ -67,6 +76,7 @@ export default function NoteCard(props) {
             src={props.imageUrl}
             alt={property.imageAlt}
             height="376px"
+            width="275px"
             roundedTop="pendown"
           />
 
@@ -98,9 +108,9 @@ export default function NoteCard(props) {
               <Avatar
                 border="2px solid black"
                 size="sm"
-                src="https://source.boringavatars.com/beam/40/icheft?colors=264653,2a9d8f,e9c46a,f4a261,e76f51"
+                src={avatarSrc(property.username)}
               />
-              <Box as="span" color="black" fontSize="sm" fontWeight={800}>icheft</Box>
+              <Box as="span" color="black" fontSize="sm" fontWeight={800}>{property.username}</Box>
             </HStack>
             <Spacer />
             <HStack

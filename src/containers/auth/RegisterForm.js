@@ -199,7 +199,6 @@ export default function RegisterForm() {
                       onChange={(e) => handleChange(e)}
                       error={errors.fullName}
                       _hover={{ borderColor: 'primary.400' }}
-                      helperText={errorTexts.fullName}
                       placeholder="Full name"
                       focusBorderColor="primary.400"
                       borderColor="black"
@@ -224,7 +223,6 @@ export default function RegisterForm() {
                       borderWidth="2px"
                       borderColor="black"
                       error={errors.username}
-                      helperText={errorTexts.username}
                     />
                   </FormControl>
                   <FormControl id="email">
@@ -234,7 +232,6 @@ export default function RegisterForm() {
                       value={inputs.email}
                       onChange={(e) => handleChange(e)}
                       error={errors.email}
-                      helperText={errorTexts.email}
                       placeholder="Email"
                       _hover={{ borderColor: 'primary.400' }}
                       focusBorderColor="primary.400"
@@ -242,7 +239,7 @@ export default function RegisterForm() {
                       borderColor="black"
                       borderWidth="2px"
                       size="lg"
-                      id="username"
+                      id="email"
                     />
                   </FormControl>
                   <FormControl id="password">
@@ -255,7 +252,6 @@ export default function RegisterForm() {
                         value={inputs.password}
                         onChange={(e) => handleChange(e)}
                         error={errors.password}
-                        helperText={errorTexts.password}
                         id="password"
                         focusBorderColor="primary.400"
                         borderColor="black"
@@ -295,7 +291,6 @@ export default function RegisterForm() {
                         label="Confirm Password"
                         value={inputs.confirmPassword}
                         borderWidth="2px"
-                        helperText={errorTexts.confirmPassword}
                         onChange={(e) => handleChange(e)}
                         focusBorderColor="primary.400"
                         borderColor="black"

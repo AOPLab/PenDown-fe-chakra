@@ -2,7 +2,7 @@ import { authConstants, userConstants } from '../actions/user/constants';
 
 // self information
 const initialState = {
-  id: '',
+  id: null,
   username: '',
   fullName: '',
   email: '',
@@ -38,7 +38,7 @@ const initialState = {
     goodnote: {},
     goodnoteTotalCnt: null,
   },
-  isGoogle: false,
+  isGoogle: true,
   hasPassword: true,
 };
 

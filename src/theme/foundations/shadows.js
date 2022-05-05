@@ -11,6 +11,8 @@ const shadows = {
   none: 'none',
   'dark-lg': 'rgba(0, 0, 0, 0.1) 0px 0px 0px 1px, rgba(0, 0, 0, 0.2) 0px 5px 10px, rgba(0, 0, 0, 0.4) 0px 15px 40px',
   pendown: '0px 4px 0px #18191F',
+  'pendown-light-primary': '0px 4px 0px rgba(255, 189, 18, 0.5)',
+  'pendown-light': '0px 4px 0px rgba(0, 0, 0, 0.5)',
 };
 
 export default shadows;

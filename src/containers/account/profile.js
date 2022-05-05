@@ -1,13 +1,13 @@
+import React from 'react';
+import { useSelector } from 'react-redux';
 import {
-  Box, 
+  Box,
   HStack,
   VStack,
   Text,
   Avatar,
   Container,
 } from '@chakra-ui/react';
-import React from 'react';
-import { useSelector } from 'react-redux';
 import NoteCardContainer from '../../components/ui/NoteCardContainer';
 
 function PersonalProfile() {
