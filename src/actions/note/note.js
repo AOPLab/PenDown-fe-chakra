@@ -321,6 +321,7 @@ const addNoteSaved = (token, note_id) => async (dispatch) => {
     await agent.post(`/api/notes/${note_id}/save`, {}, config);
     dispatch({
       type: noteConstants.ADD_NOTE_SAVED_SUCCESS,
+      payload: note_id,
     });
   } catch (error) {
     dispatch({
@@ -342,6 +343,7 @@ const removeNoteSaved = (token, note_id) => async (dispatch) => {
     await agent.delete(`/api/notes/${note_id}/save`, config);
     dispatch({
       type: noteConstants.REMOVE_NOTE_SAVED_SUCCESS,
+      payload: note_id,
     });
   } catch (error) {
     dispatch({
