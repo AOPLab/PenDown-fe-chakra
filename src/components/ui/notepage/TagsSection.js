@@ -1,4 +1,5 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import {
   // Container,
@@ -11,7 +12,7 @@ import TagBadge from '../TagBadge';
 
 function TagsSection({ property }) {
   // const { noteId } = useParams();
-  // const history = useHistory();
+  const history = useHistory();
   // const location = useLocation();
   // const config = useSelector((state) => state.auth);
   const tags = useSelector((state) => state.tag.byId);
@@ -39,15 +40,8 @@ function TagsSection({ property }) {
             mx="auto"
           >
             {property.tagIds.map((id) => (
-              <TagBadge key={id}>{`#${tags[id].name}`}</TagBadge>
+              <TagBadge key={id} onClick={() => history.push(`/tag/${id}`)}>{`#${tags[id].name}`}</TagBadge>
             ))}
-            {/* <TagBadge>#funny</TagBadge>
-            <TagBadge>#presentation</TagBadge>
-            <TagBadge>#tutorial</TagBadge>
-            <TagBadge>#class-note</TagBadge>
-            <TagBadge>#note-taking</TagBadge>
-            <TagBadge>#multinational</TagBadge>
-            <TagBadge>#brainstorming</TagBadge> */}
           </SimpleGrid>
         </Box>
       </VStack>

@@ -34,7 +34,9 @@ function Note() {
     title: null,
     formattedPrice: null,
     description: null,
+    schoolId: null,
     school: null,
+    courseId: null,
     course: null,
     viewCount: 0,
     savedCount: 0,
@@ -60,8 +62,10 @@ function Note() {
         title: notes[noteId].title,
         formattedPrice: notes[noteId].bean,
         description: notes[noteId].description,
+        schoolId: notes[noteId].school_id,
         school: notes[noteId].school_name,
         course: `${notes[noteId].course_no} ${notes[noteId].course_name}`,
+        courseId: notes[noteId].course_id,
         viewCount: notes[noteId].view_cnt,
         savedCount: notes[noteId].saved_cnt,
         noteType: notes[noteId].note_type,
@@ -108,8 +112,13 @@ function Note() {
             <Divider style={{ borderBottom: '2px black solid', opacity: 1, width: '100%' }} />
             <DescriptionSection property={property} />
             <Divider style={{ borderBottom: '2px black solid', opacity: 1, width: '100%' }} />
-            <CourseSection property={property} />
-            <Divider style={{ borderBottom: '2px black solid', opacity: 1, width: '100%' }} />
+            {property.schoolId
+              ? (
+                <>
+                  <CourseSection property={property} />
+                  <Divider style={{ borderBottom: '2px black solid', opacity: 1, width: '100%' }} />
+                </>
+              ) : <></>}
             <TagsSection property={property} />
           </Box>
           <Box width="100%">

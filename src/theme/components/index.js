@@ -3,6 +3,7 @@ import Button from './Button';
 import Link from './Link';
 import Card from './Card';
 import Avatar from './Avatar';
+import Badge from './Badge';
 // import Divider from './Divider';
 
 export default {
@@ -11,6 +12,7 @@ export default {
   Card,
   Avatar,
   Steps,
+  Badge,
   // Divider,
 };
 
