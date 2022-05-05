@@ -1,5 +1,6 @@
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import {
   // Container,
   Box,
@@ -15,33 +16,81 @@ import DescriptionSection from '../../components/ui/notepage/DescriptionSection'
 import CourseSection from '../../components/ui/notepage/CourseSection';
 import TagsSection from '../../components/ui/notepage/TagsSection';
 
-const property = {
-  pdfUrl: 'http://www.africau.edu/images/default/sample.pdf',
-  imageUrl: 'https://p.calameoassets.com/180515111509-087734d3ab9181b3dbabd2c3eab490b6/p1.jpg',
-  imageAlt: 'Alt',
-  dateCreated: 'Mar. 12, 2022',
-  title: 'IM 3007 Midterm Note',
-  formattedPrice: '$1,900.00',
-  description: 'The description of the note. Users can explain as much as he/she wants in this section.',
-  school: 'National Taiwan University',
-  course: 'IM 3007: System Analysis and Design',
-  reviewCount: 34,
-  viewCount: '3.2k',
-  savedCount: '32',
-  notability: true,
-  noteType: 'Notability',
-  username: 'cutey',
-  fullName: 'Cindy L. Jhou',
-  template: true,
-};
+import { getNote } from '../../actions/note/note';
 
 function Note() {
   const { noteId } = useParams();
   // const history = useHistory();
   // const location = useLocation();
-  // const config = useSelector((state) => state.auth);
+  const config = useSelector((state) => state.auth);
+  const notes = useSelector((state) => state.note.byId);
   // const user = useSelector((state) => state.user);
-  // const dispatch = useDispatch();
+
+  const [property, setProperty] = useState({
+    noteId: null,
+    imageUrl: null,
+    imageAlt: null,
+    dateCreated: null,
+    title: null,
+    formattedPrice: null,
+    description: null,
+    schoolId: null,
+    school: null,
+    courseId: null,
+    course: null,
+    viewCount: 0,
+    savedCount: 0,
+    noteType: null,
+    username: null,
+    fullName: null,
+    template: false,
+    tagIds: [],
+    is_saved: false,
+    pdf_filename: null,
+    notability_filename: null,
+    goodnotes_filename: null,
+  });
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (notes[noteId]) {
+      setProperty({
+        noteId: notes[noteId].id,
+        imageUrl: notes[noteId].preview_url,
+        imageAlt: 'No Preview Image!',
+        dateCreated: notes[noteId].created_at,
+        title: notes[noteId].title,
+        formattedPrice: notes[noteId].bean,
+        description: notes[noteId].description,
+        schoolId: notes[noteId].school_id,
+        school: notes[noteId].school_name,
+        course: `${notes[noteId].course_no} ${notes[noteId].course_name}`,
+        courseId: notes[noteId].course_id,
+        viewCount: notes[noteId].view_cnt,
+        savedCount: notes[noteId].saved_cnt,
+        noteType: notes[noteId].note_type,
+        userId: notes[noteId].account_id,
+        username: notes[noteId].username,
+        fullName: notes[noteId].username,
+        template: notes[noteId].is_template,
+        tagIds: notes[noteId].tagIds,
+        is_saved: notes[noteId].is_saved,
+        pdf_filename: notes[noteId].pdf_filename,
+        notability_filename: notes[noteId].notability_filename,
+        goodnotes_filename: notes[noteId].goodnotes_filename,
+      });
+    }
+  }, [noteId, notes]);
+
+  useEffect(() => {
+    if (noteId !== null && Number.isInteger(Number(noteId))) {
+      if (config.token !== null && config.token !== '') {
+        dispatch(getNote(noteId, config.token));
+      } else {
+        dispatch(getNote(noteId));
+      }
+    }
+  }, [config.token, dispatch, noteId]);
 
   return (
     <>
@@ -49,9 +98,10 @@ function Note() {
       <Flex minH="100vh" align="center" justify="center">
         <Stack spacing={8} mx="auto" maxW="3xl" py={12} px={6}>
           <Box
-            width={{
-              base: 'lg', xs: 'lg', sm: 'xl', md: '2xl',
-            }}
+            // width={{
+            //   base: 'lg', xs: 'lg', sm: 'xl', md: '2xl',
+            // }}
+            width={{ base: '80vw', md: '80vw' }}
             maxW="2xl"
             borderRadius="md"
             border="2px solid black"
@@ -63,8 +113,13 @@ function Note() {
             <Divider style={{ borderBottom: '2px black solid', opacity: 1, width: '100%' }} />
             <DescriptionSection property={property} />
             <Divider style={{ borderBottom: '2px black solid', opacity: 1, width: '100%' }} />
-            <CourseSection property={property} />
-            <Divider style={{ borderBottom: '2px black solid', opacity: 1, width: '100%' }} />
+            {property.schoolId
+              ? (
+                <>
+                  <CourseSection property={property} />
+                  <Divider style={{ borderBottom: '2px black solid', opacity: 1, width: '100%' }} />
+                </>
+              ) : <></>}
             <TagsSection property={property} />
           </Box>
           <Box width="100%">

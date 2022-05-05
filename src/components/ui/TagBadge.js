@@ -9,6 +9,7 @@ export default function TagBadge({ children, style, ...props }) {
     <Box>
       <Badge
         style={style}
+        variant="pendown"
         borderRadius="pendown"
         colorScheme="white"
         border="2px black solid"

@@ -10,7 +10,7 @@ function Section(props) {
 
   // Pass the computed styles into the `__css` prop
   return (
-    <Box borderBottom="2px solid black">
+    <Box>
       <Box textAlign="center" spacing={{ base: 8, md: 14 }} py={{ base: 4, md: 8 }}>
         <Heading fontSize={{ base: 'xl', sm: '2xl', md: '5xl' }} fontWeight={900} lineHeight="150%">
           Share Your Notes,
@@ -21,7 +21,7 @@ function Section(props) {
       <SimpleGrid
         columns={{ sm: '1', md: '2' }}
         spacing={5}
-        margin="0 10vw 0 10vw"
+        // margin="0 10vw 0 10vw"
         padding="3vh 0 3vh 0"
         alignItems="center"
       >

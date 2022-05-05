@@ -33,10 +33,10 @@ const byId = (state = {}, action) => {
     case noteConstants.GET_NOTE_SUCCESS: {
       return {
         ...state,
-        [action.payload.id]: {
+        [action.payload.note.id]: {
           ...prototype,
-          ...state[action.payload.id],
-          ...action.payload,
+          ...state[action.payload.note.id],
+          ...action.payload.note,
         },
       };
     }
@@ -44,9 +44,9 @@ const byId = (state = {}, action) => {
       const { notes } = action.payload;
       const data = {};
       notes.map((item) => {
-        data[item.note_id] = {
+        data[item.id] = {
           ...prototype,
-          ...state[item.note_id],
+          ...state[item.id],
           ...item,
         };
         return item;
@@ -54,6 +54,52 @@ const byId = (state = {}, action) => {
       return {
         ...state,
         ...data,
+      };
+    }
+    case noteConstants.BROWSE_NOTES_HOT_SUCCESS: {
+      const { notes } = action.payload;
+      const data = {};
+      notes.map((item) => {
+        data[item.id] = {
+          ...prototype,
+          ...state[item.id],
+          ...item,
+        };
+        return item;
+      });
+      return {
+        ...state,
+        ...data,
+      };
+    }
+    case noteConstants.ADD_NOTE_SAVED_SUCCESS: {
+      return {
+        ...state,
+        [action.payload]: {
+          ...prototype,
+          ...state[action.payload],
+          is_saved: true,
+        },
+      };
+    }
+    case noteConstants.REMOVE_NOTE_SAVED_SUCCESS: {
+      return {
+        ...state,
+        [action.payload]: {
+          ...prototype,
+          ...state[action.payload],
+          is_saved: false,
+        },
+      };
+    }
+    case noteConstants.BUY_NOTE_SUCCESS: {
+      return {
+        ...state,
+        [action.payload.id]: {
+          ...prototype,
+          ...state[action.payload.id],
+          ...action.payload,
+        },
       };
     }
     default:
@@ -64,7 +110,7 @@ const byId = (state = {}, action) => {
 const allIds = (state = [], action) => {
   switch (action.type) {
     case noteConstants.GET_NOTE_SUCCESS: {
-      return [...new Set([action.payload.id, ...state])];
+      return [...new Set([action.payload.note.id, ...state])];
     }
     default:
       return state;

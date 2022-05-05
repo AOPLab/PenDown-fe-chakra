@@ -8,9 +8,16 @@ function SectionImage(props) {
 
   // Pass the computed styles into the `__css` prop
   return (
-    <Box className="container" borderRadius="pendown" borderWidth="2px">
-      <Image src={props.image} className="image" borderRadius="pendown" borderWidth="2px" />
-      <Box className="overlay" bg="green.500" borderRadius="pendown" borderWidth="2px">
+    <Box
+      className="container"
+      borderRadius="pendown"
+      borderWidth="2px"
+      borderColor="black"
+      transitionDuration="120ms"
+      _hover={{ shadow: 'pendown' }}
+    >
+      <Image src={props.image} className="image" borderRadius="pendown" />
+      <Box className="overlay" bg="secondary.500" borderRadius="pendown">
         <Text className="text" fontSize={{ base: 'l', sm: 'xl', md: '2xl' }}>
           {props.text}
         </Text>

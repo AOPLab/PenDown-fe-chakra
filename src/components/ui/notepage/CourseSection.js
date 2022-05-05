@@ -1,4 +1,5 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import {
   // Container,
   Box,
@@ -11,7 +12,7 @@ import BannerBadge from '../cards/BannerBadge';
 
 function CourseSection({ property }) {
   // const { noteId } = useParams();
-  // const history = useHistory();
+  const history = useHistory();
   // const location = useLocation();
   // const config = useSelector((state) => state.auth);
   // const user = useSelector((state) => state.user);
@@ -33,7 +34,7 @@ function CourseSection({ property }) {
           &apos;s
           {' '}
           <Box mt="2">
-            <BannerBadge>
+            <BannerBadge onClick={() => history.push(`/school/${property.schoolId}/course/${property.courseId}`)}>
               {property.course}
             </BannerBadge>
           </Box>
