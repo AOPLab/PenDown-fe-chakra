@@ -151,7 +151,6 @@ export default function LoginForm() {
                     error={errors.username}
                     size="lg"
                     borderColor="black"
-                    helperText={errorTexts.username}
                   />
                 </FormControl>
                 <FormControl id="password">
@@ -171,7 +170,6 @@ export default function LoginForm() {
                       placeholder="Password"
                       size="lg"
                       required
-                      helperText={errorTexts.password}
                     />
                     <InputRightElement>
                       <IconButton
