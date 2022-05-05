@@ -49,6 +49,9 @@ function Note() {
     pdf_filename: null,
     notability_filename: null,
     goodnotes_filename: null,
+    pdf_url: null,
+    nota_url: null,
+    gnote_url: null,
   });
   const dispatch = useDispatch();
 
@@ -78,6 +81,9 @@ function Note() {
         pdf_filename: notes[noteId].pdf_filename,
         notability_filename: notes[noteId].notability_filename,
         goodnotes_filename: notes[noteId].goodnotes_filename,
+        pdf_url: notes[noteId].pdf_url,
+        nota_url: notes[noteId].notability_url,
+        gnote_url: notes[noteId].goodnotes_url,
       });
     }
   }, [noteId, notes]);

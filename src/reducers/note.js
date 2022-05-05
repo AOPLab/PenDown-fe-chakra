@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 import { noteConstants } from '../actions/note/constant';
-// import { commonConstants } from '../actions/common/constant';
+import { commonConstants } from '../actions/common/constant';
 
 const prototype = {
   id: null,
@@ -21,6 +21,9 @@ const prototype = {
   pdf_filename: null,
   notability_filename: null,
   goodnotes_filename: null,
+  pdf_url: null,
+  notability_url: null,
+  goodnotes_url: null,
   view_cnt: null,
   saved_cnt: null,
   created_at: null,
@@ -102,6 +105,17 @@ const byId = (state = {}, action) => {
         },
       };
     }
+    case commonConstants.FETCH_DOWNLOAD_FILE_URL_SUCCESS: {
+      return {
+        ...state,
+        [action.payload.id]: {
+          ...prototype,
+          ...state[action.payload.id],
+          ...action.payload,
+        },
+      };
+    }
+
     default:
       return state;
   }
