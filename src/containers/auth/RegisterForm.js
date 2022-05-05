@@ -242,7 +242,7 @@ export default function RegisterForm() {
                       borderColor="black"
                       borderWidth="2px"
                       size="lg"
-                      id="username"
+                      id="email"
                     />
                   </FormControl>
                   <FormControl id="password">
