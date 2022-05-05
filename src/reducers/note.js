@@ -72,6 +72,26 @@ const byId = (state = {}, action) => {
         ...data,
       };
     }
+    case noteConstants.ADD_NOTE_SAVED_SUCCESS: {
+      return {
+        ...state,
+        [action.payload.note_id]: {
+          ...prototype,
+          ...state[action.payload.note_id],
+          is_saved: true,
+        },
+      };
+    }
+    case noteConstants.REMOVE_NOTE_SAVED_SUCCESS: {
+      return {
+        ...state,
+        [action.payload.note_id]: {
+          ...prototype,
+          ...state[action.payload.note_id],
+          is_saved: false,
+        },
+      };
+    }
     default:
       return state;
   }
