@@ -36,8 +36,7 @@ export default function Schools() {
             columns={{
               base: 1, md: 2, xl: 3,
             }}
-                // minChildWidth="135px"
-            spacing={{ base: 10, md: 12 }}
+            spacing="40px"
             mt={8}
             px={0}
             py={0}
