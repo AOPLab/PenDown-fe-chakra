@@ -38,6 +38,22 @@ function MainSection({ property }) {
   // const user = useSelector((state) => state.user);
   // const dispatch = useDispatch();
 
+  const downloadFile = () => {
+    console.log('Prepare download file');
+  };
+
+  const buyNote = () => {
+    console.log('prepare to buy note');
+  };
+
+  const saveNote = () => {
+    console.log('prepare to save note');
+  };
+
+  const unsaveNote = () => {
+    console.log('unsave note');
+  };
+
   return (
     <>
       <VStack py={2} textAlign="center" alignItems="center" spacing={4} p={6}>
@@ -105,6 +121,8 @@ function MainSection({ property }) {
                   justifyContent="flex-start"
                   tabIndex="-1"
                   role="button"
+                  onClick={() => unsaveNote()}
+                  onKeyDown={() => unsaveNote()}
                   leftIcon={<Icon as={FaBookmark} color="black" css={{ strokeWidth: '3' }} />}
                 >
                   <Text align="left">Saved</Text>
@@ -115,8 +133,8 @@ function MainSection({ property }) {
                   variant="pendown-primary"
                   size="lg"
                   isFullWidth
-                    // onClick={() => history.push('/login')}
-                    // onKeyDown={() => history.push('/login')}
+                  onClick={() => saveNote()}
+                  onKeyDown={() => saveNote()}
                   justifyContent="flex-start"
                   tabIndex="-1"
                   role="button"
@@ -133,8 +151,8 @@ function MainSection({ property }) {
                   size="lg"
                   isFullWidth
                   justifyContent="flex-start"
-                                // onClick={() => history.push('/login')}
-                                // onKeyDown={() => history.push('/login')}
+                  onClick={() => downloadFile()}
+                  onKeyDown={() => downloadFile()}
                   tabIndex="-1"
                   role="button"
                   leftIcon={<Icon as={CustomIcon.NoteBean} color="black" css={{ strokeWidth: '3' }} />}
@@ -148,8 +166,8 @@ function MainSection({ property }) {
                   size="lg"
                   isFullWidth
                   justifyContent="flex-start"
-                    // onClick={() => history.push('/login')}
-                    // onKeyDown={() => history.push('/login')}
+                  onClick={() => buyNote()}
+                  onKeyDown={() => buyNote()}
                   tabIndex="-1"
                   role="button"
                   leftIcon={<Icon as={CustomIcon.NoteBean} color="black" css={{ strokeWidth: '3' }} />}

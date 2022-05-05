@@ -92,6 +92,16 @@ const byId = (state = {}, action) => {
         },
       };
     }
+    case noteConstants.BUY_NOTE_SUCCESS: {
+      return {
+        ...state,
+        [action.payload.id]: {
+          ...prototype,
+          ...state[action.payload.id],
+          ...action.payload,
+        },
+      };
+    }
     default:
       return state;
   }
