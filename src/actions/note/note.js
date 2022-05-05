@@ -252,29 +252,32 @@ const getNote = (note_id, token = null) => async (dispatch) => {
       dispatch({
         type: noteConstants.GET_NOTE_SUCCESS,
         payload: {
-          id: res.data.note_id,
-          username: res.data.username,
-          account_id: res.data.account_id,
-          title: res.data.title,
-          description: res.data.description,
-          course_name: res.data.course_name,
-          course_id: res.data.course_id,
-          course_no: res.data.course_no,
-          school_name: res.data.school_name,
-          school_id: res.data.school_id,
-          note_type: res.data.note_type,
-          is_template: res.data.is_template,
-          bean: res.data.bean,
-          preview_filename: res.data.preview_filename,
-          preview_url: res.data.preview_url,
-          pdf_filename: res.data.pdf_filename,
-          notability_filename: res.data.notability_filename,
-          goodnotes_filename: res.data.goodnotes_filename,
-          view_cnt: res.data.view_cnt,
-          saved_cnt: res.data.saved_cnt,
-          created_at: res.data.created_at,
-          tagIds: res3.data.tags.map((item) => item.id),
-          is_saved: false,
+          note: {
+            id: res.data.note_id,
+            username: res.data.username,
+            account_id: res.data.account_id,
+            title: res.data.title,
+            description: res.data.description,
+            course_name: res.data.course_name,
+            course_id: res.data.course_id,
+            course_no: res.data.course_no,
+            school_name: res.data.school_name,
+            school_id: res.data.school_id,
+            note_type: res.data.note_type,
+            is_template: res.data.is_template,
+            bean: res.data.bean,
+            preview_filename: res.data.preview_filename,
+            preview_url: res.data.preview_url,
+            pdf_filename: res.data.pdf_filename,
+            notability_filename: res.data.notability_filename,
+            goodnotes_filename: res.data.goodnotes_filename,
+            view_cnt: res.data.view_cnt,
+            saved_cnt: res.data.saved_cnt,
+            created_at: res.data.created_at,
+            tagIds: res3.data.tags.map((item) => item.id),
+            is_saved: false,
+          },
+          tag: res3.data.tags,
         },
       });
     }
@@ -389,7 +392,6 @@ const buyNote = (token, noteId) => async (dispatch) => {
   dispatch({ type: noteConstants.BUY_NOTE_START });
   try {
     const res = await agent.post(`/api/notes/${noteId}/buy`, {}, config);
-    // 還未做 add tag
     dispatch({
       type: noteConstants.BUY_NOTE_SUCCESS,
       payload: { id: noteId, ...res.data },

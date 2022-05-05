@@ -75,9 +75,9 @@ const byId = (state = {}, action) => {
     case noteConstants.ADD_NOTE_SAVED_SUCCESS: {
       return {
         ...state,
-        [action.payload.note_id]: {
+        [action.payload]: {
           ...prototype,
-          ...state[action.payload.note_id],
+          ...state[action.payload],
           is_saved: true,
         },
       };
@@ -85,9 +85,9 @@ const byId = (state = {}, action) => {
     case noteConstants.REMOVE_NOTE_SAVED_SUCCESS: {
       return {
         ...state,
-        [action.payload.note_id]: {
+        [action.payload]: {
           ...prototype,
-          ...state[action.payload.note_id],
+          ...state[action.payload],
           is_saved: false,
         },
       };

@@ -1,5 +1,6 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import moment from 'moment';
 import {
   // Container,
@@ -13,6 +14,7 @@ import {
   Image,
   Text,
   Tooltip,
+  useToast,
 } from '@chakra-ui/react';
 
 import {
@@ -28,30 +30,83 @@ import CardBadge from '../cards/CardBadge';
 import NoteBigAvatar from '../avatar/NoteBigAvatar';
 import CustomIcon from '../icon/index';
 
+import { buyNote, addNoteSaved, removeNoteSaved } from '../../../actions/note/note';
+import { downloadFile } from '../../../actions/common/common';
 import '../../../theme/css/note.css';
 
 function MainSection({ property }) {
   // const { noteId } = useParams();
   const history = useHistory();
   // const location = useLocation();
-  // const config = useSelector((state) => state.auth);
+  const config = useSelector((state) => state.auth);
   // const user = useSelector((state) => state.user);
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-  const downloadFile = () => {
+  const errorToast = useToast();
+
+  const downloadAllFile = () => {
     console.log('Prepare download file');
+    if (config.isAuthenticated) {
+      if (property.pdf_filename && property.pdf_filename !== '') {
+        dispatch(downloadFile(config.token, property.pdf_filename, property.noteId));
+      }
+      if (property.notability_filename && property.notability_filename !== '') {
+        dispatch(downloadFile(config.token, property.notability_filename, property.noteId));
+      }
+      if (property.goodnotes_filename && property.goodnotes_filename !== '') {
+        dispatch(downloadFile(config.token, property.goodnotes_filename, property.noteId));
+      }
+    } else {
+      errorToast({
+        title: 'Not login',
+        description: 'Please login first!',
+        status: 'error',
+        duration: 2000,
+        isClosable: true,
+      });
+    }
   };
 
-  const buyNote = () => {
-    console.log('prepare to buy note');
+  const onBuyNote = () => {
+    if (config.isAuthenticated) {
+      dispatch(buyNote(config.token, property.noteId));
+    } else {
+      errorToast({
+        title: 'Not login',
+        description: 'Please login first!',
+        status: 'error',
+        duration: 2000,
+        isClosable: true,
+      });
+    }
   };
 
   const saveNote = () => {
-    console.log('prepare to save note');
+    if (config.isAuthenticated) {
+      dispatch(addNoteSaved(config.token, property.noteId));
+    } else {
+      errorToast({
+        title: 'Not login',
+        description: 'Please login first!',
+        status: 'error',
+        duration: 2000,
+        isClosable: true,
+      });
+    }
   };
 
   const unsaveNote = () => {
-    console.log('unsave note');
+    if (config.isAuthenticated) {
+      dispatch(removeNoteSaved(config.token, property.noteId));
+    } else {
+      errorToast({
+        title: 'Not login',
+        description: 'Please login first!',
+        status: 'error',
+        duration: 2000,
+        isClosable: true,
+      });
+    }
   };
 
   return (
@@ -122,7 +177,6 @@ function MainSection({ property }) {
                   tabIndex="-1"
                   role="button"
                   onClick={() => unsaveNote()}
-                  onKeyDown={() => unsaveNote()}
                   leftIcon={<Icon as={FaBookmark} color="black" css={{ strokeWidth: '3' }} />}
                 >
                   <Text align="left">Saved</Text>
@@ -134,7 +188,6 @@ function MainSection({ property }) {
                   size="lg"
                   isFullWidth
                   onClick={() => saveNote()}
-                  onKeyDown={() => saveNote()}
                   justifyContent="flex-start"
                   tabIndex="-1"
                   role="button"
@@ -151,8 +204,7 @@ function MainSection({ property }) {
                   size="lg"
                   isFullWidth
                   justifyContent="flex-start"
-                  onClick={() => downloadFile()}
-                  onKeyDown={() => downloadFile()}
+                  onClick={() => downloadAllFile()}
                   tabIndex="-1"
                   role="button"
                   leftIcon={<Icon as={CustomIcon.NoteBean} color="black" css={{ strokeWidth: '3' }} />}
@@ -166,8 +218,7 @@ function MainSection({ property }) {
                   size="lg"
                   isFullWidth
                   justifyContent="flex-start"
-                  onClick={() => buyNote()}
-                  onKeyDown={() => buyNote()}
+                  onClick={() => onBuyNote()}
                   tabIndex="-1"
                   role="button"
                   leftIcon={<Icon as={CustomIcon.NoteBean} color="black" css={{ strokeWidth: '3' }} />}
