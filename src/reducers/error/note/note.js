@@ -4,6 +4,10 @@ const initialState = {
   addNote: null,
   getNote: null,
   browseNotesByTag: null,
+  brewseNotesHot: null,
+  buyNote: null,
+  addNoteSaved: null,
+  removeNoteSaved: null,
 };
 
 export default function note(state = initialState, action) {
@@ -42,6 +46,56 @@ export default function note(state = initialState, action) {
       return {
         ...state,
         browseNotesByTag: action.error,
+      };
+    }
+    case noteConstants.BROWSE_NOTES_HOT_SUCCESS: {
+      return {
+        ...state,
+        brewseNotesHot: null,
+      };
+    }
+    case noteConstants.BROWSE_NOTES_HOT_FAIL: {
+      return {
+        ...state,
+        brewseNotesHot: action.error,
+      };
+    }
+
+    case noteConstants.BUY_NOTE_SUCCESS: {
+      return {
+        ...state,
+        buyNote: null,
+      };
+    }
+    case noteConstants.BUY_NOTE_FAIL: {
+      return {
+        ...state,
+        buyNote: action.error,
+      };
+    }
+
+    case noteConstants.ADD_NOTE_SAVED_SUCCESS: {
+      return {
+        ...state,
+        addNoteSaved: null,
+      };
+    }
+    case noteConstants.ADD_NOTE_SAVED_FAIL: {
+      return {
+        ...state,
+        addNoteSaved: action.error,
+      };
+    }
+    case noteConstants.REMOVE_NOTE_SAVED_SUCCESS: {
+      return {
+        ...state,
+        removeNoteSaved: null,
+      };
+    }
+    case noteConstants.REMOVE_NOTE_SAVED_FAIL: {
+      return {
+        ...state,
+        removeNoteSaved: action.error,
       };
     }
     default: {

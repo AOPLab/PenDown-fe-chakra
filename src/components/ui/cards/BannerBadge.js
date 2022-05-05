@@ -6,6 +6,7 @@ export default function BannerBadge({ children, ...props }) {
   return (
     <Badge
       rounded="3xl"
+      variant="pendown"
       px="4"
       py="2"
       colorScheme="white"

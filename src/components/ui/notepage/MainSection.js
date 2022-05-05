@@ -1,4 +1,7 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import moment from 'moment';
 import {
   // Container,
   Box,
@@ -11,6 +14,7 @@ import {
   Image,
   Text,
   Tooltip,
+  useToast,
 } from '@chakra-ui/react';
 
 import {
@@ -20,17 +24,90 @@ import {
   FiInfo,
 } from 'react-icons/fi';
 
+import { FaBookmark } from 'react-icons/fa';
+
 import CardBadge from '../cards/CardBadge';
 import NoteBigAvatar from '../avatar/NoteBigAvatar';
 import CustomIcon from '../icon/index';
 
+import { buyNote, addNoteSaved, removeNoteSaved } from '../../../actions/note/note';
+import { downloadFile } from '../../../actions/common/common';
+import '../../../theme/css/note.css';
+
 function MainSection({ property }) {
   // const { noteId } = useParams();
-  // const history = useHistory();
+  const history = useHistory();
   // const location = useLocation();
-  // const config = useSelector((state) => state.auth);
+  const config = useSelector((state) => state.auth);
   // const user = useSelector((state) => state.user);
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
+
+  const errorToast = useToast();
+
+  const downloadAllFile = () => {
+    console.log('Prepare download file');
+    if (config.isAuthenticated) {
+      if (property.pdf_filename && property.pdf_filename !== '') {
+        dispatch(downloadFile(config.token, property.pdf_filename, property.noteId));
+      }
+      if (property.notability_filename && property.notability_filename !== '') {
+        dispatch(downloadFile(config.token, property.notability_filename, property.noteId));
+      }
+      if (property.goodnotes_filename && property.goodnotes_filename !== '') {
+        dispatch(downloadFile(config.token, property.goodnotes_filename, property.noteId));
+      }
+    } else {
+      errorToast({
+        title: 'Not login',
+        description: 'Please login first!',
+        status: 'error',
+        duration: 2000,
+        isClosable: true,
+      });
+    }
+  };
+
+  const onBuyNote = () => {
+    if (config.isAuthenticated) {
+      dispatch(buyNote(config.token, property.noteId));
+    } else {
+      errorToast({
+        title: 'Not login',
+        description: 'Please login first!',
+        status: 'error',
+        duration: 2000,
+        isClosable: true,
+      });
+    }
+  };
+
+  const saveNote = () => {
+    if (config.isAuthenticated) {
+      dispatch(addNoteSaved(config.token, property.noteId));
+    } else {
+      errorToast({
+        title: 'Not login',
+        description: 'Please login first!',
+        status: 'error',
+        duration: 2000,
+        isClosable: true,
+      });
+    }
+  };
+
+  const unsaveNote = () => {
+    if (config.isAuthenticated) {
+      dispatch(removeNoteSaved(config.token, property.noteId));
+    } else {
+      errorToast({
+        title: 'Not login',
+        description: 'Please login first!',
+        status: 'error',
+        duration: 2000,
+        isClosable: true,
+      });
+    }
+  };
 
   return (
     <>
@@ -50,7 +127,7 @@ function MainSection({ property }) {
           <HStack>
             <Icon as={FiCalendar} w="18px" h="18px" css={{ strokeWidth: '3' }} />
             <Box as="span" color="black" fontSize="sm">
-              {property.dateCreated}
+              {moment(property.dateCreated).format('YYYY-MM-DD HH:mm:ss')}
             </Box>
           </HStack>
         </Box>
@@ -82,43 +159,85 @@ function MainSection({ property }) {
               </Box>
             </HStack>
             <Box py={1} />
-            <NoteBigAvatar username={property.username} fullName={property.fullName} />
+            {property.username && property.fullName
+              ? <NoteBigAvatar username={property.username} fullName={property.fullName} userId={property.userId} onClick={() => history.push(`/account/${property.userId}`)} />
+              : <NoteBigAvatar username="Alice" fullName="Bob" />}
           </Flex>
           <VStack
             color="gray.500"
             fontWeight="semibold"
           >
-            <Button
-              variant="pendown-primary"
-              size="lg"
-              isFullWidth
-                    // onClick={() => history.push('/login')}
-                    // onKeyDown={() => history.push('/login')}
-              justifyContent="flex-start"
-              tabIndex="-1"
-              role="button"
-              leftIcon={<Icon as={FiBookmark} color="black" css={{ strokeWidth: '3' }} />}
-            >
-              <Text align="left">Save</Text>
-            </Button>
-            <Button
-              variant="pendown-primary"
-              size="lg"
-              isFullWidth
-              justifyContent="flex-start"
-                    // onClick={() => history.push('/login')}
-                    // onKeyDown={() => history.push('/login')}
-              tabIndex="-1"
-              role="button"
-              leftIcon={<Icon as={CustomIcon.NoteBean} color="black" css={{ strokeWidth: '3' }} />}
-            >
-              I&apos;ll trade for 50 beans
-            </Button>
+            {property.is_saved
+              ? (
+                <Button
+                  variant="pendown-primary"
+                  size="lg"
+                  isFullWidth
+                  justifyContent="flex-start"
+                  tabIndex="-1"
+                  role="button"
+                  onClick={() => unsaveNote()}
+                  leftIcon={<Icon as={FaBookmark} color="black" css={{ strokeWidth: '3' }} />}
+                >
+                  <Text align="left">Saved</Text>
+                </Button>
+              )
+              : (
+                <Button
+                  variant="pendown-primary"
+                  size="lg"
+                  isFullWidth
+                  onClick={() => saveNote()}
+                  justifyContent="flex-start"
+                  tabIndex="-1"
+                  role="button"
+                  leftIcon={<Icon as={FiBookmark} color="black" css={{ strokeWidth: '3' }} />}
+                >
+                  <Text align="left">Save</Text>
+                </Button>
+              )}
+
+            {property.pdf_filename && property.pdf_filename !== ''
+              ? (
+                <Button
+                  variant="pendown-primary"
+                  size="lg"
+                  isFullWidth
+                  justifyContent="flex-start"
+                  onClick={() => downloadAllFile()}
+                  tabIndex="-1"
+                  role="button"
+                  leftIcon={<Icon as={CustomIcon.NoteBean} color="black" css={{ strokeWidth: '3' }} />}
+                >
+                  Download
+                </Button>
+              )
+              : (
+                <Button
+                  variant="pendown-primary"
+                  size="lg"
+                  isFullWidth
+                  justifyContent="flex-start"
+                  onClick={() => onBuyNote()}
+                  tabIndex="-1"
+                  role="button"
+                  leftIcon={<Icon as={CustomIcon.NoteBean} color="black" css={{ strokeWidth: '3' }} />}
+                >
+                  {`It will trade for ${property.formattedPrice} beans`}
+                </Button>
+              )}
             <Box width="100%">
               <Text align="right" color="gray.600" fontWeight={500} fontSize="xs">
                 Not enough beans?
                 {' '}
-                <Text as="span" color="red.500">Learn more</Text>
+                <Text
+                  as="span"
+                  color="red.500"
+                  className="textHover"
+                  onClick={() => history.push('/account/payment')}
+                >
+                  Learn more
+                </Text>
               </Text>
             </Box>
           </VStack>

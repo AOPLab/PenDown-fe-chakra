@@ -1,39 +1,45 @@
+import axios from 'axios';
+import fileDownload from 'js-file-download';
 import agent from '../agent';
 import { commonConstants } from './constant';
 
 // get file URL and download
-const downloadFile = (token, file, onSuccess = null, onError = null) => async (dispatch) => {
+const downloadFile = (token, filename, noteId) => async (dispatch) => {
   // in 'file' parameter, you should include uuid, filename, and as_attachment as attributes
   const config = {
     headers: {
-      'auth-token': token,
+      Authorization: `Bearer ${token}`,
     },
     params: {
-      filename: file.filename,
-      as_attachment: file.as_attachment,
+      filename,
+      note_id: noteId,
     },
   };
   try {
     dispatch({ type: commonConstants.DOWNLOAD_FILE_START });
-    const res = await agent.get(`/s3-file/${file.uuid}/url`, config);
+    const res2 = await agent.get('/api/file', config);
 
-    fetch(res.data.data.url).then((t) => t.blob().then((b) => {
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(b);
-      a.setAttribute('download', file.filename);
-      a.click();
-    }));
+    axios.get(res2.data.file_url, { responseType: 'blob' })
+      .then((res) => {
+        if (filename.includes('pdf')) {
+          fileDownload(res.data, `pendown-${noteId}.pdf`);
+        }
+        if (filename.includes('note')) {
+          fileDownload(res.data, `pendown-${noteId}.note`);
+        }
+        if (filename.includes('goodnotes')) {
+          fileDownload(res.data, `pendown-${noteId}.goodnotes`);
+        }
+      });
 
     dispatch({
       type: commonConstants.DOWNLOAD_FILE_SUCCESS,
     });
-    if (onSuccess) onSuccess();
   } catch (error) {
     dispatch({
       type: commonConstants.DOWNLOAD_FILE_FAIL,
       error,
     });
-    if (onError) onError();
   }
 };
 

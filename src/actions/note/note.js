@@ -112,10 +112,6 @@ const browseNotesByTag = (tag_id, type, filter, offset) => async (dispatch) => {
     const res = await agent.get(`/api/notes/tag/${tag_id}`, {
       params: { type, filter, offset },
     });
-    const { preview_filename, note_id } = res.data;
-    const res2 = await agent.get('/api/file/preview', {
-      params: { filename: preview_filename, note_id },
-    });
     dispatch({
       type: noteConstants.BROWSE_NOTES_BY_TAG_SUCCESS,
       payload: {
@@ -123,19 +119,20 @@ const browseNotesByTag = (tag_id, type, filter, offset) => async (dispatch) => {
         type,
         filter,
         offset,
-        notes: {
-          id: res.data.note_id,
-          account_id: res.data.user_id,
-          username: res.data.username,
-          title: res.data.title,
-          view_cnt: res.data.view_cnt,
-          saved_cnt: res.data.saved_cnt,
-          note_type: res.data.note_type,
-          preview_filename: res.data.preview_filename,
-          preview_url: res2.data.file_url,
-          created_at: res.data.created_at,
-        },
-        tagnoteIds: res.data.map((item) => item.note_id),
+        notes: res.data.notes.map((item) => ({
+          id: item.note_id,
+          account_id: item.user_id,
+          username: item.username,
+          title: item.title,
+          view_cnt: item.view_cnt,
+          saved_cnt: item.saved_cnt,
+          note_type: item.note_type,
+          preview_filename: item.preview_filename,
+          preview_url: item.preview_url,
+          created_at: item.created_at,
+        })),
+        tagnoteIds: res.data.notes.map((item) => item.note_id),
+        total_cnt: res.data.total_cnt,
       },
     });
   } catch (error) {
@@ -172,7 +169,7 @@ const browseNotesByCourse = (course_id, type, filter, offset) => async (dispatch
 
 // browse hot note
 const browseHotNotes = (offset) => async (dispatch) => {
-  dispatch({ type: noteConstants.BROWSES_NOTE_HOT_START });
+  dispatch({ type: noteConstants.BROWSE_NOTES_HOT_START });
   try {
     const res = await agent.get('/api/notes/hot', {
       params: { offset },
@@ -181,7 +178,19 @@ const browseHotNotes = (offset) => async (dispatch) => {
       type: noteConstants.BROWSE_NOTES_HOT_SUCCESS,
       payload: {
         offset,
-        ...res.data,
+        notes: res.data.notes.map((item) => ({
+          id: item.note_id,
+          account_id: item.user_id,
+          username: item.username,
+          title: item.title,
+          view_cnt: item.view_cnt,
+          saved_cnt: item.saved_cnt,
+          note_type: item.note_type,
+          preview_filename: item.preview_filename,
+          preview_url: item.preview_url,
+          created_at: item.created_at,
+        })),
+        hotNoteIds: res.data.notes.map((item) => item.note_id),
       },
     });
   } catch (error) {
@@ -204,72 +213,71 @@ const getNote = (note_id, token = null) => async (dispatch) => {
   try {
     if (token !== null) {
       const res = await agent.get(`/api/notes/${note_id}`, config);
-      const { preview_filename } = res.data;
-      const res2 = await agent.get('/api/file/preview', {
-        params: { filename: preview_filename, note_id },
-      });
       const res3 = await agent.get(`/api/notes/${note_id}/tags`);
       const res4 = await agent.get(`/api/notes/${note_id}/save`, config);
       dispatch({
         type: noteConstants.GET_NOTE_SUCCESS,
         payload: {
-          id: res.data.note_id,
-          username: res.data.username,
-          account_id: res.data.account_id,
-          title: res.data.title,
-          description: res.data.description,
-          course_name: res.data.course_name,
-          course_id: res.data.course_id,
-          course_no: res.data.course_no,
-          school_name: res.data.school_name,
-          school_id: res.data.school_id,
-          note_type: res.data.note_type,
-          is_template: res.data.is_template,
-          bean: res.data.bean,
-          preview_filename: res.data.preview_filename,
-          preview_url: res2.data.file_url,
-          pdf_filename: res.data.pdf_filename,
-          notability_filename: res.data.notability_filename,
-          goodnotes_filename: res.data.goodnotes_filename,
-          view_cnt: res.data.view_cnt,
-          saved_cnt: res.data.saved_cnt,
-          created_at: res.data.created_at,
-          tagIds: res3.data.map((item) => item.id),
-          is_saved: res4.data.is_saved,
+          note: {
+            id: res.data.note_id,
+            username: res.data.username,
+            account_id: res.data.account_id,
+            title: res.data.title,
+            description: res.data.description,
+            course_name: res.data.course_name,
+            course_id: res.data.course_id,
+            course_no: res.data.course_no,
+            school_name: res.data.school_name,
+            school_id: res.data.school_id,
+            note_type: res.data.note_type,
+            is_template: res.data.is_template,
+            bean: res.data.bean,
+            preview_filename: res.data.preview_filename,
+            preview_url: res.data.preview_url,
+            pdf_filename: res.data.pdf_filename,
+            notability_filename: res.data.notability_filename,
+            goodnotes_filename: res.data.goodnotes_filename,
+            view_cnt: res.data.view_cnt,
+            saved_cnt: res.data.saved_cnt,
+            created_at: res.data.created_at,
+            tagIds: res3.data.tags.map((item) => item.id),
+            is_saved: res4.data.is_saved,
+          },
+          tag: res3.data.tags,
         },
       });
     } else {
       const res = await agent.get(`/api/notes/${note_id}`);
-      const { preview_filename } = res.data;
-      const res2 = await agent.get('/api/file/preview', {
-        params: { filename: preview_filename, note_id },
-      });
       const res3 = await agent.get(`/api/notes/${note_id}/tags`);
       dispatch({
         type: noteConstants.GET_NOTE_SUCCESS,
         payload: {
-          id: res.data.note_id,
-          username: res.data.username,
-          account_id: res.data.account_id,
-          title: res.data.title,
-          description: res.data.description,
-          course_name: res.data.course_name,
-          course_id: res.data.course_id,
-          course_no: res.data.course_no,
-          school_name: res.data.school_name,
-          school_id: res.data.school_id,
-          note_type: res.data.note_type,
-          is_template: res.data.is_template,
-          bean: res.data.bean,
-          preview_filename: res.data.preview_filename,
-          preview_url: res2.data.file_url,
-          pdf_filename: res.data.pdf_filename,
-          notability_filename: res.data.notability_filename,
-          goodnotes_filename: res.data.goodnotes_filename,
-          view_cnt: res.data.view_cnt,
-          saved_cnt: res.data.saved_cnt,
-          created_at: res.data.created_at,
-          tagIds: res3.data.map((item) => item.id),
+          note: {
+            id: res.data.note_id,
+            username: res.data.username,
+            account_id: res.data.account_id,
+            title: res.data.title,
+            description: res.data.description,
+            course_name: res.data.course_name,
+            course_id: res.data.course_id,
+            course_no: res.data.course_no,
+            school_name: res.data.school_name,
+            school_id: res.data.school_id,
+            note_type: res.data.note_type,
+            is_template: res.data.is_template,
+            bean: res.data.bean,
+            preview_filename: res.data.preview_filename,
+            preview_url: res.data.preview_url,
+            pdf_filename: res.data.pdf_filename,
+            notability_filename: res.data.notability_filename,
+            goodnotes_filename: res.data.goodnotes_filename,
+            view_cnt: res.data.view_cnt,
+            saved_cnt: res.data.saved_cnt,
+            created_at: res.data.created_at,
+            tagIds: res3.data.tags.map((item) => item.id),
+            is_saved: false,
+          },
+          tag: res3.data.tags,
         },
       });
     }
@@ -316,6 +324,7 @@ const addNoteSaved = (token, note_id) => async (dispatch) => {
     await agent.post(`/api/notes/${note_id}/save`, {}, config);
     dispatch({
       type: noteConstants.ADD_NOTE_SAVED_SUCCESS,
+      payload: note_id,
     });
   } catch (error) {
     dispatch({
@@ -337,6 +346,7 @@ const removeNoteSaved = (token, note_id) => async (dispatch) => {
     await agent.delete(`/api/notes/${note_id}/save`, config);
     dispatch({
       type: noteConstants.REMOVE_NOTE_SAVED_SUCCESS,
+      payload: note_id,
     });
   } catch (error) {
     dispatch({
@@ -373,6 +383,27 @@ const editNote = (token, note_id, title, description, school_id, course_id, bean
   }
 };
 
+const buyNote = (token, noteId) => async (dispatch) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  dispatch({ type: noteConstants.BUY_NOTE_START });
+  try {
+    const res = await agent.post(`/api/notes/${noteId}/buy`, {}, config);
+    dispatch({
+      type: noteConstants.BUY_NOTE_SUCCESS,
+      payload: { id: noteId, ...res.data },
+    });
+  } catch (error) {
+    dispatch({
+      type: noteConstants.BUY_NOTE_FAIL,
+      error,
+    });
+  }
+};
+
 export {
   addNote,
   searchNotes,
@@ -384,4 +415,5 @@ export {
   addNoteSaved,
   removeNoteSaved,
   editNote,
+  buyNote,
 };
