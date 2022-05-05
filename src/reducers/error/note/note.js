@@ -5,6 +5,7 @@ const initialState = {
   getNote: null,
   browseNotesByTag: null,
   brewseNotesHot: null,
+  buyNote: null,
 };
 
 export default function note(state = initialState, action) {
@@ -57,6 +58,20 @@ export default function note(state = initialState, action) {
         brewseNotesHot: action.error,
       };
     }
+
+    case noteConstants.BUY_NOTE_SUCCESS: {
+      return {
+        ...state,
+        buyNote: null,
+      };
+    }
+    case noteConstants.BUY_NOTE_FAIL: {
+      return {
+        ...state,
+        buyNote: action.error,
+      };
+    }
+
     default: {
       return state;
     }

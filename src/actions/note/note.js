@@ -378,6 +378,28 @@ const editNote = (token, note_id, title, description, school_id, course_id, bean
   }
 };
 
+const buyNote = (token, noteId) => async (dispatch) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  dispatch({ type: noteConstants.BUY_NOTE_START });
+  try {
+    const res = await agent.post(`/api/notes/${noteId}/buy`, {}, config);
+    // 還未做 add tag
+    dispatch({
+      type: noteConstants.BUY_NOTE_SUCCESS,
+      payload: { id: noteId, ...res.data },
+    });
+  } catch (error) {
+    dispatch({
+      type: noteConstants.BUY_NOTE_FAIL,
+      error,
+    });
+  }
+};
+
 export {
   addNote,
   searchNotes,
@@ -389,4 +411,5 @@ export {
   addNoteSaved,
   removeNoteSaved,
   editNote,
+  buyNote,
 };
