@@ -14,8 +14,17 @@ import {
   Image,
   Text,
   Tooltip,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalCloseButton,
+  Link,
   useToast,
+  useDisclosure,
 } from '@chakra-ui/react';
+import { ExternalLinkIcon } from '@chakra-ui/icons';
 
 import {
   FiCalendar,
@@ -31,7 +40,7 @@ import NoteBigAvatar from '../avatar/NoteBigAvatar';
 import CustomIcon from '../icon/index';
 
 import { buyNote, addNoteSaved, removeNoteSaved } from '../../../actions/note/note';
-import { downloadFile } from '../../../actions/common/common';
+import { fetchDownloadFileUrl } from '../../../actions/common/common';
 import '../../../theme/css/note.css';
 
 function MainSection({ property }) {
@@ -41,21 +50,14 @@ function MainSection({ property }) {
   const config = useSelector((state) => state.auth);
   // const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const errorToast = useToast();
 
   const downloadAllFile = () => {
-    console.log('Prepare download file');
     if (config.isAuthenticated) {
-      if (property.pdf_filename && property.pdf_filename !== '') {
-        dispatch(downloadFile(config.token, property.pdf_filename, property.noteId));
-      }
-      if (property.notability_filename && property.notability_filename !== '') {
-        dispatch(downloadFile(config.token, property.notability_filename, property.noteId));
-      }
-      if (property.goodnotes_filename && property.goodnotes_filename !== '') {
-        dispatch(downloadFile(config.token, property.goodnotes_filename, property.noteId));
-      }
+      dispatch(fetchDownloadFileUrl(config.token, property.noteId, property.pdf_filename, property.notability_filename, property.goodnotes_filename));
+      onOpen();
     } else {
       errorToast({
         title: 'Not login',
@@ -243,6 +245,54 @@ function MainSection({ property }) {
           </VStack>
         </Flex>
       </VStack>
+      <Modal isOpen={isOpen} onClose={onClose} isCentered size="sm">
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader><Text fontSize="2xl">Click File to Download</Text></ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            {property.pdf_url
+              ? (
+                <>
+                  <Text fontSize="xl">
+                    <Link href={property.pdf_url} isExternal>
+                      PDF
+                      <ExternalLinkIcon mx="2px" />
+                    </Link>
+                  </Text>
+                  <br />
+                </>
+              )
+              : <></>}
+            {property.nota_url
+              ? (
+                <>
+                  <Text fontSize="xl">
+                    <Link href={property.nota_url} isExternal>
+                      Notability
+                      <ExternalLinkIcon mx="2px" />
+                    </Link>
+                  </Text>
+                  <br />
+                </>
+              )
+              : <></>}
+            {property.gnote_url
+              ? (
+                <>
+                  <Text fontSize="xl">
+                    <Link href={property.gnote_url} isExternal>
+                      GoodNotes
+                      <ExternalLinkIcon mx="2px" />
+                    </Link>
+                  </Text>
+                  <br />
+                </>
+              )
+              : <></>}
+          </ModalBody>
+        </ModalContent>
+      </Modal>
     </>
   );
 }

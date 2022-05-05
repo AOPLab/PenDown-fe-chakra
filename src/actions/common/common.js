@@ -43,22 +43,57 @@ const downloadFile = (token, filename, noteId) => async (dispatch) => {
 };
 
 // get file URL only
-const fetchDownloadFileUrl = (token, file) => async (dispatch) => {
-  const config = {
+const fetchDownloadFileUrl = (token, noteId, pdf_filename = null, nota_filename = null, gnote_filename = null) => async (dispatch) => {
+  dispatch({ type: commonConstants.FETCH_DOWNLOAD_FILE_URL_START });
+  const config1 = {
     headers: {
-      'auth-token': token,
+      Authorization: `Bearer ${token}`,
     },
     params: {
-      filename: file.filename,
-      as_attachment: file.as_attachment,
+      filename: pdf_filename,
+      note_id: noteId,
+    },
+  };
+  const config2 = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    params: {
+      filename: nota_filename,
+      note_id: noteId,
+    },
+  };
+  const config3 = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    params: {
+      filename: gnote_filename,
+      note_id: noteId,
     },
   };
   try {
-    dispatch({ type: commonConstants.FETCH_DOWNLOAD_FILE_URL_START });
-    const res = await agent.get(`/s3-file/${file.uuid}/url`, config);
+    let pdf_url = null;
+    let notability_url = null;
+    let goodnotes_url = null;
+
+    if (pdf_filename !== null && pdf_filename !== '') {
+      const res1 = await agent.get('/api/file', config1);
+      pdf_url = res1.data.file_url;
+    }
+    if (nota_filename !== null && nota_filename !== '') {
+      const res1 = await agent.get('/api/file', config2);
+      notability_url = res1.data.file_url;
+    }
+    if (gnote_filename !== null && gnote_filename !== '') {
+      const res1 = await agent.get('/api/file', config3);
+      goodnotes_url = res1.data.file_url;
+    }
     dispatch({
       type: commonConstants.FETCH_DOWNLOAD_FILE_URL_SUCCESS,
-      payload: { uuid: file.uuid, url: res.data.data.url },
+      payload: {
+        id: noteId, pdf_url, goodnotes_url, notability_url,
+      },
     });
   } catch (error) {
     dispatch({
