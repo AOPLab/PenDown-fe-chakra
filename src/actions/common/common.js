@@ -1,5 +1,3 @@
-import axios from 'axios';
-import fileDownload from 'js-file-download';
 import agent from '../agent';
 import { commonConstants } from './constant';
 
@@ -19,18 +17,19 @@ const downloadFile = (token, filename, noteId) => async (dispatch) => {
     dispatch({ type: commonConstants.DOWNLOAD_FILE_START });
     const res2 = await agent.get('/api/file', config);
 
-    axios.get(res2.data.file_url, { responseType: 'blob' })
-      .then((res) => {
-        if (filename.includes('pdf')) {
-          fileDownload(res.data, `pendown-${noteId}.pdf`);
-        }
-        if (filename.includes('note')) {
-          fileDownload(res.data, `pendown-${noteId}.note`);
-        }
-        if (filename.includes('goodnotes')) {
-          fileDownload(res.data, `pendown-${noteId}.goodnotes`);
-        }
-      });
+    window.open(res2.data.file_url);
+    // axios.get(res2.data.file_url, { responseType: 'blob' })
+    //   .then((res) => {
+    //     if (filename.includes('pdf')) {
+    //       fileDownload(res.data, `pendown-${noteId}.pdf`);
+    //     }
+    //     if (filename.includes('note')) {
+    //       fileDownload(res.data, `pendown-${noteId}.note`);
+    //     }
+    //     if (filename.includes('goodnotes')) {
+    //       fileDownload(res.data, `pendown-${noteId}.goodnotes`);
+    //     }
+    //   });
 
     dispatch({
       type: commonConstants.DOWNLOAD_FILE_SUCCESS,
