@@ -60,7 +60,7 @@ function Index() {
         <Header />
         <Box pt="20">
           <div>
-            <Container maxW="5xl">
+            <Container maxW={location.pathname === '/search' ? '5xl' : '6xl'}>
               <div className="layout-content">
                 <Switch>
                   <Route path="/account" component={Account} />
