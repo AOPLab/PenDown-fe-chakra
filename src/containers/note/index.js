@@ -98,9 +98,10 @@ function Note() {
       <Flex minH="100vh" align="center" justify="center">
         <Stack spacing={8} mx="auto" maxW="3xl" py={12} px={6}>
           <Box
-            width={{
-              base: 'lg', xs: 'lg', sm: 'xl', md: '2xl',
-            }}
+            // width={{
+            //   base: 'lg', xs: 'lg', sm: 'xl', md: '2xl',
+            // }}
+            width={{ base: '80vw', md: '80vw' }}
             maxW="2xl"
             borderRadius="md"
             border="2px solid black"

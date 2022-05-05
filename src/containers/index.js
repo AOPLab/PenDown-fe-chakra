@@ -16,6 +16,7 @@ import Note from './note';
 import Header from '../components/ui/Header';
 import { readSelfAccount } from '../actions/user/user';
 import NoMatch from '../components/noMatch';
+import Footer from '../components/landing/Footer';
 
 // const useStyles = makeStyles(() => ({
 //   bugReport: {
@@ -31,6 +32,8 @@ function Index() {
   const location = useLocation();
   const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+
+  console.log(location);
 
   useEffect(() => {
     if (!auth.isAuthenticated) {
@@ -72,6 +75,7 @@ function Index() {
             </Container>
           </div>
         </Box>
+        {location.pathname === '/home' ? <Footer /> : <></>}
       </div>
     </>
   );

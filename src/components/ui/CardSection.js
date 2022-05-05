@@ -145,13 +145,13 @@ function CardSection({ noteType, handleNoteTypeChange }) {
         </Flex>
         <TabPanels>
           {data.map((tab, index) => (
-            <TabPanel p={4} key={tab.label}>
+            <TabPanel key={tab.label}>
               <Flex
-                w="full"
+                w="100%"
                 justifyContent="center"
                 alignItems="center"
                 flexDirection="column"
-                px={{ base: 4, lg: 8, xl: 12 }}
+                // px={{ base: 4, lg: 8, xl: 12 }}
               >
                 {tab.content}
               </Flex>
