@@ -1,8 +1,8 @@
+import React from 'react';
 import {
   Flex, SimpleGrid, Container,
 } from '@chakra-ui/react';
-import React, { useState } from 'react';
-import NoteCard from './NoteCard';
+import NoteCard from './cards/NoteCard';
 
 export default function NoteCardContainer(property) {
   return (
