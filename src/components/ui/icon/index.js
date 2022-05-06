@@ -91,6 +91,7 @@ import { ReactComponent as Notification } from './notification.svg';
 import { ReactComponent as AddButton } from './add_button.svg';
 import { ReactComponent as NoteBean } from './Note-Bean-Black.svg';
 import { ReactComponent as NoteBeanOriginal } from './note-bean-original.svg';
+import { ReactComponent as NoteBeanGreen } from './bean.svg';
 
 export default {
 //   HistoryIcon,
@@ -183,4 +184,5 @@ export default {
   AddButton,
   NoteBean,
   NoteBeanOriginal,
+  NoteBeanGreen,
 };

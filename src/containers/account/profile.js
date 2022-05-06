@@ -1,35 +1,82 @@
-import { Flex, SimpleGrid } from '@chakra-ui/react';
-import React from 'react';
-import NoteCard from '../../components/ui/cards/NoteCard';
+import React, {
+  useState, useEffect, useRef, useMemo,
+} from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory, useLocation } from 'react-router-dom';
+import {
+  HStack, Flex, Spacer, VStack, Button, Text, Avatar, Image
+} from '@chakra-ui/react';
+import Icon from '../../components/ui/icon/index';
+import { avatarSrc } from '../../components/util/Helper';
+import SelfCardSection from '../../components/ui/SelfCardSection';
+import StatsCard from '../../components/ui/cards/StatsCard';
 
 function PersonalProfile() {
   // const history = useHistory();
   // const location = useLocation();
   // const config = useSelector((state) => state.auth);
-  // const user = useSelector((state) => state.user);
+  const user = useSelector((state) => state.user);
+  const auth = useSelector((state) => state.auth);
   // const dispatch = useDispatch();
 
+  const [noteType, setNoteType] = useState('Choose Note Type');
+  const handleNoteTypeChange = (event) => {
+    const {
+      target: { value },
+    } = event;
+    setNoteType(value);
+  };
+
   return (
-    <Flex
-      w="full"
-      justifyContent="center"
-      alignItems="center"
-    >
-      <SimpleGrid
-        columns={{ base: 1, md: 2, lg: 3 }}
-        spacing={10}
-        px={{ base: 4, lg: 8, xl: 12 }}
-        py={20}
-        mx="auto"
-      >
-        <NoteCard imageUrl="https://p.calameoassets.com/180515111509-087734d3ab9181b3dbabd2c3eab490b6/p1.jpg" />
-        <NoteCard imageUrl="https://img.freepik.com/free-psd/landscape-cover-mock-up-template-a4-size_165833-912.jpg" />
-        <NoteCard imageUrl="https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/I-20-sample.pdf/page1-463px-I-20-sample.pdf.jpg" />
-        <NoteCard imageUrl="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQGUp_6A6lTrhauVsYhgjXQl0hrbr2nkjveomha7GkGPksnRdWCKJwbAbToS_3ku3giebw&usqp=CAU" />
-        <NoteCard imageUrl="https://imgv2-2-f.scribdassets.com/img/document/262443256/original/acb42c6feb/1613379183?v\u003d1" />
-        <NoteCard imageUrl="https://img.yumpu.com/21400799/1/500x640/download-pdf-file-of-sample-newsletter-articles-get-involved.jpg" />
-      </SimpleGrid>
-    </Flex>
+    <>
+      <Flex direction="column" align="left" gap={10} pt={4} px={8}>
+        <Flex direction="column" align="left" gap={4} py={4}>
+          <Flex alignItems="top" gap={10} flexWrap="wrap" px="32px">
+            <VStack spacing={3}>
+              <Avatar
+                border="2px solid black"
+                width="5vw"
+                height="auto"
+                src={avatarSrc(user.username)}
+              />
+              <Text align="center" width="15vw">
+                <Text color="black.900" fontWeight={900} fontSize="2xl">
+                  {user.fullName}
+                </Text>
+                <Text color="gray.600" fontWeight={400} fontSize="lg">
+                  @
+                  {user.username}
+                </Text>
+              </Text>
+              <HStack textAlign="center" alignContent="center">
+                <Icon.NoteBeanGreen />
+                <Text color="black.900" fontWeight={900} fontSize="2xl">
+                  {user.bean}
+                </Text>
+              </HStack>
+              <Button
+                variant="pendown-primary"
+                size="sm"
+                bg="yellow.500"
+                color="black.900"
+              >
+                Setting
+              </Button>
+            </VStack>
+            <VStack>
+              <HStack spacing={4}>
+                <StatsCard title="Followers" stat={user.followersNum} />
+                <StatsCard title="Following" stat={user.followingNum} />
+                <StatsCard title="Notes" stat={user.noteNum} />
+              </HStack>
+              <Text width="100%" textAlign="left" size="md">{user.description}</Text>
+            </VStack>
+          </Flex>
+          {/* <HStack spacing={8} mx="auto" maxW="3xl" width="80%" py={12} px={6} align="flex-start" /> */}
+        </Flex>
+        <SelfCardSection noteType={noteType} handleNoteTypeChange={handleNoteTypeChange} />
+      </Flex>
+    </>
   );
 }
 
