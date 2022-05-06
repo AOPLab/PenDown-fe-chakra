@@ -1,7 +1,7 @@
 import { noteConstants } from '../actions/note/constant';
 
 const initialState = {
-  tag_id: null,
+  course_id: null,
   noteType: null, // all, notability, goodnotes
   filter: null, // popular, recent
   total_cnt: null,
@@ -13,27 +13,28 @@ const initialState = {
 //   6: [2,5,4,6]
 // }
 
-export default function tagNotes(state = initialState, action) {
+export default function courseNotes(state = initialState, action) {
   switch (action.type) {
-    case noteConstants.BROWSE_NOTES_BY_TAG_SUCCESS: {
+    case noteConstants.BROWSE_NOTES_BY_COURSE_SUCCESS: {
       const {
-        tagnoteIds, tag_id, type, filter, offset, total_cnt,
+        coursenoteIds, course_id, type, filter, offset, total_cnt,
       } = action.payload;
-      if (state.tag_id === tag_id && state.noteType === type && state.filter === filter) {
+      if (state.course_id === course_id && state.noteType === type && state.filter === filter) {
         return {
           ...state,
           noteIds: {
             ...state.noteIds,
-            [offset]: tagnoteIds,
+            [offset]: coursenoteIds,
           },
           total_cnt,
         };
       }
+
       return {
-        tag_id,
+        course_id,
         noteType: type,
         filter,
-        noteIds: { [offset]: tagnoteIds },
+        noteIds: { [offset]: coursenoteIds },
         total_cnt,
       };
     }

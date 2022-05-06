@@ -153,10 +153,24 @@ const browseNotesByCourse = (course_id, type, filter, offset) => async (dispatch
     dispatch({
       type: noteConstants.BROWSE_NOTES_BY_COURSE_SUCCESS,
       payload: {
+        course_id,
         type,
         filter,
         offset,
-        ...res.data,
+        notes: res.data.notes.map((item) => ({
+          id: item.note_id,
+          account_id: item.user_id,
+          username: item.username,
+          title: item.title,
+          view_cnt: item.view_cnt,
+          saved_cnt: item.saved_cnt,
+          note_type: item.note_type,
+          preview_filename: item.preview_filename,
+          preview_url: item.preview_url,
+          created_at: item.created_at,
+        })),
+        coursenoteIds: res.data.notes.map((item) => item.note_id),
+        total_cnt: res.data.total_cnt,
       },
     });
   } catch (error) {
