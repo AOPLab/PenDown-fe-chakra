@@ -7,7 +7,7 @@ function Card(props) {
   const styles = useStyleConfig('Card', { variant: props.variant });
 
   // Pass the computed styles into the `__css` prop
-  return <Box __css={styles}>{props.children}</Box>;
+  return <Box __css={styles} onClick={props.onClick}>{props.children}</Box>;
 }
 
 export default Card;
