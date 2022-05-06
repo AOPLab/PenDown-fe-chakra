@@ -38,7 +38,7 @@ function HotNote(props) {
           pb={10}
           mx="auto"
         >
-          {hotNoteIds.map((id) => (<NoteCard key={id} imageUrl={notes[id].preview_url} />))}
+          {hotNoteIds.map((id) => (<NoteCard key={id} noteId={id} imageUrl={notes[id].preview_url} username={notes[id].username} viewCount={notes[id].view_cnt} savedCount={notes[id].saved_cnt} title={notes[id].title} dateCreated={notes[id].created_at} noteType={notes[id].note_type} />))}
         </SimpleGrid>
       </Box>
       <Box borderBottom="2px solid black" position="absolute" left="0" right="0" />
