@@ -1,11 +1,12 @@
 import '@fontsource/caveat';
-import * as React from 'react';
+import React from 'react';
 import {
   createIcon,
 } from '@chakra-ui/react';
 
 import Steps from '../../components/landing/Steps';
 import Section from '../../components/landing/Section';
+import HotNote from '../../components/landing/HotNote';
 
 const Arrow = createIcon({
   displayName: 'Arrow',
@@ -29,6 +30,7 @@ function Home() {
 
   return (
     <>
+      <HotNote />
       <Steps />
       <Section />
     </>
