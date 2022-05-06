@@ -70,11 +70,11 @@ function SocialProfile() {
             </VStack>
             <VStack>
               <HStack spacing={4}>
-                <StatsCard title="Followers" stat={user.followersNum} />
-                <StatsCard title="Following" stat={user.followingNum} />
-                <StatsCard title="Notes" stat={user.noteNum} />
+                <StatsCard title="Followers" stat={account.followersNum} />
+                <StatsCard title="Following" stat={account.followingNum} />
+                <StatsCard title="Notes" stat={account.noteNum} />
               </HStack>
-              <Text width="100%" textAlign="left">{user.description}</Text>
+              <Text width="100%" textAlign="left">{account.description}</Text>
             </VStack>
           </Flex>
           {/* <HStack spacing={8} mx="auto" maxW="3xl" width="80%" py={12} px={6} align="flex-start" /> */}
