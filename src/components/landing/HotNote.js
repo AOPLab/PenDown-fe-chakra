@@ -26,9 +26,9 @@ function HotNote(props) {
   return (
     <>
       <Box>
-        <Box textAlign="center" spacing={{ base: 8, md: 14 }} py={{ base: 4, md: 8 }}>
+        <Box textAlign="center" display="flex" alignItems="center" spacing={{ base: 8, md: 14 }} py={{ base: 4, md: 8 }}>
           <Heading fontSize={{ base: 'xl', sm: '2xl', md: '5xl' }} fontWeight={900} lineHeight="150%">
-            See what&lsquo;s hot
+            See what&rsquo;s hot 🔥
           </Heading>
         </Box>
         <SimpleGrid
