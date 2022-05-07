@@ -1,36 +1,30 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import {
-  HStack, Flex, Spacer, VStack, Button, Text,
+  HStack, Flex, VStack, Button, Text,
 } from '@chakra-ui/react';
 
-import CardSection from '../../components/ui/CardSection';
 import StatsCard from '../../components/ui/cards/StatsCard';
 import BannerBadge from '../../components/ui/cards/BannerBadge';
 
-function Tag() {
+function School() {
   const { schoolId } = useParams();
+  const schools = useSelector((state) => state.school.byId);
   // const history = useHistory();
   // const location = useLocation();
   // const config = useSelector((state) => state.auth);
   // const user = useSelector((state) => state.user);
-  const dispatch = useDispatch();
-  const [noteType, setNoteType] = useState('Choose Note Type');
-  const handleNoteTypeChange = (event) => {
-    const {
-      target: { value },
-    } = event;
-    setNoteType(value);
-  };
+  // const dispatch = useDispatch();
 
   return (
     <>
-      <Flex direction="column" gap={10} pt={4} px={8}>
-        <Flex direction="column" align="left" gap={4} py={4} p="4">
+      <Flex direction="column" align="left" gap={10} pt={4} px={8}>
+        <Flex direction="column" align="left" gap={4} py={4}>
           <Text color="gray.600" fontWeight={600} fontSize="md">school/</Text>
-          <Flex minWidth="60%" width="60%" alignItems="center" gap="2" flexWrap="wrap">
+          <Flex alignItems="top" gap={10} flexWrap="wrap" px="32px">
             <VStack spacing={3}>
-              <BannerBadge textTransform="lowercase">{ schools[schoolId] }</BannerBadge>
+              <BannerBadge textTransform="lowercase">{ schools[schoolId].name }</BannerBadge>
               <Button
                 variant="pendown-primary"
                 size="sm"
@@ -38,18 +32,16 @@ function Tag() {
                 Follow
               </Button>
             </VStack>
-            <Spacer />
             <HStack spacing={4}>
               <StatsCard title="Followers" stat="1,234" />
+              <StatsCard title="Courses" stat="1,234" />
               <StatsCard title="Notes" stat="9" />
             </HStack>
           </Flex>
-          {/* <HStack spacing={8} mx="auto" maxW="3xl" width="80%" py={12} px={6} align="flex-start" /> */}
         </Flex>
-        <CardSection noteType={noteType} handleNoteTypeChange={handleNoteTypeChange} />
       </Flex>
     </>
   );
 }
 
-export default Tag;
+export default School;
