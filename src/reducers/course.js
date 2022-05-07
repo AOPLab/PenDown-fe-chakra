@@ -5,6 +5,7 @@ import { commonConstants } from '../actions/common/constant';
 const prototype = {
   id: null,
   school_id: null,
+  school_name: null,
   name: null,
   no: null,
 };
@@ -23,10 +24,11 @@ const byId = (state = initialById, action) => {
       const data = {};
       action.payload.courses.map((course) => {
         data[course.course_id] = {
-          ...prototype,
           id: course.course_id,
           name: course.course_name,
           no: course.course_no,
+          school_id: course.school_id,
+          school_name: course.school_name,
         };
         return course;
       });

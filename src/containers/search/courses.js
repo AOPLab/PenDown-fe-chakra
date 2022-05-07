@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Box, Heading, SimpleGrid, Flex, Center, Button,
@@ -6,27 +7,18 @@ import {
 import MiscCard from '../../components/ui/cards/MiscCard';
 
 export default function Courses() {
-  // const history = useHistory();
+  const history = useHistory();
   // const location = useLocation();
   const dispatch = useDispatch();
   const search = useSelector((state) => state.search);
   const courses = useSelector((state) => state.course.byId);
 
-  const pageProperties = {
-    title: 'Courses',
-  };
-
-  const property = {
-    title: 'IM 3007: System Analysis and Design',
-    description: 'National Taiwan University',
-  };
-
-  console.log(Object.keys(search.courses.ids).map((key) => search.courses.ids[key].map((id) => { console.log(id); return id; })));
+  const [offset, setOffset] = useState(0);
 
   return (
     <>
       <Box borderWidth="4px" border="3px black" borderBottom="3px solid black" py="8" my="2">
-        <Heading>{pageProperties.title}</Heading>
+        <Heading>Courses</Heading>
 
         <Flex
           w="full"
@@ -43,9 +35,11 @@ export default function Courses() {
             py={0}
             mx="auto"
           >
-            {Object.keys(search.courses.ids).map((key) => search.courses.ids[key].map((id) => (<MiscCard key={id} property={{ title: `${courses[id].no}: ${courses[id].name}`, description: 'National Taiwan University' }} />)))}
+            {Object.keys(search.courses.ids).map((key) => search.courses.ids[key].map((id) => (<MiscCard key={id} onClick={() => history.push(`/school/${courses[id].school_id}/course/${id}`)} property={{ title: `${courses[id].no}: ${courses[id].name}`, description: `${courses[id].school_name}` }} />)))}
           </SimpleGrid>
         </Flex>
+        {search.courses.totalCnt && search.courses.totalCnt !== 0 && (offset + 1) * 6 < search.courses.totalCnt
+        && (
         <Center mt={8}>
           <Button
             variant="pendown-primary"
@@ -58,6 +52,7 @@ export default function Courses() {
             View More
           </Button>
         </Center>
+        )}
       </Box>
     </>
   );

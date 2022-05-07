@@ -7,7 +7,7 @@ import Marquee from 'react-fast-marquee';
 // FiEye, FiHeart, FiBookmark
 import Card from '../Card';
 
-export default function MiscCard({ property, props }) {
+export default function MiscCard({ onClick, property, props }) {
   // pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
   const [numPages, setNumPages] = useState(null);
   const [pageNumber, setPageNumber] = useState(1);
@@ -18,7 +18,7 @@ export default function MiscCard({ property, props }) {
   };
 
   return (
-    <Box minWidth="fit-content">
+    <Box minWidth="fit-content" onClick={onClick}>
       <Card variant="pendown" maxW="full">
         <Box
           bg={useColorModeValue('white', 'gray.800')}
