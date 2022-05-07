@@ -103,7 +103,31 @@ const fetchDownloadFileUrl = (token, noteId, pdf_filename = null, nota_filename 
   }
 };
 
+const search = (q, type, filter, offset) => async (dispatch) => {
+  dispatch({ type: commonConstants.SEARCH_START });
+  const config = {
+    params: {
+      q,
+      type,
+      filter,
+      offset,
+    },
+  };
+  try {
+    dispatch({
+      type: commonConstants.SEARCH_SUCCESS,
+      payload: {},
+    });
+  } catch (error) {
+    dispatch({
+      type: commonConstants.SEARCH_FAIL,
+      error,
+    });
+  }
+};
+
 export {
   downloadFile,
   fetchDownloadFileUrl,
+  search,
 };
