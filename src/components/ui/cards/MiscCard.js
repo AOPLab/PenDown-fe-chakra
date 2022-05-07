@@ -2,9 +2,7 @@ import {
   Box, useColorModeValue, Icon, HStack, VStack,
 } from '@chakra-ui/react';
 import React, { useState } from 'react';
-import {
-  FiEye, FiBookmark, FiFile, FiList,
-} from 'react-icons/fi';
+import { FiList } from 'react-icons/fi';
 import Marquee from 'react-fast-marquee';
 // FiEye, FiHeart, FiBookmark
 import Card from '../Card';
@@ -54,16 +52,7 @@ export default function MiscCard({ property, props }) {
               </Box>
             ) : <></>}
 
-            <Box d="flex" alignItems="center" w="100%">
-              {/* <HStack>
-              <Avatar
-                border="2px solid black"
-                size="sm"
-                src="https://source.boringavatars.com/beam/40/icheft?colors=264653,2a9d8f,e9c46a,f4a261,e76f51"
-              />
-              <Box as="span" color="black" fontSize="sm" fontWeight={800}>icheft</Box>
-            </HStack>
-            <Spacer /> */}
+            {/* <Box d="flex" alignItems="center" w="100%">
               <HStack
                 color="gray.500"
                 fontWeight="semibold"
@@ -83,7 +72,7 @@ export default function MiscCard({ property, props }) {
                   {property.savedCount}
                 </Box>
               </HStack>
-            </Box>
+            </Box> */}
           </VStack>
         </Box>
       </Card>

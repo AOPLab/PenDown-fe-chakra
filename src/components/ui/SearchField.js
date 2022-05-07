@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import {
   Button, HStack, Input, InputGroup, InputLeftElement, Select, useDisclosure,
   Drawer,
@@ -9,8 +10,11 @@ import {
 } from '@chakra-ui/react';
 import { Search2Icon } from '@chakra-ui/icons';
 
+import { searchCourses } from '../../actions/common/common';
+
 export default function SearchField() {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation();
   const [noteType, setNoteType] = useState('Choose Note Type');
@@ -37,7 +41,7 @@ export default function SearchField() {
         console.log('searchschools');
         break;
       case '/search/courses':
-        console.log('searchcourses');
+        dispatch(searchCourses(query, 0));
         break;
       case '/search/notes':
         console.log('searchnotes');

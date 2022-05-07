@@ -1,4 +1,5 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Box, Heading, SimpleGrid, Flex, Center, Button,
 } from '@chakra-ui/react';
@@ -7,21 +8,20 @@ import MiscCard from '../../components/ui/cards/MiscCard';
 export default function Courses() {
   // const history = useHistory();
   // const location = useLocation();
-  // const config = useSelector((state) => state.auth);
-  // const user = useSelector((state) => state.user);
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
+  const search = useSelector((state) => state.search);
+  const courses = useSelector((state) => state.course.byId);
+
   const pageProperties = {
     title: 'Courses',
   };
 
   const property = {
-    dateCreated: 'Mar. 12, 2022',
     title: 'IM 3007: System Analysis and Design',
     description: 'National Taiwan University',
-    noteCount: '116',
-    viewCount: '3.2k',
-    savedCount: '32',
   };
+
+  console.log(Object.keys(search.courses.ids).map((key) => search.courses.ids[key].map((id) => { console.log(id); return id; })));
 
   return (
     <>
@@ -43,14 +43,7 @@ export default function Courses() {
             py={0}
             mx="auto"
           >
-            <MiscCard property={property} />
-            <MiscCard property={property} />
-            <MiscCard property={property} />
-            <MiscCard property={property} />
-            <MiscCard property={property} />
-            <MiscCard property={property} />
-            <MiscCard property={property} />
-
+            {Object.keys(search.courses.ids).map((key) => search.courses.ids[key].map((id) => (<MiscCard key={id} property={{ title: `${courses[id].no}: ${courses[id].name}`, description: 'National Taiwan University' }} />)))}
           </SimpleGrid>
         </Flex>
         <Center mt={8}>

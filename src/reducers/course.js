@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 // import { userConstants } from '../actions/user/constants';
-// import { commonConstants } from '../actions/common/constant';
+import { commonConstants } from '../actions/common/constant';
 
 const prototype = {
   id: null,
@@ -19,6 +19,22 @@ const initialById = {
 
 const byId = (state = initialById, action) => {
   switch (action.type) {
+    case commonConstants.SEARCH_COURSES_SUCCESS: {
+      const data = {};
+      action.payload.courses.map((course) => {
+        data[course.course_id] = {
+          ...prototype,
+          id: course.course_id,
+          name: course.course_name,
+          no: course.course_no,
+        };
+        return course;
+      });
+      return {
+        ...state,
+        ...data,
+      };
+    }
     default:
       return state;
   }
