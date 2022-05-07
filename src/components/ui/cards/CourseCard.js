@@ -57,15 +57,6 @@ export default function CourseCard({ property, props }) {
             ) : <></>}
 
             <Box d="flex" alignItems="center" w="100%">
-              {/* <HStack>
-              <Avatar
-                border="2px solid black"
-                size="sm"
-                src="https://source.boringavatars.com/beam/40/icheft?colors=264653,2a9d8f,e9c46a,f4a261,e76f51"
-              />
-              <Box as="span" color="black" fontSize="sm" fontWeight={800}>icheft</Box>
-            </HStack>
-            <Spacer /> */}
               <HStack
                 color="gray.500"
                 fontWeight="semibold"

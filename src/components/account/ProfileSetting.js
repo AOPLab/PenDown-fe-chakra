@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import {
   useToast, Button, Box, Flex,
   FormControl, FormLabel, Input, Stack, Icon,
@@ -15,6 +16,7 @@ function ProfileSetting() {
   const config = useSelector((state) => state.auth);
   const user = useSelector((state) => state.user);
   const error = useSelector((state) => state.error.user.user);
+  const history = useHistory();
   const dispatch = useDispatch();
 
   const [editError, setEditError] = useState(null);
@@ -26,6 +28,7 @@ function ProfileSetting() {
 
   const onSubmit = () => {
     dispatch(editAccount(config.token, username, fullName, email, bio));
+    history.push('/account/my-profile');
   };
 
   const onCancel = () => {
@@ -33,6 +36,7 @@ function ProfileSetting() {
     setFullName(user.fullName ? user.fullName : '');
     setEmail(user.email ? user.email : '');
     setBio(user.description ? user.description : '');
+    history.push('/account/my-profile');
   };
 
   useEffect(() => {

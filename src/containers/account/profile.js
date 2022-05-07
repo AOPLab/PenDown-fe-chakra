@@ -70,7 +70,7 @@ function PersonalProfile() {
                 <StatsCard title="Following" stat={user.followingNum} />
                 <StatsCard title="Notes" stat={user.noteNum} />
               </HStack>
-              <Text width="100%" textAlign="left" size="md">{user.description}</Text>
+              <Text width="420px" textAlign="left" size="md">{user.description}</Text>
             </VStack>
           </Flex>
           {/* <HStack spacing={8} mx="auto" maxW="3xl" width="80%" py={12} px={6} align="flex-start" /> */}
