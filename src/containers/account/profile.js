@@ -12,7 +12,7 @@ import SelfCardSection from '../../components/ui/SelfCardSection';
 import StatsCard from '../../components/ui/cards/StatsCard';
 
 function PersonalProfile() {
-  // const history = useHistory();
+  const history = useHistory();
   // const location = useLocation();
   // const config = useSelector((state) => state.auth);
   const user = useSelector((state) => state.user);
@@ -59,6 +59,7 @@ function PersonalProfile() {
                 size="sm"
                 bg="yellow.500"
                 color="black.900"
+                onClick={() => history.push('/account/my-profile/setting')}
               >
                 Setting
               </Button>
