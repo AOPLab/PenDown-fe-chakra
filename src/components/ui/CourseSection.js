@@ -1,18 +1,30 @@
 import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import {
-  Flex, SimpleGrid, Select, Tab, Tabs, TabList, TabPanels, TabPanel,
+  Flex, SimpleGrid, Tab, Tabs, TabList, TabPanels, TabPanel,
   Stack, useColorModeValue,
 } from '@chakra-ui/react';
 
-import MiscCard from './cards/MiscCard';
+import CourseCard from './cards/CourseCard';
 
-function CourseSection({ noteType, handleNoteTypeChange }) {
-  // const { noteId } = useParams();
+function CourseSection() {
+  const courseIds = [1, 2]; // useSelector((state) => state.course);
+  const courses = useSelector((state) => state.course.byId);
+  const schools = 1;
   // const history = useHistory();
   // const location = useLocation();
   // const config = useSelector((state) => state.auth);
   // const user = useSelector((state) => state.user);
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
+
+  const property = {
+    dateCreated: 'Mar. 12, 2022',
+    title: 'IM 3007: System Analysis and Design',
+    description: 'National Taiwan University',
+    noteCount: '116',
+    viewCount: '3.2k',
+    savedCount: '32',
+  };
 
   const tabData = [
     {
@@ -28,7 +40,8 @@ function CourseSection({ noteType, handleNoteTypeChange }) {
             pb={10}
             mx="auto"
           >
-            <MiscCard />
+            <CourseCard property={property} />
+            <CourseCard property={property} />
           </SimpleGrid>
         </>
       ),
@@ -37,38 +50,18 @@ function CourseSection({ noteType, handleNoteTypeChange }) {
       label: 'Recent',
       content: (
         <>
-          <Flex w="full" direction="column" align="flex-end">
-            <Select
-              defaultValue="Choose Note Type"
-              display="flex"
-              value={noteType}
-              focusBorderColor="primary.400"
-              _hover={{ borderColor: 'primary.400' }}
-              size="sm"
-              bg="white"
-              width="120px"
-              borderColor="black"
-              borderWidth="2px"
-              borderRadius="pendown"
-              onChange={handleNoteTypeChange}
-              alignItems="center"
-              justifyContent="center"
-              my={2}
-            >
-              <option key="Choose Note Type" value="Choose Note Type">Note Type</option>
-              <option key="All" value="All">All</option>
-              <option key="Notability" value="Notability">Notability</option>
-              <option key="Goodnotes" value="Goodnotes">Goodnotes</option>
-            </Select>
-          </Flex>
           <SimpleGrid
-            columns={{ base: 1, md: 2, lg: 3 }}
+            columns={{
+              base: 1, md: 2, lg: 3,
+            }}
             spacing={10}
             py={4}
             pb={10}
             mx="auto"
           >
-            <MiscCard />
+            <CourseCard property={property} />
+            <CourseCard property={property} />
+            <CourseCard property={property} />
           </SimpleGrid>
         </>
       ),

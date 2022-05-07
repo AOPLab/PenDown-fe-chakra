@@ -2,7 +2,7 @@ import React from 'react';
 import {
   Box, Heading, SimpleGrid, Flex, Center, Button,
 } from '@chakra-ui/react';
-import MiscCard from '../../components/ui/cards/MiscCard';
+import CourseCard from '../../components/ui/cards/CourseCard';
 
 export default function Courses() {
   // const history = useHistory();
@@ -43,14 +43,13 @@ export default function Courses() {
             py={0}
             mx="auto"
           >
-            <MiscCard property={property} />
-            <MiscCard property={property} />
-            <MiscCard property={property} />
-            <MiscCard property={property} />
-            <MiscCard property={property} />
-            <MiscCard property={property} />
-            <MiscCard property={property} />
-
+            <CourseCard property={property} />
+            <CourseCard property={property} />
+            <CourseCard property={property} />
+            <CourseCard property={property} />
+            <CourseCard property={property} />
+            <CourseCard property={property} />
+            <CourseCard property={property} />
           </SimpleGrid>
         </Flex>
         <Center mt={8}>
