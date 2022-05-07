@@ -1,24 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Box, Heading, SimpleGrid, Button, Center,
 } from '@chakra-ui/react';
 import SearchAvatar from '../../components/ui/avatar/SearchAvatar';
 
 export default function People() {
-  // const history = useHistory();
+  const history = useHistory();
   // const location = useLocation();
-  // const config = useSelector((state) => state.auth);
-  // const user = useSelector((state) => state.user);
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
+  const search = useSelector((state) => state.search);
+  const accounts = useSelector((state) => state.accounts.byId);
 
-  const pageProperties = {
-    title: 'People',
-  };
+  const [offset, setOffset] = useState(0);
 
   return (
     <>
       <Box borderWidth="4px" border="3px black" borderBottom="3px solid black" py="8" my="2">
-        <Heading>{pageProperties.title}</Heading>
+        <Heading>People</Heading>
         <SimpleGrid
           minChildWidth="120px"
           spacing={4}
@@ -27,19 +27,10 @@ export default function People() {
           py={0}
           mx="auto"
         >
-          <SearchAvatar username="icheft" />
-          <SearchAvatar username="gary1030" />
-          <SearchAvatar username="pendown.official" />
-          <SearchAvatar username="brian_lxchen" />
-          <SearchAvatar username="derekdylu" />
-          <SearchAvatar username="Shannon" />
-          <SearchAvatar username="guanyiii" />
-          <SearchAvatar username="chienyu" />
-          {/* <SearchAvatar username="pd_test" />
-              <SearchAvatar username="aoplab" />
-              <SearchAvatar username="ntuim" />
-              <SearchAvatar username="pendown.fan" /> */}
+          {Object.keys(search.accounts.ids).map((key) => search.accounts.ids[key].map((id) => (<SearchAvatar key={id} onClick={() => history.push(`/account/${id}`)} username={accounts[id].username} />)))}
         </SimpleGrid>
+        {search.accounts.totalCnt && search.accounts.totalCnt !== 0 && (offset + 1) * 12 < search.accounts.totalCnt
+        && (
         <Center mt={8}>
           <Button
             variant="pendown-primary"
@@ -52,6 +43,7 @@ export default function People() {
             View More
           </Button>
         </Center>
+        )}
       </Box>
     </>
   );

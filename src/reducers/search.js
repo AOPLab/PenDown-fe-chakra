@@ -88,6 +88,26 @@ const search = (state = initialState, action) => {
           totalCnt: action.payload.total_cnt,
         },
       };
+
+    case commonConstants.SEARCH_PEOPLE_SUCCESS:
+      if (state.q !== action.payload.q) {
+        return {
+          ...initialState,
+          q: action.payload.q,
+          type: state.type,
+          accounts: {
+            ids: { [action.payload.offset]: action.payload.people.map((account) => account.user_id) },
+            totalCnt: action.payload.total_cnt,
+          },
+        };
+      }
+      return {
+        ...state,
+        accounts: {
+          ids: { [action.payload.offset]: action.payload.people.map((account) => account.user_id) },
+          totalCnt: action.payload.total_cnt,
+        },
+      };
     default:
       return state;
   }

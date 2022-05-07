@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import { userConstants } from '../actions/user/constants';
+import { commonConstants } from '../actions/common/constant';
 
 const prototype = {
   id: null,
@@ -100,6 +101,22 @@ const byId = (state = {}, action) => {
       };
     }
 
+    case commonConstants.SEARCH_PEOPLE_SUCCESS: {
+      const data = {};
+      action.payload.people.map((account) => {
+        data[account.user_id] = {
+          ...prototype,
+          ...state[account.user_id],
+          id: account.user_id,
+          username: account.username,
+        };
+        return account;
+      });
+      return {
+        ...state,
+        ...data,
+      };
+    }
     default:
       return state;
   }
