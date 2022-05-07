@@ -1,31 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Box, Heading, SimpleGrid, Flex, Center, Button,
 } from '@chakra-ui/react';
 import MiscCard from '../../components/ui/cards/MiscCard';
 
 export default function Schools() {
-  // const history = useHistory();
+  const history = useHistory();
   // const location = useLocation();
-  // const config = useSelector((state) => state.auth);
-  // const user = useSelector((state) => state.user);
-  // const dispatch = useDispatch();
-  const pageProperties = {
-    title: 'Schools',
-  };
+  const dispatch = useDispatch();
+  const search = useSelector((state) => state.search);
+  const schools = useSelector((state) => state.school.byId);
 
-  const property = {
-    dateCreated: 'Mar. 12, 2022',
-    title: 'National Taiwan University (NTU)',
-    noteCount: '116',
-    viewCount: '3.2k',
-    savedCount: '32',
-  };
+  const [offset, setOffset] = useState(0);
 
   return (
     <>
       <Box borderWidth="4px" border="3px black" borderBottom="3px solid black" py="8" my="2">
-        <Heading>{pageProperties.title}</Heading>
+        <Heading>Schools</Heading>
 
         <Flex
           w="full"
@@ -34,24 +27,19 @@ export default function Schools() {
         >
           <SimpleGrid
             columns={{
-              base: 1, md: 2, xl: 3,
+              base: 1, md: 2, lg: 2, xl: 3,
             }}
-            spacing="40px"
+            spacing={{ base: 10, md: 12 }}
             mt={8}
             px={0}
             py={0}
             mx="auto"
           >
-            <MiscCard property={property} />
-            <MiscCard property={property} />
-            <MiscCard property={property} />
-            <MiscCard property={property} />
-            <MiscCard property={property} />
-            <MiscCard property={property} />
-            <MiscCard property={property} />
-
+            {Object.keys(search.schools.ids).map((key) => search.schools.ids[key].map((id) => (<MiscCard key={id} onClick={() => history.push(`/school/${id}`)} property={{ title: `${schools[id].name}` }} />)))}
           </SimpleGrid>
         </Flex>
+        {search.schools.totalCnt && search.schools.totalCnt !== 0 && (offset + 1) * 12 < search.schools.totalCnt
+        && (
         <Center mt={8}>
           <Button
             variant="pendown-primary"
@@ -64,6 +52,7 @@ export default function Schools() {
             View More
           </Button>
         </Center>
+        )}
       </Box>
     </>
   );

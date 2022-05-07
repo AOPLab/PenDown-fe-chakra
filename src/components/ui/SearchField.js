@@ -10,7 +10,7 @@ import {
 } from '@chakra-ui/react';
 import { Search2Icon } from '@chakra-ui/icons';
 
-import { searchCourses } from '../../actions/common/common';
+import { searchCourses, searchSchools, searchTags } from '../../actions/common/common';
 
 export default function SearchField() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -29,16 +29,18 @@ export default function SearchField() {
   const onSearch = () => {
     switch (location.pathname) {
       case '/search/all':
-        console.log('searchall');
+        dispatch(searchTags(query, 0));
+        dispatch(searchSchools(query, 0));
+        dispatch(searchCourses(query, 0));
         break;
       case '/search/people':
         console.log('people');
         break;
       case '/search/tags':
-        console.log('tags');
+        dispatch(searchTags(query, 0));
         break;
       case '/search/schools':
-        console.log('searchschools');
+        dispatch(searchSchools(query, 0));
         break;
       case '/search/courses':
         dispatch(searchCourses(query, 0));

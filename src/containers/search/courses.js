@@ -38,7 +38,7 @@ export default function Courses() {
             {Object.keys(search.courses.ids).map((key) => search.courses.ids[key].map((id) => (<MiscCard key={id} onClick={() => history.push(`/school/${courses[id].school_id}/course/${id}`)} property={{ title: `${courses[id].no}: ${courses[id].name}`, description: `${courses[id].school_name}` }} />)))}
           </SimpleGrid>
         </Flex>
-        {search.courses.totalCnt && search.courses.totalCnt !== 0 && (offset + 1) * 6 < search.courses.totalCnt
+        {search.courses.totalCnt && search.courses.totalCnt !== 0 && (offset + 1) * 12 < search.courses.totalCnt
         && (
         <Center mt={8}>
           <Button

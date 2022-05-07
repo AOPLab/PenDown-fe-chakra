@@ -50,6 +50,44 @@ const search = (state = initialState, action) => {
           totalCnt: action.payload.total_cnt,
         },
       };
+    case commonConstants.SEARCH_SCHOOLS_SUCCESS:
+      if (state.q !== action.payload.q) {
+        return {
+          ...initialState,
+          q: action.payload.q,
+          type: state.type,
+          schools: {
+            ids: { [action.payload.offset]: action.payload.schools.map((school) => school.school_id) },
+            totalCnt: action.payload.total_cnt,
+          },
+        };
+      }
+      return {
+        ...state,
+        schools: {
+          ids: { [action.payload.offset]: action.payload.schools.map((school) => school.school_id) },
+          totalCnt: action.payload.total_cnt,
+        },
+      };
+    case commonConstants.SEARCH_TAGS_SUCCESS:
+      if (state.q !== action.payload.q) {
+        return {
+          ...initialState,
+          q: action.payload.q,
+          type: state.type,
+          tags: {
+            ids: { [action.payload.offset]: action.payload.tags.map((tag) => tag.tag_id) },
+            totalCnt: action.payload.total_cnt,
+          },
+        };
+      }
+      return {
+        ...state,
+        tags: {
+          ids: { [action.payload.offset]: action.payload.tags.map((tag) => tag.tag_id) },
+          totalCnt: action.payload.total_cnt,
+        },
+      };
     default:
       return state;
   }

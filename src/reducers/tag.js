@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 import { tagConstants } from '../actions/tag/constant';
 import { noteConstants } from '../actions/note/constant';
+import { commonConstants } from '../actions/common/constant';
 
 // const prototype = {
 //   id: null,
@@ -9,6 +10,20 @@ import { noteConstants } from '../actions/note/constant';
 
 const byId = (state = {}, action) => {
   switch (action.type) {
+    case commonConstants.SEARCH_TAGS_SUCCESS: {
+      const data = {};
+      action.payload.tags.map((tag) => {
+        data[tag.tag_id] = {
+          id: tag.tag_id,
+          name: tag.tag_name,
+        };
+        return tag;
+      });
+      return {
+        ...state,
+        ...data,
+      };
+    }
     case tagConstants.BROWSE_TAG_SUCCESS: {
       const data = {};
       action.payload.map((item) => {
