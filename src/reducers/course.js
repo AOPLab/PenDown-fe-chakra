@@ -1,31 +1,41 @@
 import { combineReducers } from 'redux';
-// import { userConstants } from '../actions/user/constants';
+import { courseConstants } from '../actions/course/constant';
 // import { commonConstants } from '../actions/common/constant';
 
 const prototype = {
   id: null,
-  school_id: null,
   name: null,
-  no: null,
 };
 
-const initialAllId = [1, 2, 3];
-
-const initialById = {
-  1: { id: 1, name: 'System Analysis and Design', no: 'IM3007' },
-  2: { id: 2, name: 'Database Management', no: 'IM3008' },
-  3: { id: 3, name: 'Software Project Management', no: 'IM5028' },
-};
-
-const byId = (state = initialById, action) => {
+const byId = (state = {}, action) => {
   switch (action.type) {
+    case courseConstants.GET_SCHOOL_COURSE_SUCCESS: {
+      const data = {};
+      action.payload.map((item) => {
+        data[item.course_id] = {
+          id: item.course_id,
+          name: item.course_name,
+          no: item.course_no,
+          school: item.school_id,
+        };
+        return item;
+      });
+      return data;
+    }
+
     default:
       return state;
   }
 };
 
-const allIds = (state = initialAllId, action) => {
+const allIds = (state = [], action) => {
   switch (action.type) {
+    case courseConstants.GET_SCHOOL_COURSE_SUCCESS: {
+      return action.payload.map((item) => item.course_id);
+    }
+    // case noteConstants.GET_NOTE_SUCCESS: {
+    //   return [...new Set([...action.payload.note.tagIds, ...state])];
+    // }
     default:
       return state;
   }

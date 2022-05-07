@@ -1,4 +1,4 @@
-import { schoolConstants } from '../../actions/school/constant';
+import { schoolConstants } from '../../../actions/school/constant';
 
 const initialState = {
   browseSchool: null,
