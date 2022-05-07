@@ -1,5 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
 import {
   IconButton,
   Box,
@@ -22,16 +23,18 @@ import {
 } from 'react-icons/bi';
 
 const FilterItems = [
-  { name: 'All', icon: FiFileText },
-  { name: 'People', icon: FiUsers },
-  { name: 'Tags', icon: FiTag },
-  { name: 'Schools', icon: BiBusSchool },
-  { name: 'Courses', icon: FiBook },
-  { name: 'Notes', icon: FiFile },
-  { name: 'Templates', icon: FiEdit },
+  { name: 'All', icon: FiFileText, link: '/search/all' },
+  { name: 'People', icon: FiUsers, link: '/search/people' },
+  { name: 'Tags', icon: FiTag, link: '/search/tags' },
+  { name: 'Schools', icon: BiBusSchool, link: '/search/schools' },
+  { name: 'Courses', icon: FiBook, link: '/search/courses' },
+  { name: 'Notes', icon: FiFile, link: '/search/notes' },
+  { name: 'Templates', icon: FiEdit, link: '/search/templates' },
 ];
 
 export default function SimpleSideBar({ children: content }) {
+  const history = useHistory();
+  const location = useLocation();
   const sidebar = useDisclosure();
   const integrations = useDisclosure();
   const color = useColorModeValue('gray.600', 'gray.300');
@@ -117,7 +120,7 @@ export default function SimpleSideBar({ children: content }) {
         aria-label="Filters"
       >
         {FilterItems.map((link) => (
-          <NavItem key={link.name} icon={link.icon}>
+          <NavItem key={link.name} icon={link.icon} onClick={() => history.push(link.link)}>
             {link.name}
           </NavItem>
         ))}

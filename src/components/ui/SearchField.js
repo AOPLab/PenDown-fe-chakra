@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
 import {
   Button, HStack, Input, InputGroup, InputLeftElement, Select, useDisclosure,
   Drawer,
@@ -7,11 +8,13 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import { Search2Icon } from '@chakra-ui/icons';
-import { useHistory } from 'react-router-dom';
 
-export default function SearchField({ noteType, handleNoteTypeChange }) {
+export default function SearchField() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const history = useHistory();
+  const location = useLocation();
+  const [noteType, setNoteType] = useState('Choose Note Type');
+  const [query, setQuery] = useState('');
   const filters = [
     {
       title: 'Types',
@@ -19,7 +22,33 @@ export default function SearchField({ noteType, handleNoteTypeChange }) {
     },
   ];
 
-  const searchLink = '/search/all';
+  const onSearch = () => {
+    switch (location.pathname) {
+      case '/search/all':
+        console.log('searchall');
+        break;
+      case '/search/people':
+        console.log('people');
+        break;
+      case '/search/tags':
+        console.log('tags');
+        break;
+      case '/search/schools':
+        console.log('searchschools');
+        break;
+      case '/search/courses':
+        console.log('searchcourses');
+        break;
+      case '/search/notes':
+        console.log('searchnotes');
+        break;
+      case '/search/templates':
+        console.log('searchtemplates');
+        break;
+      default:
+        history.push('/search/all');
+    }
+  };
 
   return (
     <>
@@ -47,6 +76,8 @@ export default function SearchField({ noteType, handleNoteTypeChange }) {
             placeholder="IM 3007"
             borderWidth="2px"
             onClick={onOpen}
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
           />
         </InputGroup>
         <Select
@@ -60,7 +91,7 @@ export default function SearchField({ noteType, handleNoteTypeChange }) {
           borderColor="black"
           borderWidth="2px"
           borderRadius="pendown"
-          onChange={handleNoteTypeChange}
+          onChange={(e) => setNoteType(e.target.value)}
           alignItems="center"
           justifyContent="center"
         >
@@ -118,7 +149,7 @@ export default function SearchField({ noteType, handleNoteTypeChange }) {
           }
         </MenuList> */}
         {/* </Menu> */}
-        <Button size="lg" fontSize="20px" variant="pendown-yellow" px="0" onClick={() => history.push(searchLink)}><Search2Icon /></Button>
+        <Button size="lg" fontSize="20px" variant="pendown-yellow" px="0" onClick={onSearch}><Search2Icon /></Button>
       </HStack>
       <Drawer placement="top" onClose={onClose} isOpen={isOpen}>
         <DrawerOverlay />
@@ -154,6 +185,8 @@ export default function SearchField({ noteType, handleNoteTypeChange }) {
                   borderRadius="pendown"
                   placeholder="IM 3007"
                   borderWidth="2px"
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
                 />
               </InputGroup>
               <Select
@@ -167,7 +200,7 @@ export default function SearchField({ noteType, handleNoteTypeChange }) {
                 borderColor="black"
                 borderWidth="2px"
                 borderRadius="pendown"
-                onChange={handleNoteTypeChange}
+                onChange={(e) => setNoteType(e.target.value)}
                 alignItems="center"
                 justifyContent="center"
               >
@@ -176,7 +209,7 @@ export default function SearchField({ noteType, handleNoteTypeChange }) {
                 <option key="Notability" value="Notability">Notability</option>
                 <option key="Goodnotes" value="Goodnotes">Goodnotes</option>
               </Select>
-              <Button size="lg" fontSize="20px" variant="pendown-yellow" px="0" onClick={() => history.push(searchLink)}><Search2Icon /></Button>
+              <Button size="lg" fontSize="20px" variant="pendown-yellow" px="0" onClick={onSearch}><Search2Icon /></Button>
             </HStack>
           </DrawerBody>
         </DrawerContent>
