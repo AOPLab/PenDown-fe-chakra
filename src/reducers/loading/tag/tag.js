@@ -1,7 +1,8 @@
-import { tagConstants } from '../../actions/tag/constant';
+import { tagConstants } from '../../../actions/tag/constant';
 
 const initialState = {
   browseTag: false,
+  getTag: false,
 };
 
 export default function note(state = initialState, action) {
@@ -16,6 +17,19 @@ export default function note(state = initialState, action) {
       return {
         ...state,
         browseTag: false,
+      };
+    }
+
+    case tagConstants.GET_TAG_START:
+      return {
+        ...state,
+        getTag: true,
+      };
+    case tagConstants.GET_TAG_SUCCESS:
+    case tagConstants.GET_TAG_FAIL: {
+      return {
+        ...state,
+        getTag: false,
       };
     }
 

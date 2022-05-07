@@ -18,9 +18,27 @@ const fetchAllTags = () => async (dispatch) => {
   }
 };
 
-const fetchTag = () => async (dispatch) => 0;
+// Get tag by id
+const getTag = (tag_id) => async (dispatch) => {
+  dispatch({ type: tagConstants.GET_TAG_START });
+  try {
+    const res = await agent.get(`/api/tag/${tag_id}`);
+    dispatch({
+      type: tagConstants.GET_TAG_SUCCESS,
+      payload: {
+        id: tag_id,
+        name: res.data.tag_name,
+      },
+    });
+  } catch (error) {
+    dispatch({
+      type: tagConstants.GET_TAG_FAIL,
+      error,
+    });
+  }
+};
 
 export {
   fetchAllTags,
-  fetchTag,
+  getTag,
 };

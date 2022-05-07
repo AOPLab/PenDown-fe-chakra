@@ -5,6 +5,8 @@ import { courseConstants } from '../actions/course/constant';
 const prototype = {
   id: null,
   name: null,
+  no: null,
+  school: null,
 };
 
 const byId = (state = {}, action) => {
@@ -13,14 +15,16 @@ const byId = (state = {}, action) => {
       const data = {};
       action.payload.map((item) => {
         data[item.course_id] = {
-          id: item.course_id,
-          name: item.course_name,
-          no: item.course_no,
-          school: item.school_id,
+          ...prototype,
+          ...state[item.course_id],
+          ...item,
         };
         return item;
       });
-      return data;
+      return {
+        ...state,
+        ...data,
+      };
     }
 
     default:

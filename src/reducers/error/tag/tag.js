@@ -1,7 +1,8 @@
-import { tagConstants } from '../../actions/tag/constant';
+import { tagConstants } from '../../../actions/tag/constant';
 
 const initialState = {
   browseTag: null,
+  getTag: null,
 };
 
 export default function user(state = initialState, action) {
@@ -18,6 +19,20 @@ export default function user(state = initialState, action) {
         browseTag: action.error,
       };
     }
+
+    case tagConstants.GET_TAG_SUCCESS: {
+      return {
+        ...state,
+        getTag: null,
+      };
+    }
+    case tagConstants.GET_TAG_FAIL: {
+      return {
+        ...state,
+        getTag: action.error,
+      };
+    }
+
     default: {
       return state;
     }
