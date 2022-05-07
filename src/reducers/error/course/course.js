@@ -2,6 +2,7 @@ import { courseConstants } from '../../../actions/course/constant';
 
 const initialState = {
   getSchoolCourses: null,
+  getCourse: null,
 };
 
 export default function course(state = initialState, action) {
@@ -18,6 +19,20 @@ export default function course(state = initialState, action) {
         getSchoolCourses: action.error,
       };
     }
+
+    case courseConstants.GET_COURSE_SUCCESS: {
+      return {
+        ...state,
+        getCourse: null,
+      };
+    }
+    case courseConstants.GET_COURSE_FAIL: {
+      return {
+        ...state,
+        getCourse: action.error,
+      };
+    }
+
     default: {
       return state;
     }

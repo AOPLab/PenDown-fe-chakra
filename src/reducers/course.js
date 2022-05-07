@@ -15,15 +15,32 @@ const byId = (state = {}, action) => {
       const data = {};
       action.payload.map((item) => {
         data[item.course_id] = {
-          ...prototype,
-          ...state[item.course_id],
-          ...item,
+          // ...prototype,
+          // ...state[item.course_id],
+          // ...item,
+          id: item.course_id,
+          name: item.course_name,
+          no: item.course_no,
+          school: item.school_id,
         };
         return item;
       });
       return {
         ...state,
         ...data,
+      };
+    }
+
+    case courseConstants.GET_COURSE_SUCCESS: {
+      return {
+        ...state,
+        [action.payload.id]: {
+          ...prototype,
+          ...state[action.payload.id],
+          name: action.payload.name,
+          no: action.payload.no,
+          school: action.payload.school,
+        },
       };
     }
 
@@ -37,9 +54,10 @@ const allIds = (state = [], action) => {
     case courseConstants.GET_SCHOOL_COURSE_SUCCESS: {
       return action.payload.map((item) => item.course_id);
     }
-    // case noteConstants.GET_NOTE_SUCCESS: {
-    //   return [...new Set([...action.payload.note.tagIds, ...state])];
-    // }
+    case courseConstants.GET_COURSE_SUCCESS: {
+      return [...new Set([action.payload.id, ...state])];
+    }
+
     default:
       return state;
   }

@@ -18,9 +18,29 @@ const fetchSchoolCourses = (schoolId) => async (dispatch) => {
   }
 };
 
-const fetchCourse = () => async (dispatch) => 0;
+// Get course by id
+const getCourse = (course_id) => async (dispatch) => {
+  dispatch({ type: courseConstants.GET_COURSE_START });
+  try {
+    const res = await agent.get(`/api/course/${course_id}`);
+    dispatch({
+      type: courseConstants.GET_COURSE_SUCCESS,
+      payload: {
+        id: res.data.course_id,
+        name: res.data.course_name,
+        no: res.data.course_no,
+        school: res.data.school_id,
+      },
+    });
+  } catch (error) {
+    dispatch({
+      type: courseConstants.GET_COURSE_FAIL,
+      error,
+    });
+  }
+};
 
 export {
   fetchSchoolCourses,
-  fetchCourse,
+  getCourse,
 };
