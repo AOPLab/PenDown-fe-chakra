@@ -2,6 +2,7 @@ import { schoolConstants } from '../../../actions/school/constant';
 
 const initialState = {
   browseSchool: false,
+  getSchool: false,
 };
 
 export default function school(state = initialState, action) {
@@ -16,6 +17,19 @@ export default function school(state = initialState, action) {
       return {
         ...state,
         browseSchool: false,
+      };
+    }
+
+    case schoolConstants.GET_SCHOOL_START:
+      return {
+        ...state,
+        getSchool: true,
+      };
+    case schoolConstants.GET_SCHOOL_SUCCESS:
+    case schoolConstants.GET_SCHOOL_FAIL: {
+      return {
+        ...state,
+        getSchool: false,
       };
     }
 

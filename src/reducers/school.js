@@ -7,14 +7,6 @@ const prototype = {
   name: null,
 };
 
-// const initialById = {
-//   1: { id: 1, name: 'National Taiwan University' },
-//   2: { id: 2, name: 'National Tsing Hua University' },
-//   3: { id: 3, name: 'National Chengchi University' },
-// };
-
-// const initialAllId = [1, 2, 3];
-
 const byId = (state = {}, action) => {
   switch (action.type) {
     case schoolConstants.BROWSE_SCHOOL_SUCCESS: {
@@ -29,6 +21,17 @@ const byId = (state = {}, action) => {
       return data;
     }
 
+    case schoolConstants.GET_SCHOOL_SUCCESS: {
+      return {
+        ...state,
+        [action.payload.id]: {
+          ...prototype,
+          ...state[action.payload.id],
+          name: action.payload.name,
+        },
+      };
+    }
+
     default:
       return state;
   }
@@ -39,9 +42,9 @@ const allIds = (state = [], action) => {
     case schoolConstants.BROWSE_SCHOOL_SUCCESS: {
       return action.payload.map((item) => item.school_id);
     }
-    // case noteConstants.GET_NOTE_SUCCESS: {
-    //   return [...new Set([...action.payload.note.tagIds, ...state])];
-    // }
+    case schoolConstants.GET_SCHOOL_SUCCESS: {
+      return [...new Set([action.payload.id, ...state])];
+    }
     default:
       return state;
   }
