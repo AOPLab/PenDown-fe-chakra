@@ -3,6 +3,7 @@ import { tagConstants } from '../../../actions/tag/constant';
 const initialState = {
   browseTag: null,
   getTag: null,
+  addTag: null,
 };
 
 export default function user(state = initialState, action) {
@@ -30,6 +31,19 @@ export default function user(state = initialState, action) {
       return {
         ...state,
         getTag: action.error,
+      };
+    }
+
+    case tagConstants.ADD_TAG_SUCCESS: {
+      return {
+        ...state,
+        addTag: null,
+      };
+    }
+    case tagConstants.ADD_TAG_FAIL: {
+      return {
+        ...state,
+        addTag: action.error,
       };
     }
 
