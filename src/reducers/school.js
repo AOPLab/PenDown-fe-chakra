@@ -2,10 +2,10 @@ import { combineReducers } from 'redux';
 import { schoolConstants } from '../actions/school/constant';
 // import { commonConstants } from '../actions/common/constant';
 
-// const prototype = {
-//   id: null,
-//   name: null,
-// };
+const prototype = {
+  id: null,
+  name: null,
+};
 
 // const initialById = {
 //   1: { id: 1, name: 'National Taiwan University' },
