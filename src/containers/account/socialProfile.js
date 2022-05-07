@@ -1,10 +1,10 @@
 import React, {
-  useState, useEffect, useRef, useMemo,
+  useState,
 } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+// import { useHistory, useLocation } from 'react-router-dom';
 import {
-  HStack, Flex, Spacer, VStack, Button, Text, Avatar,
+  HStack, Flex, VStack, Button, Text, Avatar,
 } from '@chakra-ui/react';
 
 import { avatarSrc } from '../../components/util/Helper';
@@ -65,8 +65,7 @@ function SocialProfile() {
                   >
                     Follow
                   </Button>
-                )
-              }
+                )}
             </VStack>
             <VStack>
               <HStack spacing={4}>

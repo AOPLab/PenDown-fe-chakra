@@ -1,10 +1,10 @@
 import React, {
-  useState, useEffect, useRef, useMemo,
+  useState,
 } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import {
-  HStack, Flex, Spacer, VStack, Button, Text, Avatar, Image
+  HStack, Flex, VStack, Button, Text, Avatar,
 } from '@chakra-ui/react';
 import Icon from '../../components/ui/icon/index';
 import { avatarSrc } from '../../components/util/Helper';
