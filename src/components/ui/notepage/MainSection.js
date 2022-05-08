@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import moment from 'moment';
@@ -53,6 +53,15 @@ function MainSection({ property }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const errorToast = useToast();
+
+  const ref = useRef();
+  const [imageHeight, setImageHeight] = useState(0);
+  const handleImageLoad = (event) => {
+    setImageHeight(event.target.clientHeight);
+  };
+  useEffect(() => {
+    setImageHeight(ref.current.clientHeight);
+  }, []);
 
   const downloadAllFile = () => {
     if (config.isAuthenticated) {
@@ -137,8 +146,12 @@ function MainSection({ property }) {
           <Image
             src={property.imageUrl}
             alt={property.imageAlt}
-            height="376px"
-            width="275px"
+            ref={ref}
+            width="290px"
+            maxWidth="full"
+            maxHeight="376px"
+            objectFit="cover"
+            onLoad={handleImageLoad}
             borderRadius="pendown"
             border="2px solid black"
           />
