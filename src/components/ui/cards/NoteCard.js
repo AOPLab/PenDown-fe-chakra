@@ -45,19 +45,6 @@ export default function NoteCard(props) {
                 content={props.noteType}
                 style={{ bottom: '1rem', right: '0.75rem', position: 'absolute' }}
               />
-              {/* <Badge
-              rounded="tag"
-              px="4"
-              py="2"
-              colorScheme="gray"
-              bottom={4}
-              right={3}
-              position="absolute"
-              border="2px black solid"
-              fontWeight={800}
-            >
-              Notability
-            </Badge> */}
             </>
             )}
             <Box display="flex" alignItems="center" justifyContent="center" roundedTop="pendown" height="376px">

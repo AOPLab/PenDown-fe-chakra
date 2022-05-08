@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
-  Heading, Box, SimpleGrid, useStyleConfig,
-  Flex,
+  Heading, Box, SimpleGrid,
+  Flex, Center, Button,
 } from '@chakra-ui/react';
 import NoteCard from '../ui/cards/NoteCard';
 
@@ -15,20 +15,17 @@ function HotNote(props) {
   const error = useSelector((state) => state.error.user.user);
   const dispatch = useDispatch();
 
-  const styles = useStyleConfig('Step', { variant: props.variant });
-
   useEffect(() => {
     if (hotNoteIds.length === 0) {
       dispatch(browseHotNotes(0));
     }
   }, [dispatch, hotNoteIds.length]);
 
-  // Pass the computed styles into the `__css` prop
   return (
     <>
       <Box>
         <Box textAlign="center" spacing={{ base: 8, md: 14 }} py={{ base: 4, md: 8 }}>
-          <Heading fontSize={{ base: 'xl', sm: '2xl', md: '5xl' }} fontWeight={900} lineHeight="150%">
+          <Heading fontSize={{ base: '3xl', sm: '5xl' }} fontWeight="extrabold" lineHeight="shorter">
             See what&rsquo;s hot 🔥
           </Heading>
         </Box>
@@ -49,6 +46,18 @@ function HotNote(props) {
           {hotNoteIds.map((id) => (<NoteCard key={id} noteId={id} imageUrl={notes[id].preview_url} username={notes[id].username} viewCount={notes[id].view_cnt} savedCount={notes[id].saved_cnt} title={notes[id].title} dateCreated={notes[id].created_at} noteType={notes[id].note_type} />))}
         </SimpleGrid>
       </Flex>
+      <Center mb={4} p={8}>
+        <Button
+          variant="pendown-primary"
+          size="lg"
+                    // onClick={() => history.push('/login')}
+                    // onKeyDown={() => history.push('/login')}
+          tabIndex="-1"
+          role="button"
+        >
+          View More
+        </Button>
+      </Center>
       <Box borderBottom="2px solid black" position="absolute" left="0" right="0" />
 
     </>

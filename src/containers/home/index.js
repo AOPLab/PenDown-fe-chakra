@@ -4,9 +4,10 @@ import {
   createIcon,
 } from '@chakra-ui/react';
 
-import Steps from '../../components/landing/Steps';
 import Section from '../../components/landing/Section';
 import HotNote from '../../components/landing/HotNote';
+import Features from '../../components/landing/Features';
+import Hero from '../../components/landing/Hero';
 
 const Arrow = createIcon({
   displayName: 'Arrow',
@@ -30,8 +31,10 @@ function Home() {
 
   return (
     <>
+      <Hero />
       <HotNote />
-      <Steps />
+      <Features />
+      {/* <Steps /> */}
       <Section />
     </>
   );

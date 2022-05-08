@@ -16,9 +16,9 @@ function SectionImage(props) {
       transitionDuration="120ms"
       _hover={{ shadow: 'pendown' }}
     >
-      <Image src={props.image} className="image" borderRadius="pendown" />
-      <Box className="overlay" bg="secondary.500" borderRadius="pendown">
-        <Text className="text" fontSize={{ base: 'l', sm: 'xl', md: '2xl' }}>
+      <Image src={props.image} className="image" borderRadius="pendown" objectFit="cover" height="320px" />
+      <Box className="overlay" bg="primary.500" borderRadius="pendown">
+        <Text className="text" fontSize={{ base: 'l', sm: 'xl', md: '2xl' }} fontWeight="bold">
           {props.text}
         </Text>
       </Box>
