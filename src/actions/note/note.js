@@ -201,6 +201,45 @@ const browseHotNotes = (offset) => async (dispatch) => {
   }
 };
 
+// browse note by public user
+const browsePublicUserNotes = (account_id, type, filter, offset) => async (dispatch) => {
+  dispatch({ type: noteConstants.BROWSE_NOTES_BY_USER_PUBLIC_START });
+  try {
+    const res = await agent.get(`/api/account/${account_id}/notes`, {
+      params: { type, filter, offset },
+    });
+    dispatch({
+      type: noteConstants.BROWSE_NOTES_BY_USER_PUBLIC_SUCCESS,
+      payload: {
+        account_id,
+        type,
+        filter,
+        offset,
+        notes: res.data.notes.map((item) => ({
+          id: item.note_id,
+          account_id,
+          username: item.username,
+          title: item.title,
+          view_cnt: item.view_cnt,
+          saved_cnt: item.saved_cnt,
+          note_type: item.note_type,
+          preview_filename: item.preview_filename,
+          preview_url: item.preview_url,
+          created_at: item.created_at,
+        })),
+        noteIds: res.data.notes.map((item) => item.note_id),
+        total_cnt: res.data.total_cnt,
+      },
+    });
+  } catch (error) {
+    console.log('error: ', error);
+    dispatch({
+      type: noteConstants.BROWSE_NOTES_BY_USER_PUBLIC_FAIL,
+      error,
+    });
+  }
+};
+
 // read note detail by note id
 const getNote = (note_id, token = null) => async (dispatch) => {
   const config = {
@@ -410,6 +449,7 @@ export {
   browseNotesByTag,
   browseNotesByCourse,
   browseHotNotes,
+  browsePublicUserNotes,
   getNote,
   checkNoteSavedOrNot,
   addNoteSaved,
