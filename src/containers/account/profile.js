@@ -4,20 +4,22 @@ import React, {
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import {
-  HStack, Flex, VStack, Button, Text, Avatar,
+  HStack, Flex, VStack, Button, Text, Avatar, Stack, useColorModeValue, TabList, Tab, TabPanel, Tabs, TabPanels,
 } from '@chakra-ui/react';
 import Icon from '../../components/ui/icon/index';
 import { avatarSrc } from '../../components/util/Helper';
-import SelfCardSection from '../../components/ui/SelfCardSection';
 import StatsCard from '../../components/ui/cards/StatsCard';
+import SelfCardSection from '../../components/ui/SelfCardSection';
 
 function PersonalProfile() {
   const history = useHistory();
+  const [viewType, setViewType] = useState('');
   // const location = useLocation();
   // const config = useSelector((state) => state.auth);
   const user = useSelector((state) => state.user);
   const auth = useSelector((state) => state.auth);
   // const dispatch = useDispatch();
+  const tabs = ['Notes', 'Saved', 'Library'];
 
   const [noteType, setNoteType] = useState('Choose Note Type');
   const handleNoteTypeChange = (event) => {
@@ -25,6 +27,13 @@ function PersonalProfile() {
       target: { value },
     } = event;
     setNoteType(value);
+  };
+
+  const handleViewTypeChange = (event) => {
+    const {
+      target: { value },
+    } = event;
+    setViewType(value);
   };
 
   return (
@@ -73,9 +82,50 @@ function PersonalProfile() {
               <Text width="420px" textAlign="left" size="md">{user.description}</Text>
             </VStack>
           </Flex>
-          {/* <HStack spacing={8} mx="auto" maxW="3xl" width="80%" py={12} px={6} align="flex-start" /> */}
         </Flex>
-        <SelfCardSection noteType={noteType} handleNoteTypeChange={handleNoteTypeChange} />
+        <Tabs isLazy size="lg" width="100%" border="hidden" variant="unstyled">
+          <Flex justify="center" mx={['auto', 0]} mb={-2}>
+            <Stack
+              direction="row"
+              justify="space-between"
+              textAlign="center"
+              rounded="pendown"
+              bg={useColorModeValue('gray.100', 'gray.500')}
+              border="2px solid black"
+            >
+              <TabList
+                borderBottom="hidden"
+              >
+                {tabs.map((tab) => (
+                  <Tab
+                    key={tab}
+                    value={tab}
+                    _selected={{ bg: 'primary.400', borderRadius: 'pendown' }}
+                    fontSize="md"
+                    fontWeight="bold"
+                    onClick={handleViewTypeChange}
+                  >
+                    {tab}
+                  </Tab>
+                ))}
+              </TabList>
+            </Stack>
+          </Flex>
+          <TabPanels>
+            {tabs.map((tab) => (
+              <TabPanel key={tab}>
+                <Flex
+                  w="100%"
+                  justifyContent="center"
+                  alignItems="center"
+                  flexDirection="column"
+                >
+                  <SelfCardSection viewType={viewType} label={tab} />
+                </Flex>
+              </TabPanel>
+            ))}
+          </TabPanels>
+        </Tabs>
       </Flex>
     </>
   );
