@@ -48,13 +48,12 @@ const byId = (state = {}, action) => {
     }
 
     case tagConstants.ADD_TAG_SUCCESS: {
+      const { id, name } = action.payload;
       return {
         ...state,
-        [action.payload.id]: {
-          ...prototype,
-          ...state[action.payload.id],
-          id: action.payload.id, // ???
-          name: action.payload.name,
+        [id]: {
+          id,
+          name,
         },
       };
     }
