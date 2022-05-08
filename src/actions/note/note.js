@@ -232,9 +232,49 @@ const browsePublicUserNotes = (account_id, type, filter, offset) => async (dispa
       },
     });
   } catch (error) {
-    console.log('error: ', error);
     dispatch({
       type: noteConstants.BROWSE_NOTES_BY_USER_PUBLIC_FAIL,
+      error,
+    });
+  }
+};
+
+// browse user own note
+const browseUserOwnNotes = (token, account_id, type, filter, offset) => async (dispatch) => {
+  dispatch({ type: noteConstants.BROWSE_NOTES_BY_USER_OWN_START });
+  try {
+    const res = await agent.get(`/api/account/${account_id}/selfnotes`, {
+      params: { type, filter, offset },
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    dispatch({
+      type: noteConstants.BROWSE_NOTES_BY_USER_OWN_SUCCESS,
+      payload: {
+        account_id,
+        type,
+        filter,
+        offset,
+        notes: res.data.notes.map((item) => ({
+          id: item.note_id,
+          account_id: item.user_id,
+          username: item.username,
+          title: item.title,
+          view_cnt: item.view_cnt,
+          saved_cnt: item.saved_cnt,
+          note_type: item.note_type,
+          preview_filename: item.preview_filename,
+          preview_url: item.preview_url,
+          created_at: item.created_at,
+        })),
+        noteIds: res.data.notes.map((item) => item.note_id),
+        total_cnt: res.data.total_cnt,
+      },
+    });
+  } catch (error) {
+    dispatch({
+      type: noteConstants.BROWSE_NOTES_BY_USER_OWN_FAIL,
       error,
     });
   }
@@ -450,6 +490,7 @@ export {
   browseNotesByCourse,
   browseHotNotes,
   browsePublicUserNotes,
+  browseUserOwnNotes,
   getNote,
   checkNoteSavedOrNot,
   addNoteSaved,
