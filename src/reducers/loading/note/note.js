@@ -4,6 +4,7 @@ const initialState = {
   addNote: false,
   getNote: false,
   browseNotesByTag: false,
+  browseNotesByCourse: false,
   brewseNotesHot: false,
   buyNote: false,
   addNoteSaved: false,
@@ -43,6 +44,18 @@ export default function note(state = initialState, action) {
       };
     case noteConstants.BROWSE_NOTES_BY_TAG_SUCCESS:
     case noteConstants.BROWSE_NOTES_BY_TAG_FAIL: {
+      return {
+        ...state,
+        browseNotesByTag: false,
+      };
+    }
+    case noteConstants.BROWSE_NOTES_BY_COURSE_START:
+      return {
+        ...state,
+        browseNotesByTag: true,
+      };
+    case noteConstants.BROWSE_NOTES_BY_COURSE_SUCCESS:
+    case noteConstants.BROWSE_NOTES_BY_COURSE_FAIL: {
       return {
         ...state,
         browseNotesByTag: false,
