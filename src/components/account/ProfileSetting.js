@@ -28,7 +28,7 @@ function ProfileSetting() {
 
   const onSubmit = () => {
     dispatch(editAccount(config.token, username, fullName, email, bio));
-    history.push('/account/my-profile');
+    // history.push('/account/my-profile');
   };
 
   const onCancel = () => {
@@ -36,7 +36,7 @@ function ProfileSetting() {
     setFullName(user.fullName ? user.fullName : '');
     setEmail(user.email ? user.email : '');
     setBio(user.description ? user.description : '');
-    history.push('/account/my-profile');
+    // history.push('/account/my-profile');
   };
 
   useEffect(() => {
