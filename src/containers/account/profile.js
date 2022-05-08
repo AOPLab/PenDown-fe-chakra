@@ -20,7 +20,7 @@ function PersonalProfile() {
   const user = useSelector((state) => state.user);
   const auth = useSelector((state) => state.auth);
   const noteIds = useSelector((state) => state.hotNotes.hotNoteIds);
-  // const dispatch = useDispatch();
+  // 註 要改成接對應的 notes
   const tabs = ['Notes', 'Saved', 'Library'];
   const [uploadedNoteIds, setUploadedNoteIds] = useState([]);
 
@@ -64,7 +64,7 @@ function PersonalProfile() {
                   {user.username}
                 </Text>
               </Text>
-              <HStack textAlign="center" alignContent="center">
+              <HStack textAlign="center" alignContent="center" onClick={() => history.push('/account/payment')}>
                 <Icon.NoteBeanGreen />
                 <Text color="black.900" fontWeight={900} fontSize="2xl">
                   {user.bean}

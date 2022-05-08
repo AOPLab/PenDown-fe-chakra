@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import {
-  HStack, Flex, VStack, Button, Text,
+  HStack, Flex, VStack, Text, Stack, useColorModeValue, TabList, Tab, TabPanel, Tabs, TabPanels,
 } from '@chakra-ui/react';
 
 import StatsCard from '../../components/ui/cards/StatsCard';
@@ -13,11 +13,28 @@ function Course() {
   const { schoolId, courseId } = useParams();
   const schools = useSelector((state) => state.school.byId);
   const courses = useSelector((state) => state.course.byId);
-  // const history = useHistory();
+
+  const [tabIndex, setTabIndex] = useState(0);
   // const location = useLocation();
   // const config = useSelector((state) => state.auth);
-  // const user = useSelector((state) => state.user);
-  // const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
+  const auth = useSelector((state) => state.auth);
+  const noteIds = useSelector((state) => state.hotNotes.hotNoteIds);
+  // 註 要改成接對應的 notes
+  const tabs = ['Popular', 'Recent'];
+  const [uploadedNoteIds, setUploadedNoteIds] = useState([]);
+
+  const [noteType, setNoteType] = useState('Choose Note Type');
+  const handleNoteTypeChange = (event) => {
+    const {
+      target: { value },
+    } = event;
+    setNoteType(value);
+  };
+
+  const handleTabsChange = (index) => {
+    setTabIndex(index);
+  };
 
   return (
     <>
@@ -32,12 +49,6 @@ function Course() {
           <Flex alignItems="top" gap={10} flexWrap="wrap" px="32px">
             <VStack spacing={3}>
               <BannerBadge textTransform="lowercase">{ courses[courseId].name }</BannerBadge>
-              <Button
-                variant="pendown-primary"
-                size="sm"
-              >
-                Follow
-              </Button>
             </VStack>
             <HStack spacing={4}>
               <StatsCard title="Followers" stat="1,234" />
@@ -47,7 +58,48 @@ function Course() {
             </HStack>
           </Flex>
         </Flex>
-        <CardSection />
+        <Tabs isLazy size="lg" width="100%" border="hidden" variant="unstyled" index={tabIndex} onChange={handleTabsChange}>
+          <Flex justify="center" mx={['auto', 0]} mb={-2}>
+            <Stack
+              direction="row"
+              justify="space-between"
+              textAlign="center"
+              rounded="pendown"
+              bg={useColorModeValue('gray.100', 'gray.500')}
+              border="2px solid black"
+            >
+              <TabList
+                borderBottom="hidden"
+              >
+                {tabs.map((tab) => (
+                  <Tab
+                    key={tab}
+                    value={tab}
+                    _selected={{ bg: 'primary.400', borderRadius: 'pendown' }}
+                    fontSize="md"
+                    fontWeight="bold"
+                  >
+                    {tab}
+                  </Tab>
+                ))}
+              </TabList>
+            </Stack>
+          </Flex>
+          <TabPanels>
+            {tabs.map((tab) => (
+              <TabPanel key={tab}>
+                <Flex
+                  w="100%"
+                  justifyContent="center"
+                  alignItems="center"
+                  flexDirection="column"
+                >
+                  <CardSection noteType={noteType} handleNoteTypeChange={handleNoteTypeChange} noteIds={noteIds} />
+                </Flex>
+              </TabPanel>
+            ))}
+          </TabPanels>
+        </Tabs>
       </Flex>
     </>
   );

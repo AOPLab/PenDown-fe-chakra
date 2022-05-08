@@ -1,6 +1,4 @@
-import React, {
-  useState,
-} from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   Flex, SimpleGrid, Select,
@@ -9,7 +7,6 @@ import {
 import NoteCard from './cards/NoteCard';
 
 function SelfCardSection({ noteType, handleNoteTypeChange, noteIds }) {
-  const viewType = useState('');
   const notes = useSelector((state) => state.note.byId);
   const error = useSelector((state) => state.error.user.user);
   const dispatch = useDispatch();
