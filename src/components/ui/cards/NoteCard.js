@@ -21,15 +21,22 @@ export default function NoteCard(props) {
         maxW="full"
         borderRadius="pendown"
         position="relative"
+        width="290px"
       >
-        <Box css={{ display: 'block', position: 'relative' }} align="center" alignItems="center" borderBottom="2px solid black">
-          {props.noteType && (
-          <>
-            <CardBadge
-              content={props.noteType}
-              style={{ bottom: '1rem', right: '0.75rem', position: 'absolute' }}
-            />
-            {/* <Badge
+        <Box
+          css={{ display: 'block', position: 'relative' }}
+          align="center"
+          alignItems="center"
+          borderBottom="2px solid black"
+        >
+          <Box>
+            {props.noteType && (
+            <>
+              <CardBadge
+                content={props.noteType}
+                style={{ bottom: '1rem', right: '0.75rem', position: 'absolute' }}
+              />
+              {/* <Badge
               rounded="tag"
               px="4"
               py="2"
@@ -42,17 +49,25 @@ export default function NoteCard(props) {
             >
               Notability
             </Badge> */}
-          </>
-          )}
-          <Image
-            src={props.imageUrl}
-            alt="No Preview Image"
-            height="376px"
-            width="275px"
-            roundedTop="pendown"
-          />
-
+            </>
+            )}
+            <Box display="flex" alignItems="center" justifyContent="center" roundedTop="pendown" height="376px">
+              <Image
+                src={props.imageUrl}
+                alt="No Preview Image"
+                // height="376px"
+                width="290px"
+                maxWidth="full"
+                maxHeight="376px"
+                // roundedTop="pendown"
+                rounded="pendown"
+                // objectFit="fill"
+                objectFit="cover"
+              />
+            </Box>
+          </Box>
         </Box>
+        {/* <Box borderBottom="2px solid black" position="absolute" left="0" right="0" /> */}
 
         <VStack p="4" align="left">
           <Box
@@ -61,6 +76,8 @@ export default function NoteCard(props) {
             fontSize="2xl"
             as="h1"
             lineHeight="tight"
+            width="full"
+            position="relative"
             isTruncated
           >
             {props.title ? props.title : 'No Title'}

@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   Heading, Box, SimpleGrid, useStyleConfig,
+  Flex,
 } from '@chakra-ui/react';
 import NoteCard from '../ui/cards/NoteCard';
 
@@ -26,11 +27,18 @@ function HotNote(props) {
   return (
     <>
       <Box>
-        <Box textAlign="center" display="flex" alignItems="center" spacing={{ base: 8, md: 14 }} py={{ base: 4, md: 8 }}>
+        <Box textAlign="center" spacing={{ base: 8, md: 14 }} py={{ base: 4, md: 8 }}>
           <Heading fontSize={{ base: 'xl', sm: '2xl', md: '5xl' }} fontWeight={900} lineHeight="150%">
             See what&rsquo;s hot 🔥
           </Heading>
         </Box>
+      </Box>
+      <Flex
+        w="full"
+        justifyContent="center"
+        alignItems="center"
+      >
+
         <SimpleGrid
           columns={{ base: 1, md: 2, lg: 3 }}
           spacing={10}
@@ -40,8 +48,9 @@ function HotNote(props) {
         >
           {hotNoteIds.map((id) => (<NoteCard key={id} noteId={id} imageUrl={notes[id].preview_url} username={notes[id].username} viewCount={notes[id].view_cnt} savedCount={notes[id].saved_cnt} title={notes[id].title} dateCreated={notes[id].created_at} noteType={notes[id].note_type} />))}
         </SimpleGrid>
-      </Box>
+      </Flex>
       <Box borderBottom="2px solid black" position="absolute" left="0" right="0" />
+
     </>
   );
 }
