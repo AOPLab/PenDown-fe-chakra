@@ -1,6 +1,5 @@
 import React, {
   useState,
-  useEffect,
 } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
@@ -14,12 +13,6 @@ function SelfCardSection({ noteType, handleNoteTypeChange, noteIds }) {
   const notes = useSelector((state) => state.note.byId);
   const error = useSelector((state) => state.error.user.user);
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    if (viewType === 'Notes') {
-      console.log('hi');
-    }
-  }, [viewType]);
 
   return (
     <>

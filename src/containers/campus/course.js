@@ -11,6 +11,7 @@ import CardSection from '../../components/ui/CardSection';
 
 function Course() {
   const { schoolId, courseId } = useParams();
+  const schools = useSelector((state) => state.school.byId);
   const courses = useSelector((state) => state.course.byId);
   // const history = useHistory();
   // const location = useLocation();
@@ -22,7 +23,12 @@ function Course() {
     <>
       <Flex direction="column" align="left" gap={10} pt={4} px={8}>
         <Flex direction="column" align="left" gap={4} py={4}>
-          <Text px="32px" color="gray.600" fontWeight={600} fontSize="md">course/</Text>
+          <Text px="32px" color="gray.600" fontWeight={600} fontSize="md">
+            school/
+            <Text>
+              {schools[schoolId].name}
+            </Text>
+          </Text>
           <Flex alignItems="top" gap={10} flexWrap="wrap" px="32px">
             <VStack spacing={3}>
               <BannerBadge textTransform="lowercase">{ courses[courseId].name }</BannerBadge>
