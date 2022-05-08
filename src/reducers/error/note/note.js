@@ -4,6 +4,7 @@ const initialState = {
   addNote: null,
   getNote: null,
   browseNotesByTag: null,
+  browseNotesByCourse: null,
   brewseNotesHot: null,
   buyNote: null,
   addNoteSaved: null,
@@ -46,6 +47,18 @@ export default function note(state = initialState, action) {
       return {
         ...state,
         browseNotesByTag: action.error,
+      };
+    }
+    case noteConstants.BROWSE_NOTES_BY_COURSE_SUCCESS: {
+      return {
+        ...state,
+        browseNotesByCourse: null,
+      };
+    }
+    case noteConstants.BROWSE_NOTES_BY_COURSE_FAIL: {
+      return {
+        ...state,
+        browseNotesByCourse: action.error,
       };
     }
     case noteConstants.BROWSE_NOTES_HOT_SUCCESS: {

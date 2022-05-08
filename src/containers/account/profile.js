@@ -1,58 +1,82 @@
-import React from 'react';
+import React, {
+  useState,
+} from 'react';
 import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import {
-  Box,
-  HStack,
-  VStack,
-  Text,
-  Avatar,
-  Container,
+  HStack, Flex, VStack, Button, Text, Avatar,
 } from '@chakra-ui/react';
-import NoteCardContainer from '../../components/ui/NoteCardContainer';
+import Icon from '../../components/ui/icon/index';
+import { avatarSrc } from '../../components/util/Helper';
+import SelfCardSection from '../../components/ui/SelfCardSection';
+import StatsCard from '../../components/ui/cards/StatsCard';
 
 function PersonalProfile() {
-  // const history = useHistory();
+  const history = useHistory();
   // const location = useLocation();
   // const config = useSelector((state) => state.auth);
   const user = useSelector((state) => state.user);
+  const auth = useSelector((state) => state.auth);
   // const dispatch = useDispatch();
+
+  const [noteType, setNoteType] = useState('Choose Note Type');
+  const handleNoteTypeChange = (event) => {
+    const {
+      target: { value },
+    } = event;
+    setNoteType(value);
+  };
 
   return (
     <>
-      <Container
-        width="10xl"
-        pt="10px"
-      >
-        <HStack>
-          <Container
-            // mx="auto"
-            // px={{ base: 4, lg: 8, xl: 12 }}
-            py={20}
-            // textAlign="center"
-            alignContent="center"
-          >
-            <Avatar
-              border="2px solid black"
-              height="auto"
-              width="8vw"
-              src={`https://source.boringavatars.com/beam/40/${user.username}?colors=264653,2a9d8f,e9c46a,f4a261,e76f51`}
-            />
-            <Text py="5px" fontSize={{ base: 'm', sm: 's', md: 'm' }} fontWeight={900} lineHeight="150%">
-              {user.username}
-            </Text>
-          </Container>
-          <VStack>
-            <HStack>
-              <Box borderRadius="pendown" border="2px black">
-                kd
-              </Box>
-            </HStack>
-          </VStack>
-        </HStack>
-      </Container>
-      <Box pt="20">
-        <NoteCardContainer />
-      </Box>
+      <Flex direction="column" align="left" gap={10} pt={4} px={8}>
+        <Flex direction="column" align="left" gap={4} py={4}>
+          <Flex alignItems="top" gap={10} flexWrap="wrap" px="32px">
+            <VStack spacing={3}>
+              <Avatar
+                border="2px solid black"
+                width="5vw"
+                height="auto"
+                src={avatarSrc(user.username)}
+              />
+              <Text align="center" width="15vw">
+                <Text color="black.900" fontWeight={900} fontSize="2xl">
+                  {user.fullName}
+                </Text>
+                <Text color="gray.600" fontWeight={400} fontSize="lg">
+                  @
+                  {user.username}
+                </Text>
+              </Text>
+              <HStack textAlign="center" alignContent="center">
+                <Icon.NoteBeanGreen />
+                <Text color="black.900" fontWeight={900} fontSize="2xl">
+                  {user.bean}
+                </Text>
+              </HStack>
+              <Button
+                variant="pendown-primary"
+                size="sm"
+                bg="yellow.500"
+                color="black.900"
+                onClick={() => history.push('/account/my-profile/setting')}
+              >
+                Setting
+              </Button>
+            </VStack>
+            <VStack>
+              <HStack spacing={4}>
+                <StatsCard title="Followers" stat={user.followersNum} />
+                <StatsCard title="Following" stat={user.followingNum} />
+                <StatsCard title="Notes" stat={user.noteNum} />
+              </HStack>
+              <Text width="420px" textAlign="left" size="md">{user.description}</Text>
+            </VStack>
+          </Flex>
+          {/* <HStack spacing={8} mx="auto" maxW="3xl" width="80%" py={12} px={6} align="flex-start" /> */}
+        </Flex>
+        <SelfCardSection noteType={noteType} handleNoteTypeChange={handleNoteTypeChange} />
+      </Flex>
     </>
   );
 }

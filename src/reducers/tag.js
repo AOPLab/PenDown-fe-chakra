@@ -3,10 +3,10 @@ import { tagConstants } from '../actions/tag/constant';
 import { noteConstants } from '../actions/note/constant';
 import { commonConstants } from '../actions/common/constant';
 
-// const prototype = {
-//   id: null,
-//   name: null,
-// };
+const prototype = {
+  id: null,
+  name: null,
+};
 
 const byId = (state = {}, action) => {
   switch (action.type) {
@@ -51,6 +51,28 @@ const byId = (state = {}, action) => {
       };
     }
 
+    case tagConstants.GET_TAG_SUCCESS: {
+      return {
+        ...state,
+        [action.payload.id]: {
+          ...prototype,
+          ...state[action.payload.id],
+          name: action.payload.name,
+        },
+      };
+    }
+
+    case tagConstants.ADD_TAG_SUCCESS: {
+      const { id, name } = action.payload;
+      return {
+        ...state,
+        [id]: {
+          id,
+          name,
+        },
+      };
+    }
+
     default:
       return state;
   }
@@ -63,6 +85,12 @@ const allIds = (state = [], action) => {
     }
     case noteConstants.GET_NOTE_SUCCESS: {
       return [...new Set([...action.payload.note.tagIds, ...state])];
+    }
+    case tagConstants.GET_TAG_SUCCESS: {
+      return [...new Set([action.payload.id, ...state])];
+    }
+    case tagConstants.ADD_TAG_SUCCESS: {
+      return [...new Set([action.payload.id, ...state])];
     }
     default:
       return state;

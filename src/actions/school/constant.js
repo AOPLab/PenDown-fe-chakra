@@ -1,2 +1,10 @@
 // eslint-disable-next-line import/prefer-default-export
-export const schoolConstants = {};
+export const schoolConstants = {
+  BROWSE_SCHOOL_START: 'BROWSE_SCHOOL_START',
+  BROWSE_SCHOOL_SUCCESS: 'BROWSE_SCHOOL_SUCCESS',
+  BROWSE_SCHOOL_FAIL: 'BROWSE_SCHOOL_FAIL',
+
+  GET_SCHOOL_START: 'GET_SCHOOL_START',
+  GET_SCHOOL_SUCCESS: 'GET_SCHOOL_SUCCESS',
+  GET_SCHOOL_FAIL: 'GET_SCHOOL_FAIL',
+};

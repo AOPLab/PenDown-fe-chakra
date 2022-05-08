@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   Box, Heading, SimpleGrid, Flex, Center, Button,
 } from '@chakra-ui/react';
-import MiscCard from '../../components/ui/cards/MiscCard';
 
 export default function Courses() {
   const history = useHistory();
