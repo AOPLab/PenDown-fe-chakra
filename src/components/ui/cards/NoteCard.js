@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import moment from 'moment';
 import { useHistory } from 'react-router-dom';
 import {
@@ -13,6 +13,15 @@ import CardBadge from './CardBadge';
 
 export default function NoteCard(props) {
   const history = useHistory();
+
+  const ref = useRef();
+  const [imageHeight, setImageHeight] = useState(0);
+  const handleImageLoad = (event) => {
+    setImageHeight(event.target.clientHeight);
+  };
+  useEffect(() => {
+    setImageHeight(ref.current.clientHeight);
+  }, []);
 
   return (
     <Card variant="pendown" maxW="full" onClick={() => { history.push(`/note/${props.noteId ? props.noteId : 50}`); }}>
@@ -53,16 +62,16 @@ export default function NoteCard(props) {
             )}
             <Box display="flex" alignItems="center" justifyContent="center" roundedTop="pendown" height="376px">
               <Image
+                ref={ref}
                 src={props.imageUrl}
                 alt="No Preview Image"
-                // height="376px"
                 width="290px"
                 maxWidth="full"
                 maxHeight="376px"
-                // roundedTop="pendown"
-                rounded="pendown"
-                // objectFit="fill"
+                roundedTop={(imageHeight >= 362) ? 'pendown' : 'md'}
+                rounded={(imageHeight < 362) ? 'md' : ''}
                 objectFit="cover"
+                onLoad={handleImageLoad}
               />
             </Box>
           </Box>
