@@ -9,9 +9,8 @@ import {
 
 import NoteCard from './cards/NoteCard';
 
-function SelfCardSection({ noteType, handleNoteTypeChange }) {
+function SelfCardSection({ noteType, handleNoteTypeChange, noteIds }) {
   const viewType = useState('');
-  const noteIds = useSelector((state) => state.hotNotes.hotNoteIds);
   const notes = useSelector((state) => state.note.byId);
   const error = useSelector((state) => state.error.user.user);
   const dispatch = useDispatch();

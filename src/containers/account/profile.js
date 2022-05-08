@@ -13,13 +13,16 @@ import SelfCardSection from '../../components/ui/SelfCardSection';
 
 function PersonalProfile() {
   const history = useHistory();
+  const [tabIndex, setTabIndex] = useState(0);
   const [viewType, setViewType] = useState('');
   // const location = useLocation();
   // const config = useSelector((state) => state.auth);
   const user = useSelector((state) => state.user);
   const auth = useSelector((state) => state.auth);
+  const noteIds = useSelector((state) => state.hotNotes.hotNoteIds);
   // const dispatch = useDispatch();
   const tabs = ['Notes', 'Saved', 'Library'];
+  const [uploadedNoteIds, setUploadedNoteIds] = useState([]);
 
   const [noteType, setNoteType] = useState('Choose Note Type');
   const handleNoteTypeChange = (event) => {
@@ -34,6 +37,10 @@ function PersonalProfile() {
       target: { value },
     } = event;
     setViewType(value);
+  };
+
+  const handleTabsChange = (index) => {
+    setTabIndex(index);
   };
 
   return (
@@ -83,7 +90,7 @@ function PersonalProfile() {
             </VStack>
           </Flex>
         </Flex>
-        <Tabs isLazy size="lg" width="100%" border="hidden" variant="unstyled">
+        <Tabs isLazy size="lg" width="100%" border="hidden" variant="unstyled" index={tabIndex} onChange={handleTabsChange}>
           <Flex justify="center" mx={['auto', 0]} mb={-2}>
             <Stack
               direction="row"
@@ -120,7 +127,7 @@ function PersonalProfile() {
                   alignItems="center"
                   flexDirection="column"
                 >
-                  <SelfCardSection viewType={viewType} label={tab} />
+                  <SelfCardSection noteType={noteType} handleNoteTypeChange={handleNoteTypeChange} noteIds={noteIds} />
                 </Flex>
               </TabPanel>
             ))}

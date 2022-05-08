@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Avatar,
   Flex,
@@ -16,9 +16,15 @@ export default function NoteBigAvatar({
   // const [noteFile, setNoteFile] = useState(null);
   // const [gnoteFile, setGNoteFile] = useState(null);
   // console.log(pdfFile);
+  const [avatarUrl, setAvatarUrl] = useState(avatarSrc(username));
   const history = useHistory();
 
   const [hover, setHover] = useState(false);
+
+  useEffect(() => {
+    setAvatarUrl(avatarSrc(username));
+  }, [username]);
+
   return (
     <>
 
@@ -28,7 +34,7 @@ export default function NoteBigAvatar({
           variant="pendown-navbar"
           size="md"
           // src={`https://source.boringavatars.com/beam/40/${username}?colors=00C6AE,FFBD12,FF89BB,F95A2C,1947E5`}
-          src={avatarSrc(username)}
+          src={avatarUrl}
           style={(hover ? { transition: '.2s ease-in-out', boxShadow: '0px 4px 0px #18191F', transform: 'translateY(-5px) scale(1.02)' } : {})}
           onClick={() => history.push(`/account/${userId}`)}
         />
