@@ -23,6 +23,13 @@ import {
   Link,
   useToast,
   useDisclosure,
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogContent,
+  AlertDialogOverlay,
+  AlertDialogCloseButton,
 } from '@chakra-ui/react';
 import { ExternalLinkIcon } from '@chakra-ui/icons';
 
@@ -31,6 +38,7 @@ import {
   FiEye,
   FiBookmark,
   FiInfo,
+  FiDownloadCloud,
 } from 'react-icons/fi';
 
 import { FaBookmark } from 'react-icons/fa';
@@ -78,6 +86,10 @@ function MainSection({ property }) {
     }
   };
 
+  // buy note purchase confirmation (pc)
+  const { isOpen: pcIsOpen, onOpen: pcOnOpen, onClose: pcOnClose } = useDisclosure();
+  const cancelRef = React.useRef();
+
   const onBuyNote = () => {
     if (config.isAuthenticated) {
       dispatch(buyNote(config.token, property.noteId));
@@ -90,6 +102,7 @@ function MainSection({ property }) {
         isClosable: true,
       });
     }
+    pcOnClose();
   };
 
   const saveNote = () => {
@@ -233,12 +246,12 @@ function MainSection({ property }) {
                   size="lg"
                   isFullWidth
                   justifyContent="flex-start"
-                  onClick={() => onBuyNote()}
+                  onClick={pcOnOpen} // () => onBuyNote()
                   tabIndex="-1"
                   role="button"
                   leftIcon={<Icon as={CustomIcon.NoteBean} color="black" css={{ strokeWidth: '3' }} />}
                 >
-                  {`It will trade for ${property.formattedPrice} beans`}
+                  {`Buy this note for ${property.formattedPrice} beans`}
                 </Button>
               )}
             <Box width="100%">
@@ -258,9 +271,41 @@ function MainSection({ property }) {
           </VStack>
         </Flex>
       </VStack>
+      <AlertDialog
+        motionPreset="slideInBottom"
+        leastDestructiveRef={cancelRef}
+        onClose={pcOnClose}
+        isOpen={pcIsOpen}
+        isCentered
+      >
+        <AlertDialogOverlay />
+
+        <AlertDialogContent bg="yellow.50" borderRadius="pendown" border="2px black solid">
+          <AlertDialogHeader>
+            Buy this note for
+            {' '}
+            {property.formattedPrice}
+            {' '}
+            beans?
+          </AlertDialogHeader>
+          <AlertDialogCloseButton />
+          <AlertDialogBody>
+            Once you confirm purchase, we will deduct 50 beans from your account.
+          </AlertDialogBody>
+          <AlertDialogFooter>
+            <Button variant="pendown" ref={cancelRef} onClick={pcOnClose}>
+              Cancel
+            </Button>
+            <Button variant="pendown-primary" ml={3} onClick={() => onBuyNote()}>
+              Confirm
+            </Button>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
       <Modal isOpen={isOpen} onClose={onClose} isCentered size="sm">
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent borderRadius="pendown" border="2px black solid">
           <ModalHeader><Text fontSize="2xl">Click File to Download</Text></ModalHeader>
           <ModalCloseButton />
           <ModalBody>
@@ -269,8 +314,11 @@ function MainSection({ property }) {
                 <>
                   <Text fontSize="xl">
                     <Link href={property.pdf_url} isExternal>
-                      PDF
-                      <ExternalLinkIcon mx="2px" />
+                      <HStack>
+                        <Text>PDF</Text>
+                        <Icon as={FiDownloadCloud} />
+                        {/* <ExternalLinkIcon /> */}
+                      </HStack>
                     </Link>
                   </Text>
                   <br />
@@ -282,8 +330,11 @@ function MainSection({ property }) {
                 <>
                   <Text fontSize="xl">
                     <Link href={property.nota_url} isExternal>
-                      Notability
-                      <ExternalLinkIcon mx="2px" />
+                      <HStack>
+                        <Text>Notability</Text>
+                        <Icon as={FiDownloadCloud} />
+                      </HStack>
+                      {/* <ExternalLinkIcon mx="2px" /> */}
                     </Link>
                   </Text>
                   <br />

@@ -53,7 +53,7 @@ export default {
     'pendown-primary': {
       bg: 'primary.300',
       color: 'black',
-      _hover: { boxShadow: '0px 4px 0px #18191F', bg: 'primary.400' },
+      _hover: { boxShadow: '0px 4px 0px #18191F', bg: 'primary.500' },
       _focus: { outline: 0 },
       _active: { outline: 0 },
     },
