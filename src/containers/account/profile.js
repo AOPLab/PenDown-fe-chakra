@@ -11,6 +11,7 @@ import { avatarSrc } from '../../components/util/Helper';
 import StatsCard from '../../components/ui/cards/StatsCard';
 import SelfCardSection from '../../components/ui/SelfCardSection';
 import { browseUserOwnNotes } from '../../actions/note/note';
+import { readSelfAccount } from '../../actions/user/user';
 
 function PersonalProfile() {
   const history = useHistory();
@@ -44,6 +45,10 @@ function PersonalProfile() {
   const handleTabsChange = (index) => {
     setTabIndex(index);
   };
+
+  useEffect(() => {
+    dispatch(readSelfAccount(auth.token));
+  }, [auth.token, dispatch]);
 
   useEffect(() => {
     if (auth.token === null || auth.token === '') {
