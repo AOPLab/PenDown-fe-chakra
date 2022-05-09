@@ -151,7 +151,7 @@ function MainSection({ property }) {
           <HStack>
             <Icon as={FiCalendar} w="18px" h="18px" css={{ strokeWidth: '3' }} />
             <Box as="span" color="black" fontSize="sm">
-              {moment(property.dateCreated).format('YYYY-MM-DD HH:mm:ss')}
+              {moment(property.dateCreated).format('MMM DD, YYYY')}
             </Box>
           </HStack>
         </Box>

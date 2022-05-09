@@ -83,7 +83,7 @@ export default function NoteCard(props) {
             <HStack>
               <Icon as={FiCalendar} w="18px" h="18px" css={{ strokeWidth: '3' }} />
               <Box as="span" color="black" fontSize="sm">
-                {props.dateCreated ? moment(props.dateCreated).format('YYYY-MM-DD HH:mm:ss') : '2022-05-06 22:00:00'}
+                {props.dateCreated ? moment(props.dateCreated).format('MMM DD, YYYY') : 'March 20, 2022'}
               </Box>
             </HStack>
           </Box>
