@@ -9,7 +9,12 @@ import {
   Text,
   useColorModeValue,
   Stack,
+  Button,
+  Icon,
+  useDisclosure,
 } from '@chakra-ui/react';
+
+import { FiEdit2 } from 'react-icons/fi';
 
 import MainSection from '../../components/ui/notepage/MainSection';
 import DescriptionSection from '../../components/ui/notepage/DescriptionSection';
@@ -17,6 +22,7 @@ import CourseSection from '../../components/ui/notepage/CourseSection';
 import TagsSection from '../../components/ui/notepage/TagsSection';
 
 import { getNote } from '../../actions/note/note';
+import NoteEdit from '../../components/ui/NoteEdit';
 
 function Note() {
   const { noteId } = useParams();
@@ -25,6 +31,12 @@ function Note() {
   const config = useSelector((state) => state.auth);
   const notes = useSelector((state) => state.note.byId);
   // const user = useSelector((state) => state.user);
+
+  // modal trigger
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [scrollBehavior, setScrollBehavior] = React.useState('inside');
+  const btnRef = React.useRef();
+  // modal trigger end
 
   const [property, setProperty] = useState({
     noteId: null,
@@ -101,6 +113,9 @@ function Note() {
   return (
     <>
       {/* <Container maxW="5xl"> */}
+      {/* FIXME: Only show up when the author views the page */}
+      <Button size="lg" fontSize="24px" position="fixed" variant="pendown-yellow" top="20" mt="2" left="4" onClick={onOpen}><Icon as={FiEdit2} strokeWidth="3px" /></Button>
+      {/* End: Only show up when the author views the page */}
       <Flex minH="100vh" align="center" justify="center">
         <Stack spacing={8} mx="auto" maxW="3xl" py={12} px={6}>
           <Box
@@ -137,6 +152,13 @@ function Note() {
           </Box>
         </Stack>
       </Flex>
+      {/* FIXME: property prop 從這裡傳可能在 edit 時會改到 background page 的值 */}
+      <NoteEdit
+        isNoteOpen={isOpen}
+        onNoteClose={onClose}
+        finalFocusRef={btnRef}
+        scrollBehavior={scrollBehavior}
+      />
       {/* </Container> */}
     </>
   );
