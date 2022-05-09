@@ -5,7 +5,6 @@ const initialState = {
   login: null,
   logout: null,
   signup: null,
-  fetchAccount: null,
 };
 
 export default function auth(state = initialState, action) {
@@ -18,12 +17,12 @@ export default function auth(state = initialState, action) {
     case authConstants.AUTH_SUCCESS:
       return {
         ...state,
-        fetchAccount: null,
+        login: null,
       };
     case authConstants.AUTH_FAIL:
       return {
         ...state,
-        fetchAccount: action.error,
+        login: action.error,
       };
     case authConstants.AUTH_LOGOUT:
       return initialState;
