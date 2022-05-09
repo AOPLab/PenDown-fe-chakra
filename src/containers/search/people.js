@@ -1,5 +1,5 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Box, Heading, SimpleGrid, Button, Center,
@@ -10,12 +10,15 @@ import { searchPeople } from '../../actions/common/common';
 
 export default function People() {
   const history = useHistory();
-  // const location = useLocation();
+  const location = useLocation();
   const dispatch = useDispatch();
   const search = useSelector((state) => state.search);
   const accounts = useSelector((state) => state.accounts.byId);
 
   const onViewMore = () => {
+    if (location.pathname !== '/search/people') {
+      history.push('/search/people');
+    }
     dispatch(searchPeople(search.q, search.accounts.cur_offset + 12));
   };
 

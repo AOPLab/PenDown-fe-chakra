@@ -1,5 +1,5 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Box, Heading, SimpleGrid, Flex, Center, Button,
@@ -10,12 +10,15 @@ import { searchCourses } from '../../actions/common/common';
 
 export default function Courses() {
   const history = useHistory();
-  // const location = useLocation();
+  const location = useLocation();
   const dispatch = useDispatch();
   const search = useSelector((state) => state.search);
   const courses = useSelector((state) => state.course.byId);
 
   const onViewMore = () => {
+    if (location.pathname !== '/search/courses') {
+      history.push('/search/courses');
+    }
     dispatch(searchCourses(search.q, search.courses.cur_offset + 12));
   };
 

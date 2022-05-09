@@ -1,5 +1,5 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Box, Heading, SimpleGrid, Button, Center,
@@ -10,12 +10,15 @@ import { searchTags } from '../../actions/common/common';
 
 export default function Tags() {
   const history = useHistory();
-  // const location = useLocation();
+  const location = useLocation();
   const dispatch = useDispatch();
   const search = useSelector((state) => state.search);
   const tags = useSelector((state) => state.tag.byId);
 
   const onViewMore = () => {
+    if (location.pathname !== '/search/tags') {
+      history.push('/search/tags');
+    }
     dispatch(searchTags(search.q, search.tags.cur_offset + 12));
   };
 

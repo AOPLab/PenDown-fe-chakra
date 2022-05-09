@@ -1,4 +1,5 @@
 import React from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Box, Heading, SimpleGrid, Flex, Center, Button,
@@ -8,15 +9,18 @@ import NoteCard from '../../components/ui/cards/NoteCard';
 import { searchTemplates } from '../../actions/common/common';
 
 export default function Templates() {
+  const history = useHistory();
+  const location = useLocation();
   const dispatch = useDispatch();
   const search = useSelector((state) => state.search);
   const notes = useSelector((state) => state.note.byId);
 
   const onViewMore = () => {
+    if (location.pathname !== '/search/templates') {
+      history.push('/search/templates');
+    }
     dispatch(searchTemplates(search.q, search.type, search.templates.cur_offset + 12));
   };
-
-  console.log(search.templates);
 
   return (
     <>
