@@ -27,11 +27,11 @@ export function avatarSrc(str) {
 }
 
 export function statFormatting(num) {
-  if (num > 1000000) {
-    return (Math.round(num / 100000) / 10).to_str().concat('', 'M');
+  if (num >= 1000000) {
+    return new Intl.NumberFormat().format(Math.round(num / 100000) / 10).concat('M');
   }
-  if (num > 1000) {
-    return (Math.round(num / 100) / 10).to_str().concat('', 'K');
+  if (num >= 10000) {
+    return new Intl.NumberFormat().format(Math.round(num / 100) / 10).concat('K');
   }
   return new Intl.NumberFormat().format(num);
 }
