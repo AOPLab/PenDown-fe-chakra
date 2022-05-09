@@ -3,7 +3,6 @@ import { userConstants } from '../actions/user/constants';
 import { noteConstants } from '../actions/note/constant';
 import { commonConstants } from '../actions/common/constant';
 
-
 const prototype = {
   id: null,
   username: null,
@@ -211,6 +210,7 @@ const byId = (state = {}, action) => {
             state,
           };
       }
+    }
     case commonConstants.SEARCH_PEOPLE_SUCCESS: {
       const data = {};
       action.payload.people.map((account) => {
