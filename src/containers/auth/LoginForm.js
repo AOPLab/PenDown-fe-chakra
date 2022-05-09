@@ -31,12 +31,12 @@ export default function LoginForm() {
   const [inputError, setInputError] = useState(false);
   const errorToast = useToast();
 
+  const auth = useSelector((state) => state.auth);
   const loginError = useSelector((state) => state.error.user.auth);
   const loginLoading = useSelector((state) => state.loading.user.auth);
 
   useEffect(() => {
     if (!loginLoading.login) {
-      console.log(loginError);
       if (loginError.login != null) {
         setInputError(true);
         errorToast({
@@ -77,6 +77,10 @@ export default function LoginForm() {
       inputRef.current.focus({ preventScroll: true });
     }
   };
+
+  if (auth.isAuthenticated) {
+    history.push('/home');
+  }
 
   return (
     <Stack spacing="8">

@@ -32,6 +32,7 @@ function checkPassword(password1, password2) {
 export default function RegisterForm() {
   const history = useHistory();
   const dispatch = useDispatch();
+  const auth = useSelector((state) => state.auth);
   const registerLoading = useSelector((state) => state.loading.user.auth.signup);
   const registerError = useSelector((state) => state.error.user.auth.signup);
   const errorToast = useToast();
@@ -146,6 +147,10 @@ export default function RegisterForm() {
       }
     }
   }, [errorToast, hasRequest, registerError, registerLoading]);
+
+  if (auth.isAuthenticated) {
+    history.push('/home');
+  }
 
   return (
     <>

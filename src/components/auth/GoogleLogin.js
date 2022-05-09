@@ -43,7 +43,6 @@ function GoogleLoginButton() {
           onClick={renderProps.onClick}
           disabled={renderProps.disabled}
         >
-
           Continue with Google
         </Button>
       )}

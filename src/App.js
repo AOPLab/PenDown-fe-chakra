@@ -14,7 +14,6 @@ import store from './store';
 function App() {
   useEffect(() => {
     const url = window.location.origin;
-
     if (!url.includes('localhost') && !url.includes('https')) {
       window.location = `https:${url.split(':')[1]}`;
     }
