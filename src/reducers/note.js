@@ -133,6 +133,55 @@ const byId = (state = {}, action) => {
       };
     }
 
+    case commonConstants.SEARCH_NOTES_SUCCESS: {
+      const data = {};
+      action.payload.notes.map((note) => {
+        data[note.note_id] = {
+          ...prototype,
+          id: note.note_id,
+          account_id: note.user_id,
+          username: note.username,
+          title: note.title,
+          note_type: note.note_type,
+          preview_filename: note.preview_filename,
+          preview_url: note.preview_url,
+          view_cnt: note.view_cnt,
+          saved_cnt: note.saved_cnt,
+          created_at: note.created_at,
+        };
+        return note;
+      });
+      return {
+        ...state,
+        ...data,
+      };
+    }
+
+    case commonConstants.SEARCH_TEMPLATES_SUCCESS: {
+      const data = {};
+      action.payload.templates.map((note) => {
+        data[note.note_id] = {
+          ...prototype,
+          id: note.note_id,
+          account_id: note.user_id,
+          username: note.username,
+          title: note.title,
+          note_type: note.note_type,
+          preview_filename: note.preview_filename,
+          preview_url: note.preview_url,
+          view_cnt: note.view_cnt,
+          saved_cnt: note.saved_cnt,
+          created_at: note.created_at,
+          is_template: true,
+        };
+        return note;
+      });
+      return {
+        ...state,
+        ...data,
+      };
+    }
+
     default:
       return state;
   }

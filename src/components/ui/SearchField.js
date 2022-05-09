@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import {
   Button, HStack, Input, InputGroup, InputLeftElement, Select, useDisclosure,
   Drawer,
@@ -7,11 +9,18 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import { Search2Icon } from '@chakra-ui/icons';
-import { useHistory } from 'react-router-dom';
 
-export default function SearchField({ noteType, handleNoteTypeChange }) {
+import {
+  searchCourses, searchSchools, searchTags, searchPeople, searchNotes, searchTemplates,
+} from '../../actions/common/common';
+
+export default function SearchField() {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const dispatch = useDispatch();
   const history = useHistory();
+  const location = useLocation();
+  const [noteType, setNoteType] = useState('Choose Note Type');
+  const [query, setQuery] = useState('');
   const filters = [
     {
       title: 'Types',
@@ -19,7 +28,82 @@ export default function SearchField({ noteType, handleNoteTypeChange }) {
     },
   ];
 
-  const searchLink = '/search/all';
+  const onSearch = () => {
+    switch (location.pathname) {
+      case '/search/all':
+        dispatch(searchTags(query, 0));
+        dispatch(searchSchools(query, 0));
+        dispatch(searchCourses(query, 0));
+        dispatch(searchPeople(query, 0));
+        if (noteType === 'Choose Note Type') {
+          dispatch(searchNotes(query, 'all', 0));
+          dispatch(searchTemplates(query, 'all', 0));
+        } else if (noteType === 'All') {
+          dispatch(searchNotes(query, 'all', 0));
+          dispatch(searchTemplates(query, 'all', 0));
+        } else if (noteType === 'Notability') {
+          dispatch(searchNotes(query, 'notability', 0));
+          dispatch(searchTemplates(query, 'notability', 0));
+        } else if (noteType === 'Goodnotes') {
+          dispatch(searchNotes(query, 'goodnotes', 0));
+          dispatch(searchTemplates(query, 'goodnotes', 0));
+        }
+        break;
+      case '/search/people':
+        dispatch(searchPeople(query, 0));
+        break;
+      case '/search/tags':
+        dispatch(searchTags(query, 0));
+        break;
+      case '/search/schools':
+        dispatch(searchSchools(query, 0));
+        break;
+      case '/search/courses':
+        dispatch(searchCourses(query, 0));
+        break;
+      case '/search/notes':
+        if (noteType === 'Choose Note Type') {
+          dispatch(searchNotes(query, 'all', 0));
+        } else if (noteType === 'All') {
+          dispatch(searchNotes(query, 'all', 0));
+        } else if (noteType === 'Notability') {
+          dispatch(searchNotes(query, 'notability', 0));
+        } else if (noteType === 'Goodnotes') {
+          dispatch(searchNotes(query, 'goodnotes', 0));
+        }
+        break;
+      case '/search/templates':
+        if (noteType === 'Choose Note Type') {
+          dispatch(searchTemplates(query, 'all', 0));
+        } else if (noteType === 'All') {
+          dispatch(searchTemplates(query, 'all', 0));
+        } else if (noteType === 'Notability') {
+          dispatch(searchTemplates(query, 'notability', 0));
+        } else if (noteType === 'Goodnotes') {
+          dispatch(searchTemplates(query, 'goodnotes', 0));
+        }
+        break;
+      default:
+        dispatch(searchTags(query, 0));
+        dispatch(searchSchools(query, 0));
+        dispatch(searchCourses(query, 0));
+        dispatch(searchPeople(query, 0));
+        if (noteType === 'Choose Note Type') {
+          dispatch(searchNotes(query, 'all', 0));
+          dispatch(searchTemplates(query, 'all', 0));
+        } else if (noteType === 'All') {
+          dispatch(searchNotes(query, 'all', 0));
+          dispatch(searchTemplates(query, 'all', 0));
+        } else if (noteType === 'Notability') {
+          dispatch(searchNotes(query, 'notability', 0));
+          dispatch(searchTemplates(query, 'notability', 0));
+        } else if (noteType === 'Goodnotes') {
+          dispatch(searchNotes(query, 'goodnotes', 0));
+          dispatch(searchTemplates(query, 'goodnotes', 0));
+        }
+        history.push('/search/all');
+    }
+  };
 
   return (
     <>
@@ -47,6 +131,8 @@ export default function SearchField({ noteType, handleNoteTypeChange }) {
             placeholder="IM 3007"
             borderWidth="2px"
             onClick={onOpen}
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
           />
         </InputGroup>
         <Select
@@ -60,7 +146,7 @@ export default function SearchField({ noteType, handleNoteTypeChange }) {
           borderColor="black"
           borderWidth="2px"
           borderRadius="pendown"
-          onChange={handleNoteTypeChange}
+          onChange={(e) => setNoteType(e.target.value)}
           alignItems="center"
           justifyContent="center"
         >
@@ -118,7 +204,7 @@ export default function SearchField({ noteType, handleNoteTypeChange }) {
           }
         </MenuList> */}
         {/* </Menu> */}
-        <Button size="lg" fontSize="20px" variant="pendown-yellow" px="0" onClick={() => history.push(searchLink)}><Search2Icon /></Button>
+        <Button size="lg" fontSize="20px" variant="pendown-yellow" px="0" onClick={onSearch}><Search2Icon /></Button>
       </HStack>
       <Drawer placement="top" onClose={onClose} isOpen={isOpen}>
         <DrawerOverlay />
@@ -154,6 +240,8 @@ export default function SearchField({ noteType, handleNoteTypeChange }) {
                   borderRadius="pendown"
                   placeholder="IM 3007"
                   borderWidth="2px"
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
                 />
               </InputGroup>
               <Select
@@ -167,7 +255,7 @@ export default function SearchField({ noteType, handleNoteTypeChange }) {
                 borderColor="black"
                 borderWidth="2px"
                 borderRadius="pendown"
-                onChange={handleNoteTypeChange}
+                onChange={(e) => setNoteType(e.target.value)}
                 alignItems="center"
                 justifyContent="center"
               >
@@ -176,7 +264,7 @@ export default function SearchField({ noteType, handleNoteTypeChange }) {
                 <option key="Notability" value="Notability">Notability</option>
                 <option key="Goodnotes" value="Goodnotes">Goodnotes</option>
               </Select>
-              <Button size="lg" fontSize="20px" variant="pendown-yellow" px="0" onClick={() => history.push(searchLink)}><Search2Icon /></Button>
+              <Button size="lg" fontSize="20px" variant="pendown-yellow" px="0" onClick={onSearch}><Search2Icon /></Button>
             </HStack>
           </DrawerBody>
         </DrawerContent>
