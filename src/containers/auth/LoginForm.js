@@ -15,6 +15,7 @@ import {
   HStack,
   Divider,
   Text,
+  useToast,
 } from '@chakra-ui/react';
 import { HiEye, HiEyeOff } from 'react-icons/hi';
 import { useSelector, useDispatch } from 'react-redux';
@@ -27,85 +28,46 @@ export default function LoginForm() {
   const history = useHistory();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [errors, setErrors] = useState({
-    username: false,
-    password: false,
-  });
-  const [errorTexts, setErrorTexts] = useState({
-    username: '',
-    password: '',
-  });
+  const [inputError, setInputError] = useState(false);
+  const errorToast = useToast();
 
-  const [showPassword, setShowPassword] = useState(false);
   const loginError = useSelector((state) => state.error.user.auth);
   const loginLoading = useSelector((state) => state.loading.user.auth);
 
   useEffect(() => {
-    if (!loginLoading.fetchAccount) {
-      if (loginError.fetchAccount != null) {
-        setErrors({ username: true, password: true });
-        setErrorTexts((ori) => ({ ...ori, password: 'Incorrect username or password' }));
+    if (!loginLoading.login) {
+      console.log(loginError);
+      if (loginError.login != null) {
+        setInputError(true);
+        errorToast({
+          title: 'Login Fail',
+          description: 'Incorrect username or password',
+          status: 'error',
+          duration: 2000,
+          isClosable: true,
+        });
       }
     }
-  }, [loginError, loginError.fetchAccount, loginLoading]);
+  }, [errorToast, loginError, loginError.fetchAccount, loginLoading]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    if (username === '') {
-      setErrors((ori) => ({ ...ori, username: true }));
-      setErrorTexts((ori) => ({ ...ori, username: "Can't be empty" }));
-    }
-    if (password === '') {
-      setErrors((ori) => ({ ...ori, password: true }));
-      setErrorTexts((ori) => ({ ...ori, password: "Can't be empty" }));
-    }
-
-    if (errors.username === false && errors.password === false && username !== '' && password !== '') {
-      dispatch(userSignIn(username, password));
-    }
+    dispatch(userSignIn(username, password));
   };
   const handleUsernameChange = (e) => {
     if (e.target.value !== '') {
-      if (errors.password && errorTexts.password === 'Incorrect username or password') {
-        setErrors({
-          username: false,
-          password: false,
-        });
-        setErrorTexts({
-          username: '',
-          password: '',
-        });
-      } else {
-        setErrors((ori) => ({ ...ori, username: false }));
-        setErrorTexts((ori) => ({ ...ori, username: '' }));
-      }
+      setInputError(false);
     }
     setUsername(e.target.value);
   };
 
   const handlePasswordChange = (e) => {
     if (e.target.value !== '') {
-      if (errors.password && errorTexts.password === 'Incorrect username or password') {
-        setErrors({
-          username: false,
-          password: false,
-        });
-        setErrorTexts({
-          username: '',
-          password: '',
-        });
-      } else {
-        setErrors((ori) => ({ ...ori, password: false }));
-        setErrorTexts((ori) => ({ ...ori, password: '' }));
-      }
+      setInputError(false);
     }
     setPassword(e.target.value);
   };
 
-  // const handleClickShowPassword = () => {
-  //   setShowPassword(!showPassword);
-  // };
   const { isOpen, onToggle } = useDisclosure();
   const inputRef = React.useRef<HTMLInputElement>(null);
 
@@ -148,9 +110,10 @@ export default function LoginForm() {
                     focusBorderColor="primary.400"
                     borderWidth="2px"
                     borderRadius="pendown"
-                    error={errors.username}
+                    isInvalid={inputError}
                     size="lg"
                     borderColor="black"
+                    required
                   />
                 </FormControl>
                 <FormControl id="password">
@@ -166,8 +129,8 @@ export default function LoginForm() {
                       borderRadius="pendown"
                       borderColor="black"
                       borderWidth="2px"
-                      error={errors.password}
                       placeholder="Password"
+                      isInvalid={inputError}
                       size="lg"
                       required
                     />
