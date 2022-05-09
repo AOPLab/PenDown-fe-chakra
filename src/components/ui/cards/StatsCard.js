@@ -13,7 +13,7 @@ export default function StatsCard({ title, stat }) {
       px={{ base: 4, md: 8 }}
       py="5"
       // shadow="xl"
-      width="130px"
+      width="150px"
       border="2px solid"
       borderColor={useColorModeValue('gray.800', 'gray.500')}
       rounded="pendown"

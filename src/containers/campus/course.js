@@ -8,6 +8,7 @@ import {
 import StatsCard from '../../components/ui/cards/StatsCard';
 import BannerBadge from '../../components/ui/cards/BannerBadge';
 import CardSection from '../../components/ui/CardSection';
+import { statFormatting } from '../../components/util/Helper';
 
 function Course() {
   const { schoolId, courseId } = useParams();
@@ -51,9 +52,9 @@ function Course() {
               <BannerBadge textTransform="lowercase">{ courses[courseId].name }</BannerBadge>
             </VStack>
             <HStack spacing={4}>
-              <StatsCard title="Followers" stat="1,234" />
+              <StatsCard title="Followers" stat={statFormatting(100312)} />
               {/* 註 stat=courses[courseId].followers */}
-              <StatsCard title="Notes" stat="1" />
+              <StatsCard title="Notes" stat={statFormatting(100000303)} />
               {/* 註 stat=courses[courseId].notes */}
             </HStack>
           </Flex>
