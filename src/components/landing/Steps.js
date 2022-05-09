@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Heading, Box, Image, Text, SimpleGrid, useStyleConfig,
+  Heading, Box, Image, Text, SimpleGrid, useStyleConfig, chakra,
 } from '@chakra-ui/react';
 
 function Steps(props) {
@@ -8,13 +8,16 @@ function Steps(props) {
 
   const styles = useStyleConfig('Step', { variant: props.variant });
 
-  // Pass the computed styles into the `__css` prop
   return (
     <>
       <Box>
         <Box textAlign="center" spacing={{ base: 8, md: 14 }} py={{ base: 4, md: 8 }}>
           <Heading fontSize={{ base: 'xl', sm: '2xl', md: '5xl' }} fontWeight={900} lineHeight="150%">
-            Get started in just 4 steps
+            Get started in just
+            {' '}
+            <chakra.span color="primary.500">4</chakra.span>
+            {' '}
+            steps
           </Heading>
         </Box>
         <SimpleGrid

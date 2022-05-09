@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import moment from 'moment';
 import { useHistory } from 'react-router-dom';
 import {
@@ -14,6 +14,15 @@ import CardBadge from './CardBadge';
 export default function NoteCard(props) {
   const history = useHistory();
 
+  const ref = useRef();
+  const [imageHeight, setImageHeight] = useState(0);
+  const handleImageLoad = (event) => {
+    setImageHeight(event.target.clientHeight);
+  };
+  useEffect(() => {
+    setImageHeight(ref.current.clientHeight);
+  }, []);
+
   return (
     <Card variant="pendown" maxW="full" onClick={() => { history.push(`/note/${props.noteId ? props.noteId : 50}`); }}>
       <Box
@@ -21,38 +30,40 @@ export default function NoteCard(props) {
         maxW="full"
         borderRadius="pendown"
         position="relative"
+        width="290px"
       >
-        <Box css={{ display: 'block', position: 'relative' }} align="center" alignItems="center" borderBottom="2px solid black">
-          {props.noteType && (
-          <>
-            <CardBadge
-              content={props.noteType}
-              style={{ bottom: '1rem', right: '0.75rem', position: 'absolute' }}
-            />
-            {/* <Badge
-              rounded="tag"
-              px="4"
-              py="2"
-              colorScheme="gray"
-              bottom={4}
-              right={3}
-              position="absolute"
-              border="2px black solid"
-              fontWeight={800}
-            >
-              Notability
-            </Badge> */}
-          </>
-          )}
-          <Image
-            src={props.imageUrl}
-            alt="No Preview Image"
-            height="376px"
-            width="275px"
-            roundedTop="pendown"
-          />
-
+        <Box
+          css={{ display: 'block', position: 'relative' }}
+          align="center"
+          alignItems="center"
+          borderBottom="2px solid black"
+        >
+          <Box>
+            {props.noteType && (
+            <>
+              <CardBadge
+                content={props.noteType}
+                style={{ bottom: '1rem', right: '0.75rem', position: 'absolute' }}
+              />
+            </>
+            )}
+            <Box display="flex" alignItems="center" justifyContent="center" roundedTop="pendown" height="376px">
+              <Image
+                ref={ref}
+                src={props.imageUrl}
+                alt="No Preview Image"
+                width="290px"
+                maxWidth="full"
+                maxHeight="376px"
+                roundedTop={(imageHeight >= 350) ? 'pendown' : 'md'}
+                rounded={(imageHeight < 350) ? 'md' : ''}
+                objectFit="cover"
+                onLoad={handleImageLoad}
+              />
+            </Box>
+          </Box>
         </Box>
+        {/* <Box borderBottom="2px solid black" position="absolute" left="0" right="0" /> */}
 
         <VStack p="4" align="left">
           <Box
@@ -61,6 +72,8 @@ export default function NoteCard(props) {
             fontSize="2xl"
             as="h1"
             lineHeight="tight"
+            width="full"
+            position="relative"
             isTruncated
           >
             {props.title ? props.title : 'No Title'}

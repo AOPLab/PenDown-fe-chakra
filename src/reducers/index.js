@@ -8,6 +8,7 @@ import note from './note';
 import search from './search';
 import tag from './tag';
 import tagNotes from './tagNote';
+import courseNotes from './courseNote';
 import hotNotes from './hotNote';
 import loading from './loading/index';
 import error from './error/index';
@@ -25,4 +26,5 @@ export default combineReducers({
   error,
   tagNotes,
   hotNotes,
+  courseNotes,
 });

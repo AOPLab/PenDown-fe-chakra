@@ -4,6 +4,7 @@ const initialState = {
   tag_id: null,
   noteType: null, // all, notability, goodnotes
   filter: null, // popular, recent
+  total_cnt: null,
   noteIds: {},
 };
 
@@ -16,7 +17,7 @@ export default function tagNotes(state = initialState, action) {
   switch (action.type) {
     case noteConstants.BROWSE_NOTES_BY_TAG_SUCCESS: {
       const {
-        tagnoteIds, tag_id, type, filter, offset,
+        tagnoteIds, tag_id, type, filter, offset, total_cnt,
       } = action.payload;
       if (state.tag_id === tag_id && state.noteType === type && state.filter === filter) {
         return {
@@ -25,6 +26,7 @@ export default function tagNotes(state = initialState, action) {
             ...state.noteIds,
             [offset]: tagnoteIds,
           },
+          total_cnt,
         };
       }
       return {
@@ -32,6 +34,7 @@ export default function tagNotes(state = initialState, action) {
         noteType: type,
         filter,
         noteIds: { [offset]: tagnoteIds },
+        total_cnt,
       };
     }
     default:

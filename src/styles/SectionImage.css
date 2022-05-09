@@ -30,7 +30,7 @@
 }
 
 .text {
-  color: white;
+  color: var(--chakra-colors-gray-50);
   position: absolute;
   top: 50%;
   left: 50%;

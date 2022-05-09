@@ -61,8 +61,6 @@ export default function Header() {
   const headerItemRef = useRef([]);
   const [userButtonRect, setUserButtonRect] = useState({ left: 0, width: 0 });
 
-  const [noteType, setNoteType] = useState('Choose Note Type');
-
   const indicatorStyles = useMemo(
     () => ({
       left:
@@ -80,13 +78,6 @@ export default function Header() {
   useEffect(() => {
     setUserButtonActive(location.pathname === '/account/my-profile' || location.pathname === '/account/my-profile/setting');
   }, [location.pathname]);
-
-  const handleNoteTypeChange = (event) => {
-    const {
-      target: { value },
-    } = event;
-    setNoteType(value);
-  };
 
   const goto = (link) => {
     if (link === '/logout') {
@@ -112,7 +103,7 @@ export default function Header() {
             //   base: 'none', sm: '10', md: '10', lg: '20', xl: '200',
             // }}
           >
-            <SearchField noteType={noteType} handleNoteTypeChange={handleNoteTypeChange} />
+            <SearchField />
           </Flex>
 
           <Flex alignItems="center">

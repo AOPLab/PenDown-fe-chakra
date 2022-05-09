@@ -1,55 +1,91 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import {
-  HStack, Flex, Spacer, VStack, Button, Text,
+  HStack, Flex, VStack, Text, Stack, useColorModeValue, TabList, Tab, TabPanel, Tabs, TabPanels,
 } from '@chakra-ui/react';
 
-import CardSection from '../../components/ui/CardSection';
 import StatsCard from '../../components/ui/cards/StatsCard';
 import BannerBadge from '../../components/ui/cards/BannerBadge';
+import CourseSection from '../../components/ui/CourseSection';
 
-function Tag() {
+function School() {
   const { schoolId } = useParams();
+  const courseIds = [1, 2];
+  const schools = useSelector((state) => state.school.byId);
   // const history = useHistory();
   // const location = useLocation();
   // const config = useSelector((state) => state.auth);
   // const user = useSelector((state) => state.user);
-  const dispatch = useDispatch();
-  const [noteType, setNoteType] = useState('Choose Note Type');
-  const handleNoteTypeChange = (event) => {
-    const {
-      target: { value },
-    } = event;
-    setNoteType(value);
+  // const dispatch = useDispatch();
+  const tabs = ['Popular', 'Recent'];
+  const [tabIndex, setTabIndex] = useState(0);
+  const handleTabsChange = (index) => {
+    setTabIndex(index);
   };
 
   return (
     <>
-      <Flex direction="column" gap={10} pt={4} px={8}>
-        <Flex direction="column" align="left" gap={4} py={4} p="4">
-          <Text color="gray.600" fontWeight={600} fontSize="md">school/</Text>
-          <Flex minWidth="60%" width="60%" alignItems="center" gap="2" flexWrap="wrap">
+      <Flex direction="column" align="left" gap={10} pt={4} px={8}>
+        <Flex direction="column" align="left" gap={4} py={4}>
+          <Text px="32px" color="gray.600" fontWeight={600} fontSize="md">school/</Text>
+          <Flex alignItems="top" gap={10} flexWrap="wrap" px="32px">
             <VStack spacing={3}>
-              <BannerBadge textTransform="lowercase">{ schools[schoolId] }</BannerBadge>
-              <Button
-                variant="pendown-primary"
-                size="sm"
-              >
-                Follow
-              </Button>
+              <BannerBadge textTransform="lowercase">{ schools[schoolId].name }</BannerBadge>
             </VStack>
-            <Spacer />
             <HStack spacing={4}>
-              <StatsCard title="Followers" stat="1,234" />
-              <StatsCard title="Notes" stat="9" />
+              <StatsCard title="Courses" stat="123" />
+              {/* 註 stat=schools[schoolId].courseCnt */}
+              <StatsCard title="Notes" stat="1" />
+              {/* 註 stat=schools[schoolId].notes */}
             </HStack>
           </Flex>
-          {/* <HStack spacing={8} mx="auto" maxW="3xl" width="80%" py={12} px={6} align="flex-start" /> */}
         </Flex>
-        <CardSection noteType={noteType} handleNoteTypeChange={handleNoteTypeChange} />
+        <Tabs isLazy size="lg" width="100%" border="hidden" variant="unstyled" index={tabIndex} onChange={handleTabsChange}>
+          <Flex justify="center" mx={['auto', 0]} mb={-2}>
+            <Stack
+              direction="row"
+              justify="space-between"
+              textAlign="center"
+              rounded="pendown"
+              bg={useColorModeValue('gray.100', 'gray.500')}
+              border="2px solid black"
+            >
+              <TabList
+                borderBottom="hidden"
+              >
+                {tabs.map((tab) => (
+                  <Tab
+                    key={tab}
+                    value={tab}
+                    _selected={{ bg: 'primary.400', borderRadius: 'pendown' }}
+                    fontSize="md"
+                    fontWeight="bold"
+                  >
+                    {tab}
+                  </Tab>
+                ))}
+              </TabList>
+            </Stack>
+          </Flex>
+          <TabPanels>
+            {tabs.map((tab) => (
+              <TabPanel key={tab}>
+                <Flex
+                  w="100%"
+                  justifyContent="center"
+                  alignItems="center"
+                  flexDirection="column"
+                >
+                  <CourseSection courseIds={courseIds} />
+                </Flex>
+              </TabPanel>
+            ))}
+          </TabPanels>
+        </Tabs>
       </Flex>
     </>
   );
 }
 
-export default Tag;
+export default School;

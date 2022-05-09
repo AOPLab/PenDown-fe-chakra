@@ -1,10 +1,10 @@
 import React, {
-  useState, useEffect, useRef, useMemo,
+  useState,
 } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+// import { useHistory, useLocation } from 'react-router-dom';
 import {
-  HStack, Flex, Spacer, VStack, Button, Text, Avatar,
+  HStack, Flex, VStack, Button, Text, Avatar, Stack, useColorModeValue, TabList, Tab, TabPanel, Tabs, TabPanels,
 } from '@chakra-ui/react';
 
 import { avatarSrc } from '../../components/util/Helper';
@@ -19,6 +19,9 @@ function SocialProfile() {
   const account = useSelector((state) => state.user);
   // 註：要把這個 account 改成接對應的非登入使用者
   // const dispatch = useDispatch();
+  const tabs = ['Recent', 'Popular'];
+  const noteIds = useSelector((state) => state.hotNotes.hotNoteIds);
+  // 註：這裡要接要用的 notes
 
   const [noteType, setNoteType] = useState('Choose Note Type');
   const handleNoteTypeChange = (event) => {
@@ -26,6 +29,11 @@ function SocialProfile() {
       target: { value },
     } = event;
     setNoteType(value);
+  };
+
+  const [tabIndex, setTabIndex] = useState(0);
+  const handleTabsChange = (index) => {
+    setTabIndex(index);
   };
 
   return (
@@ -49,24 +57,12 @@ function SocialProfile() {
                   {account.username}
                 </Text>
               </Text>
-              {12 in user.followingIds // 註：這裡要改成確認有沒有追蹤
-                ? (
-                  <Button
-                    variant="pendown-primary"
-                    size="sm"
-                  >
-                    Following
-                  </Button>
-                )
-                : (
-                  <Button
-                    variant="pendown-primary"
-                    size="sm"
-                  >
-                    Follow
-                  </Button>
-                )
-              }
+              <Button
+                variant="pendown-primary"
+                size="sm"
+              >
+                Follow
+              </Button>
             </VStack>
             <VStack>
               <HStack spacing={4}>
@@ -79,7 +75,48 @@ function SocialProfile() {
           </Flex>
           {/* <HStack spacing={8} mx="auto" maxW="3xl" width="80%" py={12} px={6} align="flex-start" /> */}
         </Flex>
-        <CardSection noteType={noteType} handleNoteTypeChange={handleNoteTypeChange} />
+        <Tabs isLazy size="lg" width="100%" border="hidden" variant="unstyled" index={tabIndex} onChange={handleTabsChange}>
+          <Flex justify="center" mx={['auto', 0]} mb={-2}>
+            <Stack
+              direction="row"
+              justify="space-between"
+              textAlign="center"
+              rounded="pendown"
+              bg={useColorModeValue('gray.100', 'gray.500')}
+              border="2px solid black"
+            >
+              <TabList
+                borderBottom="hidden"
+              >
+                {tabs.map((tab) => (
+                  <Tab
+                    key={tab}
+                    value={tab}
+                    _selected={{ bg: 'primary.400', borderRadius: 'pendown' }}
+                    fontSize="md"
+                    fontWeight="bold"
+                  >
+                    {tab}
+                  </Tab>
+                ))}
+              </TabList>
+            </Stack>
+          </Flex>
+          <TabPanels>
+            {tabs.map((tab) => (
+              <TabPanel key={tab}>
+                <Flex
+                  w="100%"
+                  justifyContent="center"
+                  alignItems="center"
+                  flexDirection="column"
+                >
+                  <CardSection noteType={noteType} handleNoteTypeChange={handleNoteTypeChange} noteIds={noteIds} />
+                </Flex>
+              </TabPanel>
+            ))}
+          </TabPanels>
+        </Tabs>
       </Flex>
     </>
   );

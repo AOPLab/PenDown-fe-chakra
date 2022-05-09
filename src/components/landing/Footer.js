@@ -20,7 +20,7 @@ function Footer(props) {
 
   // Pass the computed styles into the `__css` prop
   return (
-    <Container as="footer" bg="#18191F" maxWidth="100%" verticalAlign="center">
+    <Container as="footer" bg="gray.900" maxWidth="100%" verticalAlign="center">
       <Stack id="footer-logo" color="white" pt={{ base: '6', md: '12' }} margin="0 5vw 0 5vw">
         <Stack direction={{ base: 'column', sm: 'row' }} marginInlineStart="0rem">
           <Icon.SmallLogo />
@@ -38,6 +38,7 @@ function Footer(props) {
         margin="0 5vw 0 5vw"
         pt={{ base: '6', md: '12' }}
         paddingLeft="4px"
+        justifyContent="space-between"
       >
         <Stack minW="300px" spacing={{ base: '6', md: '8' }} align="start">
           <Text fontSize={{ base: 'xl', sm: 'xl', md: '2xl' }} fontWeight={700}>
@@ -51,15 +52,20 @@ function Footer(props) {
               placeholder="Enter your email"
               bg="white"
               type="email"
+              _hover={{ borderColor: 'primary.400' }}
+              focusBorderColor="primary.400"
               required
               w="70%"
               maxW="420px"
+              size="lg"
             />
             <Button
               id="subscribe_btn"
               variant="primary"
+              p={4}
               type="submit"
-              width="100px"
+              size="lg"
+              // width="100px"
               flexShrink={0}
               _hover={{ color: 'black', bg: 'secondary.500' }}
             >

@@ -1,32 +1,31 @@
 import React from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Box, Heading, SimpleGrid, Flex, Center, Button,
 } from '@chakra-ui/react';
 import MiscCard from '../../components/ui/cards/MiscCard';
 
-export default function Courses() {
-  // const history = useHistory();
-  // const location = useLocation();
-  // const config = useSelector((state) => state.auth);
-  // const user = useSelector((state) => state.user);
-  // const dispatch = useDispatch();
-  const pageProperties = {
-    title: 'Courses',
-  };
+import { searchCourses } from '../../actions/common/common';
 
-  const property = {
-    dateCreated: 'Mar. 12, 2022',
-    title: 'IM 3007: System Analysis and Design',
-    description: 'National Taiwan University',
-    noteCount: '116',
-    viewCount: '3.2k',
-    savedCount: '32',
+export default function Courses() {
+  const history = useHistory();
+  const location = useLocation();
+  const dispatch = useDispatch();
+  const search = useSelector((state) => state.search);
+  const courses = useSelector((state) => state.course.byId);
+
+  const onViewMore = () => {
+    if (location.pathname !== '/search/courses') {
+      history.push('/search/courses');
+    }
+    dispatch(searchCourses(search.q, search.courses.cur_offset + 12));
   };
 
   return (
     <>
       <Box borderWidth="4px" border="3px black" borderBottom="3px solid black" py="8" my="2">
-        <Heading>{pageProperties.title}</Heading>
+        <Heading>Courses</Heading>
 
         <Flex
           w="full"
@@ -43,28 +42,23 @@ export default function Courses() {
             py={0}
             mx="auto"
           >
-            <MiscCard property={property} />
-            <MiscCard property={property} />
-            <MiscCard property={property} />
-            <MiscCard property={property} />
-            <MiscCard property={property} />
-            <MiscCard property={property} />
-            <MiscCard property={property} />
-
+            {Object.keys(search.courses.ids).map((key) => search.courses.ids[key].map((id) => (<MiscCard key={id} onClick={() => history.push(`/school/${courses[id].school_id}/course/${id}`)} property={{ title: `${courses[id].no}: ${courses[id].name}`, description: `${courses[id].school_name}` }} />)))}
           </SimpleGrid>
         </Flex>
+        {search.courses.totalCnt && search.courses.totalCnt !== 0 && (search.courses.cur_offset + 12) < search.courses.totalCnt
+        && (
         <Center mt={8}>
           <Button
             variant="pendown-primary"
             size="lg"
-                    // onClick={() => history.push('/login')}
-                    // onKeyDown={() => history.push('/login')}
+            onClick={() => onViewMore()}
             tabIndex="-1"
             role="button"
           >
             View More
           </Button>
         </Center>
+        )}
       </Box>
     </>
   );

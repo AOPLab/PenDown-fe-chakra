@@ -1,23 +1,31 @@
 import React from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Box, Heading, SimpleGrid, Button, Center,
 } from '@chakra-ui/react';
 import TagBadge from '../../components/ui/TagBadge';
 
+import { searchTags } from '../../actions/common/common';
+
 export default function Tags() {
-  // const history = useHistory();
-  // const location = useLocation();
-  // const config = useSelector((state) => state.auth);
-  // const user = useSelector((state) => state.user);
-  // const dispatch = useDispatch();
-  const pageProperties = {
-    title: 'Tags',
+  const history = useHistory();
+  const location = useLocation();
+  const dispatch = useDispatch();
+  const search = useSelector((state) => state.search);
+  const tags = useSelector((state) => state.tag.byId);
+
+  const onViewMore = () => {
+    if (location.pathname !== '/search/tags') {
+      history.push('/search/tags');
+    }
+    dispatch(searchTags(search.q, search.tags.cur_offset + 12));
   };
 
   return (
     <>
       <Box borderWidth="4px" border="3px black" borderBottom="3px solid black" py="8" my="2">
-        <Heading>{pageProperties.title}</Heading>
+        <Heading>Tags</Heading>
         <SimpleGrid
           minChildWidth="140px"
           spacing={4}
@@ -26,29 +34,22 @@ export default function Tags() {
           py={0}
           mx="auto"
         >
-          <TagBadge>#funny</TagBadge>
-          <TagBadge>#presentation</TagBadge>
-          <TagBadge>#tutorial</TagBadge>
-          <TagBadge>#class-note</TagBadge>
-          <TagBadge>#note-taking</TagBadge>
-          <TagBadge>#multinational</TagBadge>
-          <TagBadge>#brainstorming</TagBadge>
-          <TagBadge>#flower</TagBadge>
-          <TagBadge>#painting</TagBadge>
-          <TagBadge>#superb</TagBadge>
+          {Object.keys(search.tags.ids).map((key) => search.tags.ids[key].map((id) => (<TagBadge key={id} onClick={() => history.push(`/tag/${id}`)}>{`#${tags[id].name}`}</TagBadge>)))}
         </SimpleGrid>
+        {search.tags.totalCnt && search.tags.totalCnt !== 0 && (search.tags.cur_offset + 12) < search.tags.totalCnt
+        && (
         <Center mt={8}>
           <Button
             variant="pendown-primary"
             size="lg"
-                    // onClick={() => history.push('/login')}
-                    // onKeyDown={() => history.push('/login')}
+            onClick={() => onViewMore()}
             tabIndex="-1"
             role="button"
           >
             View More
           </Button>
         </Center>
+        )}
       </Box>
     </>
   );
