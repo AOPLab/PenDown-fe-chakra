@@ -245,6 +245,9 @@ const browsePublicUserNotes = (account_id, type, filter, offset) => async (dispa
         total_cnt: res.data.total_cnt,
       },
     });
+    if (res.data.total_cnt > offset + 12) {
+      dispatch(browsePublicUserNotes(account_id, type, filter, offset + 12));
+    }
   } catch (error) {
     dispatch({
       type: noteConstants.BROWSE_NOTES_BY_USER_PUBLIC_FAIL,
@@ -286,6 +289,9 @@ const browseUserOwnNotes = (token, account_id, type, filter, offset) => async (d
         total_cnt: res.data.total_cnt,
       },
     });
+    if (res.data.total_cnt > offset + 12) {
+      dispatch(browseUserOwnNotes(token, account_id, type, filter, offset + 12));
+    }
   } catch (error) {
     dispatch({
       type: noteConstants.BROWSE_NOTES_BY_USER_OWN_FAIL,

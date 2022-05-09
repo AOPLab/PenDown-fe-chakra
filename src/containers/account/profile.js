@@ -1,7 +1,7 @@
 import React, {
-  useState,
+  useState, useEffect,
 } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import {
   HStack, Flex, VStack, Button, Text, Avatar, Stack, useColorModeValue, TabList, Tab, TabPanel, Tabs, TabPanels,
@@ -10,19 +10,22 @@ import Icon from '../../components/ui/icon/index';
 import { avatarSrc } from '../../components/util/Helper';
 import StatsCard from '../../components/ui/cards/StatsCard';
 import SelfCardSection from '../../components/ui/SelfCardSection';
+import { browseUserOwnNotes } from '../../actions/note/note';
+import { readSelfAccount } from '../../actions/user/user';
 
 function PersonalProfile() {
   const history = useHistory();
+  const dispatch = useDispatch();
   const [tabIndex, setTabIndex] = useState(0);
-  const [viewType, setViewType] = useState('');
+  const [viewType, setViewType] = useState('Notes');
   // const location = useLocation();
   // const config = useSelector((state) => state.auth);
   const user = useSelector((state) => state.user);
   const auth = useSelector((state) => state.auth);
-  const noteIds = useSelector((state) => state.hotNotes.hotNoteIds);
-  // 註 要改成接對應的 notes
   const tabs = ['Notes', 'Saved', 'Library'];
   const [uploadedNoteIds, setUploadedNoteIds] = useState([]);
+  const [savededNoteIds, setSavedNoteIds] = useState([]);
+  const [libraryNoteIds, setLibraryNoteIds] = useState([]);
 
   const [noteType, setNoteType] = useState('Choose Note Type');
   const handleNoteTypeChange = (event) => {
@@ -42,6 +45,82 @@ function PersonalProfile() {
   const handleTabsChange = (index) => {
     setTabIndex(index);
   };
+
+  useEffect(() => {
+    dispatch(readSelfAccount(auth.token));
+  }, [auth.token, dispatch]);
+
+  useEffect(() => {
+    if (auth.token === null || auth.token === '') {
+      return;
+    }
+    switch (noteType) {
+      case 'Choose Note Type':
+      case 'All': {
+        if (viewType === 'Notes') {
+          dispatch(browseUserOwnNotes(auth.token, user.id, 'all', 'uploaded', 0));
+        } else if (viewType === 'Saved') {
+          dispatch(browseUserOwnNotes(auth.token, user.id, 'all', 'saved', 0));
+        } else {
+          dispatch(browseUserOwnNotes(auth.token, user.id, 'all', 'library', 0));
+        }
+        break;
+      }
+      case 'Notability': {
+        if (viewType === 'Notes') {
+          dispatch(browseUserOwnNotes(auth.token, user.id, 'notability', 'uploaded', 0));
+        } else if (viewType === 'Saved') {
+          dispatch(browseUserOwnNotes(auth.token, user.id, 'notability', 'saved', 0));
+        } else {
+          dispatch(browseUserOwnNotes(auth.token, user.id, 'notability', 'library', 0));
+        }
+        break;
+      }
+      case 'Goodnotes': {
+        if (viewType === 'Notes') {
+          dispatch(browseUserOwnNotes(auth.token, user.id, 'goodnotes', 'uploaded', 0));
+        } else if (viewType === 'Saved') {
+          dispatch(browseUserOwnNotes(auth.token, user.id, 'goodnotes', 'saved', 0));
+        } else {
+          dispatch(browseUserOwnNotes(auth.token, user.id, 'goodnotes', 'library', 0));
+        }
+        break;
+      }
+      default: {
+        break;
+      }
+    }
+  }, [auth.token, dispatch, noteType, user.id, viewType]);
+
+  useEffect(() => {
+    if (noteType === 'All' || noteType === 'Choose Note Type') {
+      setUploadedNoteIds(Object.keys(user.uploadedNotes.all).map((key) => user.uploadedNotes.all[key]).flat());
+    } else if (noteType === 'Notability') {
+      setUploadedNoteIds(Object.keys(user.uploadedNotes.notability).map((key) => user.uploadedNotes.notability[key]).flat());
+    } else if (noteType === 'Goodnotes') {
+      setUploadedNoteIds(Object.keys(user.uploadedNotes.goodnotes).map((key) => user.uploadedNotes.goodnotes[key]).flat());
+    }
+  }, [noteType, user.uploadedNotes]);
+
+  useEffect(() => {
+    if (noteType === 'All' || noteType === 'Choose Note Type') {
+      setSavedNoteIds(Object.keys(user.savedNotes.all).map((key) => user.savedNotes.all[key]).flat());
+    } else if (noteType === 'Notability') {
+      setSavedNoteIds(Object.keys(user.savedNotes.notability).map((key) => user.savedNotes.notability[key]).flat());
+    } else if (noteType === 'Goodnotes') {
+      setSavedNoteIds(Object.keys(user.savedNotes.goodnotes).map((key) => user.savedNotes.goodnotes[key]).flat());
+    }
+  }, [noteType, user.savedNotes]);
+
+  useEffect(() => {
+    if (noteType === 'All' || noteType === 'Choose Note Type') {
+      setLibraryNoteIds(Object.keys(user.libraryNotes.all).map((key) => user.libraryNotes.all[key]).flat());
+    } else if (noteType === 'Notability') {
+      setLibraryNoteIds(Object.keys(user.libraryNotes.notability).map((key) => user.libraryNotes.notability[key]).flat());
+    } else if (noteType === 'Goodnotes') {
+      setLibraryNoteIds(Object.keys(user.libraryNotes.goodnotes).map((key) => user.libraryNotes.goodnotes[key]).flat());
+    }
+  }, [noteType, user.libraryNotes]);
 
   return (
     <>
@@ -90,7 +169,7 @@ function PersonalProfile() {
             </VStack>
           </Flex>
         </Flex>
-        <Tabs isLazy size="lg" width="100%" border="hidden" variant="unstyled" index={tabIndex} onChange={handleTabsChange}>
+        <Tabs isLazy size="lg" width="100%" border="hidden" variant="unstyled" index={tabIndex} onChange={handleTabsChange} defaultIndex={0}>
           <Flex justify="center" mx={['auto', 0]} mb={-2}>
             <Stack
               direction="row"
@@ -119,18 +198,36 @@ function PersonalProfile() {
             </Stack>
           </Flex>
           <TabPanels>
-            {tabs.map((tab) => (
-              <TabPanel key={tab}>
-                <Flex
-                  w="100%"
-                  justifyContent="center"
-                  alignItems="center"
-                  flexDirection="column"
-                >
-                  <SelfCardSection noteType={noteType} handleNoteTypeChange={handleNoteTypeChange} noteIds={noteIds} />
-                </Flex>
-              </TabPanel>
-            ))}
+            <TabPanel key="Notes">
+              <Flex
+                w="100%"
+                justifyContent="center"
+                alignItems="center"
+                flexDirection="column"
+              >
+                <SelfCardSection noteType={noteType} handleNoteTypeChange={handleNoteTypeChange} noteIds={uploadedNoteIds} />
+              </Flex>
+            </TabPanel>
+            <TabPanel key="Saved">
+              <Flex
+                w="100%"
+                justifyContent="center"
+                alignItems="center"
+                flexDirection="column"
+              >
+                <SelfCardSection noteType={noteType} handleNoteTypeChange={handleNoteTypeChange} noteIds={savededNoteIds} />
+              </Flex>
+            </TabPanel>
+            <TabPanel key="Library">
+              <Flex
+                w="100%"
+                justifyContent="center"
+                alignItems="center"
+                flexDirection="column"
+              >
+                <SelfCardSection noteType={noteType} handleNoteTypeChange={handleNoteTypeChange} noteIds={libraryNoteIds} />
+              </Flex>
+            </TabPanel>
           </TabPanels>
         </Tabs>
       </Flex>
