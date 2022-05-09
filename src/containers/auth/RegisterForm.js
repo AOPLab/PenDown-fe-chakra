@@ -15,6 +15,7 @@ import {
   HStack,
   Divider,
   Text,
+  useToast,
 } from '@chakra-ui/react';
 import { HiEye, HiEyeOff } from 'react-icons/hi';
 import { useHistory, Link as ReactRouterLink } from 'react-router-dom';
@@ -33,6 +34,7 @@ export default function RegisterForm() {
   const dispatch = useDispatch();
   const registerLoading = useSelector((state) => state.loading.user.auth.signup);
   const registerError = useSelector((state) => state.error.user.auth.signup);
+  const errorToast = useToast();
 
   const [inputs, setInputs] = useState({
     username: '',
@@ -49,17 +51,9 @@ export default function RegisterForm() {
     password: false,
     confirmPassword: false,
   });
-  const [errorTexts, setErrorTexts] = useState({
-    username: '',
-    fullName: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-  });
 
   const [showPassword, setShowPassword] = useState(false);
 
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [hasRequest, setHasRequest] = useState(false);
 
   const labelName = ['username', 'fullName', 'email', 'password', 'confirmPassword'];
@@ -76,20 +70,10 @@ export default function RegisterForm() {
         return { ...acc, [item]: newInputs[item] === '' };
       }, {}),
     );
-    setErrorTexts(
-      labelName.reduce((acc, item) => {
-        if (item !== 'password' && item !== 'confirmPassword') {
-          return { ...acc, [item]: newInputs[item].trim() === '' ? "Can't be empty" : '' };
-        }
-        return { ...acc, [item]: newInputs[item] === '' ? "Can't be empty" : '' };
-      }, {}),
-    );
-
     // check password
     const statusP = checkPassword(newInputs.password, newInputs.confirmPassword);
     if (statusP === "Passwords don't match") {
       setErrors((input) => ({ ...input, confirmPassword: true }));
-      setErrorTexts((input) => ({ ...input, confirmPassword: statusP }));
       hasError = true;
     }
 
@@ -110,9 +94,8 @@ export default function RegisterForm() {
   const handleChange = (event) => {
     const { name, value } = event.target;
     setInputs((input) => ({ ...input, [name]: value }));
-    if (value !== '' && errorTexts[name] === "Can't be empty") {
+    if (value !== '') {
       setErrors((input) => ({ ...input, [name]: false }));
-      setErrorTexts((input) => ({ ...input, [name]: '' }));
     }
 
     if (name === 'confirmPassword' || name === 'password') {
@@ -121,21 +104,17 @@ export default function RegisterForm() {
         && checkPassword(inputs.confirmPassword, value) === "Passwords don't match"
       ) {
         setErrors((input) => ({ ...input, confirmPassword: true }));
-        setErrorTexts((input) => ({ ...input, confirmPassword: "Passwords don't match" }));
       } else {
         setErrors((input) => ({ ...input, confirmPassword: false }));
-        setErrorTexts((input) => ({ ...input, confirmPassword: '' }));
       }
     }
 
-    if (name === 'username' && errorTexts[name] === 'Username Exists') {
+    if (name === 'username') {
       setErrors((input) => ({ ...input, username: false }));
-      setErrorTexts((input) => ({ ...input, username: '' }));
     }
 
-    if (name === 'email' && errorTexts[name] === 'Email Exists') {
+    if (name === 'email') {
       setErrors((input) => ({ ...input, email: false }));
-      setErrorTexts((input) => ({ ...input, email: '' }));
     }
 
     setHasRequest(false);
@@ -143,29 +122,30 @@ export default function RegisterForm() {
 
   useEffect(() => {
     if (!registerLoading && hasRequest) {
-      // StudentCardExists, UsernameExists, StudentIdNotMatchEmail
       if (registerError !== null) {
         switch (registerError) {
           case 'UsernameExists': {
             setErrors((input) => ({ ...input, username: true }));
-            setErrorTexts((input) => ({ ...input, username: 'Username Exists' }));
             break;
           }
           case 'EmailExists': {
             setErrors((input) => ({ ...input, email: true }));
-            setErrorTexts((input) => ({
-              ...input,
-              email: 'Email Exists',
-            }));
             break;
           }
           default: {
             break;
           }
         }
+        errorToast({
+          title: 'Register Fail',
+          description: registerError,
+          status: 'error',
+          duration: 2000,
+          isClosable: true,
+        });
       }
     }
-  }, [hasRequest, registerError, registerLoading]);
+  }, [errorToast, hasRequest, registerError, registerLoading]);
 
   return (
     <>
@@ -197,7 +177,6 @@ export default function RegisterForm() {
                       label="Full Name"
                       value={inputs.fullName}
                       onChange={(e) => handleChange(e)}
-                      error={errors.fullName}
                       _hover={{ borderColor: 'primary.400' }}
                       placeholder="Full name"
                       focusBorderColor="primary.400"
@@ -205,6 +184,8 @@ export default function RegisterForm() {
                       borderWidth="2px"
                       borderRadius="pendown"
                       size="lg"
+                      required
+                      isInvalid={errors.fullName}
                     />
                   </FormControl>
                   <FormControl id="username">
@@ -222,7 +203,8 @@ export default function RegisterForm() {
                       onChange={(e) => handleChange(e)}
                       borderWidth="2px"
                       borderColor="black"
-                      error={errors.username}
+                      required
+                      isInvalid={errors.username}
                     />
                   </FormControl>
                   <FormControl id="email">
@@ -240,6 +222,8 @@ export default function RegisterForm() {
                       borderWidth="2px"
                       size="lg"
                       id="email"
+                      required
+                      isInvalid={errors.email}
                     />
                   </FormControl>
                   <FormControl id="password">
@@ -251,7 +235,6 @@ export default function RegisterForm() {
                 // placeholder="New Password"
                         value={inputs.password}
                         onChange={(e) => handleChange(e)}
-                        error={errors.password}
                         id="password"
                         focusBorderColor="primary.400"
                         borderColor="black"
@@ -261,6 +244,7 @@ export default function RegisterForm() {
                         placeholder="Password"
                         size="lg"
                         required
+                        isInvalid={errors.password}
                       />
                       <InputRightElement>
                         <IconButton
@@ -287,7 +271,6 @@ export default function RegisterForm() {
                         id="confirm-password"
                         type={showPassword ? 'text' : 'password'}
                         name="confirmPassword"
-                        error={errors.confirmPassword}
                         label="Confirm Password"
                         value={inputs.confirmPassword}
                         borderWidth="2px"
@@ -299,6 +282,7 @@ export default function RegisterForm() {
                         size="lg"
                         _hover={{ borderColor: 'primary.400' }}
                         required
+                        isInvalid={errors.confirmPassword}
                       />
                       <InputRightElement>
                         <IconButton
@@ -348,103 +332,6 @@ export default function RegisterForm() {
 
         </Box>
       </Stack>
-      {/* <Card className="auth-form register-form" variant="outlined">
-        <CardContent className="auth-form-content">
-          <form className={`auth-form-content ${classNames.authForm}`}>
-            <TextField
-              className={`auth-form-input ${classNames.authTextFields}`}
-              id="username"
-              name="username"
-              label="Username"
-              value={inputs.username}
-              onChange={(e) => handleChange(e)}
-              error={errors.username}
-              helperText={errorTexts.username}
-            />
-            <TextField
-              className={`auth-form-input ${classNames.authTextFields}`}
-              id="fullName"
-              name="fullName"
-              label="Full Name"
-              value={inputs.fullName}
-              onChange={(e) => handleChange(e)}
-              error={errors.fullName}
-              helperText={errorTexts.fullName}
-            />
-            <TextField
-              id="email"
-              name="email"
-              className={`auth-form-input ${classNames.authTextFields}`}
-              label="Email"
-              value={inputs.email}
-              onChange={(e) => handleChange(e)}
-              error={errors.email}
-              helperText={errorTexts.email}
-            />
-            <TextField
-                // required
-              className={`auth-form-input ${classNames.authTextFields}`}
-              name="password"
-              label="Password"
-              type={showPassword ? 'text' : 'password'}
-                // placeholder="New Password"
-              value={inputs.password}
-              onChange={(e) => handleChange(e)}
-              error={errors.password}
-              helperText={errorTexts.password}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={() => setShowPassword(!showPassword)}
-                      edge="end"
-                    >
-                      {showPassword ? <Visibility /> : <VisibilityOff />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-            />
-            <TextField
-                // required
-              className={`auth-form-input ${classNames.authTextFields}`}
-              name="confirmPassword"
-              error={errors.confirmPassword}
-              type={showConfirmPassword ? 'text' : 'password'}
-              label="Confirm Password"
-              value={inputs.confirmPassword}
-              helperText={errorTexts.confirmPassword}
-              onChange={(e) => handleChange(e)}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                      edge="end"
-                    >
-                      {showConfirmPassword ? <Visibility /> : <VisibilityOff />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-            />
-            <div className={classNames.authButtons}>
-              <Button onClick={() => onSubmit()} color="primary">
-                Register
-              </Button>
-            </div>
-          </form>
-          <Typography variant="body2" className={classNames.authLink}>
-            Already have a puppy?
-            {' '}
-            <Link component={RouterLink} to="/login">
-              Log in
-            </Link>
-          </Typography>
-        </CardContent>
-      </Card> */}
     </>
   );
 }
