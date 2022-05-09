@@ -371,7 +371,7 @@ const removeNoteSaved = (token, note_id) => async (dispatch) => {
 };
 
 // Use to edit self info
-const editNote = (token, note_id, title, description, school_id, course_id, bean, previous_tag_id_arr, present_tag_id_arr, new_tags_arr) => async (dispatch) => {
+const editNote = (token, note_id, title, description, school_id, course_id, bean, is_template, previous_tag_id_arr, present_tag_id_arr, new_tag_arr) => async (dispatch) => {
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -385,9 +385,19 @@ const editNote = (token, note_id, title, description, school_id, course_id, bean
       school_id,
       course_id,
       bean,
+      is_template,
     };
     await agent.patch(`/api/notes/${note_id}`, noteInfo, config);
-    // 還未做 add tag
+    const delete_tag_ids = previous_tag_id_arr.filter((item) => !present_tag_id_arr.includes(item));
+    const add_tag_ids = present_tag_id_arr.filter((item) => !previous_tag_id_arr.includes(item));
+    const new_tag_id_arr = await Promise.all(new_tag_arr.map(async (item) => {
+      const tag_res = await agent.post('/api/tag', { tag_name: item });
+      return tag_res.data.tag_id;
+    }));
+    Promise.all(new_tag_id_arr.map((item) => agent.post(`/api/notes/${note_id}/tags/${item}`, {}, config)));
+    Promise.all(delete_tag_ids.map((item) => agent.delete(`/api/notes/${note_id}/tags/${item}`, config)));
+    Promise.all(add_tag_ids.map((item) => agent.post(`/api/notes/${note_id}/tags/${item}`, {}, config)));
+
     dispatch({ type: noteConstants.EDIT_NOTE_SUCCESS });
   } catch (error) {
     dispatch({
