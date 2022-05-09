@@ -1,23 +1,27 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Box, Heading, SimpleGrid, Flex, Center, Button,
 } from '@chakra-ui/react';
 import NoteCard from '../../components/ui/cards/NoteCard';
 
+import { searchTemplates } from '../../actions/common/common';
+
 export default function Templates() {
-  // const history = useHistory();
-  // const location = useLocation();
-  // const config = useSelector((state) => state.auth);
-  // const user = useSelector((state) => state.user);
-  // const dispatch = useDispatch();
-  const pageProperties = {
-    title: 'Templates',
+  const dispatch = useDispatch();
+  const search = useSelector((state) => state.search);
+  const notes = useSelector((state) => state.note.byId);
+
+  const onViewMore = () => {
+    dispatch(searchTemplates(search.q, search.type, search.templates.cur_offset + 12));
   };
+
+  console.log(search.templates);
 
   return (
     <>
       <Box borderWidth="4px" border="3px black" borderBottom="3px solid black" py="8" my="2">
-        <Heading>{pageProperties.title}</Heading>
+        <Heading>Templates</Heading>
 
         <Flex
           w="full"
@@ -35,26 +39,23 @@ export default function Templates() {
             py={0}
             mx="auto"
           >
-            <NoteCard imageUrl="https://p.calameoassets.com/180515111509-087734d3ab9181b3dbabd2c3eab490b6/p1.jpg" />
-            <NoteCard imageUrl="https://img.freepik.com/free-psd/landscape-cover-mock-up-template-a4-size_165833-912.jpg" />
-            <NoteCard imageUrl="https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/I-20-sample.pdf/page1-463px-I-20-sample.pdf.jpg" />
-            <NoteCard imageUrl="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQGUp_6A6lTrhauVsYhgjXQl0hrbr2nkjveomha7GkGPksnRdWCKJwbAbToS_3ku3giebw&usqp=CAU" />
-            <NoteCard imageUrl="https://imgv2-2-f.scribdassets.com/img/document/262443256/original/acb42c6feb/1613379183?v\u003d1" />
-            <NoteCard imageUrl="https://img.yumpu.com/21400799/1/500x640/download-pdf-file-of-sample-newsletter-articles-get-involved.jpg" />
+            {Object.keys(search.templates.ids).map((key) => search.templates.ids[key].map((id) => ((<NoteCard key={id} noteId={id} imageUrl={notes[id].preview_url} username={notes[id].username} viewCount={notes[id].view_cnt} savedCount={notes[id].saved_cnt} title={notes[id].title} dateCreated={notes[id].created_at} noteType={notes[id].note_type} />))))}
           </SimpleGrid>
         </Flex>
+        {search.templates.totalCnt && search.templates.totalCnt !== 0 && (search.templates.cur_offset + 1) * 12 < search.templates.totalCnt
+        && (
         <Center mt={8}>
           <Button
             variant="pendown-primary"
             size="lg"
-                    // onClick={() => history.push('/login')}
-                    // onKeyDown={() => history.push('/login')}
+            onClick={() => onViewMore()}
             tabIndex="-1"
             role="button"
           >
             View More
           </Button>
         </Center>
+        )}
       </Box>
     </>
   );

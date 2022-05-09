@@ -11,7 +11,7 @@ import {
 import { Search2Icon } from '@chakra-ui/icons';
 
 import {
-  searchCourses, searchSchools, searchTags, searchPeople,
+  searchCourses, searchSchools, searchTags, searchPeople, searchNotes, searchTemplates,
 } from '../../actions/common/common';
 
 export default function SearchField() {
@@ -35,6 +35,19 @@ export default function SearchField() {
         dispatch(searchSchools(query, 0));
         dispatch(searchCourses(query, 0));
         dispatch(searchPeople(query, 0));
+        if (noteType === 'Choose Note Type') {
+          dispatch(searchNotes(query, 'all', 0));
+          dispatch(searchTemplates(query, 'all', 0));
+        } else if (noteType === 'All') {
+          dispatch(searchNotes(query, 'all', 0));
+          dispatch(searchTemplates(query, 'all', 0));
+        } else if (noteType === 'Notability') {
+          dispatch(searchNotes(query, 'notability', 0));
+          dispatch(searchTemplates(query, 'notability', 0));
+        } else if (noteType === 'Goodnotes') {
+          dispatch(searchNotes(query, 'goodnotes', 0));
+          dispatch(searchTemplates(query, 'goodnotes', 0));
+        }
         break;
       case '/search/people':
         dispatch(searchPeople(query, 0));
@@ -49,12 +62,45 @@ export default function SearchField() {
         dispatch(searchCourses(query, 0));
         break;
       case '/search/notes':
-        console.log('searchnotes');
+        if (noteType === 'Choose Note Type') {
+          dispatch(searchNotes(query, 'all', 0));
+        } else if (noteType === 'All') {
+          dispatch(searchNotes(query, 'all', 0));
+        } else if (noteType === 'Notability') {
+          dispatch(searchNotes(query, 'notability', 0));
+        } else if (noteType === 'Goodnotes') {
+          dispatch(searchNotes(query, 'goodnotes', 0));
+        }
         break;
       case '/search/templates':
-        console.log('searchtemplates');
+        if (noteType === 'Choose Note Type') {
+          dispatch(searchTemplates(query, 'all', 0));
+        } else if (noteType === 'All') {
+          dispatch(searchTemplates(query, 'all', 0));
+        } else if (noteType === 'Notability') {
+          dispatch(searchTemplates(query, 'notability', 0));
+        } else if (noteType === 'Goodnotes') {
+          dispatch(searchTemplates(query, 'goodnotes', 0));
+        }
         break;
       default:
+        dispatch(searchTags(query, 0));
+        dispatch(searchSchools(query, 0));
+        dispatch(searchCourses(query, 0));
+        dispatch(searchPeople(query, 0));
+        if (noteType === 'Choose Note Type') {
+          dispatch(searchNotes(query, 'all', 0));
+          dispatch(searchTemplates(query, 'all', 0));
+        } else if (noteType === 'All') {
+          dispatch(searchNotes(query, 'all', 0));
+          dispatch(searchTemplates(query, 'all', 0));
+        } else if (noteType === 'Notability') {
+          dispatch(searchNotes(query, 'notability', 0));
+          dispatch(searchTemplates(query, 'notability', 0));
+        } else if (noteType === 'Goodnotes') {
+          dispatch(searchNotes(query, 'goodnotes', 0));
+          dispatch(searchTemplates(query, 'goodnotes', 0));
+        }
         history.push('/search/all');
     }
   };
