@@ -92,6 +92,38 @@ const byId = (state = {}, action) => {
         ...data,
       };
     }
+    case noteConstants.BROWSE_NOTES_BY_USER_PUBLIC_SUCCESS: {
+      const { notes } = action.payload;
+      const data = {};
+      notes.map((item) => {
+        data[item.id] = {
+          ...prototype,
+          ...state[item.id],
+          ...item,
+        };
+        return item;
+      });
+      return {
+        ...state,
+        ...data,
+      };
+    }
+    case noteConstants.BROWSE_NOTES_BY_USER_OWN_SUCCESS: {
+      const { notes } = action.payload;
+      const data = {};
+      notes.map((item) => {
+        data[item.id] = {
+          ...prototype,
+          ...state[item.id],
+          ...item,
+        };
+        return item;
+      });
+      return {
+        ...state,
+        ...data,
+      };
+    }
     case noteConstants.ADD_NOTE_SAVED_SUCCESS: {
       return {
         ...state,

@@ -1,4 +1,5 @@
 import { authConstants, userConstants } from '../actions/user/constants';
+import { noteConstants } from '../actions/note/constant';
 
 // self information
 const initialState = {
@@ -107,6 +108,134 @@ const user = (state = initialState, action) => {
         followingNum: state.followingNum - 1,
         followingIds: state.followingIds.filter((id) => id !== action.payload),
       };
+    }
+
+    case noteConstants.BROWSE_NOTES_BY_USER_OWN_SUCCESS: {
+      const {
+        noteIds, account_id, type, filter, offset, total_cnt,
+      } = action.payload;
+      const type_filter = `${type}_${filter}`;
+      if (account_id !== state.id) return state;
+      switch (type_filter) {
+        case 'all_uploaded': {
+          return {
+            ...state,
+            uploadedNotes: {
+              ...state.uploadedNotes,
+              all: {
+                ...state.uploadedNotes.all,
+                [offset]: noteIds,
+              },
+              allTotalCnt: total_cnt,
+            },
+          };
+        }
+        case 'notability_uploaded': {
+          return {
+            ...state,
+            uploadedNotes: {
+              ...state.uploadedNotes,
+              notability: {
+                ...state.uploadedNotes.notability,
+                [offset]: noteIds,
+              },
+              notabilityTotalCnt: total_cnt,
+            },
+          };
+        }
+        case 'goodnotes_uploaded':
+          return {
+            ...state,
+            uploadedNotes: {
+              ...state.uploadedNotes,
+              goodnotes: {
+                ...state.uploadedNotes.goodnotes,
+                [offset]: noteIds,
+              },
+              goodnotesTotalCnt: total_cnt,
+            },
+          };
+        case 'all_saved': {
+          return {
+            ...state,
+            savedNotes: {
+              ...state.savedNotes,
+              all: {
+                ...state.savedNotes.all,
+                [offset]: noteIds,
+              },
+              allTotalCnt: total_cnt,
+            },
+          };
+        }
+        case 'notability_saved': {
+          return {
+            ...state,
+            savedNotes: {
+              ...state.savedNotes,
+              notability: {
+                ...state.savedNotes.notability,
+                [offset]: noteIds,
+              },
+              notabilityTotalCnt: total_cnt,
+            },
+          };
+        }
+        case 'goodnotes_saved':
+          return {
+            ...state,
+            savedNotes: {
+              ...state.savedNotes,
+              goodnotes: {
+                ...state.savedNotes.goodnotes,
+                [offset]: noteIds,
+              },
+              goodnotesTotalCnt: total_cnt,
+            },
+          };
+        case 'all_library': {
+          return {
+            ...state,
+            libraryNotes: {
+              ...state.libraryNotes,
+              all: {
+                ...state.libraryNotes.all,
+                [offset]: noteIds,
+              },
+              allTotalCnt: total_cnt,
+            },
+          };
+        }
+        case 'notability_library': {
+          return {
+            ...state,
+            libraryNotes: {
+              ...state.libraryNotes,
+              notability: {
+                ...state.libraryNotes.notability,
+                [offset]: noteIds,
+              },
+              notabilityTotalCnt: total_cnt,
+            },
+          };
+        }
+        case 'goodnotes_library':
+          return {
+            ...state,
+            libraryNotes: {
+              ...state.libraryNotes,
+              goodnotes: {
+                ...state.libraryNotes.goodnotes,
+                [offset]: noteIds,
+              },
+              goodnotesTotalCnt: total_cnt,
+            },
+          };
+        default:
+          return {
+            state,
+          };
+      }
     }
 
     default:
