@@ -19,7 +19,6 @@ import {
   useColorMode,
   useDisclosure,
 } from '@chakra-ui/react';
-import { useGoogleLogout } from 'react-google-login';
 import { ArrowForwardIcon } from '@chakra-ui/icons';
 import { FiPlus, FiBell } from 'react-icons/fi';
 import Icon from './icon/index';
@@ -28,7 +27,6 @@ import SearchField from './SearchField';
 import NoteUpload from './NoteUpload';
 import { avatarSrc } from '../util/Helper';
 
-const clientId = process.env.REACT_APP_OAUTH_ID;
 export default function Header() {
   // chakra
   const { colorMode, toggleColorMode } = useColorMode();
@@ -40,7 +38,6 @@ export default function Header() {
   // modal trigger end
 
   const mobileNav = useDisclosure();
-  const { signOut } = useGoogleLogout({ clientId });
 
   const dispatch = useDispatch();
   const history = useHistory();
@@ -83,7 +80,16 @@ export default function Header() {
     if (link === '/logout') {
       localStorage.removeItem('token');
       localStorage.removeItem('id');
-      signOut();
+      if (window.gapi) {
+        const auth2 = window.gapi.auth2.getAuthInstance();
+
+        if (auth2 != null) {
+          auth2.signOut().then(
+            auth2.disconnect(),
+          );
+        }
+      }
+
       dispatch(userLogout(history));
     } else {
       history.push(link);
