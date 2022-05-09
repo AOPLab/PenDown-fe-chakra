@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Box, Heading, SimpleGrid, Button, Center,
 } from '@chakra-ui/react';
 import SearchAvatar from '../../components/ui/avatar/SearchAvatar';
+
+import { searchPeople } from '../../actions/common/common';
 
 export default function People() {
   const history = useHistory();
@@ -13,7 +15,9 @@ export default function People() {
   const search = useSelector((state) => state.search);
   const accounts = useSelector((state) => state.accounts.byId);
 
-  const [offset, setOffset] = useState(0);
+  const onViewMore = () => {
+    dispatch(searchPeople(search.q, search.accounts.cur_offset + 12));
+  };
 
   return (
     <>
@@ -29,14 +33,13 @@ export default function People() {
         >
           {Object.keys(search.accounts.ids).map((key) => search.accounts.ids[key].map((id) => (<SearchAvatar key={id} onClick={() => history.push(`/account/${id}`)} username={accounts[id].username} />)))}
         </SimpleGrid>
-        {search.accounts.totalCnt && search.accounts.totalCnt !== 0 && (offset + 1) * 12 < search.accounts.totalCnt
+        {search.accounts.totalCnt && search.accounts.totalCnt !== 0 && (search.accounts.cur_offset + 12) < search.accounts.totalCnt
         && (
         <Center mt={8}>
           <Button
             variant="pendown-primary"
             size="lg"
-                    // onClick={() => history.push('/login')}
-                    // onKeyDown={() => history.push('/login')}
+            onClick={() => onViewMore()}
             tabIndex="-1"
             role="button"
           >

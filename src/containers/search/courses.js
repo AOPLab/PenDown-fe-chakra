@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Box, Heading, SimpleGrid, Flex, Center, Button,
 } from '@chakra-ui/react';
 import MiscCard from '../../components/ui/cards/MiscCard';
+
+import { searchCourses } from '../../actions/common/common';
 
 export default function Courses() {
   const history = useHistory();
@@ -13,7 +15,9 @@ export default function Courses() {
   const search = useSelector((state) => state.search);
   const courses = useSelector((state) => state.course.byId);
 
-  const [offset, setOffset] = useState(0);
+  const onViewMore = () => {
+    dispatch(searchCourses(search.q, search.courses.cur_offset + 12));
+  };
 
   return (
     <>
@@ -38,14 +42,13 @@ export default function Courses() {
             {Object.keys(search.courses.ids).map((key) => search.courses.ids[key].map((id) => (<MiscCard key={id} onClick={() => history.push(`/school/${courses[id].school_id}/course/${id}`)} property={{ title: `${courses[id].no}: ${courses[id].name}`, description: `${courses[id].school_name}` }} />)))}
           </SimpleGrid>
         </Flex>
-        {search.courses.totalCnt && search.courses.totalCnt !== 0 && (offset + 1) * 12 < search.courses.totalCnt
+        {search.courses.totalCnt && search.courses.totalCnt !== 0 && (search.courses.cur_offset + 12) < search.courses.totalCnt
         && (
         <Center mt={8}>
           <Button
             variant="pendown-primary"
             size="lg"
-                    // onClick={() => history.push('/login')}
-                    // onKeyDown={() => history.push('/login')}
+            onClick={() => onViewMore()}
             tabIndex="-1"
             role="button"
           >

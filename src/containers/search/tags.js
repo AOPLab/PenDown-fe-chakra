@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Box, Heading, SimpleGrid, Button, Center,
 } from '@chakra-ui/react';
 import TagBadge from '../../components/ui/TagBadge';
+
+import { searchTags } from '../../actions/common/common';
 
 export default function Tags() {
   const history = useHistory();
@@ -13,7 +15,9 @@ export default function Tags() {
   const search = useSelector((state) => state.search);
   const tags = useSelector((state) => state.tag.byId);
 
-  const [offset, setOffset] = useState(0);
+  const onViewMore = () => {
+    dispatch(searchTags(search.q, search.tags.cur_offset + 12));
+  };
 
   return (
     <>
@@ -29,14 +33,13 @@ export default function Tags() {
         >
           {Object.keys(search.tags.ids).map((key) => search.tags.ids[key].map((id) => (<TagBadge key={id} onClick={() => history.push(`/tag/${id}`)}>{`#${tags[id].name}`}</TagBadge>)))}
         </SimpleGrid>
-        {search.tags.totalCnt && search.tags.totalCnt !== 0 && (offset + 1) * 12 < search.tags.totalCnt
+        {search.tags.totalCnt && search.tags.totalCnt !== 0 && (search.tags.cur_offset + 12) < search.tags.totalCnt
         && (
         <Center mt={8}>
           <Button
             variant="pendown-primary"
             size="lg"
-                    // onClick={() => history.push('/login')}
-                    // onKeyDown={() => history.push('/login')}
+            onClick={() => onViewMore()}
             tabIndex="-1"
             role="button"
           >

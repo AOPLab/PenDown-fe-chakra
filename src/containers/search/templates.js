@@ -42,7 +42,7 @@ export default function Templates() {
             {Object.keys(search.templates.ids).map((key) => search.templates.ids[key].map((id) => ((<NoteCard key={id} noteId={id} imageUrl={notes[id].preview_url} username={notes[id].username} viewCount={notes[id].view_cnt} savedCount={notes[id].saved_cnt} title={notes[id].title} dateCreated={notes[id].created_at} noteType={notes[id].note_type} />))))}
           </SimpleGrid>
         </Flex>
-        {search.templates.totalCnt && search.templates.totalCnt !== 0 && (search.templates.cur_offset + 1) * 12 < search.templates.totalCnt
+        {search.templates.totalCnt && search.templates.totalCnt !== 0 && (search.templates.cur_offset + 12) < search.templates.totalCnt
         && (
         <Center mt={8}>
           <Button

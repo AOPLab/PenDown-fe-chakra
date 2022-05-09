@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Box, Heading, SimpleGrid, Flex, Center, Button,
 } from '@chakra-ui/react';
 import MiscCard from '../../components/ui/cards/MiscCard';
+
+import { searchSchools } from '../../actions/common/common';
 
 export default function Schools() {
   const history = useHistory();
@@ -13,7 +15,9 @@ export default function Schools() {
   const search = useSelector((state) => state.search);
   const schools = useSelector((state) => state.school.byId);
 
-  const [offset, setOffset] = useState(0);
+  const onViewMore = () => {
+    dispatch(searchSchools(search.q, search.schools.cur_offset + 12));
+  };
 
   return (
     <>
@@ -38,14 +42,13 @@ export default function Schools() {
             {Object.keys(search.schools.ids).map((key) => search.schools.ids[key].map((id) => (<MiscCard key={id} onClick={() => history.push(`/school/${id}`)} property={{ title: `${schools[id].name}` }} />)))}
           </SimpleGrid>
         </Flex>
-        {search.schools.totalCnt && search.schools.totalCnt !== 0 && (offset + 1) * 12 < search.schools.totalCnt
+        {search.schools.totalCnt && search.schools.totalCnt !== 0 && (search.schools.cur_offset + 12) < search.schools.totalCnt
         && (
         <Center mt={8}>
           <Button
             variant="pendown-primary"
             size="lg"
-                    // onClick={() => history.push('/login')}
-                    // onKeyDown={() => history.push('/login')}
+            onClick={() => onViewMore()}
             tabIndex="-1"
             role="button"
           >

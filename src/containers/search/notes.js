@@ -40,7 +40,7 @@ export default function Notes() {
             {Object.keys(search.notes.ids).map((key) => search.notes.ids[key].map((id) => ((<NoteCard key={id} noteId={id} imageUrl={notes[id].preview_url} username={notes[id].username} viewCount={notes[id].view_cnt} savedCount={notes[id].saved_cnt} title={notes[id].title} dateCreated={notes[id].created_at} noteType={notes[id].note_type} />))))}
           </SimpleGrid>
         </Flex>
-        {search.notes.totalCnt && search.notes.totalCnt !== 0 && (search.notes.cur_offset + 1) * 12 < search.notes.totalCnt
+        {search.notes.totalCnt && search.notes.totalCnt !== 0 && (search.notes.cur_offset + 12) < search.notes.totalCnt
         && (
         <Center mt={8}>
           <Button
