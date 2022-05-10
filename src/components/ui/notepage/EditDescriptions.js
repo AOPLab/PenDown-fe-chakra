@@ -39,7 +39,6 @@ export default function EditDescriptions({
   const schools = useSelector((state) => state.school);
   const courses = useSelector((state) => state.course);
   const dispatch = useDispatch();
-  console.log(property);
 
   const [universities, setUniversities] = useState([]);
   const [courseList, setCourseList] = useState([]);
@@ -73,7 +72,6 @@ export default function EditDescriptions({
   const handleSelectedItemsChange = (slcItems) => {
     if (slcItems) {
       setSelectedItems(slcItems);
-      // console.log('selectedItems: ', selectedItems);
     }
   };
 
@@ -273,7 +271,6 @@ export default function EditDescriptions({
         </>
         )}
         <FormControl isInvalid={errors.template} isRequired>
-          {console.log('property.template: ', property.template)}
           <FormLabel fontSize="lg" fontWeight="bold" marginBottom="4" htmlFor="template">Is this a template note?</FormLabel>
           <RadioGroup defaultValue={property.template !== false ? 'Yes' : 'No'}>
             <Stack direction="row" spacing={16}>
