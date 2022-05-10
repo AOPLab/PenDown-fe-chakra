@@ -450,7 +450,7 @@ const removeNoteSaved = (token, note_id) => async (dispatch) => {
 };
 
 // Use to edit self info
-const editNote = (token, note_id, title, description, school_id, course_id, bean, is_template, previous_tag_id_arr, present_tag_id_arr, new_tag_arr) => async (dispatch) => {
+const editNote = (token, note_id, title, description, is_template, course_id, bean, previous_tag_id_arr, present_tag_id_arr, new_tag_arr) => async (dispatch) => {
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -461,7 +461,6 @@ const editNote = (token, note_id, title, description, school_id, course_id, bean
     const noteInfo = {
       title,
       description,
-      school_id,
       course_id,
       bean,
       is_template,

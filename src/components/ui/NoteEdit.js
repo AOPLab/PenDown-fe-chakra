@@ -18,7 +18,7 @@ import { Step, Steps, useSteps } from 'chakra-ui-steps';
 import { FiUpload, FiEdit3 } from 'react-icons/fi';
 import { useForm } from 'react-hook-form';
 import EditDescriptions from './notepage/EditDescriptions';
-import { addNote, getNote } from '../../actions/note/note';
+import { getNote, editNote } from '../../actions/note/note';
 import { fetchAllTags } from '../../actions/tag/tag';
 
 const steps = [
@@ -171,20 +171,11 @@ export default function NoteEdit({
       });
       return;
     }
-    if (noteFile === null && gnoteFile === null) {
-      errorToast({
-        title: 'Note',
-        description: 'You must upload at least one note file!',
-        status: 'error',
-        duration: 2000,
-        isClosable: true,
-      });
-      return;
-    }
+
     const existTagArray = content.selectedItems.filter((item) => item.value !== item.label);
     const tagArray = existTagArray.map((item) => parseInt(item.value, 10));
     const newTagArray = content.selectedItems.filter((item) => item.value === item.label).map((newItem) => newItem.label);
-    await dispatch(addNote(config.token, content.title, values.description, values.isTemplate === 'Yes', parseInt(content.courseId, 10), parseInt(values.bean, 10), pdfFile, noteFile, gnoteFile, tagArray, newTagArray, history));
+    await dispatch(editNote(config.token, noteId, content.title, values.description, values.isTemplate === 'Yes', parseInt(content.courseId, 10), parseInt(values.bean, 10), notes[noteId].tagIds, tagArray, newTagArray));
     setSubmitDone(true);
   };
 

@@ -39,6 +39,7 @@ export default function EditDescriptions({
   const schools = useSelector((state) => state.school);
   const courses = useSelector((state) => state.course);
   const dispatch = useDispatch();
+  console.log(property);
 
   const [universities, setUniversities] = useState([]);
   const [courseList, setCourseList] = useState([]);
@@ -183,7 +184,7 @@ export default function EditDescriptions({
         </FormControl>
         <FormControl isInvalid={errors.course} isRequired>
           <FormLabel fontSize="lg" fontWeight="bold" marginBottom="4" htmlFor="course">Are you taking this for a course?</FormLabel>
-          <RadioGroup onChange={setCourseOption} value={property.course !== undefined ? 'No' : 'Yes'}>
+          <RadioGroup onChange={setCourseOption} value={property.course !== undefined ? 'Yes' : 'No'}>
             <Stack direction="row" spacing={16}>
               <Radio {...register('isCourse?', { required: true })} type="radio" value="Yes" size="lg" colorScheme="primary">Yes</Radio>
               <Radio {...register('isCourse?', { required: true })} type="radio" value="No" size="lg" colorScheme="primary">No</Radio>
