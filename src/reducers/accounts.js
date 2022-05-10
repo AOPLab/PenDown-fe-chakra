@@ -227,6 +227,24 @@ const byId = (state = {}, action) => {
         ...data,
       };
     }
+    case userConstants.ADD_ACCOUNT_FOLLOWING_SUCCESS: {
+      return {
+        ...state,
+        [action.payload]: {
+          ...state[action.payload],
+          followersNum: state[action.payload].followersNum + 1,
+        },
+      };
+    }
+    case userConstants.DELETE_ACCOUNT_FOLLOWING_SUCCESS: {
+      return {
+        ...state,
+        [action.payload]: {
+          ...state[action.payload],
+          followersNum: state[action.payload].followersNum - 1,
+        },
+      };
+    }
     default:
       return state;
   }
