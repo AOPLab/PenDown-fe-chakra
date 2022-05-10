@@ -12,15 +12,17 @@ import { avatarSrc } from '../../components/util/Helper';
 import CardSection from '../../components/ui/CardSection';
 import StatsCard from '../../components/ui/cards/StatsCard';
 import { browsePublicUserNotes } from '../../actions/note/note';
-import { readAccount } from '../../actions/user/user';
+import {
+  readAccount, addAccountFollowing, deleteAccountFollowing, fetchAccountFollowings,
+} from '../../actions/user/user';
 
 function SocialProfile() {
   const { accountId } = useParams();
   const dispatch = useDispatch();
   // const history = useHistory();
   // const location = useLocation();
-  // const config = useSelector((state) => state.auth);
-  // const user = useSelector((state) => state.user);
+  const config = useSelector((state) => state.auth);
+  const user = useSelector((state) => state.user);
   const accounts = useSelector((state) => state.accounts.byId);
   const [viewType, setViewType] = useState('Recent');
   const tabs = ['Recent', 'Popular'];
@@ -48,9 +50,31 @@ function SocialProfile() {
     setTabIndex(index);
   };
 
+  const handleFollowOnClick = () => {
+    if (config.token === null || config.token === '') {
+      // 倒到登入？
+      return;
+    }
+    dispatch(addAccountFollowing(config.token, user.id, Number(accountId)));
+  };
+
+  const handleUnfollowOnClick = () => {
+    if (config.token === null || config.token === '') {
+      return;
+    }
+    dispatch(deleteAccountFollowing(config.token, user.id, Number(accountId)));
+  };
+
   useEffect(() => {
     dispatch(readAccount(accountId));
   }, [accountId, dispatch]);
+
+  useEffect(() => {
+    if (config.token === null || config.token === '') {
+      return;
+    }
+    dispatch(fetchAccountFollowings(user.id));
+  }, [accountId, config.token, dispatch, user.id]);
 
   useEffect(() => {
     switch (noteType) {
@@ -133,12 +157,25 @@ function SocialProfile() {
                   {accounts[accountId].username}
                 </Text>
               </Text>
-              <Button
-                variant="pendown-primary"
-                size="sm"
-              >
-                Follow
-              </Button>
+              {
+              (user.followingIds.includes(Number(accountId))) ? (
+                <Button
+                  variant="pendown-primary"
+                  size="sm"
+                  onClick={handleUnfollowOnClick}
+                >
+                  Unfollow
+                </Button>
+              ) : (
+                <Button
+                  variant="pendown-primary"
+                  size="sm"
+                  onClick={handleFollowOnClick}
+                >
+                  Follow
+                </Button>
+              )
+              }
             </VStack>
             <VStack>
               <HStack spacing={4}>
