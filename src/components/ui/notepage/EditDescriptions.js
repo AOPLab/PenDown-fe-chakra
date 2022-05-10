@@ -44,16 +44,16 @@ export default function EditDescriptions({
   const [universities, setUniversities] = useState([]);
   const [courseList, setCourseList] = useState([]);
 
-  const [fileName, setFileName] = useState(files.pdf ? files.pdf.name.split('.').slice(0, -1).join('.') : '');
+  const [fileName, setFileName] = useState(property.title);
   const inputRef = useRef();
 
   // form's state
-  const [courseOption, setCourseOption] = useState('Yes');
+  const [courseOption, setCourseOption] = useState(property.courseId !== 0 ? 'Yes' : 'No');
   const [schoolId, setSchoolId] = useState('');
   const [courseId, setCourseId] = useState('');
 
   const [pickerItems, setPickerItems] = useState(tagLists);
-  const [selectedItems, setSelectedItems] = useState([]);
+  const [selectedItems, setSelectedItems] = useState(property.tagList);
 
   useEffect(() => {
     setContent({
@@ -73,6 +73,7 @@ export default function EditDescriptions({
   const handleSelectedItemsChange = (slcItems) => {
     if (slcItems) {
       setSelectedItems(slcItems);
+      // console.log('selectedItems: ', selectedItems);
     }
   };
 
@@ -109,7 +110,7 @@ export default function EditDescriptions({
             width="80%"
           >
             <Editable
-              text={property.title}
+              text={fileName}
               placeholder="Enter a note title"
               childRef={inputRef}
               type="input"
@@ -117,7 +118,7 @@ export default function EditDescriptions({
               <InputGroup size="md">
                 <Input
                   ref={inputRef}
-                  value={property.title}
+                  value={fileName}
                   onChange={(e) => setFileName(e.target.value)}
                   pr="4.5rem"
                   type="text"
@@ -176,7 +177,6 @@ export default function EditDescriptions({
             id="name"
             placeholder="What is good about this note?"
             {...register('description', { required: true })}
-            value={property.description}
           />
           <FormErrorMessage>
             {errors.name && errors.name.message}
@@ -184,7 +184,7 @@ export default function EditDescriptions({
         </FormControl>
         <FormControl isInvalid={errors.course} isRequired>
           <FormLabel fontSize="lg" fontWeight="bold" marginBottom="4" htmlFor="course">Are you taking this for a course?</FormLabel>
-          <RadioGroup onChange={setCourseOption} value={property.course !== undefined ? 'Yes' : 'No'}>
+          <RadioGroup onChange={setCourseOption} value={courseOption}>
             <Stack direction="row" spacing={16}>
               <Radio {...register('isCourse?', { required: true })} type="radio" value="Yes" size="lg" colorScheme="primary">Yes</Radio>
               <Radio {...register('isCourse?', { required: true })} type="radio" value="No" size="lg" colorScheme="primary">No</Radio>
@@ -273,8 +273,9 @@ export default function EditDescriptions({
         </>
         )}
         <FormControl isInvalid={errors.template} isRequired>
+          {console.log('property.template: ', property.template)}
           <FormLabel fontSize="lg" fontWeight="bold" marginBottom="4" htmlFor="template">Is this a template note?</FormLabel>
-          <RadioGroup>
+          <RadioGroup defaultValue={property.template !== false ? 'Yes' : 'No'}>
             <Stack direction="row" spacing={16}>
               <Radio {...register('isTemplate', { required: true })} type="radio" value="Yes" size="lg" colorScheme="primary">Yes</Radio>
               <Radio {...register('isTemplate', { required: true })} type="radio" value="No" size="lg" colorScheme="primary">No</Radio>
@@ -318,7 +319,7 @@ export default function EditDescriptions({
             focusBorderColor="primary.400"
             _hover={{ borderColor: 'primary.400' }}
             id="bean"
-            placeholder="50"
+            placeholder={50}
             {...register('bean', { required: true })}
           />
         </FormControl>

@@ -53,6 +53,17 @@ export default function NoteEdit({
   const notes = useSelector((state) => state.note.byId);
   // const user = useSelector((state) => state.user);
 
+  const { control: pdfControl, reset: resetPdfFile } = useForm();
+  const { control: notaControl, reset: resetNoteFile } = useForm();
+  const { control: gnControl, reset: resetGnoteFile } = useForm();
+
+  const [pdfFile, setPdfFile] = useState(null);
+  const [noteFile, setNoteFile] = useState(null);
+  const [gnoteFile, setGNoteFile] = useState(null);
+  const [content, setContent] = useState(initialContent);
+  const [tagList, setTagList] = useState([]);
+  const [submitDone, setSubmitDone] = useState(false);
+
   const [property, setProperty] = useState({
     noteId: null,
     imageUrl: null,
@@ -104,6 +115,7 @@ export default function NoteEdit({
         fullName: notes[noteId].username,
         template: notes[noteId].is_template,
         tagIds: notes[noteId].tagIds,
+        tagList: notes[noteId].tagIds.map((id) => ({ value: id, label: tags.byId[id].name })),
         is_saved: notes[noteId].is_saved,
         pdf_filename: notes[noteId].pdf_filename,
         notability_filename: notes[noteId].notability_filename,
@@ -113,7 +125,7 @@ export default function NoteEdit({
         gnote_url: notes[noteId].goodnotes_url,
       });
     }
-  }, [noteId, notes]);
+  }, [noteId, notes, tags.byId]);
 
   useEffect(() => {
     if (noteId !== null && Number.isInteger(Number(noteId))) {
@@ -132,17 +144,6 @@ export default function NoteEdit({
     initialStep: 0,
   });
 
-  const { control: pdfControl, reset: resetPdfFile } = useForm();
-  const { control: notaControl, reset: resetNoteFile } = useForm();
-  const { control: gnControl, reset: resetGnoteFile } = useForm();
-
-  const [pdfFile, setPdfFile] = useState(null);
-  const [noteFile, setNoteFile] = useState(null);
-  const [gnoteFile, setGNoteFile] = useState(null);
-  const [content, setContent] = useState(initialContent);
-  const [tagList, setTagList] = useState([]);
-  const [submitDone, setSubmitDone] = useState(false);
-
   const setFile = {
     pdf: setPdfFile,
     nota: setNoteFile,
@@ -156,8 +157,18 @@ export default function NoteEdit({
   };
 
   const {
-    reset: resetDescription, register, handleSubmit, formState: { errors, isSubmitting }, setError,
-  } = useForm();
+    reset: resetDescription, register, handleSubmit, setValue, formState: { errors, isSubmitting }, setError,
+  } = useForm({
+    defaultValues: {
+      bean: 0,
+      description: '',
+    },
+  });
+
+  useEffect(() => {
+    setValue('bean', notes[noteId].bean);
+    setValue('description', notes[noteId].description);
+  }, [noteId, notes, setValue]);
 
   const onSubmit = async (values) => {
     if (!Number.isInteger(Number(values.bean))) {
