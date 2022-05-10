@@ -30,6 +30,8 @@ import {
 import Editable from '../../util/Editable';
 import CardBadge from '../cards/CardBadge';
 
+import { fetchAllSchools } from '../../../actions/school/school';
+import { fetchSchoolCourses } from '../../../actions/course/course';
 // using react hook form without control this time
 
 // FiEye, FiHeart, FiBookmark
@@ -108,13 +110,22 @@ export default function AddDescriptions({
     }
   };
 
+  const handleSchoolIdChange = (e) => {
+    dispatch(fetchSchoolCourses(parseInt(e, 10)));
+    setSchoolId(e);
+  };
+
   useEffect(() => {
     setUniversities(schools.allIds.map((id) => ({ id: String(id), name: schools.byId[id].name })));
   }, [schools.allIds, schools.byId]);
 
   useEffect(() => {
-    setCourseList(courses.allIds.map((id) => ({ id: String(id), name: courses.byId[id].name, no: courses.byId[id].no })));
-  }, [courses.allIds, courses.byId]);
+    setCourseList(courses.allIds.filter((id) => courses.byId[id].school_id === parseInt(schoolId, 10)).map((id) => ({ id: String(id), name: courses.byId[id].name, no: courses.byId[id].no })));
+  }, [courses.allIds, courses.byId, schoolId]);
+
+  useEffect(() => {
+    dispatch(fetchAllSchools());
+  }, [dispatch]);
 
   return (
     <>
@@ -211,7 +222,7 @@ export default function AddDescriptions({
         {courseOption === 'Yes' && (
         <>
           <FormControl isRequired={courseOption === 'Yes'}>
-            <AutoComplete openOnFocus onChange={(e) => setSchoolId(e)}>
+            <AutoComplete openOnFocus onChange={handleSchoolIdChange}>
               {({ isOpen }) => (
                 <>
                   <InputGroup>
