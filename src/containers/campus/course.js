@@ -1,31 +1,40 @@
-import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useParams, useHistory } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import {
   HStack, Flex, VStack, Text, Stack, useColorModeValue, TabList, Tab, TabPanel, Tabs, TabPanels,
 } from '@chakra-ui/react';
 
+// Components
 import StatsCard from '../../components/ui/cards/StatsCard';
 import BannerBadge from '../../components/ui/cards/BannerBadge';
 import CardSection from '../../components/ui/CardSection';
+
+// Functions and APIs
 import { statFormatting } from '../../components/util/Helper';
+import { browseNotesByCourse } from '../../actions/note/note';
+import { getCourse } from '../../actions/course/course';
+import { getSchool } from '../../actions/school/school';
 
 function Course() {
   const { schoolId, courseId } = useParams();
   const schools = useSelector((state) => state.school.byId);
   const courses = useSelector((state) => state.course.byId);
-
+  const history = useHistory();
+  const dispatch = useDispatch();
   const [tabIndex, setTabIndex] = useState(0);
-  // const location = useLocation();
-  // const config = useSelector((state) => state.auth);
-  const user = useSelector((state) => state.user);
-  const auth = useSelector((state) => state.auth);
-  const noteIds = useSelector((state) => state.hotNotes.hotNoteIds);
-  // 註 要改成接對應的 notes
-  const tabs = ['Popular', 'Recent'];
-  const [uploadedNoteIds, setUploadedNoteIds] = useState([]);
-
+  const [viewType, setViewType] = useState('Notes');
   const [noteType, setNoteType] = useState('Choose Note Type');
+  const courseNotes = useSelector((state) => state.courseNotes);
+  const tabs = ['Popular', 'Recent'];
+  const [popularNoteIds, setPopularNoteIds] = useState([]);
+  const [recentNoteIds, setRecentNoteIds] = useState([]);
+  const [courseName, setCourseName] = useState('');
+
+  const handleTabsChange = (index) => {
+    setTabIndex(index);
+  };
+
   const handleNoteTypeChange = (event) => {
     const {
       target: { value },
@@ -33,9 +42,69 @@ function Course() {
     setNoteType(value);
   };
 
-  const handleTabsChange = (index) => {
-    setTabIndex(index);
+  const handleViewTypeChange = (event) => {
+    const {
+      target: { value },
+    } = event;
+    setViewType(value);
   };
+
+  useEffect(() => {
+    switch (noteType) {
+      case 'Choose Note Type':
+      case 'All': {
+        if (viewType === 'Notes') {
+          dispatch(browseNotesByCourse(courseId, 'all', 'popular', 0));
+        } else {
+          dispatch(browseNotesByCourse(courseId, 'all', 'recent', 0));
+        }
+        break;
+      }
+      case 'Notability': {
+        if (viewType === 'Notes') {
+          dispatch(browseNotesByCourse(courseId, 'notability', 'popular', 0));
+        } else {
+          dispatch(browseNotesByCourse(courseId, 'notability', 'recent', 0));
+        }
+        break;
+      }
+      case 'Goodnotes': {
+        if (viewType === 'Notes') {
+          dispatch(browseNotesByCourse(courseId, 'goodnotes', 'popular', 0));
+        } else {
+          dispatch(browseNotesByCourse(courseId, 'goodnotes', 'recent', 0));
+        }
+        break;
+      }
+      default: {
+        break;
+      }
+    }
+  }, [dispatch, courseId, noteType, viewType]);
+
+  useEffect(() => {
+    setPopularNoteIds(Object.keys(courseNotes.noteIds).map((key) => courseNotes.noteIds[key]).flat());
+  }, [courseNotes]);
+
+  useEffect(() => {
+    setRecentNoteIds(Object.keys(courseNotes.noteIds).map((key) => courseNotes.noteIds[key]).flat());
+  }, [courseNotes]);
+
+  useEffect(() => {
+    while (!courses[courseId].name) {
+      dispatch(getCourse(courseId));
+    }
+  }, [dispatch, history, courses, courseId]);
+
+  useEffect(() => {
+    while (!schools[schoolId].name) {
+      dispatch(getSchool(schoolId));
+    }
+  }, [dispatch, history, schools, schoolId]);
+
+  useEffect(() => {
+    setCourseName(courses[courseId].name);
+  }, [courses, courseId]);
 
   return (
     <>
@@ -43,19 +112,14 @@ function Course() {
         <Flex direction="column" align="left" gap={4} py={4}>
           <Text px="32px" color="gray.600" fontWeight={600} fontSize="md">
             school/
-            <Text>
-              {schools[schoolId].name}
-            </Text>
+            { schools[schoolId].name }
           </Text>
           <Flex alignItems="top" gap={10} flexWrap="wrap" px="32px">
             <VStack spacing={3}>
-              <BannerBadge textTransform="lowercase">{ courses[courseId].name }</BannerBadge>
+              <BannerBadge textTransform="lowercase">{ courseName }</BannerBadge>
             </VStack>
             <HStack spacing={4}>
-              <StatsCard title="Followers" stat={statFormatting(100312)} />
-              {/* 註 stat=courses[courseId].followers */}
-              <StatsCard title="Notes" stat={statFormatting(100000303)} />
-              {/* 註 stat=courses[courseId].notes */}
+              <StatsCard title="Notes" stat={statFormatting(100)} />
             </HStack>
           </Flex>
         </Flex>
@@ -79,6 +143,7 @@ function Course() {
                     _selected={{ bg: 'primary.400', borderRadius: 'pendown' }}
                     fontSize="md"
                     fontWeight="bold"
+                    onClick={handleViewTypeChange}
                   >
                     {tab}
                   </Tab>
@@ -87,18 +152,26 @@ function Course() {
             </Stack>
           </Flex>
           <TabPanels>
-            {tabs.map((tab) => (
-              <TabPanel key={tab}>
-                <Flex
-                  w="100%"
-                  justifyContent="center"
-                  alignItems="center"
-                  flexDirection="column"
-                >
-                  <CardSection noteType={noteType} handleNoteTypeChange={handleNoteTypeChange} noteIds={noteIds} />
-                </Flex>
-              </TabPanel>
-            ))}
+            <TabPanel key="Popular">
+              <Flex
+                w="100%"
+                justifyContent="center"
+                alignItems="center"
+                flexDirection="column"
+              >
+                <CardSection noteType={noteType} handleNoteTypeChange={handleNoteTypeChange} noteIds={popularNoteIds} />
+              </Flex>
+            </TabPanel>
+            <TabPanel key="Recent">
+              <Flex
+                w="100%"
+                justifyContent="center"
+                alignItems="center"
+                flexDirection="column"
+              >
+                <CardSection noteType={noteType} handleNoteTypeChange={handleNoteTypeChange} noteIds={recentNoteIds} />
+              </Flex>
+            </TabPanel>
           </TabPanels>
         </Tabs>
       </Flex>
