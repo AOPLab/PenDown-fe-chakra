@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 // import { useHistory, useLocation } from 'react-router-dom';
 import {
-  HStack, Flex, VStack, Button, Text, Avatar, Stack, useColorModeValue, TabList, Tab, TabPanel, Tabs, TabPanels,
+  HStack, Flex, VStack, Button, Text, Avatar, Stack, useColorModeValue, TabList, Tab, TabPanel, Tabs, TabPanels, useToast,
 } from '@chakra-ui/react';
 
 import { avatarSrc } from '../../components/util/Helper';
@@ -29,6 +29,7 @@ function SocialProfile() {
   const [recentNoteIds, setRecentNoteIds] = useState([]);
   const [popularNoteIds, setPopularNoteIds] = useState([]);
   const color = useColorModeValue('gray.100', 'gray.500');
+  const errorToast = useToast();
 
   const [noteType, setNoteType] = useState('Choose Note Type');
   const handleNoteTypeChange = (event) => {
@@ -52,7 +53,13 @@ function SocialProfile() {
 
   const handleFollowOnClick = () => {
     if (config.token === null || config.token === '') {
-      // 倒到登入？
+      errorToast({
+        title: 'Please login first',
+        // description: 'Password Not Match',
+        status: 'error',
+        duration: 2000,
+        isClosable: true,
+      });
       return;
     }
     dispatch(addAccountFollowing(config.token, user.id, Number(accountId)));
