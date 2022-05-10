@@ -9,7 +9,8 @@ const prototype = {
   school_name: null,
   name: null,
   no: null,
-  school: null,
+  note_cnt: null,
+  last_updated_time: null,
 };
 
 const byId = (state = {}, action) => {
@@ -36,13 +37,15 @@ const byId = (state = {}, action) => {
       const data = {};
       action.payload.map((item) => {
         data[item.course_id] = {
-          // ...prototype,
+          ...prototype,
           // ...state[item.course_id],
           // ...item,
           id: item.course_id,
           name: item.course_name,
           no: item.course_no,
-          school: item.school_id,
+          school_id: item.school_id,
+          note_cnt: item.note_cnt,
+          last_updated_time: item.last_updated_time,
         };
         return item;
       });
@@ -58,9 +61,12 @@ const byId = (state = {}, action) => {
         [action.payload.id]: {
           ...prototype,
           ...state[action.payload.id],
+          id: action.payload.id,
           name: action.payload.name,
           no: action.payload.no,
-          school: action.payload.school,
+          school_id: action.payload.school_id,
+          note_cnt: action.payload.note_cnt,
+          last_updated_time: action.payload.last_updated_time,
         },
       };
     }
@@ -73,7 +79,7 @@ const byId = (state = {}, action) => {
 const allIds = (state = [], action) => {
   switch (action.type) {
     case courseConstants.GET_SCHOOL_COURSE_SUCCESS: {
-      return action.payload.map((item) => item.course_id);
+      return [...new Set([...action.payload.map((item) => item.course_id), ...state])];
     }
     case courseConstants.GET_COURSE_SUCCESS: {
       return [...new Set([action.payload.id, ...state])];
