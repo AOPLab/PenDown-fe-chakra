@@ -9,6 +9,8 @@ const prototype = {
   school_name: null,
   name: null,
   no: null,
+  note_cnt: null,
+  last_updated_time: null,
 };
 
 const byId = (state = {}, action) => {
@@ -42,6 +44,8 @@ const byId = (state = {}, action) => {
           name: item.course_name,
           no: item.course_no,
           school_id: item.school_id,
+          note_cnt: item.note_cnt,
+          last_updated_time: item.last_updated_time,
         };
         return item;
       });
@@ -61,6 +65,8 @@ const byId = (state = {}, action) => {
           name: action.payload.name,
           no: action.payload.no,
           school_id: action.payload.school_id,
+          note_cnt: action.payload.note_cnt,
+          last_updated_time: action.payload.last_updated_time,
         },
       };
     }
