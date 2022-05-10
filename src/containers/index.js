@@ -4,9 +4,7 @@ import {
   Switch, Route, useHistory, useLocation,
 } from 'react-router-dom';
 import { Box, Container } from '@chakra-ui/react';
-// import { makeStyles } from '@material-ui/core';
-// import { makeStyles, Fab } from '@material-ui/core';
-// import { Feedback } from '@material-ui/icons';
+
 import Home from './home';
 import Account from './account/index';
 import Search from './search/index';
@@ -18,22 +16,12 @@ import { readSelfAccount } from '../actions/user/user';
 import NoMatch from '../components/noMatch';
 import Footer from '../components/landing/Footer';
 
-// const useStyles = makeStyles(() => ({
-//   bugReport: {
-//     position: 'fixed',
-//     right: '3.5vw',
-//     top: 'calc(95vh - 55px)',
-//   },
-// }));
-
 function Index() {
   // const classes = useStyles();
   const history = useHistory();
   const location = useLocation();
   const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-
-  console.log(location);
 
   useEffect(() => {
     if (!auth.isAuthenticated) {

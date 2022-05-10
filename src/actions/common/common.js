@@ -18,18 +18,6 @@ const downloadFile = (token, filename, noteId) => async (dispatch) => {
     const res2 = await agent.get('/api/file', config);
 
     window.open(res2.data.file_url);
-    // axios.get(res2.data.file_url, { responseType: 'blob' })
-    //   .then((res) => {
-    //     if (filename.includes('pdf')) {
-    //       fileDownload(res.data, `pendown-${noteId}.pdf`);
-    //     }
-    //     if (filename.includes('note')) {
-    //       fileDownload(res.data, `pendown-${noteId}.note`);
-    //     }
-    //     if (filename.includes('goodnotes')) {
-    //       fileDownload(res.data, `pendown-${noteId}.goodnotes`);
-    //     }
-    //   });
 
     dispatch({
       type: commonConstants.DOWNLOAD_FILE_SUCCESS,
@@ -103,7 +91,157 @@ const fetchDownloadFileUrl = (token, noteId, pdf_filename = null, nota_filename 
   }
 };
 
+const searchPeople = (q, offset) => async (dispatch) => {
+  dispatch({ type: commonConstants.SEARCH_PEOPLE_START });
+  const config = {
+    params: {
+      q,
+      filter: 'people',
+      offset,
+    },
+  };
+  try {
+    const res = await agent.get('/api/search', config);
+    dispatch({
+      type: commonConstants.SEARCH_PEOPLE_SUCCESS,
+      payload: { q, offset, ...res.data },
+    });
+  } catch (error) {
+    dispatch({
+      type: commonConstants.SEARCH_PEOPLE_FAIL,
+      error,
+    });
+  }
+};
+
+const searchTags = (q, offset) => async (dispatch) => {
+  dispatch({ type: commonConstants.SEARCH_TAGS_START });
+  const config = {
+    params: {
+      q,
+      filter: 'tags',
+      offset,
+    },
+  };
+  try {
+    const res = await agent.get('/api/search', config);
+    dispatch({
+      type: commonConstants.SEARCH_TAGS_SUCCESS,
+      payload: { q, offset, ...res.data },
+    });
+  } catch (error) {
+    dispatch({
+      type: commonConstants.SEARCH_TAGS_FAIL,
+      error,
+    });
+  }
+};
+
+const searchSchools = (q, offset) => async (dispatch) => {
+  dispatch({ type: commonConstants.SEARCH_SCHOOLS_START });
+  const config = {
+    params: {
+      q,
+      filter: 'schools',
+      offset,
+    },
+  };
+  try {
+    const res = await agent.get('/api/search', config);
+    dispatch({
+      type: commonConstants.SEARCH_SCHOOLS_SUCCESS,
+      payload: { q, offset, ...res.data },
+    });
+  } catch (error) {
+    dispatch({
+      type: commonConstants.SEARCH_SCHOOLS_FAIL,
+      error,
+    });
+  }
+};
+
+const searchCourses = (q, offset) => async (dispatch) => {
+  dispatch({ type: commonConstants.SEARCH_COURSES_START });
+  const config = {
+    params: {
+      q,
+      filter: 'courses',
+      offset,
+    },
+  };
+  try {
+    const res = await agent.get('/api/search', config);
+    dispatch({
+      type: commonConstants.SEARCH_COURSES_SUCCESS,
+      payload: { q, offset, ...res.data },
+    });
+  } catch (error) {
+    dispatch({
+      type: commonConstants.SEARCH_COURSES_FAIL,
+      error,
+    });
+  }
+};
+
+const searchNotes = (q, type, offset) => async (dispatch) => {
+  dispatch({ type: commonConstants.SEARCH_NOTES_START });
+  const config = {
+    params: {
+      q,
+      type,
+      filter: 'notes',
+      offset,
+    },
+  };
+  try {
+    const res = await agent.get('/api/search', config);
+    dispatch({
+      type: commonConstants.SEARCH_NOTES_SUCCESS,
+      payload: {
+        q, type, offset, ...res.data,
+      },
+    });
+  } catch (error) {
+    dispatch({
+      type: commonConstants.SEARCH_NOTES_FAIL,
+      error,
+    });
+  }
+};
+
+const searchTemplates = (q, type, offset) => async (dispatch) => {
+  dispatch({ type: commonConstants.SEARCH_TEMPLATES_START });
+  const config = {
+    params: {
+      q,
+      type,
+      filter: 'templates',
+      offset,
+    },
+  };
+  try {
+    const res = await agent.get('/api/search', config);
+    dispatch({
+      type: commonConstants.SEARCH_TEMPLATES_SUCCESS,
+      payload: {
+        q, type, offset, ...res.data,
+      },
+    });
+  } catch (error) {
+    dispatch({
+      type: commonConstants.SEARCH_TEMPLATES_FAIL,
+      error,
+    });
+  }
+};
+
 export {
   downloadFile,
   fetchDownloadFileUrl,
+  searchPeople,
+  searchTags,
+  searchSchools,
+  searchNotes,
+  searchCourses,
+  searchTemplates,
 };

@@ -1,10 +1,9 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
 import {
   IconButton,
   Box,
-  Flex,
-  Icon,
   useColorModeValue,
   Drawer,
   DrawerContent,
@@ -20,59 +19,25 @@ import {
 import {
   BiBusSchool,
 } from 'react-icons/bi';
+import NavItem from './NavItem';
+import NavItemHover from './NavItemHover';
 
 const FilterItems = [
-  { name: 'All', icon: FiFileText },
-  { name: 'People', icon: FiUsers },
-  { name: 'Tags', icon: FiTag },
-  { name: 'Schools', icon: BiBusSchool },
-  { name: 'Courses', icon: FiBook },
-  { name: 'Notes', icon: FiFile },
-  { name: 'Templates', icon: FiEdit },
+  { name: 'All', icon: FiFileText, link: '/search/all' },
+  { name: 'People', icon: FiUsers, link: '/search/people' },
+  { name: 'Tags', icon: FiTag, link: '/search/tags' },
+  { name: 'Schools', icon: BiBusSchool, link: '/search/schools' },
+  { name: 'Courses', icon: FiBook, link: '/search/courses' },
+  { name: 'Notes', icon: FiFile, link: '/search/notes' },
+  { name: 'Templates', icon: FiEdit, link: '/search/templates' },
 ];
 
 export default function SimpleSideBar({ children: content }) {
+  const history = useHistory();
+  const location = useLocation();
   const sidebar = useDisclosure();
   const integrations = useDisclosure();
   const color = useColorModeValue('gray.600', 'gray.300');
-
-  const NavItem = (props) => {
-    const { icon, children, ...rest } = props;
-    return (
-      <Flex
-        align="center"
-        px="4"
-        pl="2"
-        py="2"
-        cursor="pointer"
-        color={useColorModeValue('inherit', 'gray.400')}
-        _hover={{
-          bg: useColorModeValue('gray.100', 'gray.800'),
-          color: useColorModeValue('red.600', 'red.200'),
-        }}
-        role="group"
-        fontWeight="semibold"
-        fontSize="md"
-        transition=".15s ease"
-        {...rest}
-      >
-        {icon && (
-          <Icon
-            mx="2"
-            boxSize="4"
-            _hover={{
-              color: 'red.600',
-            }}
-            // _groupHover={{
-            //   color,
-            // }}
-            as={icon}
-          />
-        )}
-        {children}
-      </Flex>
-    );
-  };
 
   const SidebarContent = (props) => (
     <Box
@@ -116,14 +81,24 @@ export default function SimpleSideBar({ children: content }) {
         // marginLeft={-2}
         aria-label="Filters"
       >
-        {FilterItems.map((link) => (
-          <NavItem key={link.name} icon={link.icon}>
-            {link.name}
-          </NavItem>
-        ))}
+        {FilterItems.map((link) => {
+          if (location.pathname === link.link) {
+            return (
+              <NavItemHover key={link.name} icon={link.icon} onClick={() => history.push(link.link)}>
+                {link.name}
+              </NavItemHover>
+            );
+          }
+          return (
+            <NavItem key={link.name} icon={link.icon} onClick={() => history.push(link.link)}>
+              {link.name}
+            </NavItem>
+          );
+        })}
       </VStack>
     </Box>
   );
+
   return (
     <Box
       as="section"

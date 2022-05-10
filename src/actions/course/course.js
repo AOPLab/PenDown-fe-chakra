@@ -29,7 +29,7 @@ const getCourse = (course_id) => async (dispatch) => {
         id: res.data.course_id,
         name: res.data.course_name,
         no: res.data.course_no,
-        school: res.data.school_id,
+        school_id: res.data.school_id,
         note_cnt: res.data.note_cnt,
         last_updated_time: res.data.last_updated_time,
       },

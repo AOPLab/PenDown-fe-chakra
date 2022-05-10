@@ -2,12 +2,9 @@ import React from 'react';
 // import { useSelector, useDispatch } from 'react-redux';
 
 // import { makeStyles } from '@material-ui/core';
-import {
-  Box, Flex, Spacer,
-} from '@chakra-ui/react';
+import { Spacer } from '@chakra-ui/react';
 
 // import SideBar from '../../components/ui/sidebar/index';
-import SimpleSideBar from '../../components/ui/sidebar/SimpleSideBar';
 import People from './people';
 import Tags from './tags';
 import Schools from './schools';
@@ -24,28 +21,17 @@ export default function All() {
 
   return (
     <>
-      <Box pt="0">
-        {/* <SideBar /> */}
-        <SimpleSideBar>
-          <Flex direction="column" mt={{ base: '-24', md: '-5' }}>
-            {/* <Container maxW="5xl"> */}
-
-            <People />
-            <Spacer mt="-4" />
-            <Tags />
-            <Spacer mt="-4" />
-            <Schools />
-            <Spacer mt="-4" />
-            <Courses />
-            <Spacer mt="-4" />
-            <Notes />
-            <Spacer mt="-4" />
-            <Templates />
-            {/* </Container> */}
-          </Flex>
-
-        </SimpleSideBar>
-      </Box>
+      <People />
+      <Spacer mt="-4" />
+      <Tags />
+      <Spacer mt="-4" />
+      <Schools />
+      <Spacer mt="-4" />
+      <Courses />
+      <Spacer mt="-4" />
+      <Notes />
+      <Spacer mt="-4" />
+      <Templates />
     </>
   );
 }

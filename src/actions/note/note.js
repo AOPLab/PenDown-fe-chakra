@@ -215,6 +215,91 @@ const browseHotNotes = (offset) => async (dispatch) => {
   }
 };
 
+// browse note by public user
+const browsePublicUserNotes = (account_id, type, filter, offset) => async (dispatch) => {
+  dispatch({ type: noteConstants.BROWSE_NOTES_BY_USER_PUBLIC_START });
+  try {
+    const res = await agent.get(`/api/account/${account_id}/notes`, {
+      params: { type, filter, offset },
+    });
+    dispatch({
+      type: noteConstants.BROWSE_NOTES_BY_USER_PUBLIC_SUCCESS,
+      payload: {
+        account_id,
+        type,
+        filter,
+        offset,
+        notes: res.data.notes.map((item) => ({
+          id: item.note_id,
+          account_id,
+          username: item.username,
+          title: item.title,
+          view_cnt: item.view_cnt,
+          saved_cnt: item.saved_cnt,
+          note_type: item.note_type,
+          preview_filename: item.preview_filename,
+          preview_url: item.preview_url,
+          created_at: item.created_at,
+        })),
+        noteIds: res.data.notes.map((item) => item.note_id),
+        total_cnt: res.data.total_cnt,
+      },
+    });
+    if (res.data.total_cnt > offset + 12) {
+      dispatch(browsePublicUserNotes(account_id, type, filter, offset + 12));
+    }
+  } catch (error) {
+    dispatch({
+      type: noteConstants.BROWSE_NOTES_BY_USER_PUBLIC_FAIL,
+      error,
+    });
+  }
+};
+
+// browse user own note
+const browseUserOwnNotes = (token, account_id, type, filter, offset) => async (dispatch) => {
+  dispatch({ type: noteConstants.BROWSE_NOTES_BY_USER_OWN_START });
+  try {
+    const res = await agent.get(`/api/account/${account_id}/selfnotes`, {
+      params: { type, filter, offset },
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    dispatch({
+      type: noteConstants.BROWSE_NOTES_BY_USER_OWN_SUCCESS,
+      payload: {
+        account_id,
+        type,
+        filter,
+        offset,
+        notes: res.data.notes.map((item) => ({
+          id: item.note_id,
+          account_id: item.user_id,
+          username: item.username,
+          title: item.title,
+          view_cnt: item.view_cnt,
+          saved_cnt: item.saved_cnt,
+          note_type: item.note_type,
+          preview_filename: item.preview_filename,
+          preview_url: item.preview_url,
+          created_at: item.created_at,
+        })),
+        noteIds: res.data.notes.map((item) => item.note_id),
+        total_cnt: res.data.total_cnt,
+      },
+    });
+    if (res.data.total_cnt > offset + 12) {
+      dispatch(browseUserOwnNotes(token, account_id, type, filter, offset + 12));
+    }
+  } catch (error) {
+    dispatch({
+      type: noteConstants.BROWSE_NOTES_BY_USER_OWN_FAIL,
+      error,
+    });
+  }
+};
+
 // read note detail by note id
 const getNote = (note_id, token = null) => async (dispatch) => {
   const config = {
@@ -371,7 +456,7 @@ const removeNoteSaved = (token, note_id) => async (dispatch) => {
 };
 
 // Use to edit self info
-const editNote = (token, note_id, title, description, school_id, course_id, bean, previous_tag_id_arr, present_tag_id_arr, new_tags_arr) => async (dispatch) => {
+const editNote = (token, note_id, title, description, school_id, course_id, bean, is_template, previous_tag_id_arr, present_tag_id_arr, new_tag_arr) => async (dispatch) => {
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -385,9 +470,19 @@ const editNote = (token, note_id, title, description, school_id, course_id, bean
       school_id,
       course_id,
       bean,
+      is_template,
     };
     await agent.patch(`/api/notes/${note_id}`, noteInfo, config);
-    // 還未做 add tag
+    const delete_tag_ids = previous_tag_id_arr.filter((item) => !present_tag_id_arr.includes(item));
+    const add_tag_ids = present_tag_id_arr.filter((item) => !previous_tag_id_arr.includes(item));
+    const new_tag_id_arr = await Promise.all(new_tag_arr.map(async (item) => {
+      const tag_res = await agent.post('/api/tag', { tag_name: item });
+      return tag_res.data.tag_id;
+    }));
+    Promise.all(new_tag_id_arr.map((item) => agent.post(`/api/notes/${note_id}/tags/${item}`, {}, config)));
+    Promise.all(delete_tag_ids.map((item) => agent.delete(`/api/notes/${note_id}/tags/${item}`, config)));
+    Promise.all(add_tag_ids.map((item) => agent.post(`/api/notes/${note_id}/tags/${item}`, {}, config)));
+
     dispatch({ type: noteConstants.EDIT_NOTE_SUCCESS });
   } catch (error) {
     dispatch({
@@ -424,6 +519,8 @@ export {
   browseNotesByTag,
   browseNotesByCourse,
   browseHotNotes,
+  browsePublicUserNotes,
+  browseUserOwnNotes,
   getNote,
   checkNoteSavedOrNot,
   addNoteSaved,

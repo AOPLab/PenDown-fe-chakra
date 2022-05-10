@@ -92,6 +92,38 @@ const byId = (state = {}, action) => {
         ...data,
       };
     }
+    case noteConstants.BROWSE_NOTES_BY_USER_PUBLIC_SUCCESS: {
+      const { notes } = action.payload;
+      const data = {};
+      notes.map((item) => {
+        data[item.id] = {
+          ...prototype,
+          ...state[item.id],
+          ...item,
+        };
+        return item;
+      });
+      return {
+        ...state,
+        ...data,
+      };
+    }
+    case noteConstants.BROWSE_NOTES_BY_USER_OWN_SUCCESS: {
+      const { notes } = action.payload;
+      const data = {};
+      notes.map((item) => {
+        data[item.id] = {
+          ...prototype,
+          ...state[item.id],
+          ...item,
+        };
+        return item;
+      });
+      return {
+        ...state,
+        ...data,
+      };
+    }
     case noteConstants.ADD_NOTE_SAVED_SUCCESS: {
       return {
         ...state,
@@ -130,6 +162,55 @@ const byId = (state = {}, action) => {
           ...state[action.payload.id],
           ...action.payload,
         },
+      };
+    }
+
+    case commonConstants.SEARCH_NOTES_SUCCESS: {
+      const data = {};
+      action.payload.notes.map((note) => {
+        data[note.note_id] = {
+          ...prototype,
+          id: note.note_id,
+          account_id: note.user_id,
+          username: note.username,
+          title: note.title,
+          note_type: note.note_type,
+          preview_filename: note.preview_filename,
+          preview_url: note.preview_url,
+          view_cnt: note.view_cnt,
+          saved_cnt: note.saved_cnt,
+          created_at: note.created_at,
+        };
+        return note;
+      });
+      return {
+        ...state,
+        ...data,
+      };
+    }
+
+    case commonConstants.SEARCH_TEMPLATES_SUCCESS: {
+      const data = {};
+      action.payload.templates.map((note) => {
+        data[note.note_id] = {
+          ...prototype,
+          id: note.note_id,
+          account_id: note.user_id,
+          username: note.username,
+          title: note.title,
+          note_type: note.note_type,
+          preview_filename: note.preview_filename,
+          preview_url: note.preview_url,
+          view_cnt: note.view_cnt,
+          saved_cnt: note.saved_cnt,
+          created_at: note.created_at,
+          is_template: true,
+        };
+        return note;
+      });
+      return {
+        ...state,
+        ...data,
       };
     }
 
