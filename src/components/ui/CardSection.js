@@ -1,16 +1,13 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import {
-  Flex, SimpleGrid, Select,
+  Flex, SimpleGrid, Select, Text,
 } from '@chakra-ui/react';
 
 import NoteCard from './cards/NoteCard';
 
 function CardSection({ noteType, handleNoteTypeChange, noteIds }) {
   const notes = useSelector((state) => state.note.byId);
-  const error = useSelector((state) => state.error.user.user);
-  const dispatch = useDispatch();
-
   return (
     <>
       <Flex w="full" direction="column" align="flex-end">
@@ -37,15 +34,18 @@ function CardSection({ noteType, handleNoteTypeChange, noteIds }) {
           <option key="Goodnotes" value="Goodnotes">Goodnotes</option>
         </Select>
       </Flex>
-      <SimpleGrid
-        columns={{ base: 1, md: 2, lg: 3 }}
-        spacing={10}
-        py={4}
-        pb={10}
-        mx="auto"
-      >
-        {noteIds.map((id) => (<NoteCard key={id} noteId={id} imageUrl={notes[id].preview_url} username={notes[id].username} viewCount={notes[id].view_cnt} savedCount={notes[id].saved_cnt} title={notes[id].title} dateCreated={notes[id].created_at} noteType={notes[id].note_type} />))}
-      </SimpleGrid>
+      {noteIds.length === 0 ? <Text>No Data </Text>
+        : (
+          <SimpleGrid
+            columns={{ base: 1, md: 2, lg: 3 }}
+            spacing={10}
+            py={4}
+            pb={10}
+            mx="auto"
+          >
+            {noteIds.map((id) => (<NoteCard key={id} noteId={id} imageUrl={notes[id].preview_url} username={notes[id].username} viewCount={notes[id].view_cnt} savedCount={notes[id].saved_cnt} title={notes[id].title} dateCreated={notes[id].created_at} noteType={notes[id].note_type} />))}
+          </SimpleGrid>
+        )}
     </>
   );
 }
