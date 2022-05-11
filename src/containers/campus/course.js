@@ -95,10 +95,10 @@ function Course() {
   }, [dispatch, schoolId]);
 
   useEffect(() => {
-    if (courses[courseId] && courses[courseId].note_cnt) {
-      setNoteCnt(statFormatting(parseInt(courses[courseId].note_cnt, 10)));
+    if (courses[courseId] && courseId === courseNotes.course_id) {
+      setNoteCnt(statFormatting(parseInt(courseNotes.total_cnt, 10)));
     }
-  }, [courseId, courses]);
+  }, [courseNotes, courses, courseId]);
 
   if (!courses[courseId] || !schools[schoolId]) {
     return <NoMatch />;
