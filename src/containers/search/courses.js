@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -21,6 +21,12 @@ export default function Courses() {
     }
     dispatch(searchCourses(search.q, search.courses.cur_offset + 12));
   };
+
+  useEffect(() => {
+    if (!search.courses.ids[0]) {
+      dispatch(searchCourses(search.q, 0));
+    }
+  }, [dispatch, search.courses.ids, search.q]);
 
   return (
     <>

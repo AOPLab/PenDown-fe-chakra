@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -21,6 +21,12 @@ export default function People() {
     }
     dispatch(searchPeople(search.q, search.accounts.cur_offset + 12));
   };
+
+  useEffect(() => {
+    if (!search.accounts.ids[0]) {
+      dispatch(searchPeople(search.q, 0));
+    }
+  }, [dispatch, search.accounts.ids, search.q]);
 
   return (
     <>

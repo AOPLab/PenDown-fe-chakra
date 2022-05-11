@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -21,6 +21,12 @@ export default function Tags() {
     }
     dispatch(searchTags(search.q, search.tags.cur_offset + 12));
   };
+
+  useEffect(() => {
+    if (!search.tags.ids[0]) {
+      dispatch(searchTags(search.q, 0));
+    }
+  }, [dispatch, search.tags.ids, search.q]);
 
   return (
     <>

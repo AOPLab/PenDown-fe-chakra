@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -21,6 +21,12 @@ export default function Templates() {
     }
     dispatch(searchTemplates(search.q, search.type, search.templates.cur_offset + 12));
   };
+
+  useEffect(() => {
+    if (!search.templates.ids[0]) {
+      dispatch(searchTemplates(search.q, search.type, 0));
+    }
+  }, [dispatch, search.q, search.templates.ids, search.type]);
 
   return (
     <>

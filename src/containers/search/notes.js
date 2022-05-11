@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -21,6 +21,12 @@ export default function Notes() {
     }
     dispatch(searchNotes(search.q, search.type, search.notes.cur_offset + 12));
   };
+
+  useEffect(() => {
+    if (!search.notes.ids[0]) {
+      dispatch(searchNotes(search.q, search.type, 0));
+    }
+  }, [dispatch, search.notes.ids, search.q, search.type]);
 
   return (
     <>
