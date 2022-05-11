@@ -11,7 +11,7 @@ import CourseSection from '../../components/ui/CourseSection';
 
 function School() {
   const { schoolId } = useParams();
-  const courseIds = [1, 2];
+  const courseIds = [1, 2]; // 讓這個變成皆該學校有的課程
   const schools = useSelector((state) => state.school.byId);
   // const history = useHistory();
   // const location = useLocation();
@@ -77,7 +77,7 @@ function School() {
                   alignItems="center"
                   flexDirection="column"
                 >
-                  <CourseSection courseIds={courseIds} />
+                  <CourseSection courseIds={courseIds} schoolId={schoolId} />
                 </Flex>
               </TabPanel>
             ))}
