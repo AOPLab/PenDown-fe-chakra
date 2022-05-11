@@ -23,7 +23,7 @@ export default function Courses() {
   };
 
   useEffect(() => {
-    if (!search.courses.ids[0]) {
+    if (search.q !== null && search.q !== '' && !search.courses.ids[0]) {
       dispatch(searchCourses(search.q, 0));
     }
   }, [dispatch, search.courses.ids, search.q]);

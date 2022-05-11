@@ -23,7 +23,7 @@ export default function Tags() {
   };
 
   useEffect(() => {
-    if (!search.tags.ids[0]) {
+    if (search.q !== null && search.q !== '' && !search.tags.ids[0]) {
       dispatch(searchTags(search.q, 0));
     }
   }, [dispatch, search.tags.ids, search.q]);

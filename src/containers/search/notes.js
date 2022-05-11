@@ -23,8 +23,12 @@ export default function Notes() {
   };
 
   useEffect(() => {
-    if (!search.notes.ids[0]) {
-      dispatch(searchNotes(search.q, search.type, 0));
+    if (search.q !== null && search.q !== '' && !search.notes.ids[0]) {
+      if (search.type === null) {
+        dispatch(searchNotes(search.q, 'all', 0));
+      } else {
+        dispatch(searchNotes(search.q, search.type, 0));
+      }
     }
   }, [dispatch, search.notes.ids, search.q, search.type]);
 

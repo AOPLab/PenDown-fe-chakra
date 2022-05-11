@@ -23,7 +23,7 @@ export default function Schools() {
   };
 
   useEffect(() => {
-    if (!search.schools.ids[0]) {
+    if (search.q !== null && search.q !== '' && !search.schools.ids[0]) {
       dispatch(searchSchools(search.q, 0));
     }
   }, [dispatch, search.schools.ids, search.q]);

@@ -23,7 +23,7 @@ export default function People() {
   };
 
   useEffect(() => {
-    if (!search.accounts.ids[0]) {
+    if (search.q !== null && search.q !== '' && !search.accounts.ids[0]) {
       dispatch(searchPeople(search.q, 0));
     }
   }, [dispatch, search.accounts.ids, search.q]);

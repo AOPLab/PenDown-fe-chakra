@@ -23,8 +23,12 @@ export default function Templates() {
   };
 
   useEffect(() => {
-    if (!search.templates.ids[0]) {
-      dispatch(searchTemplates(search.q, search.type, 0));
+    if (search.q !== null && search.q !== '' && !search.templates.ids[0]) {
+      if (search.type === null) {
+        dispatch(searchTemplates(search.q, 'all', 0));
+      } else {
+        dispatch(searchTemplates(search.q, search.type, 0));
+      }
     }
   }, [dispatch, search.q, search.templates.ids, search.type]);
 
