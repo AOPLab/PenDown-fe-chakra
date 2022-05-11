@@ -91,10 +91,8 @@ function Tag() {
   }, [tagId, dispatch]);
 
   useEffect(() => {
-    if (tags[tagId] && tags[tagId].note_cnt) {
-      setNoteCnt(statFormatting(parseInt(tags[tagId].note_cnt, 10)));
-    }
-  }, [tagId, tags]);
+    setNoteCnt(statFormatting(parseInt(tagNotes.total_cnt, 10)));
+  }, [tagNotes, tagId, tags]);
 
   if (!tags[tagId]) {
     return <NoMatch />;
