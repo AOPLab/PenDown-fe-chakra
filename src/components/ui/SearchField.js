@@ -21,12 +21,12 @@ export default function SearchField() {
   const location = useLocation();
   const [noteType, setNoteType] = useState('Choose Note Type');
   const [query, setQuery] = useState('');
-  const filters = [
-    {
-      title: 'Types',
-      items: ['Notability', 'Goodnotes'],
-    },
-  ];
+  // const filters = [
+  //   {
+  //     title: 'Types',
+  //     items: ['Notability', 'Goodnotes'],
+  //   },
+  // ];
 
   const onSearch = () => {
     switch (location.pathname) {
@@ -105,6 +105,12 @@ export default function SearchField() {
     }
   };
 
+  const onKeyEnter = (e) => {
+    if (e.key === 'Enter') {
+      onSearch();
+    }
+  };
+
   return (
     <>
       <HStack
@@ -133,6 +139,7 @@ export default function SearchField() {
             onClick={onOpen}
             value={query}
             onChange={(e) => setQuery(e.target.value)}
+            onKeyDown={(e) => onKeyEnter(e)}
           />
         </InputGroup>
         <Select
@@ -242,6 +249,7 @@ export default function SearchField() {
                   borderWidth="2px"
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
+                  onKeyDown={(e) => onKeyEnter(e)}
                 />
               </InputGroup>
               <Select

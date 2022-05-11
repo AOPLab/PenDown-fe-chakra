@@ -2,7 +2,7 @@ import React from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  Box, Heading, SimpleGrid, Flex, Center, Button,
+  Box, Heading, SimpleGrid, Flex, Center, Button, Text,
 } from '@chakra-ui/react';
 import NoteCard from '../../components/ui/cards/NoteCard';
 
@@ -32,34 +32,37 @@ export default function Notes() {
           justifyContent="center"
           alignItems="center"
         >
-          <SimpleGrid
-            columns={{
-              base: 1, md: 2, lg: 2, xl: 3,
-            }}
+          {search.notes.ids[0] && search.notes.ids[0].length !== 0
+            ? (
+              <SimpleGrid
+                columns={{
+                  base: 1, md: 2, lg: 2, xl: 3,
+                }}
                 // minChildWidth="135px"
-            spacing={10}
-            mt={8}
-            px={0}
-            py={0}
-            mx="auto"
-          >
-            {Object.keys(search.notes.ids).map((key) => search.notes.ids[key].map((id) => ((<NoteCard key={id} noteId={id} imageUrl={notes[id].preview_url} username={notes[id].username} viewCount={notes[id].view_cnt} savedCount={notes[id].saved_cnt} title={notes[id].title} dateCreated={notes[id].created_at} noteType={notes[id].note_type} />))))}
-          </SimpleGrid>
+                spacing={10}
+                mt={8}
+                px={0}
+                py={0}
+                mx="auto"
+              >
+                {Object.keys(search.notes.ids).map((key) => search.notes.ids[key].map((id) => ((<NoteCard key={id} noteId={id} imageUrl={notes[id].preview_url} username={notes[id].username} viewCount={notes[id].view_cnt} savedCount={notes[id].saved_cnt} title={notes[id].title} dateCreated={notes[id].created_at} noteType={notes[id].note_type} />))))}
+              </SimpleGrid>
+            ) : <Text>No Data</Text>}
         </Flex>
         {search.notes.totalCnt && search.notes.totalCnt !== 0 && (search.notes.cur_offset + 12) < search.notes.totalCnt
-        && (
-        <Center mt={8}>
-          <Button
-            variant="pendown-primary"
-            size="lg"
-            onClick={() => onViewMore()}
-            tabIndex="-1"
-            role="button"
-          >
-            View More
-          </Button>
-        </Center>
-        )}
+          ? (
+            <Center mt={8}>
+              <Button
+                variant="pendown-primary"
+                size="lg"
+                onClick={() => onViewMore()}
+                tabIndex="-1"
+                role="button"
+              >
+                View More
+              </Button>
+            </Center>
+          ) : <></>}
       </Box>
     </>
   );
