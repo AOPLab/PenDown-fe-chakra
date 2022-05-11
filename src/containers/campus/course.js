@@ -9,6 +9,7 @@ import {
 import StatsCard from '../../components/ui/cards/StatsCard';
 import BannerBadge from '../../components/ui/cards/BannerBadge';
 import CardSection from '../../components/ui/CardSection';
+import NoMatch from '../../components/noMatch';
 
 // Functions and APIs
 import { statFormatting } from '../../components/util/Helper';
@@ -22,6 +23,7 @@ function Course() {
   const courses = useSelector((state) => state.course.byId);
   const history = useHistory();
   const dispatch = useDispatch();
+  const color = useColorModeValue('gray.100', 'gray.500');
   const [tabIndex, setTabIndex] = useState(0);
   const [viewType, setViewType] = useState('Notes');
   const [noteType, setNoteType] = useState('Choose Note Type');
@@ -29,24 +31,18 @@ function Course() {
   const tabs = ['Popular', 'Recent'];
   const [popularNoteIds, setPopularNoteIds] = useState([]);
   const [recentNoteIds, setRecentNoteIds] = useState([]);
-  const [courseName, setCourseName] = useState('');
+  const [noteCnt, setNoteCnt] = useState(statFormatting(0));
 
   const handleTabsChange = (index) => {
     setTabIndex(index);
   };
 
   const handleNoteTypeChange = (event) => {
-    const {
-      target: { value },
-    } = event;
-    setNoteType(value);
+    setNoteType(event.target.value);
   };
 
   const handleViewTypeChange = (event) => {
-    const {
-      target: { value },
-    } = event;
-    setViewType(value);
+    setViewType(event.target.value);
   };
 
   useEffect(() => {
@@ -91,20 +87,24 @@ function Course() {
   }, [courseNotes]);
 
   useEffect(() => {
-    while (!courses[courseId].name) {
-      dispatch(getCourse(courseId));
-    }
-  }, [dispatch, history, courses, courseId]);
+    dispatch(getCourse(courseId));
+  }, [courseId, dispatch]);
 
   useEffect(() => {
-    while (!schools[schoolId].name) {
-      dispatch(getSchool(schoolId));
-    }
-  }, [dispatch, history, schools, schoolId]);
+    dispatch(getSchool(schoolId));
+  }, [dispatch, schoolId]);
 
   useEffect(() => {
-    setCourseName(courses[courseId].name);
-  }, [courses, courseId]);
+    console.log(courses[courseId].note_cnt);
+    if (courses[courseId] && courses[courseId.note_cnt]) {
+      console.log(parseInt(courses[courseId].note_cnt, 10));
+      setNoteCnt(statFormatting(parseInt(courses[courseId].note_cnt, 10)));
+    }
+  }, [courseId, courses]);
+
+  if (!courses[courseId] || !schools[schoolId]) {
+    return <NoMatch />;
+  }
 
   return (
     <>
@@ -116,10 +116,10 @@ function Course() {
           </Text>
           <Flex alignItems="top" gap={10} flexWrap="wrap" px="32px">
             <VStack spacing={3}>
-              <BannerBadge textTransform="lowercase">{ courseName }</BannerBadge>
+              <BannerBadge textTransform="lowercase">{ courses[courseId].name }</BannerBadge>
             </VStack>
             <HStack spacing={4}>
-              <StatsCard title="Notes" stat={statFormatting(100)} />
+              <StatsCard title="Notes" stat={noteCnt} />
             </HStack>
           </Flex>
         </Flex>
@@ -130,7 +130,7 @@ function Course() {
               justify="space-between"
               textAlign="center"
               rounded="pendown"
-              bg={useColorModeValue('gray.100', 'gray.500')}
+              bg={color}
               border="2px solid black"
             >
               <TabList
