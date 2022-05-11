@@ -135,6 +135,9 @@ const browseNotesByTag = (tag_id, type, filter, offset) => async (dispatch) => {
         total_cnt: res.data.total_cnt,
       },
     });
+    if (res.data.total_cnt > offset + 12) {
+      dispatch(browseNotesByTag(tag_id, type, filter, offset + 12));
+    }
   } catch (error) {
     dispatch({
       type: noteConstants.BROWSE_NOTES_BY_TAG_FAIL,
@@ -173,6 +176,9 @@ const browseNotesByCourse = (course_id, type, filter, offset) => async (dispatch
         total_cnt: res.data.total_cnt,
       },
     });
+    if (res.data.total_cnt > offset + 12) {
+      dispatch(browseNotesByCourse(course_id, type, filter, offset + 12));
+    }
   } catch (error) {
     dispatch({
       type: noteConstants.BROWSE_NOTES_BY_COURSE_FAIL,
