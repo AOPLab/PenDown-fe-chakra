@@ -30,11 +30,13 @@ import {
 } from 'react-icons/fi';
 import Editable from '../../util/Editable';
 import CardBadge from '../cards/CardBadge';
+import { fetchAllSchools } from '../../../actions/school/school';
+import { fetchSchoolCourses } from '../../../actions/course/course';
 
 // using react hook form without control this time
 
 export default function EditDescriptions({
-  errors, register, files, setContent, tagLists, property, setProperty,
+  errors, register, setContent, tagLists, property,
 }) {
   const schools = useSelector((state) => state.school);
   const courses = useSelector((state) => state.course);
@@ -48,8 +50,10 @@ export default function EditDescriptions({
 
   // form's state
   const [courseOption, setCourseOption] = useState(property.courseId !== 0 ? 'Yes' : 'No');
-  const [schoolId, setSchoolId] = useState('');
-  const [courseId, setCourseId] = useState('');
+  const [schoolId, setSchoolId] = useState(property.schoolId !== 0 ? property.schoolId : '');
+  const [courseId, setCourseId] = useState(property.courseId !== 0 ? property.courseId : '');
+  const [schoolName, setSchoolName] = useState(property.school !== '' ? property.school : '');
+  const [courseName, setCourseName] = useState(property.course !== ' ' ? property.course : '');
 
   const [pickerItems, setPickerItems] = useState(tagLists);
   const [selectedItems, setSelectedItems] = useState(property.tagList);
@@ -75,22 +79,35 @@ export default function EditDescriptions({
     }
   };
 
+  const handleSchoolIdChange = (e) => {
+    dispatch(fetchSchoolCourses(parseInt(e, 10)));
+    setSchoolId(e);
+    setSchoolName(schools.byId[e].name);
+    setCourseId('');
+    setCourseName('');
+  };
+
+  const handleCourseIdChange = (e) => {
+    setCourseId(e);
+    setCourseName(`${courses.byId[e].no} ${courses.byId[e].name}`);
+  };
+
   useEffect(() => {
     setUniversities(schools.allIds.map((id) => ({ id: String(id), name: schools.byId[id].name })));
   }, [schools.allIds, schools.byId]);
 
   useEffect(() => {
-    setCourseList(courses.allIds.map((id) => ({ id: String(id), name: courses.byId[id].name, no: courses.byId[id].no })));
-  }, [courses.allIds, courses.byId]);
+    setCourseList(courses.allIds.filter((id) => courses.byId[id].school_id === parseInt(schoolId, 10)).map((id) => ({ id: String(id), name: courses.byId[id].name, no: courses.byId[id].no })));
+  }, [courses.allIds, courses.byId, schoolId]);
+
+  useEffect(() => {
+    dispatch(fetchAllSchools());
+    if (property.schoolId !== 0) {
+      dispatch(fetchSchoolCourses(parseInt(property.schoolId, 10)));
+    }
+  }, [dispatch, property.schoolId]);
 
   const ref = useRef();
-  const [imageHeight, setImageHeight] = useState(0);
-  const handleImageLoad = (event) => {
-    setImageHeight(event.target.clientHeight);
-  };
-  useEffect(() => {
-    setImageHeight(ref.current.clientHeight);
-  }, []);
 
   return (
     <>
@@ -156,7 +173,6 @@ export default function EditDescriptions({
               maxWidth="full"
               maxHeight="376px"
               objectFit="cover"
-              onLoad={handleImageLoad}
               borderRadius="pendown"
               border="2px solid black"
             />
@@ -195,7 +211,7 @@ export default function EditDescriptions({
         {courseOption === 'Yes' && (
         <>
           <FormControl isRequired={courseOption === 'Yes'}>
-            <AutoComplete openOnFocus onChange={(e) => setSchoolId(e)}>
+            <AutoComplete openOnFocus onChange={handleSchoolIdChange}>
               {({ isOpen }) => (
                 <>
                   <InputGroup>
@@ -208,6 +224,7 @@ export default function EditDescriptions({
                       focusBorderColor="primary.400"
                       size="lg"
                       bg="white"
+                      value={schoolName}
                       _hover={{ borderColor: 'primary.400' }}
                     />
                     <InputRightElement>
@@ -231,7 +248,7 @@ export default function EditDescriptions({
             {/* <FormHelperText>Who do you support.</FormHelperText> */}
           </FormControl>
           <FormControl isRequired={courseOption === 'Yes'}>
-            <AutoComplete openOnFocus onChange={(e) => setCourseId(e)}>
+            <AutoComplete openOnFocus onChange={handleCourseIdChange}>
               {({ isOpen }) => (
                 <>
                   <InputGroup>
@@ -244,6 +261,7 @@ export default function EditDescriptions({
                       focusBorderColor="primary.400"
                       bg="white"
                       size="lg"
+                      value={courseName}
                       _hover={{ borderColor: 'primary.400' }}
                     />
                     <InputRightElement>

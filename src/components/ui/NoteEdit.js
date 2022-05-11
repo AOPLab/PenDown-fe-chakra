@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useHistory, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import {
   Modal,
   ModalOverlay,
@@ -10,21 +10,13 @@ import {
   ModalCloseButton,
   Button,
   Flex,
-  Heading,
   useBreakpointValue,
   useToast,
 } from '@chakra-ui/react';
-import { Step, Steps, useSteps } from 'chakra-ui-steps';
-import { FiUpload, FiEdit3 } from 'react-icons/fi';
 import { useForm } from 'react-hook-form';
 import EditDescriptions from './notepage/EditDescriptions';
-import { getNote, editNote } from '../../actions/note/note';
+import { editNote } from '../../actions/note/note';
 import { fetchAllTags } from '../../actions/tag/tag';
-
-const steps = [
-  { label: 'Uploaded notes', icon: FiUpload },
-  { label: 'Edit descriptions', icon: FiEdit3 },
-];
 
 const initialContent = {
   courseId: null,
@@ -37,7 +29,7 @@ const initialContent = {
 export default function NoteEdit({
   isNoteOpen, onNoteClose, scrollBehavior, finalFocusRef,
 }) {
-  const history = useHistory();
+  // const history = useHistory();
   // const config = useSelector((state) => state.auth);
   const loading = useSelector((state) => state.loading.note.note);
   const error = useSelector((state) => state.error.note);
@@ -52,14 +44,6 @@ export default function NoteEdit({
   const config = useSelector((state) => state.auth);
   const notes = useSelector((state) => state.note.byId);
   // const user = useSelector((state) => state.user);
-
-  const { control: pdfControl, reset: resetPdfFile } = useForm();
-  const { control: notaControl, reset: resetNoteFile } = useForm();
-  const { control: gnControl, reset: resetGnoteFile } = useForm();
-
-  const [pdfFile, setPdfFile] = useState(null);
-  const [noteFile, setNoteFile] = useState(null);
-  const [gnoteFile, setGNoteFile] = useState(null);
   const [content, setContent] = useState(initialContent);
   const [tagList, setTagList] = useState([]);
   const [submitDone, setSubmitDone] = useState(false);
@@ -127,35 +111,6 @@ export default function NoteEdit({
     }
   }, [noteId, notes, tags.byId]);
 
-  useEffect(() => {
-    if (noteId !== null && Number.isInteger(Number(noteId))) {
-      if (config.token !== null && config.token !== '') {
-        dispatch(getNote(noteId, config.token));
-      } else {
-        dispatch(getNote(noteId));
-      }
-    }
-  }, [config.token, dispatch, noteId]);
-  // end copied from src/containers/note/index.js
-
-  const {
-    nextStep, prevStep, reset, activeStep,
-  } = useSteps({
-    initialStep: 0,
-  });
-
-  const setFile = {
-    pdf: setPdfFile,
-    nota: setNoteFile,
-    gnote: setGNoteFile,
-  };
-
-  const files = {
-    pdf: pdfFile,
-    nota: noteFile,
-    gnote: gnoteFile,
-  };
-
   const {
     reset: resetDescription, register, handleSubmit, setValue, formState: { errors, isSubmitting }, setError,
   } = useForm({
@@ -166,9 +121,17 @@ export default function NoteEdit({
   });
 
   useEffect(() => {
+    if (notes[noteId]) {
+      setValue('bean', notes[noteId].bean);
+      setValue('description', notes[noteId].description);
+    }
+  }, [noteId, notes, setValue]);
+
+  const handleCancel = () => {
     setValue('bean', notes[noteId].bean);
     setValue('description', notes[noteId].description);
-  }, [noteId, notes, setValue]);
+    onNoteClose();
+  };
 
   const onSubmit = async (values) => {
     if (!Number.isInteger(Number(values.bean))) {
@@ -190,11 +153,6 @@ export default function NoteEdit({
     setSubmitDone(true);
   };
 
-  const contents = [
-    <></>,
-    <EditDescriptions key="2" errors={errors} register={register} files={files} setContent={setContent} tagLists={tagList} property={property} setProperty={setProperty} />,
-  ];
-
   const modalSize = useBreakpointValue({ base: 'full', md: 'xl' });
   const modalRadius = useBreakpointValue({ base: 'md', md: 'pendown' });
 
@@ -207,29 +165,22 @@ export default function NoteEdit({
   }, [dispatch]);
 
   useEffect(() => {
-    if (submitDone === true && loading.addNote === false) {
-      if (error.addNote) {
+    if (submitDone === true && loading.editNote === false) {
+      if (error.editNote) {
         errorToast({
-          title: 'Add Note Fail',
-          description: error.addNote,
+          title: 'Edit Note Fail',
+          description: error.editNote,
           status: 'error',
           duration: 3000,
           isClosable: true,
         });
       } else {
-        reset();
-        resetGnoteFile({ 'GoodNotes File': null });
-        resetNoteFile({ 'Notability File': null });
-        resetPdfFile({ 'PDF File': null });
         resetDescription();
-        setPdfFile(null);
-        setNoteFile(null);
-        setGNoteFile(null);
         onNoteClose();
       }
       setSubmitDone(false);
     }
-  }, [error, error.addNote, errorToast, loading, loading.addNote, onNoteClose, reset, resetDescription, resetGnoteFile, resetNoteFile, resetPdfFile, submitDone]);
+  }, [error, error.editNote, errorToast, loading, loading.editNote, onNoteClose, resetDescription, submitDone]);
 
   return (
     <Modal
@@ -250,45 +201,11 @@ export default function NoteEdit({
         <ModalCloseButton />
         <ModalBody>
           <Flex flexDir="column" width="100%" my={4}>
-            <Steps activeStep={1} colorScheme="secondary">
-              {steps.map(({ label, icon }, index) => (
-                <Step label={label} key={label} icon={icon}>
-                  {contents[index]}
-                </Step>
-              ))}
-            </Steps>
-            {activeStep === steps.length ? (
-              <Flex px={4} py={4} width="100%" flexDirection="column">
-                <Heading fontSize="xl" textAlign="center">
-                  Woohoo! All steps completed!
-                </Heading>
-                <Flex>
-                  <Button mx="auto" mt={6} onClick={reset} p={3} variant="pendown-yellow">
-                    Reset
-                  </Button>
-                  <Button mx="auto" mt={6} onClick={onNoteClose} p={3} variant="pendown-yellow">
-                    Close
-                  </Button>
-                </Flex>
-              </Flex>
-            ) : (
-              <Flex width="100%" justify="flex-end">
-                <Button
-                  isDisabled={activeStep === 0}
-                  mr={4}
-                  onClick={prevStep}
-                  variant="pendown"
-                >
-                  Prev
-                </Button>
-                {activeStep === steps.length - 2
-                  ? <Button onClick={handleSubmit(onSubmit)} isLoading={isSubmitting} variant="pendown-primary">Submit</Button> : (
-                    <Button isDisabled={typeof (files.pdf) === 'undefined'} onClick={nextStep} variant="pendown-primary">
-                      Next
-                    </Button>
-                  )}
-              </Flex>
-            )}
+            <EditDescriptions key="2" errors={errors} register={register} setContent={setContent} tagLists={tagList} property={property} setProperty={setProperty} />
+            <Flex width="100%" justify="flex-end">
+              <Button onClick={handleCancel} variant="pendown">Cancel</Button>
+              <Button onClick={handleSubmit(onSubmit)} isLoading={isSubmitting} variant="pendown-primary">Submit</Button>
+            </Flex>
           </Flex>
         </ModalBody>
       </ModalContent>

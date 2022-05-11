@@ -483,6 +483,7 @@ const editNote = (token, note_id, title, description, is_template, course_id, be
     Promise.all(add_tag_ids.map((item) => agent.post(`/api/notes/${note_id}/tags/${item}`, {}, config)));
 
     dispatch({ type: noteConstants.EDIT_NOTE_SUCCESS });
+    dispatch(getNote(note_id, token));
   } catch (error) {
     dispatch({
       type: noteConstants.EDIT_NOTE_FAIL,
