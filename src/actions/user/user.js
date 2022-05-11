@@ -101,7 +101,7 @@ const editPassword = (token, id, oldPassword, newPassword) => async (dispatch) =
   dispatch({ type: userConstants.EDIT_SELF_PASSWORD_START });
 
   try {
-    agent.put(`/api/account/${id}/pass_hash`, {
+    await agent.put(`/api/account/${id}/pass_hash`, {
       old_password: oldPassword,
       new_password: newPassword,
     }, config);
@@ -119,7 +119,7 @@ const fetchAccountFollowers = (id) => async (dispatch) => {
   dispatch({ type: userConstants.FETCH_ACCOUNT_FOLLOWERS_START });
 
   try {
-    const res = agent.get(`/api/account/${id}/followers`);
+    const res = await agent.get(`/api/account/${id}/followers`);
     dispatch({
       type: userConstants.FETCH_ACCOUNT_FOLLOWERS_SUCCESS,
       payload: { id, ...res.data },
@@ -137,7 +137,7 @@ const fetchAccountFollowings = (id) => async (dispatch) => {
   dispatch({ type: userConstants.FETCH_ACCOUNT_FOLLOWINGS_START });
 
   try {
-    const res = agent.get(`/api/account/${id}/followings`);
+    const res = await agent.get(`/api/account/${id}/followings`);
     dispatch({
       type: userConstants.FETCH_ACCOUNT_FOLLOWINGS_SUCCESS,
       payload: { id, ...res.data },
@@ -157,7 +157,7 @@ const checkAccountFollowing = (account_id, following_id) => async (dispatch) => 
   dispatch({ type: userConstants.CHECK_ACCOUNT_FOLLOWING_START });
 
   try {
-    const res = agent.get(`/api/account/${account_id}/following/${following_id}`);
+    const res = await agent.get(`/api/account/${account_id}/following/${following_id}`);
     dispatch({
       type: userConstants.CHECK_ACCOUNT_FOLLOWING_SUCCESS,
       payload: { following_id, ...res.data },
@@ -181,7 +181,7 @@ const addAccountFollowing = (token, id, following_id) => async (dispatch) => {
   };
   dispatch({ type: userConstants.ADD_ACCOUNT_FOLLOWING_START });
   try {
-    agent.post(`/api/account/${id}/follow`, { account_id: following_id }, config);
+    await agent.post(`/api/account/${id}/follow`, { account_id: following_id }, config);
     dispatch({
       type: userConstants.ADD_ACCOUNT_FOLLOWING_SUCCESS,
       payload: following_id,
@@ -202,10 +202,13 @@ const deleteAccountFollowing = (token, id, following_id) => async (dispatch) => 
     headers: {
       Authorization: `Bearer ${token}`,
     },
+    data: {
+      account_id: following_id,
+    },
   };
   dispatch({ type: userConstants.DELETE_ACCOUNT_FOLLOWING_START });
   try {
-    agent.delete(`/api/account/${id}/follow`, { account_id: following_id }, config);
+    await agent.delete(`/api/account/${id}/follow`, config);
     dispatch({
       type: userConstants.DELETE_ACCOUNT_FOLLOWING_SUCCESS,
       payload: following_id,
