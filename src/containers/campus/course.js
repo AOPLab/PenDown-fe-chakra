@@ -25,7 +25,7 @@ function Course() {
   const dispatch = useDispatch();
   const color = useColorModeValue('gray.100', 'gray.500');
   const [tabIndex, setTabIndex] = useState(0);
-  const [viewType, setViewType] = useState('Notes');
+  const [viewType, setViewType] = useState('Popular');
   const [noteType, setNoteType] = useState('Choose Note Type');
   const courseNotes = useSelector((state) => state.courseNotes);
   const tabs = ['Popular', 'Recent'];
@@ -49,7 +49,7 @@ function Course() {
     switch (noteType) {
       case 'Choose Note Type':
       case 'All': {
-        if (viewType === 'Notes') {
+        if (viewType === 'Popular') {
           dispatch(browseNotesByCourse(courseId, 'all', 'popular', 0));
         } else {
           dispatch(browseNotesByCourse(courseId, 'all', 'recent', 0));
@@ -57,7 +57,7 @@ function Course() {
         break;
       }
       case 'Notability': {
-        if (viewType === 'Notes') {
+        if (viewType === 'Popular') {
           dispatch(browseNotesByCourse(courseId, 'notability', 'popular', 0));
         } else {
           dispatch(browseNotesByCourse(courseId, 'notability', 'recent', 0));
@@ -65,7 +65,7 @@ function Course() {
         break;
       }
       case 'Goodnotes': {
-        if (viewType === 'Notes') {
+        if (viewType === 'Popular') {
           dispatch(browseNotesByCourse(courseId, 'goodnotes', 'popular', 0));
         } else {
           dispatch(browseNotesByCourse(courseId, 'goodnotes', 'recent', 0));
@@ -95,9 +95,7 @@ function Course() {
   }, [dispatch, schoolId]);
 
   useEffect(() => {
-    console.log(courses[courseId].note_cnt);
-    if (courses[courseId] && courses[courseId.note_cnt]) {
-      console.log(parseInt(courses[courseId].note_cnt, 10));
+    if (courses[courseId] && courses[courseId].note_cnt) {
       setNoteCnt(statFormatting(parseInt(courses[courseId].note_cnt, 10)));
     }
   }, [courseId, courses]);
