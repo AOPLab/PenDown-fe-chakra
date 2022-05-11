@@ -1,5 +1,6 @@
 import agent from '../agent';
 import { noteConstants } from './constant';
+import { fetchAllTags } from '../tag/tag';
 
 // add a new note
 const addNote = (
@@ -483,6 +484,9 @@ const editNote = (token, note_id, title, description, is_template, course_id, be
     Promise.all(add_tag_ids.map((item) => agent.post(`/api/notes/${note_id}/tags/${item}`, {}, config)));
 
     dispatch({ type: noteConstants.EDIT_NOTE_SUCCESS });
+    if (new_tag_arr) {
+      dispatch(fetchAllTags());
+    }
     dispatch(getNote(note_id, token));
   } catch (error) {
     dispatch({
