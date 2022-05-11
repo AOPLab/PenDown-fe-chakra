@@ -218,7 +218,6 @@ export default function RegisterForm() {
                       label="Email"
                       value={inputs.email}
                       onChange={(e) => handleChange(e)}
-                      error={errors.email}
                       placeholder="Email"
                       _hover={{ borderColor: 'primary.400' }}
                       focusBorderColor="primary.400"
