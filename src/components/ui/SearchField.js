@@ -103,6 +103,7 @@ export default function SearchField() {
         }
         history.push('/search/all');
     }
+    onClose();
   };
 
   const onKeyEnter = (e) => {
