@@ -114,9 +114,9 @@ function Note() {
     <>
       {/* <Container maxW="5xl"> */}
       {(user.id === property.userId)
-        ? (
+        && (
           <Button size="lg" fontSize="24px" position="fixed" variant="pendown-yellow" top="20" mt="2" left="4" onClick={onOpen}><Icon as={FiEdit2} strokeWidth="3px" /></Button>
-        ) : <></>}
+        )}
       <Flex minH="100vh" align="center" justify="center">
         <Stack spacing={8} mx="auto" maxW="3xl" py={12} px={6}>
           <Box
@@ -136,12 +136,12 @@ function Note() {
             <DescriptionSection property={property} />
             <Divider style={{ borderBottom: '2px black solid', opacity: 1, width: '100%' }} />
             {property.schoolId
-              ? (
+              && (
                 <>
                   <CourseSection property={property} />
                   <Divider style={{ borderBottom: '2px black solid', opacity: 1, width: '100%' }} />
                 </>
-              ) : <></>}
+              )}
             <TagsSection property={property} />
           </Box>
           <Box width="100%">
