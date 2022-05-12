@@ -6,7 +6,7 @@ const initialState = {
   getNote: false,
   browseNotesByTag: false,
   browseNotesByCourse: false,
-  brewseNotesHot: false,
+  browseNotesHot: false,
   buyNote: false,
   addNoteSaved: false,
   removeNoteSaved: false,
@@ -77,13 +77,13 @@ export default function note(state = initialState, action) {
     case noteConstants.BROWSE_NOTES_HOT_START:
       return {
         ...state,
-        brewseNotesHot: true,
+        browseNotesHot: true,
       };
     case noteConstants.BROWSE_NOTES_HOT_SUCCESS:
     case noteConstants.BROWSE_NOTES_HOT_FAIL: {
       return {
         ...state,
-        brewseNotesHot: false,
+        browseNotesHot: false,
       };
     }
     case noteConstants.ADD_NOTE_SAVED_START:

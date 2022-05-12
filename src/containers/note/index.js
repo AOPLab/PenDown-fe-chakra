@@ -15,6 +15,7 @@ import MainSection from '../../components/ui/notepage/MainSection';
 import DescriptionSection from '../../components/ui/notepage/DescriptionSection';
 import CourseSection from '../../components/ui/notepage/CourseSection';
 import TagsSection from '../../components/ui/notepage/TagsSection';
+import GeneralLoading from '../../components/GeneralLoading';
 
 import { getNote } from '../../actions/note/note';
 
@@ -22,9 +23,12 @@ function Note() {
   const { noteId } = useParams();
   // const history = useHistory();
   // const location = useLocation();
+  const loading = useSelector((state) => state.loading.note.note);
   const config = useSelector((state) => state.auth);
   const notes = useSelector((state) => state.note.byId);
   // const user = useSelector((state) => state.user);
+
+  const color = useColorModeValue('white', 'gray.700');
 
   const [property, setProperty] = useState({
     noteId: null,
@@ -98,6 +102,12 @@ function Note() {
     }
   }, [config.token, dispatch, noteId]);
 
+  if (loading.getNote || loading.editNote) {
+    return (
+      <GeneralLoading />
+    );
+  }
+
   return (
     <>
       {/* <Container maxW="5xl"> */}
@@ -111,7 +121,7 @@ function Note() {
             maxW="2xl"
             borderRadius="md"
             border="2px solid black"
-            bg={useColorModeValue('white', 'gray.700')}
+            bg={color}
             boxShadow="lg"
             p={0}
           >

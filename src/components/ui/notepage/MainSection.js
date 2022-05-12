@@ -90,6 +90,20 @@ function MainSection({ property }) {
   const { isOpen: pcIsOpen, onOpen: pcOnOpen, onClose: pcOnClose } = useDisclosure();
   const cancelRef = React.useRef();
 
+  const onConfirmBuyNote = () => {
+    if (!config.isAuthenticated) {
+      errorToast({
+        title: 'Not login',
+        description: 'Please login first!',
+        status: 'error',
+        duration: 2000,
+        isClosable: true,
+      });
+      return;
+    }
+    pcOnOpen();
+  };
+
   const onBuyNote = () => {
     if (config.isAuthenticated) {
       dispatch(buyNote(config.token, property.noteId));
@@ -246,7 +260,7 @@ function MainSection({ property }) {
                   size="lg"
                   isFullWidth
                   justifyContent="flex-start"
-                  onClick={pcOnOpen} // () => onBuyNote()
+                  onClick={onConfirmBuyNote} // () => onBuyNote()
                   tabIndex="-1"
                   role="button"
                   leftIcon={<Icon as={CustomIcon.NoteBean} color="black" css={{ strokeWidth: '3' }} />}
@@ -290,7 +304,7 @@ function MainSection({ property }) {
           </AlertDialogHeader>
           <AlertDialogCloseButton />
           <AlertDialogBody>
-            Once you confirm purchase, we will deduct 50 beans from your account.
+            {`Once you confirm purchase, we will deduct ${property.formattedPrice} beans from your account.`}
           </AlertDialogBody>
           <AlertDialogFooter>
             <Button variant="pendown" ref={cancelRef} onClick={pcOnClose}>

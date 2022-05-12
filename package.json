@@ -37,6 +37,7 @@
     "react-google-login": "^5.2.2",
     "react-hook-form": "^7.30.0",
     "react-icons": "^3.0.0",
+    "react-loading": "^2.0.3",
     "react-pdf": "^5.7.2",
     "react-redux": "^7.2.3",
     "react-router-dom": "^5.2.0",

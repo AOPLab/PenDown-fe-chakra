@@ -1,18 +1,15 @@
 import React from 'react';
-import { CircularProgress, makeStyles } from '@material-ui/core';
-
-const useStyles = makeStyles(() => ({
-  progress: {
-    position: 'absolute',
-    top: '41vh',
-    left: '47%',
-    // transform: 'translate(-50%, 0)',
-  },
-}));
+import ReactLoading from 'react-loading';
+import {
+  Flex,
+} from '@chakra-ui/react';
 
 function GeneralLoading() {
-  const classNames = useStyles();
-  return <CircularProgress color="inherit" size={30} className={classNames.progress} />;
+  return (
+    <Flex minH="calc(100vh - 80px)" align="center" justify="center">
+      <ReactLoading type="spinningBubbles" color="#A0AEC0" />
+    </Flex>
+  );
 }
 
 export default GeneralLoading;
