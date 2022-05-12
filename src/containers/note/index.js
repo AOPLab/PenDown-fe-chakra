@@ -9,7 +9,12 @@ import {
   Text,
   useColorModeValue,
   Stack,
+  Button,
+  Icon,
+  useDisclosure,
 } from '@chakra-ui/react';
+
+import { FiEdit2 } from 'react-icons/fi';
 
 import MainSection from '../../components/ui/notepage/MainSection';
 import DescriptionSection from '../../components/ui/notepage/DescriptionSection';
@@ -18,6 +23,7 @@ import TagsSection from '../../components/ui/notepage/TagsSection';
 import GeneralLoading from '../../components/GeneralLoading';
 
 import { getNote } from '../../actions/note/note';
+import NoteEdit from '../../components/ui/NoteEdit';
 
 function Note() {
   const { noteId } = useParams();
@@ -26,7 +32,13 @@ function Note() {
   const loading = useSelector((state) => state.loading.note.note);
   const config = useSelector((state) => state.auth);
   const notes = useSelector((state) => state.note.byId);
-  // const user = useSelector((state) => state.user);
+  const user = useSelector((state) => state.user);
+
+  // modal trigger
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [scrollBehavior, setScrollBehavior] = React.useState('inside');
+  const btnRef = React.useRef();
+  // modal trigger end
 
   const color = useColorModeValue('white', 'gray.700');
 
@@ -111,6 +123,10 @@ function Note() {
   return (
     <>
       {/* <Container maxW="5xl"> */}
+      {(user.id === property.userId)
+        && (
+          <Button size="lg" fontSize="24px" position="fixed" variant="pendown-yellow" top="20" mt="2" left="4" onClick={onOpen}><Icon as={FiEdit2} strokeWidth="3px" /></Button>
+        )}
       <Flex minH="100vh" align="center" justify="center">
         <Stack spacing={8} mx="auto" maxW="3xl" py={12} px={6}>
           <Box
@@ -130,12 +146,12 @@ function Note() {
             <DescriptionSection property={property} />
             <Divider style={{ borderBottom: '2px black solid', opacity: 1, width: '100%' }} />
             {property.schoolId
-              ? (
+              && (
                 <>
                   <CourseSection property={property} />
                   <Divider style={{ borderBottom: '2px black solid', opacity: 1, width: '100%' }} />
                 </>
-              ) : <></>}
+              )}
             <TagsSection property={property} />
           </Box>
           <Box width="100%">
@@ -147,6 +163,12 @@ function Note() {
           </Box>
         </Stack>
       </Flex>
+      <NoteEdit
+        isNoteOpen={isOpen}
+        onNoteClose={onClose}
+        finalFocusRef={btnRef}
+        scrollBehavior={scrollBehavior}
+      />
       {/* </Container> */}
     </>
   );

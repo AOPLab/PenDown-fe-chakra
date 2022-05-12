@@ -1,5 +1,6 @@
 import agent from '../agent';
 import { noteConstants } from './constant';
+import { fetchAllTags } from '../tag/tag';
 
 // add a new note
 const addNote = (
@@ -462,7 +463,7 @@ const removeNoteSaved = (token, note_id) => async (dispatch) => {
 };
 
 // Use to edit self info
-const editNote = (token, note_id, title, description, school_id, course_id, bean, is_template, previous_tag_id_arr, present_tag_id_arr, new_tag_arr) => async (dispatch) => {
+const editNote = (token, note_id, title, description, is_template, course_id, bean, previous_tag_id_arr, present_tag_id_arr, new_tag_arr) => async (dispatch) => {
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -473,7 +474,6 @@ const editNote = (token, note_id, title, description, school_id, course_id, bean
     const noteInfo = {
       title,
       description,
-      school_id,
       course_id,
       bean,
       is_template,
@@ -490,6 +490,10 @@ const editNote = (token, note_id, title, description, school_id, course_id, bean
     Promise.all(add_tag_ids.map((item) => agent.post(`/api/notes/${note_id}/tags/${item}`, {}, config)));
 
     dispatch({ type: noteConstants.EDIT_NOTE_SUCCESS });
+    if (new_tag_arr) {
+      dispatch(fetchAllTags());
+    }
+    dispatch(getNote(note_id, token));
   } catch (error) {
     dispatch({
       type: noteConstants.EDIT_NOTE_FAIL,
