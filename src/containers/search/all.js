@@ -1,5 +1,4 @@
 import React from 'react';
-// import { useSelector, useDispatch } from 'react-redux';
 
 // import { makeStyles } from '@material-ui/core';
 import { Spacer } from '@chakra-ui/react';
@@ -13,12 +12,6 @@ import Notes from './notes';
 import Templates from './templates';
 
 export default function All() {
-  // const history = useHistory();
-  // const location = useLocation();
-  // const config = useSelector((state) => state.auth);
-  // const user = useSelector((state) => state.user);
-  // const dispatch = useDispatch();
-
   return (
     <>
       <People />

@@ -5,6 +5,7 @@ import {
   Box, Heading, SimpleGrid, Button, Center, Flex, Text,
 } from '@chakra-ui/react';
 import TagBadge from '../../components/ui/TagBadge';
+import SearchLoading from '../../components/SearchLoading';
 
 import { searchTags } from '../../actions/common/common';
 
@@ -14,6 +15,7 @@ export default function Tags() {
   const dispatch = useDispatch();
   const search = useSelector((state) => state.search);
   const tags = useSelector((state) => state.tag.byId);
+  const loading = useSelector((state) => state.loading.common.common);
 
   const onViewMore = () => {
     if (location.pathname !== '/search/tags') {
@@ -27,6 +29,15 @@ export default function Tags() {
       dispatch(searchTags(search.q, 0));
     }
   }, [dispatch, search.tags.ids, search.q]);
+
+  if (loading.searchTags) {
+    return (
+      <Box borderWidth="4px" border="3px black" borderBottom="3px solid black" py="8" my="2">
+        <Heading>Tags</Heading>
+        <SearchLoading />
+      </Box>
+    );
+  }
 
   return (
     <>
