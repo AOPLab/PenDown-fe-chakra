@@ -30,7 +30,7 @@ function Note() {
   // const location = useLocation();
   const config = useSelector((state) => state.auth);
   const notes = useSelector((state) => state.note.byId);
-  // const user = useSelector((state) => state.user);
+  const user = useSelector((state) => state.user);
 
   // modal trigger
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -113,9 +113,10 @@ function Note() {
   return (
     <>
       {/* <Container maxW="5xl"> */}
-      {/* FIXME: Only show up when the author views the page */}
-      <Button size="lg" fontSize="24px" position="fixed" variant="pendown-yellow" top="20" mt="2" left="4" onClick={onOpen}><Icon as={FiEdit2} strokeWidth="3px" /></Button>
-      {/* End: Only show up when the author views the page */}
+      {(user.id === property.userId)
+        ? (
+          <Button size="lg" fontSize="24px" position="fixed" variant="pendown-yellow" top="20" mt="2" left="4" onClick={onOpen}><Icon as={FiEdit2} strokeWidth="3px" /></Button>
+        ) : <></>}
       <Flex minH="100vh" align="center" justify="center">
         <Stack spacing={8} mx="auto" maxW="3xl" py={12} px={6}>
           <Box
@@ -152,7 +153,6 @@ function Note() {
           </Box>
         </Stack>
       </Flex>
-      {/* FIXME: property prop 從這裡傳可能在 edit 時會改到 background page 的值 */}
       <NoteEdit
         isNoteOpen={isOpen}
         onNoteClose={onClose}

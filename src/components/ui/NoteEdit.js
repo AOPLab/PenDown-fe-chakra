@@ -37,7 +37,6 @@ export default function NoteEdit({
   const errorToast = useToast();
   // const dispatch = useDispatch();
 
-  // FIXME: copied from src/containers/note/index.js
   const { noteId } = useParams();
   // const history = useHistory();
   // const location = useLocation();
