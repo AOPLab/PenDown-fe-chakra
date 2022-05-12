@@ -31,7 +31,7 @@ function School() {
           <Text px="32px" color="gray.600" fontWeight={600} fontSize="md">school/</Text>
           <Flex alignItems="top" gap={10} flexWrap="wrap" px="32px">
             <VStack spacing={3}>
-              <BannerBadge textTransform="lowercase">{ schools[schoolId].name }</BannerBadge>
+              <BannerBadge>{ schools[schoolId].name }</BannerBadge>
             </VStack>
             <HStack spacing={4}>
               <StatsCard title="Courses" stat="123" />

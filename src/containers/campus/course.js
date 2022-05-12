@@ -114,7 +114,7 @@ function Course() {
           </Text>
           <Flex alignItems="top" gap={10} flexWrap="wrap" px="32px">
             <VStack spacing={3}>
-              <BannerBadge textTransform="lowercase">{ courses[courseId].name }</BannerBadge>
+              <BannerBadge>{ courses[courseId].name }</BannerBadge>
             </VStack>
             <HStack spacing={4}>
               <StatsCard title="Notes" stat={noteCnt} />
