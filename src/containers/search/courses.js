@@ -5,6 +5,7 @@ import {
   Box, Heading, SimpleGrid, Flex, Center, Button, Text,
 } from '@chakra-ui/react';
 import MiscCard from '../../components/ui/cards/MiscCard';
+import SearchLoading from '../../components/SearchLoading';
 
 import { searchCourses } from '../../actions/common/common';
 
@@ -14,6 +15,7 @@ export default function Courses() {
   const dispatch = useDispatch();
   const search = useSelector((state) => state.search);
   const courses = useSelector((state) => state.course.byId);
+  const loading = useSelector((state) => state.loading.common.common);
 
   const onViewMore = () => {
     if (location.pathname !== '/search/courses') {
@@ -27,6 +29,15 @@ export default function Courses() {
       dispatch(searchCourses(search.q, 0));
     }
   }, [dispatch, search.courses.ids, search.q]);
+
+  if (loading.searchCourses) {
+    return (
+      <Box borderWidth="4px" border="3px black" borderBottom="3px solid black" py="8" my="2">
+        <Heading>Courses</Heading>
+        <SearchLoading />
+      </Box>
+    );
+  }
 
   return (
     <>

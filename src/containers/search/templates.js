@@ -5,6 +5,7 @@ import {
   Box, Heading, SimpleGrid, Flex, Center, Button, Text,
 } from '@chakra-ui/react';
 import NoteCard from '../../components/ui/cards/NoteCard';
+import SearchLoading from '../../components/SearchLoading';
 
 import { searchTemplates } from '../../actions/common/common';
 
@@ -14,6 +15,7 @@ export default function Templates() {
   const dispatch = useDispatch();
   const search = useSelector((state) => state.search);
   const notes = useSelector((state) => state.note.byId);
+  const loading = useSelector((state) => state.loading.common.common);
 
   const onViewMore = () => {
     if (location.pathname !== '/search/templates') {
@@ -31,6 +33,15 @@ export default function Templates() {
       }
     }
   }, [dispatch, search.q, search.templates.ids, search.type]);
+
+  if (loading.searchTemplates) {
+    return (
+      <Box borderWidth="4px" border="3px black" borderBottom="3px solid black" py="8" my="2">
+        <Heading>Templates</Heading>
+        <SearchLoading />
+      </Box>
+    );
+  }
 
   return (
     <>
