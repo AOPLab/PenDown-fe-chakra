@@ -24,6 +24,8 @@ const byId = (state = {}, action) => {
           no: course.course_no,
           school_id: course.school_id,
           school_name: course.school_name,
+          note_cnt: course.note_cnt,
+          last_updated_time: course.last_updated_time,
         };
         return course;
       });
