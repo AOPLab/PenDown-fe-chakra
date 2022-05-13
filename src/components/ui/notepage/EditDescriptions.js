@@ -79,6 +79,16 @@ export default function EditDescriptions({
     }
   };
 
+  const handleCourseOptionChange = (e) => {
+    setCourseOption(e);
+    if (e === 'No') {
+      setSchoolId('');
+      setSchoolName('');
+      setCourseId('');
+      setCourseName('');
+    }
+  };
+
   const handleSchoolIdChange = (e) => {
     dispatch(fetchSchoolCourses(parseInt(e, 10)));
     setSchoolId(e);
@@ -198,7 +208,7 @@ export default function EditDescriptions({
         </FormControl>
         <FormControl isInvalid={errors.course} isRequired>
           <FormLabel fontSize="lg" fontWeight="bold" marginBottom="4" htmlFor="course">Are you taking this for a course?</FormLabel>
-          <RadioGroup onChange={setCourseOption} value={courseOption}>
+          <RadioGroup onChange={handleCourseOptionChange} value={courseOption}>
             <Stack direction="row" spacing={16}>
               <Radio {...register('isCourse?', { required: true })} type="radio" value="Yes" size="lg" colorScheme="primary">Yes</Radio>
               <Radio {...register('isCourse?', { required: true })} type="radio" value="No" size="lg" colorScheme="primary">No</Radio>
