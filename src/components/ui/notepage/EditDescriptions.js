@@ -235,6 +235,7 @@ export default function EditDescriptions({
                       size="lg"
                       bg="white"
                       value={schoolName}
+                      onChange={(e) => setSchoolName(e.target.value)}
                       _hover={{ borderColor: 'primary.400' }}
                     />
                     <InputRightElement>
@@ -272,6 +273,7 @@ export default function EditDescriptions({
                       bg="white"
                       size="lg"
                       value={courseName}
+                      onChange={(e) => setCourseName(e.target.value)}
                       _hover={{ borderColor: 'primary.400' }}
                     />
                     <InputRightElement>
