@@ -1,22 +1,15 @@
+import React from 'react';
 import {
   Box, useColorModeValue, Icon, HStack, VStack,
 } from '@chakra-ui/react';
-import React, { useState } from 'react';
-import { FiList } from 'react-icons/fi';
+import {
+  FiList, FiFile,
+} from 'react-icons/fi';
 import Marquee from 'react-fast-marquee';
 // FiEye, FiHeart, FiBookmark
 import Card from '../Card';
 
-export default function MiscCard({ onClick, property, props }) {
-  // pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
-  const [numPages, setNumPages] = useState(null);
-  const [pageNumber, setPageNumber] = useState(1);
-
-  const onDocumentLoadSuccess = ({ p }) => {
-    setNumPages(p);
-    setPageNumber(1);
-  };
-
+export default function MiscCard({ onClick, property }) {
   return (
     <Box minWidth="fit-content" onClick={onClick}>
       <Card variant="pendown" maxW="full">
@@ -52,27 +45,35 @@ export default function MiscCard({ onClick, property, props }) {
               </Box>
             ) : <></>}
 
-            {/* <Box d="flex" alignItems="center" w="100%">
+            {property.noteCount && (
+            <Box d="flex" alignItems="center" w="100%">
               <HStack
                 color="gray.500"
                 fontWeight="semibold"
                 fontSize="xs"
                 textTransform="uppercase"
               >
-                <Icon as={FiFile} w="18px" h="18px" color="black" css={{ strokeWidth: '3' }} />
-                <Box as="span" color="black" fontSize="sm" fontWeight={800}>
-                  {property.noteCount}
-                </Box>
-                <Icon as={FiEye} w="18px" h="18px" color="black" css={{ strokeWidth: '3' }} />
-                <Box as="span" color="black" fontSize="sm" fontWeight={800}>
+                <>
+                  <Icon as={FiFile} w="18px" h="18px" color="black" css={{ strokeWidth: '3' }} />
+                  <Box as="span" color="black" fontSize="sm" fontWeight={800}>
+                    {property.noteCount}
+                  </Box>
+                </>
+                {/* {property.viewCount && (
+                  <>
+                  <Icon as={FiEye} w="18px" h="18px" color="black" css={{ strokeWidth: '3' }} />
+                  <Box as="span" color="black" fontSize="sm" fontWeight={800}>
                   {property.viewCount}
-                </Box>
-                <Icon as={FiBookmark} w="18px" h="18px" color="black" css={{ strokeWidth: '3' }} />
+                  </Box>
+                  </>
+                )} */}
+                {/* <Icon as={FiBookmark} w="18px" h="18px" color="black" css={{ strokeWidth: '3' }} />
                 <Box as="span" color="black" fontSize="sm" fontWeight={800}>
                   {property.savedCount}
-                </Box>
+                </Box> */}
               </HStack>
-            </Box> */}
+            </Box>
+            )}
           </VStack>
         </Box>
       </Card>

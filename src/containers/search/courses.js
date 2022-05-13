@@ -61,7 +61,7 @@ export default function Courses() {
                 py={0}
                 mx="auto"
               >
-                {Object.keys(search.courses.ids).map((key) => search.courses.ids[key].map((id) => (<MiscCard key={id} onClick={() => history.push(`/school/${courses[id].school_id}/course/${id}`)} property={{ title: `${courses[id].no}: ${courses[id].name}`, description: `${courses[id].school_name}` }} />)))}
+                {Object.keys(search.courses.ids).map((key) => search.courses.ids[key].map((id) => (<MiscCard key={id} onClick={() => history.push(`/school/${courses[id].school_id}/course/${id}`)} property={{ title: `${courses[id].no}: ${courses[id].name}`, description: `${courses[id].school_name}`, noteCount: `${courses[id].note_cnt}` }} />)))}
               </SimpleGrid>
             )
             : <Text>No Data</Text>}
