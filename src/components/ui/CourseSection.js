@@ -6,7 +6,7 @@ import {
 
 import CourseCard from './cards/CourseCard';
 
-function CourseSection({schoolId, courseIds}) {
+function CourseSection({ schoolId, courseIds }) {
   const courses = useSelector((state) => state.course.byId);
 
   return (
