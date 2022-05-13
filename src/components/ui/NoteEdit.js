@@ -30,8 +30,8 @@ export default function NoteEdit({
 }) {
   // const history = useHistory();
   // const config = useSelector((state) => state.auth);
-  const loading = useSelector((state) => state.loading.note.note);
-  const error = useSelector((state) => state.error.note);
+  // const loading = useSelector((state) => state.loading.note.note);
+  // const error = useSelector((state) => state.error.note);
   const tags = useSelector((state) => state.tag);
   const errorToast = useToast();
   // const dispatch = useDispatch();
@@ -39,12 +39,12 @@ export default function NoteEdit({
   const { noteId } = useParams();
   // const history = useHistory();
   // const location = useLocation();
-  const config = useSelector((state) => state.auth);
+  // const config = useSelector((state) => state.auth);
   const notes = useSelector((state) => state.note.byId);
   // const user = useSelector((state) => state.user);
   const [content, setContent] = useState(initialContent);
   const [tagList, setTagList] = useState([]);
-  const [submitDone, setSubmitDone] = useState(false);
+  // const [submitDone, setSubmitDone] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -120,7 +120,6 @@ export default function NoteEdit({
   // }, [error, error.editNote, errorToast, loading, loading.editNote, onNoteClose, resetDescription, submitDone]);
 
   console.log('property: ', property);
-  console.log('notes in edit: ', notes);
 
   return (
     <Modal

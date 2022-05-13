@@ -119,6 +119,8 @@ export default function EditDescriptions({
 
   const ref = useRef();
 
+  console.log(selectedItems, property.tagList);
+
   return (
     <>
       <Flex

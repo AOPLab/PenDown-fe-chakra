@@ -34,6 +34,7 @@ function Note() {
   const error = useSelector((state) => state.error.note);
   const config = useSelector((state) => state.auth);
   const notes = useSelector((state) => state.note.byId);
+  const tags = useSelector((state) => state.tag);
   const user = useSelector((state) => state.user);
 
   const errorToast = useToast();
@@ -66,6 +67,7 @@ function Note() {
     fullName: null,
     template: false,
     tagIds: [],
+    tagList: [],
     is_saved: false,
     pdf_filename: null,
     notability_filename: null,
@@ -83,7 +85,6 @@ function Note() {
 
   useEffect(() => {
     if (notes[noteId]) {
-      console.log('sdfg: ', notes[noteId]);
       setProperty({
         noteId: notes[noteId].id,
         imageUrl: notes[noteId].preview_url,
@@ -104,6 +105,7 @@ function Note() {
         fullName: notes[noteId].username,
         template: notes[noteId].is_template,
         tagIds: notes[noteId].tagIds,
+        tagList: notes[noteId].tagIds.map((id) => ({ value: id, label: tags.byId[id].name })),
         is_saved: notes[noteId].is_saved,
         pdf_filename: notes[noteId].pdf_filename,
         notability_filename: notes[noteId].notability_filename,
@@ -113,7 +115,7 @@ function Note() {
         gnote_url: notes[noteId].goodnotes_url,
       });
     }
-  }, [noteId, notes]);
+  }, [noteId, notes, tags.byId]);
 
   useEffect(() => {
     if (noteId !== null && Number.isInteger(Number(noteId))) {
@@ -147,8 +149,6 @@ function Note() {
       <GeneralLoading />
     );
   }
-
-  console.log('notes: ', notes);
 
   return (
     <>

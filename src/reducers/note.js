@@ -34,6 +34,7 @@ const prototype = {
 const byId = (state = {}, action) => {
   switch (action.type) {
     case noteConstants.GET_NOTE_SUCCESS: {
+      console.log('get note reducer: ', action.payload.note);
       return {
         ...state,
         [action.payload.note.id]: {
