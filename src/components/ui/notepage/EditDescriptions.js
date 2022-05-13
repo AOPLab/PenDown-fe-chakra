@@ -56,7 +56,7 @@ export default function EditDescriptions({
   const [courseName, setCourseName] = useState(property.course !== ' ' ? property.course : '');
 
   const [pickerItems, setPickerItems] = useState(tagLists);
-  const [selectedItems, setSelectedItems] = useState(property.tagList);
+  const [selectedItems, setSelectedItems] = useState(property.tagList ? property.tagList : []);
 
   useEffect(() => {
     setContent({
@@ -112,7 +112,7 @@ export default function EditDescriptions({
 
   useEffect(() => {
     dispatch(fetchAllSchools());
-    if (property.schoolId !== 0) {
+    if (property.schoolId && property.schoolId !== 0) {
       dispatch(fetchSchoolCourses(parseInt(property.schoolId, 10)));
     }
   }, [dispatch, property.schoolId]);

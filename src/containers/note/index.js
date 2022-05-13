@@ -12,6 +12,7 @@ import {
   Button,
   Icon,
   useDisclosure,
+  useToast,
 } from '@chakra-ui/react';
 
 import { FiEdit2 } from 'react-icons/fi';
@@ -22,7 +23,7 @@ import CourseSection from '../../components/ui/notepage/CourseSection';
 import TagsSection from '../../components/ui/notepage/TagsSection';
 import GeneralLoading from '../../components/GeneralLoading';
 
-import { getNote } from '../../actions/note/note';
+import { getNote, editNote } from '../../actions/note/note';
 import NoteEdit from '../../components/ui/NoteEdit';
 
 function Note() {
@@ -30,9 +31,12 @@ function Note() {
   // const history = useHistory();
   // const location = useLocation();
   const loading = useSelector((state) => state.loading.note.note);
+  const error = useSelector((state) => state.error.note);
   const config = useSelector((state) => state.auth);
   const notes = useSelector((state) => state.note.byId);
   const user = useSelector((state) => state.user);
+
+  const errorToast = useToast();
 
   // modal trigger
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -41,6 +45,7 @@ function Note() {
   // modal trigger end
 
   const color = useColorModeValue('white', 'gray.700');
+  const [submitDone, setSubmitDone] = useState(false);
 
   const [property, setProperty] = useState({
     noteId: null,
@@ -71,8 +76,14 @@ function Note() {
   });
   const dispatch = useDispatch();
 
+  const onEditNote = (title, description, isTemplate, courseId, bean, oriTagIds, tagArray, newTagArray) => {
+    dispatch(editNote(config.token, noteId, title, description, isTemplate, courseId, bean, oriTagIds, tagArray, newTagArray));
+    setSubmitDone(true);
+  };
+
   useEffect(() => {
     if (notes[noteId]) {
+      console.log('sdfg: ', notes[noteId]);
       setProperty({
         noteId: notes[noteId].id,
         imageUrl: notes[noteId].preview_url,
@@ -114,11 +125,30 @@ function Note() {
     }
   }, [config.token, dispatch, noteId]);
 
+  useEffect(() => {
+    if (submitDone === true && loading.editNote === false) {
+      if (error.editNote) {
+        errorToast({
+          title: 'Edit Note Fail',
+          description: error.editNote,
+          status: 'error',
+          duration: 3000,
+          isClosable: true,
+        });
+      } else {
+        onClose();
+      }
+      setSubmitDone(false);
+    }
+  }, [error.editNote, errorToast, loading.editNote, onClose, submitDone]);
+
   if (loading.getNote || loading.editNote) {
     return (
       <GeneralLoading />
     );
   }
+
+  console.log('notes: ', notes);
 
   return (
     <>
@@ -166,8 +196,11 @@ function Note() {
       <NoteEdit
         isNoteOpen={isOpen}
         onNoteClose={onClose}
+        onEditNote={onEditNote}
         finalFocusRef={btnRef}
         scrollBehavior={scrollBehavior}
+        property={property}
+        setProperty={setProperty}
       />
       {/* </Container> */}
     </>
