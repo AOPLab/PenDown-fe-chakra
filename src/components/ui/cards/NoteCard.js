@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import moment from 'moment';
 import { useHistory } from 'react-router-dom';
 import {
-  Box, useColorModeValue, Image, Icon, HStack, VStack, Avatar, Spacer,
+  Box, useColorModeValue, Image, Icon, HStack, VStack, Avatar, Spacer, Tooltip,
 } from '@chakra-ui/react';
 import {
   FiCalendar, FiEye, FiBookmark,
@@ -74,9 +74,11 @@ export default function NoteCard(props) {
             lineHeight="tight"
             width="full"
             position="relative"
-            isTruncated
+            noOfLines={2}
           >
-            {props.title ? props.title : 'No Title'}
+            <Tooltip label={props.title ? props.title : 'No Title'} placement="right">
+              {props.title ? props.title : 'No Title'}
+            </Tooltip>
           </Box>
 
           <Box display="flex" alignItems="center">
