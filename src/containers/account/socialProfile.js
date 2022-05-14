@@ -39,15 +39,13 @@ function SocialProfile() {
     setNoteType(value);
   };
 
-  const handleViewTypeChange = (event) => {
-    const {
-      target: { value },
-    } = event;
-    setViewType(value);
-  };
-
   const [tabIndex, setTabIndex] = useState(0);
   const handleTabsChange = (index) => {
+    if (index === 0) {
+      setViewType('Recent');
+    } else if (index === 1) {
+      setViewType('Popular');
+    }
     setTabIndex(index);
   };
 
@@ -215,7 +213,6 @@ function SocialProfile() {
                     _selected={{ bg: 'primary.400', borderRadius: 'pendown' }}
                     fontSize="md"
                     fontWeight="bold"
-                    onClick={handleViewTypeChange}
                   >
                     {tab}
                   </Tab>
