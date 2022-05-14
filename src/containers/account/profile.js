@@ -47,7 +47,9 @@ function PersonalProfile() {
   };
 
   useEffect(() => {
-    dispatch(readSelfAccount(auth.token));
+    if (auth.token) {
+      dispatch(readSelfAccount(auth.token));
+    }
   }, [auth.token, dispatch]);
 
   useEffect(() => {
