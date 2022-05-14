@@ -142,7 +142,7 @@ export default function NoteEdit({
           <Flex flexDir="column" width="100%" my={4}>
             <EditDescriptions key="2" errors={errors} register={register} setContent={setContent} tagLists={tagList} property={property} setProperty={setProperty} />
             <Flex width="100%" justify="flex-end">
-              <Button onClick={handleCancel} variant="pendown">Cancel</Button>
+              <Button onClick={handleCancel} mr={4} variant="pendown">Cancel</Button>
               <Button onClick={handleSubmit(onSubmit)} isLoading={isSubmitting} variant="pendown-primary">Submit</Button>
             </Flex>
           </Flex>
