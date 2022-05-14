@@ -35,14 +35,14 @@ function PersonalProfile() {
     setNoteType(value);
   };
 
-  const handleViewTypeChange = (event) => {
-    const {
-      target: { value },
-    } = event;
-    setViewType(value);
-  };
-
   const handleTabsChange = (index) => {
+    if (index === 0) {
+      setViewType('Notes');
+    } else if (index === 1) {
+      setViewType('Saved');
+    } else if (index === 2) {
+      setViewType('Library');
+    }
     setTabIndex(index);
   };
 
@@ -189,7 +189,6 @@ function PersonalProfile() {
                     _selected={{ bg: 'primary.400', borderRadius: 'pendown' }}
                     fontSize="md"
                     fontWeight="bold"
-                    onClick={handleViewTypeChange}
                   >
                     {tab}
                   </Tab>
