@@ -56,7 +56,7 @@ export default function EditDescriptions({
   const [courseName, setCourseName] = useState(property.course !== ' ' ? property.course : '');
 
   const [pickerItems, setPickerItems] = useState(tagLists);
-  const [selectedItems, setSelectedItems] = useState(property.tagList);
+  const [selectedItems, setSelectedItems] = useState(property.tagList ? property.tagList : []);
 
   useEffect(() => {
     setContent({
@@ -76,6 +76,16 @@ export default function EditDescriptions({
   const handleSelectedItemsChange = (slcItems) => {
     if (slcItems) {
       setSelectedItems(slcItems);
+    }
+  };
+
+  const handleCourseOptionChange = (e) => {
+    setCourseOption(e);
+    if (e === 'No') {
+      setSchoolId('');
+      setSchoolName('');
+      setCourseId('');
+      setCourseName('');
     }
   };
 
@@ -102,12 +112,14 @@ export default function EditDescriptions({
 
   useEffect(() => {
     dispatch(fetchAllSchools());
-    if (property.schoolId !== 0) {
+    if (property.schoolId && property.schoolId !== 0) {
       dispatch(fetchSchoolCourses(parseInt(property.schoolId, 10)));
     }
   }, [dispatch, property.schoolId]);
 
   const ref = useRef();
+
+  console.log(selectedItems, property.tagList);
 
   return (
     <>
@@ -198,7 +210,7 @@ export default function EditDescriptions({
         </FormControl>
         <FormControl isInvalid={errors.course} isRequired>
           <FormLabel fontSize="lg" fontWeight="bold" marginBottom="4" htmlFor="course">Are you taking this for a course?</FormLabel>
-          <RadioGroup onChange={setCourseOption} value={courseOption}>
+          <RadioGroup onChange={handleCourseOptionChange} value={courseOption}>
             <Stack direction="row" spacing={16}>
               <Radio {...register('isCourse?', { required: true })} type="radio" value="Yes" size="lg" colorScheme="primary">Yes</Radio>
               <Radio {...register('isCourse?', { required: true })} type="radio" value="No" size="lg" colorScheme="primary">No</Radio>
@@ -225,6 +237,7 @@ export default function EditDescriptions({
                       size="lg"
                       bg="white"
                       value={schoolName}
+                      onChange={(e) => setSchoolName(e.target.value)}
                       _hover={{ borderColor: 'primary.400' }}
                     />
                     <InputRightElement>
@@ -262,6 +275,7 @@ export default function EditDescriptions({
                       bg="white"
                       size="lg"
                       value={courseName}
+                      onChange={(e) => setCourseName(e.target.value)}
                       _hover={{ borderColor: 'primary.400' }}
                     />
                     <InputRightElement>

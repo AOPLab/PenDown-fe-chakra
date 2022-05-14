@@ -12,6 +12,7 @@ import {
   Button,
   Icon,
   useDisclosure,
+  useToast,
 } from '@chakra-ui/react';
 
 import { FiEdit2 } from 'react-icons/fi';
@@ -22,7 +23,7 @@ import CourseSection from '../../components/ui/notepage/CourseSection';
 import TagsSection from '../../components/ui/notepage/TagsSection';
 import GeneralLoading from '../../components/GeneralLoading';
 
-import { getNote } from '../../actions/note/note';
+import { getNote, editNote } from '../../actions/note/note';
 import NoteEdit from '../../components/ui/NoteEdit';
 
 function Note() {
@@ -30,9 +31,13 @@ function Note() {
   // const history = useHistory();
   // const location = useLocation();
   const loading = useSelector((state) => state.loading.note.note);
+  const error = useSelector((state) => state.error.note);
   const config = useSelector((state) => state.auth);
   const notes = useSelector((state) => state.note.byId);
+  const tags = useSelector((state) => state.tag);
   const user = useSelector((state) => state.user);
+
+  const errorToast = useToast();
 
   // modal trigger
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -41,6 +46,7 @@ function Note() {
   // modal trigger end
 
   const color = useColorModeValue('white', 'gray.700');
+  const [submitDone, setSubmitDone] = useState(false);
 
   const [property, setProperty] = useState({
     noteId: null,
@@ -61,6 +67,7 @@ function Note() {
     fullName: null,
     template: false,
     tagIds: [],
+    tagList: [],
     is_saved: false,
     pdf_filename: null,
     notability_filename: null,
@@ -70,6 +77,11 @@ function Note() {
     gnote_url: null,
   });
   const dispatch = useDispatch();
+
+  const onEditNote = (title, description, isTemplate, courseId, bean, oriTagIds, tagArray, newTagArray) => {
+    dispatch(editNote(config.token, noteId, title, description, isTemplate, courseId, bean, oriTagIds, tagArray, newTagArray));
+    setSubmitDone(true);
+  };
 
   useEffect(() => {
     if (notes[noteId]) {
@@ -93,6 +105,7 @@ function Note() {
         fullName: notes[noteId].username,
         template: notes[noteId].is_template,
         tagIds: notes[noteId].tagIds,
+        tagList: notes[noteId].tagIds.map((id) => ({ value: id, label: tags.byId[id].name })),
         is_saved: notes[noteId].is_saved,
         pdf_filename: notes[noteId].pdf_filename,
         notability_filename: notes[noteId].notability_filename,
@@ -102,7 +115,7 @@ function Note() {
         gnote_url: notes[noteId].goodnotes_url,
       });
     }
-  }, [noteId, notes]);
+  }, [noteId, notes, tags.byId]);
 
   useEffect(() => {
     if (noteId !== null && Number.isInteger(Number(noteId))) {
@@ -113,6 +126,23 @@ function Note() {
       }
     }
   }, [config.token, dispatch, noteId]);
+
+  useEffect(() => {
+    if (submitDone === true && loading.editNote === false) {
+      if (error.editNote) {
+        errorToast({
+          title: 'Edit Note Fail',
+          description: error.editNote,
+          status: 'error',
+          duration: 3000,
+          isClosable: true,
+        });
+      } else {
+        onClose();
+      }
+      setSubmitDone(false);
+    }
+  }, [error.editNote, errorToast, loading.editNote, onClose, submitDone]);
 
   if (loading.getNote || loading.editNote) {
     return (
@@ -166,8 +196,11 @@ function Note() {
       <NoteEdit
         isNoteOpen={isOpen}
         onNoteClose={onClose}
+        onEditNote={onEditNote}
         finalFocusRef={btnRef}
         scrollBehavior={scrollBehavior}
+        property={property}
+        setProperty={setProperty}
       />
       {/* </Container> */}
     </>

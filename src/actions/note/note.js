@@ -346,10 +346,10 @@ const getNote = (note_id, token = null) => async (dispatch) => {
             view_cnt: res.data.view_cnt,
             saved_cnt: res.data.saved_cnt,
             created_at: res.data.created_at,
-            tagIds: res3.data.tags.map((item) => item.id),
+            tagIds: res3.data.tags ? res3.data.tags.map((item) => item.id) : [],
             is_saved: res4.data.is_saved,
           },
-          tag: res3.data.tags,
+          tag: res3.data.tags ? res3.data.tags : [],
         },
       });
     } else {
@@ -380,10 +380,10 @@ const getNote = (note_id, token = null) => async (dispatch) => {
             view_cnt: res.data.view_cnt,
             saved_cnt: res.data.saved_cnt,
             created_at: res.data.created_at,
-            tagIds: res3.data.tags.map((item) => item.id),
+            tagIds: res3.data.tags ? res3.data.tags.map((item) => item.id) : [],
             is_saved: false,
           },
-          tag: res3.data.tags,
+          tag: res3.data.tags ? res3.data.tags : [],
         },
       });
     }
