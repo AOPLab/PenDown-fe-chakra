@@ -2,12 +2,13 @@ import React, { useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  Box, Heading, SimpleGrid, Flex, Center, Button, Text,
+  Box, Heading, SimpleGrid, Flex, Center, Button,
 } from '@chakra-ui/react';
 import NoteCard from '../../components/ui/cards/NoteCard';
 import SearchLoading from '../../components/SearchLoading';
 
 import { searchTemplates } from '../../actions/common/common';
+import NoData from '../../components/util/NoData';
 
 export default function Templates() {
   const history = useHistory();
@@ -68,7 +69,7 @@ export default function Templates() {
               >
                 {Object.keys(search.templates.ids).map((key) => search.templates.ids[key].map((id) => ((<NoteCard key={id} noteId={id} imageUrl={notes[id].preview_url} username={notes[id].username} viewCount={notes[id].view_cnt} savedCount={notes[id].saved_cnt} title={notes[id].title} dateCreated={notes[id].created_at} noteType={notes[id].note_type} />))))}
               </SimpleGrid>
-            ) : <Text>No Data</Text>}
+            ) : <NoData />}
         </Flex>
         {search.templates.totalCnt && search.templates.totalCnt !== 0 && (search.templates.cur_offset + 12) < search.templates.totalCnt
           ? (

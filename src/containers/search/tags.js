@@ -2,12 +2,13 @@ import React, { useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  Box, Heading, SimpleGrid, Button, Center, Flex, Text,
+  Box, Heading, SimpleGrid, Button, Center, Flex,
 } from '@chakra-ui/react';
 import TagBadge from '../../components/ui/TagBadge';
 import SearchLoading from '../../components/SearchLoading';
 
 import { searchTags } from '../../actions/common/common';
+import NoData from '../../components/util/NoData';
 
 export default function Tags() {
   const history = useHistory();
@@ -61,7 +62,7 @@ export default function Tags() {
               justifyContent="center"
               alignItems="center"
             >
-              <Text>No Data</Text>
+              <NoData />
             </Flex>
           )}
         {search.tags.totalCnt && search.tags.totalCnt !== 0 && (search.tags.cur_offset + 12) < search.tags.totalCnt
