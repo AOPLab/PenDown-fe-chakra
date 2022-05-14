@@ -26,7 +26,7 @@ export default function MiscCard({ onClick, property }) {
               fontSize="2xl"
               as="h1"
               lineHeight="tight"
-              noOfLines={2}
+              noOfLines={1}
             >
               <Tooltip label={property.title} placement="right">
                 {property.title}

@@ -74,7 +74,7 @@ export default function NoteCard(props) {
             lineHeight="tight"
             width="full"
             position="relative"
-            noOfLines={2}
+            noOfLines={1}
           >
             <Tooltip label={props.title ? props.title : 'No Title'} placement="right">
               {props.title ? props.title : 'No Title'}
