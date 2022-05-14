@@ -1,11 +1,10 @@
 import React from 'react';
 import {
-  Box, useColorModeValue, Icon, HStack, VStack,
+  Box, useColorModeValue, Icon, HStack, VStack, Tooltip,
 } from '@chakra-ui/react';
 import {
   FiList, FiFile,
 } from 'react-icons/fi';
-import Marquee from 'react-fast-marquee';
 // FiEye, FiHeart, FiBookmark
 import Card from '../Card';
 
@@ -27,11 +26,13 @@ export default function MiscCard({ onClick, property }) {
               fontSize="2xl"
               as="h1"
               lineHeight="tight"
-              isTruncated
+              noOfLines={1}
             >
-              <Marquee play={false} gradient={false} speed={50}>
+              <Tooltip label={property.title} placement="right">
                 {property.title}
-              </Marquee>
+              </Tooltip>
+              {/* <Marquee play={false} gradient={false} speed={50}>
+              </Marquee> */}
             </Box>
 
             {property.description ? (
