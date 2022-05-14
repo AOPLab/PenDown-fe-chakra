@@ -4,6 +4,7 @@
 }
 
 .inner-image-zoom {
+  max-height: 376px;
   border: 2px solid black;
   border-radius: 16px;
 }
