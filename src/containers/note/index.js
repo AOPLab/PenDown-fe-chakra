@@ -172,7 +172,7 @@ function Note() {
             <Divider style={{ borderBottom: '2px black solid', opacity: 1, width: '100%' }} />
             <DescriptionSection property={property} />
             <Divider style={{ borderBottom: '2px black solid', opacity: 1, width: '100%' }} />
-            {(property.schoolId !== 0)
+            {(property.schoolId && property.schoolId !== 0)
               && (
                 <>
                   <CourseSection property={property} />
