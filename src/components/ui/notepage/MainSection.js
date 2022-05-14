@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import moment from 'moment';
@@ -11,7 +11,6 @@ import {
   VStack,
   HStack,
   Icon,
-  Image,
   Text,
   Tooltip,
   Modal,
@@ -32,7 +31,7 @@ import {
   AlertDialogCloseButton,
 } from '@chakra-ui/react';
 import { ExternalLinkIcon } from '@chakra-ui/icons';
-
+import Magnifier from 'react-magnifier';
 import {
   FiCalendar,
   FiEye,
@@ -62,14 +61,14 @@ function MainSection({ property }) {
 
   const errorToast = useToast();
 
-  const ref = useRef();
-  const [imageHeight, setImageHeight] = useState(0);
-  const handleImageLoad = (event) => {
-    setImageHeight(event.target.clientHeight);
-  };
-  useEffect(() => {
-    setImageHeight(ref.current.clientHeight);
-  }, []);
+  // const ref = useRef();
+  // const [imageHeight, setImageHeight] = useState(0);
+  // const handleImageLoad = (event) => {
+  //   setImageHeight(event.target.clientHeight);
+  // };
+  // useEffect(() => {
+  //   setImageHeight(ref.current.clientHeight);
+  // }, []);
 
   const downloadAllFile = () => {
     if (config.isAuthenticated) {
@@ -169,18 +168,16 @@ function MainSection({ property }) {
             </Box>
           </HStack>
         </Box>
-        <Box>
-          <Image
+        <Box
+          width="290px"
+          maxWidth="full"
+          maxHeight="376px"
+        >
+          <Magnifier
             src={property.imageUrl}
             alt={property.imageAlt}
-            ref={ref}
-            width="290px"
-            maxWidth="full"
-            maxHeight="376px"
-            objectFit="cover"
-            onLoad={handleImageLoad}
-            borderRadius="pendown"
-            border="2px solid black"
+            className="inner-image-zoom"
+            mgShowOverflow={false}
           />
         </Box>
         <Flex justifyContent="space-between" width="100%">
