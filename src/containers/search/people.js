@@ -2,12 +2,13 @@ import React, { useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  Box, Heading, SimpleGrid, Button, Center, Text, Flex,
+  Box, Heading, SimpleGrid, Button, Center, Flex,
 } from '@chakra-ui/react';
 import SearchAvatar from '../../components/ui/avatar/SearchAvatar';
 import SearchLoading from '../../components/SearchLoading';
 
 import { searchPeople } from '../../actions/common/common';
+import NoData from '../../components/util/NoData';
 
 export default function People() {
   const history = useHistory();
@@ -61,7 +62,7 @@ export default function People() {
               justifyContent="center"
               alignItems="center"
             >
-              <Text>No Data</Text>
+              <NoData />
             </Flex>
           )}
         {search.accounts.totalCnt && search.accounts.totalCnt !== 0 && (search.accounts.cur_offset + 12) < search.accounts.totalCnt
