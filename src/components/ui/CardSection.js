@@ -1,10 +1,11 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import {
-  Flex, SimpleGrid, Select, Text,
+  Flex, SimpleGrid, Select, Box,
 } from '@chakra-ui/react';
 
 import NoteCard from './cards/NoteCard';
+import NoData from '../util/NoData';
 
 function CardSection({ noteType, handleNoteTypeChange, noteIds }) {
   const notes = useSelector((state) => state.note.byId);
@@ -34,7 +35,11 @@ function CardSection({ noteType, handleNoteTypeChange, noteIds }) {
           <option key="Goodnotes" value="Goodnotes">Goodnotes</option>
         </Select>
       </Flex>
-      {noteIds.length === 0 ? <Text>No Data </Text>
+      {noteIds.length === 0 ? (
+        <Box mt="10%">
+          <NoData />
+        </Box>
+      )
         : (
           <SimpleGrid
             columns={{ base: 1, md: 2, lg: 3 }}

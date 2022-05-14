@@ -34,7 +34,7 @@ function TagsSection({ property }) {
             minChildWidth="140px"
             width="100%"
             spacing={4}
-            mt={8}
+            mt={2}
             px={0}
             py={0}
             mx="auto"

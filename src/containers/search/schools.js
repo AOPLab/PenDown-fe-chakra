@@ -2,12 +2,13 @@ import React, { useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  Box, Heading, SimpleGrid, Flex, Center, Button, Text,
+  Box, Heading, SimpleGrid, Flex, Center, Button,
 } from '@chakra-ui/react';
 import MiscCard from '../../components/ui/cards/MiscCard';
 import SearchLoading from '../../components/SearchLoading';
 
 import { searchSchools } from '../../actions/common/common';
+import NoData from '../../components/util/NoData';
 
 export default function Schools() {
   const history = useHistory();
@@ -63,7 +64,7 @@ export default function Schools() {
               >
                 {Object.keys(search.schools.ids).map((key) => search.schools.ids[key].map((id) => (<MiscCard key={id} onClick={() => history.push(`/school/${id}`)} property={{ title: `${schools[id].name}` }} />)))}
               </SimpleGrid>
-            ) : <Text>No Data</Text>}
+            ) : <NoData />}
         </Flex>
         {search.schools.totalCnt && search.schools.totalCnt !== 0 && (search.schools.cur_offset + 12) < search.schools.totalCnt
           ? (

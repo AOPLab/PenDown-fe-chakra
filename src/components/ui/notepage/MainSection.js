@@ -169,14 +169,13 @@ function MainSection({ property }) {
           </HStack>
         </Box>
         <Box
-          width="290px"
           maxWidth="full"
-          maxHeight="376px"
         >
           <Magnifier
             src={property.imageUrl}
             alt={property.imageAlt}
             className="inner-image-zoom"
+            width="290px"
             mgShowOverflow={false}
           />
         </Box>
