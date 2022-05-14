@@ -3,9 +3,9 @@ import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import {
   ChakraProvider,
-  // theme,
 } from '@chakra-ui/react';
 import theme from './theme';
+import ScrollToTop from './components/util/ScrollToTop';
 import Login from './containers/auth/Login';
 import Register from './containers/auth/Register';
 import Index from './containers';
@@ -23,6 +23,7 @@ function App() {
     <ChakraProvider theme={theme}>
       <Provider store={store}>
         <Router>
+          <ScrollToTop />
           <Switch>
             <Route path="/login" component={Login} />
             <Route path="/register" component={Register} />
