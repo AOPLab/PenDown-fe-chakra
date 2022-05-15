@@ -150,9 +150,7 @@ export default function NoteUpload({
   }, [error, error.addNote, errorToast, loading, loading.addNote, onNoteClose, reset, resetDescription, resetGnoteFile, resetNoteFile, resetPdfFile, submitDone]);
 
   function checkFile(filesToCheck) {
-    console.log(typeof (filesToCheck.pdf));
     const pdfStatus = (typeof (filesToCheck.pdf) !== 'undefined');
-    // console.log(typeof (filesToCheck.pdf) !== 'undefined');
     const rawStatus = ((typeof (filesToCheck.nota) !== 'undefined') || (typeof (filesToCheck.gnote) !== 'undefined'));
     return !(pdfStatus && rawStatus);
   }
