@@ -71,7 +71,7 @@ export const FileUpload = ({
             focusBorderColor="primary.400"
           />
           <InputRightElement width="2.5rem">
-            {typeof value !== 'undefined' ? <CloseIcon ml={1} w={3} h={3} cursor="pointer" onClick={handleClick} /> : <></>}
+            {filename !== '' ? <CloseIcon ml={1} w={3} h={3} cursor="pointer" onClick={handleClick} /> : <></>}
           </InputRightElement>
         </InputGroup>
         {/* <FormErrorMessage>
