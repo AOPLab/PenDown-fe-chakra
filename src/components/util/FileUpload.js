@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-no-bind */
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   Input,
   FormControl,
@@ -30,14 +30,17 @@ export const FileUpload = ({
     rules: { required: isRequired },
   });
 
+  const [filename, setFilename] = useState('');
+
   useEffect(() => {
     setValue(value);
+    setFilename((value && value.name) || '');
   }, [setValue, value]);
 
   const handleClick = () => {
     inputRef.current.value = '';
+    setFilename('');
     onChange(undefined);
-    console.log(value);
     setValue(undefined);
   };
 
@@ -64,7 +67,7 @@ export const FileUpload = ({
             placeholder={placeholder || 'Your file ...'}
             onClick={() => inputRef.current.click()}
             readOnly
-            value={(value && value.name) || ''}
+            value={filename}
             focusBorderColor="primary.400"
           />
           <InputRightElement width="2.5rem">
