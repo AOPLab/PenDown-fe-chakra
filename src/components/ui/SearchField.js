@@ -28,58 +28,31 @@ export default function SearchField() {
   //   },
   // ];
 
+  // FIXME: search type by pathname
   const onSearch = () => {
     switch (location.pathname) {
       case '/search/all':
-        dispatch(searchTags(query, 0));
-        dispatch(searchSchools(query, 0));
-        dispatch(searchCourses(query, 0));
-        dispatch(searchPeople(query, 0));
-        if (noteType === 'Choose Note Type') {
-          dispatch(searchNotes(query, 'all', 0));
-          dispatch(searchTemplates(query, 'all', 0));
-        } else if (noteType === 'All') {
-          dispatch(searchNotes(query, 'all', 0));
-          dispatch(searchTemplates(query, 'all', 0));
-        } else if (noteType === 'Notability') {
-          dispatch(searchNotes(query, 'notability', 0));
-          dispatch(searchTemplates(query, 'notability', 0));
-        } else if (noteType === 'Goodnotes') {
-          dispatch(searchNotes(query, 'goodnotes', 0));
-          dispatch(searchTemplates(query, 'goodnotes', 0));
-        }
-        break;
       case '/search/people':
-        dispatch(searchPeople(query, 0));
-        break;
       case '/search/tags':
-        dispatch(searchTags(query, 0));
-        break;
       case '/search/schools':
-        dispatch(searchSchools(query, 0));
-        break;
       case '/search/courses':
-        dispatch(searchCourses(query, 0));
-        break;
       case '/search/notes':
+      case '/search/templates':
+        dispatch(searchTags(query, 0));
+        dispatch(searchSchools(query, 0));
+        dispatch(searchCourses(query, 0));
+        dispatch(searchPeople(query, 0));
         if (noteType === 'Choose Note Type') {
           dispatch(searchNotes(query, 'all', 0));
+          dispatch(searchTemplates(query, 'all', 0));
         } else if (noteType === 'All') {
           dispatch(searchNotes(query, 'all', 0));
+          dispatch(searchTemplates(query, 'all', 0));
         } else if (noteType === 'Notability') {
           dispatch(searchNotes(query, 'notability', 0));
-        } else if (noteType === 'Goodnotes') {
-          dispatch(searchNotes(query, 'goodnotes', 0));
-        }
-        break;
-      case '/search/templates':
-        if (noteType === 'Choose Note Type') {
-          dispatch(searchTemplates(query, 'all', 0));
-        } else if (noteType === 'All') {
-          dispatch(searchTemplates(query, 'all', 0));
-        } else if (noteType === 'Notability') {
           dispatch(searchTemplates(query, 'notability', 0));
         } else if (noteType === 'Goodnotes') {
+          dispatch(searchNotes(query, 'goodnotes', 0));
           dispatch(searchTemplates(query, 'goodnotes', 0));
         }
         break;
@@ -105,6 +78,84 @@ export default function SearchField() {
     }
     onClose();
   };
+
+  // const onSearch = () => {
+  //   switch (location.pathname) {
+  //     case '/search/all':
+  //       dispatch(searchTags(query, 0));
+  //       dispatch(searchSchools(query, 0));
+  //       dispatch(searchCourses(query, 0));
+  //       dispatch(searchPeople(query, 0));
+  //       if (noteType === 'Choose Note Type') {
+  //         dispatch(searchNotes(query, 'all', 0));
+  //         dispatch(searchTemplates(query, 'all', 0));
+  //       } else if (noteType === 'All') {
+  //         dispatch(searchNotes(query, 'all', 0));
+  //         dispatch(searchTemplates(query, 'all', 0));
+  //       } else if (noteType === 'Notability') {
+  //         dispatch(searchNotes(query, 'notability', 0));
+  //         dispatch(searchTemplates(query, 'notability', 0));
+  //       } else if (noteType === 'Goodnotes') {
+  //         dispatch(searchNotes(query, 'goodnotes', 0));
+  //         dispatch(searchTemplates(query, 'goodnotes', 0));
+  //       }
+  //       break;
+  //     case '/search/people':
+  //       dispatch(searchPeople(query, 0));
+  //       break;
+  //     case '/search/tags':
+  //       dispatch(searchTags(query, 0));
+  //       break;
+  //     case '/search/schools':
+  //       dispatch(searchSchools(query, 0));
+  //       break;
+  //     case '/search/courses':
+  //       dispatch(searchCourses(query, 0));
+  //       break;
+  //     case '/search/notes':
+  //       if (noteType === 'Choose Note Type') {
+  //         dispatch(searchNotes(query, 'all', 0));
+  //       } else if (noteType === 'All') {
+  //         dispatch(searchNotes(query, 'all', 0));
+  //       } else if (noteType === 'Notability') {
+  //         dispatch(searchNotes(query, 'notability', 0));
+  //       } else if (noteType === 'Goodnotes') {
+  //         dispatch(searchNotes(query, 'goodnotes', 0));
+  //       }
+  //       break;
+  //     case '/search/templates':
+  //       if (noteType === 'Choose Note Type') {
+  //         dispatch(searchTemplates(query, 'all', 0));
+  //       } else if (noteType === 'All') {
+  //         dispatch(searchTemplates(query, 'all', 0));
+  //       } else if (noteType === 'Notability') {
+  //         dispatch(searchTemplates(query, 'notability', 0));
+  //       } else if (noteType === 'Goodnotes') {
+  //         dispatch(searchTemplates(query, 'goodnotes', 0));
+  //       }
+  //       break;
+  //     default:
+  //       dispatch(searchTags(query, 0));
+  //       dispatch(searchSchools(query, 0));
+  //       dispatch(searchCourses(query, 0));
+  //       dispatch(searchPeople(query, 0));
+  //       if (noteType === 'Choose Note Type') {
+  //         dispatch(searchNotes(query, 'all', 0));
+  //         dispatch(searchTemplates(query, 'all', 0));
+  //       } else if (noteType === 'All') {
+  //         dispatch(searchNotes(query, 'all', 0));
+  //         dispatch(searchTemplates(query, 'all', 0));
+  //       } else if (noteType === 'Notability') {
+  //         dispatch(searchNotes(query, 'notability', 0));
+  //         dispatch(searchTemplates(query, 'notability', 0));
+  //       } else if (noteType === 'Goodnotes') {
+  //         dispatch(searchNotes(query, 'goodnotes', 0));
+  //         dispatch(searchTemplates(query, 'goodnotes', 0));
+  //       }
+  //       history.push('/search/all');
+  //   }
+  //   onClose();
+  // };
 
   const onKeyEnter = (e) => {
     if (e.key === 'Enter') {

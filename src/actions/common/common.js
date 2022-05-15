@@ -92,7 +92,7 @@ const fetchDownloadFileUrl = (token, noteId, pdf_filename = null, nota_filename 
 };
 
 const searchPeople = (q, offset) => async (dispatch) => {
-  dispatch({ type: commonConstants.SEARCH_PEOPLE_START });
+  dispatch({ type: commonConstants.SEARCH_PEOPLE_START, payload: q });
   const config = {
     params: {
       q,
@@ -115,7 +115,7 @@ const searchPeople = (q, offset) => async (dispatch) => {
 };
 
 const searchTags = (q, offset) => async (dispatch) => {
-  dispatch({ type: commonConstants.SEARCH_TAGS_START });
+  dispatch({ type: commonConstants.SEARCH_TAGS_START, payload: q });
   const config = {
     params: {
       q,
@@ -138,7 +138,7 @@ const searchTags = (q, offset) => async (dispatch) => {
 };
 
 const searchSchools = (q, offset) => async (dispatch) => {
-  dispatch({ type: commonConstants.SEARCH_SCHOOLS_START });
+  dispatch({ type: commonConstants.SEARCH_SCHOOLS_START, payload: q });
   const config = {
     params: {
       q,
@@ -161,7 +161,7 @@ const searchSchools = (q, offset) => async (dispatch) => {
 };
 
 const searchCourses = (q, offset) => async (dispatch) => {
-  dispatch({ type: commonConstants.SEARCH_COURSES_START });
+  dispatch({ type: commonConstants.SEARCH_COURSES_START, payload: q });
   const config = {
     params: {
       q,
@@ -184,7 +184,7 @@ const searchCourses = (q, offset) => async (dispatch) => {
 };
 
 const searchNotes = (q, type, offset) => async (dispatch) => {
-  dispatch({ type: commonConstants.SEARCH_NOTES_START });
+  dispatch({ type: commonConstants.SEARCH_NOTES_START, payload: { q, type } });
   const config = {
     params: {
       q,
@@ -210,7 +210,7 @@ const searchNotes = (q, type, offset) => async (dispatch) => {
 };
 
 const searchTemplates = (q, type, offset) => async (dispatch) => {
-  dispatch({ type: commonConstants.SEARCH_TEMPLATES_START });
+  dispatch({ type: commonConstants.SEARCH_TEMPLATES_START, payload: { q, type } });
   const config = {
     params: {
       q,
