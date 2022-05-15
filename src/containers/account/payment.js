@@ -112,7 +112,7 @@ function Payment() {
               tierName="VIP"
               tierPrice="15"
               features={featureList.vip}
-              tierStatus="Yet Ready :'("
+              tierStatus="Coming soon..."
               bgColor="primary.500"
               disabled
             />
@@ -120,7 +120,7 @@ function Payment() {
               tierName="Deposit"
               tierPrice="5"
               features={featureList.deposit}
-              tierStatus="Yet Ready :'("
+              tierStatus="Coming soon..."
               bgColor="pink.500"
               disabled
             />
