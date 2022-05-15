@@ -44,7 +44,6 @@ function School() {
       setcourseIds(filteredIds);
       setNoteCnt(statFormatting(parseInt(filtered.reduce((previous, key) => previous + courses.byId[key].note_cnt, 0), 10)));
     } else { // tabIndex == 1
-      console.log(courses.byId[209].last_updated_time - courses.byId[211].last_updated_time);
       const filtered = courses.allIds.filter((id) => courses.byId[id].school_id === parseInt(schoolId, 10));
       const filteredIds = filtered.sort((a, b) => (courses.byId[a].last_updated_time < courses.byId[b].last_updated_time ? 1 : -1)).flat();
       setcourseIds(filteredIds);
