@@ -119,8 +119,6 @@ export default function NoteEdit({
   //   }
   // }, [error, error.editNote, errorToast, loading, loading.editNote, onNoteClose, resetDescription, submitDone]);
 
-  console.log('property: ', property);
-
   return (
     <Modal
       blockScrollOnMount={false}
