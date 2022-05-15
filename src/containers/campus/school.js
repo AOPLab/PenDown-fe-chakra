@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import {
   HStack, Flex, VStack, Text, Stack, useColorModeValue, TabList, Tab, TabPanel, Tabs, TabPanels,
 } from '@chakra-ui/react';
@@ -8,21 +8,37 @@ import {
 import StatsCard from '../../components/ui/cards/StatsCard';
 import BannerBadge from '../../components/ui/cards/BannerBadge';
 import CourseSection from '../../components/ui/CourseSection';
+import { getSchool } from '../../actions/school/school';
+import { fetchSchoolCourses } from '../../actions/course/course';
 
 function School() {
   const { schoolId } = useParams();
-  const courseIds = [1, 2]; // 讓這個變成皆該學校有的課程
+  // const courseIds = [212, 213]; // 讓這個變成皆該學校有的課程
   const schools = useSelector((state) => state.school.byId);
+  const courses = useSelector((state) => state.course.byId);
   // const history = useHistory();
   // const location = useLocation();
   // const config = useSelector((state) => state.auth);
   // const user = useSelector((state) => state.user);
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const tabs = ['Popular', 'Recent'];
   const [tabIndex, setTabIndex] = useState(0);
+  const [courseIds, setcourseIds] = useState([]);
   const handleTabsChange = (index) => {
     setTabIndex(index);
   };
+
+  useEffect(() => {
+    dispatch(getSchool(schoolId));
+  }, [dispatch, schoolId]);
+
+  useEffect(() => {
+    dispatch(fetchSchoolCourses(schoolId));
+  }, [dispatch, schoolId]);
+
+  useEffect(() => {
+    setcourseIds(Object.keys(courses).map((key) => courses[key].id).flat());
+  }, [courses]);
 
   return (
     <>
