@@ -26,6 +26,8 @@ function School() {
   const [courseIds, setcourseIds] = useState([]);
   const handleTabsChange = (index) => {
     setTabIndex(index);
+    // tabIndex == 0 ; popular
+    // tabIndex == 1 ; recent
   };
 
   useEffect(() => {
@@ -37,8 +39,12 @@ function School() {
   }, [dispatch, schoolId]);
 
   useEffect(() => {
-    setcourseIds(Object.keys(courses).map((key) => courses[key].id).flat());
-  }, [courses]);
+    if (tabIndex === 0) {
+      setcourseIds(Object.keys(courses).map((key) => courses[key].id).flat());
+    } else { // tabIndex == 1
+      setcourseIds(Object.keys(courses).map((key) => courses[key].id).flat());
+    }
+  }, [courses, tabIndex]);
 
   return (
     <>
@@ -85,18 +91,27 @@ function School() {
             </Stack>
           </Flex>
           <TabPanels>
-            {tabs.map((tab) => (
-              <TabPanel key={tab}>
-                <Flex
-                  w="100%"
-                  justifyContent="center"
-                  alignItems="center"
-                  flexDirection="column"
-                >
-                  <CourseSection courseIds={courseIds} schoolId={schoolId} />
-                </Flex>
-              </TabPanel>
-            ))}
+            <TabPanel key="Popular">
+              <Flex
+                w="100%"
+                justifyContent="center"
+                alignItems="center"
+                flexDirection="column"
+              >
+                <CourseSection courseIds={courseIds} schoolId={schoolId} />
+              </Flex>
+            </TabPanel>
+            <TabPanel key="Recent">
+              <Flex
+                w="100%"
+                justifyContent="center"
+                alignItems="center"
+                flexDirection="column"
+              >
+                <CourseSection courseIds={courseIds} schoolId={schoolId} />
+              </Flex>
+            </TabPanel>
+
           </TabPanels>
         </Tabs>
       </Flex>
