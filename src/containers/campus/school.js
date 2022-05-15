@@ -14,18 +14,13 @@ import { fetchSchoolCourses } from '../../actions/course/course';
 
 function School() {
   const { schoolId } = useParams();
-  // const courseIds = [212, 213]; // 讓這個變成皆該學校有的課程
   const schools = useSelector((state) => state.school.byId);
   const courses = useSelector((state) => state.course);
   // const history = useHistory();
-  // const location = useLocation();
-  // const config = useSelector((state) => state.auth);
-  // const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const tabs = ['Popular', 'Recent'];
   const [tabIndex, setTabIndex] = useState(0);
-  const [courseIds, setcourseIds] = useState([]); // courseIds 最後要呈現的 要排序與篩選
-  const [courseFiltered, filterCourse] = useState({});
+  const [courseIds, setcourseIds] = useState([]);
   const [courseCnt, setCourseCnt] = useState(statFormatting(0));
   const [noteCnt, setNoteCnt] = useState(statFormatting(0));
   const handleTabsChange = (index) => {
@@ -44,70 +39,19 @@ function School() {
 
   useEffect(() => {
     if (tabIndex === 0) {
-      const filtered = courses.allIds.filter((id) => courses.byId[id].school_id === parseInt(schoolId, 10)).sort((a, b) => courses.byId[a].note_cnt - courses.byId[b].note_cnt);
-      // console.log('filtered', filtered);
-      setcourseIds(filtered);
+      const filtered = courses.allIds.filter((id) => courses.byId[id].school_id === parseInt(schoolId, 10));
+      const filteredIds = filtered.sort((a, b) => courses.byId[b].note_cnt - courses.byId[a].note_cnt).flat();
+      setcourseIds(filteredIds);
+      setNoteCnt(statFormatting(parseInt(filtered.reduce((previous, key) => previous + courses.byId[key].note_cnt, 0), 10)));
     } else { // tabIndex == 1
-      // setcourseIds(Object.keys(courses).map((key) => courses[key].id).flat());
-      const filtered = courses.allIds.filter((id) => courses.byId[id].school_id === parseInt(schoolId, 10)).sort((a, b) => courses.byId[a].last_updated_time - courses.byId[b].last_updated_time);
-      // console.log('filtered', filtered);
-      setcourseIds(filtered);
+      console.log(courses.byId[209].last_updated_time - courses.byId[211].last_updated_time);
+      const filtered = courses.allIds.filter((id) => courses.byId[id].school_id === parseInt(schoolId, 10));
+      const filteredIds = filtered.sort((a, b) => (courses.byId[a].last_updated_time < courses.byId[b].last_updated_time ? 1 : -1)).flat();
+      setcourseIds(filteredIds);
+      setNoteCnt(statFormatting(parseInt(filtered.reduce((previous, key) => previous + courses.byId[key].note_cnt, 0), 10)));
     }
     setCourseCnt(statFormatting(parseInt(courseIds.length, 10)));
-    // setNoteCnt(statFormatting(parseInt(Object.keys(courses.byIds).reduce((previous, key) => previous + courses.byId[key].note_cnt, 0), 10)));
-    setNoteCnt(statFormatting(parseInt(courses.allIds.filter((id) => courses.byId[id].school_id === parseInt(schoolId, 10)).reduce((previous, key) => previous + courses.byId[key].note_cnt, 0), 10)));
   }, [schoolId, courses, tabIndex, courseIds.length]);
-
-  // const objectArraySort = function (keyName) { // const???
-  //   return function (objectN, objectM) {
-  //     const valueN = objectN[keyName];
-  //     const valueM = objectM[keyName];
-  //     if (valueN < valueM) return 1;
-  //     if (valueN < valueM) return -1;
-  //     return 0;
-  //   };
-  // };
-
-  useEffect(() => {
-    // const filterBySchool = Object.keys(courses).filter((item) => item.school_id === schoolId);
-    // console.log('filterByschool', Object.keys(courses).filter((key) => courses[key].school_id === schoolId));
-    // console.log('courses', courses);
-    // console.log(Object.values(courses).filter((key) => courses[key].school_id === parseInt(schoolId, 10))); // Object.values(courses) == array of object
-    // console.log('schoolId type', typeof (schoolId));
-    // console.log('school_id type', typeof (courses[209].school_id));
-    // if (courses[209].school_id === parseInt(schoolId, 10)) {
-    //   console.log('SAVE');
-    // }
-
-    // filterCourse(Object.values(courses).filter((el) => el.school_id === schoolId));
-    // const newArray = courses.filter((el) => el.school_id === schoolId);
-    // console.log(Object.values(courses).flat());
-    // Object.keys(courses).sort(objectArraySort('note_cnt'));
-    // const obj = [];
-    // filterCourse(Object.keys(courses).filter((value, index, arr) => value.school_id === parseInt(schoolId, 10)));
-    // .reduce((obj, key) => {
-    //   obj[key] = courses[key];
-    //   return obj;
-    // }, {});
-    // console.log('filtered', courseFiltered);
-
-    // const results = Object.keys(courses).reduce((acc, val) => {
-    //   if (courses[val].school_id === parseInt(schoolId, 10)) acc[val] = courses[val];
-    //   return acc;
-    // }, {});
-    // console.log('result', results);
-    // const results2 = Object.keys(results).sort((a, b) => results[a].note_cnt - results[b].note_cnt);
-    // console.log('results2', results2);
-    // const filtered = courses.allIds.filter((id) => courses.byId[id].school_id === parseInt(schoolId, 10)).sort((a, b) => courses.byId[a].note_cnt - courses.byId[b].note_cnt);
-    // console.log('filtered', filtered);
-  }, [schoolId, courses, courseFiltered]);
-
-  // useEffect(() => {
-  //   if (courses) {
-  // const sum = courses.reduce((prev, cur) => cur.note_cnt + prev, 0);
-  // setNoteCnt(statFormatting(parseInt(sum, 10)));
-  //   }
-  // }, [courses, school, schoolId]);
 
   return (
     <>
