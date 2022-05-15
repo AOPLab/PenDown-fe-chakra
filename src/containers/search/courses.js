@@ -31,15 +31,6 @@ export default function Courses() {
   //   }
   // }, [dispatch, search.courses.ids, search.q]);
 
-  // if (loading.searchCourses) {
-  //   return (
-  //     <Box borderWidth="4px" border="3px black" borderBottom="3px solid black" py="8" my="2">
-  //       <Heading>Courses</Heading>
-  //       <SearchLoading />
-  //     </Box>
-  //   );
-  // }
-
   return (
     <>
       <Box borderWidth="4px" border="3px black" borderBottom="3px solid black" py="8" my="2">

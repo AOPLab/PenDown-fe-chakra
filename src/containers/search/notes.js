@@ -35,15 +35,6 @@ export default function Notes() {
   //   }
   // }, [dispatch, search.notes.ids, search.q, search.type]);
 
-  // if (loading.searchNotes) {
-  //   return (
-  //     <Box borderWidth="4px" border="3px black" borderBottom="3px solid black" py="8" my="2">
-  //       <Heading>Notes</Heading>
-  //       <SearchLoading />
-  //     </Box>
-  //   );
-  // }
-
   return (
     <>
       <Box borderWidth="4px" border="3px black" borderBottom="3px solid black" py="8" my="2">

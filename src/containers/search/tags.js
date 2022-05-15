@@ -31,15 +31,6 @@ export default function Tags() {
   //   }
   // }, [dispatch, search.tags.ids, search.q]);
 
-  // if (loading.searchTags) {
-  //   return (
-  //     <Box borderWidth="4px" border="3px black" borderBottom="3px solid black" py="8" my="2">
-  //       <Heading>Tags</Heading>
-  //       <SearchLoading />
-  //     </Box>
-  //   );
-  // }
-
   return (
     <>
       <Box borderWidth="4px" border="3px black" borderBottom="3px solid black" py="8" my="2">

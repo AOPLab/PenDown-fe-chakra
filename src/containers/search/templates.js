@@ -35,15 +35,6 @@ export default function Templates() {
   //   }
   // }, [dispatch, search.q, search.templates.ids, search.type]);
 
-  // if (loading.searchTemplates) {
-  //   return (
-  //     <Box borderWidth="4px" border="3px black" borderBottom="3px solid black" py="8" my="2">
-  //       <Heading>Templates</Heading>
-  //       <SearchLoading />
-  //     </Box>
-  //   );
-  // }
-
   return (
     <>
       <Box borderWidth="4px" border="3px black" borderBottom="3px solid black" py="8" my="2">

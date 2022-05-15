@@ -31,15 +31,6 @@ export default function Schools() {
   //   }
   // }, [dispatch, search.schools.ids, search.q]);
 
-  // if (loading.searchSchools) {
-  //   return (
-  //     <Box borderWidth="4px" border="3px black" borderBottom="3px solid black" py="8" my="2">
-  //       <Heading>Schools</Heading>
-  //       <SearchLoading />
-  //     </Box>
-  //   );
-  // }
-
   return (
     <>
       <Box borderWidth="4px" border="3px black" borderBottom="3px solid black" py="8" my="2">
