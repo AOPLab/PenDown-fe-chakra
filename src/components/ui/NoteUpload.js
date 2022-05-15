@@ -149,6 +149,12 @@ export default function NoteUpload({
     }
   }, [error, error.addNote, errorToast, loading, loading.addNote, onNoteClose, reset, resetDescription, resetGnoteFile, resetNoteFile, resetPdfFile, submitDone]);
 
+  function checkFile(filesToCheck) {
+    const pdfStatus = (typeof (filesToCheck.pdf) !== 'undefined');
+    const rawStatus = ((typeof (filesToCheck.nota) !== 'undefined') || (typeof (filesToCheck.gnote) !== 'undefined'));
+    return !(pdfStatus && rawStatus);
+  }
+
   return (
     <Modal
       blockScrollOnMount={false}
@@ -201,13 +207,10 @@ export default function NoteUpload({
                 </Button>
                 {activeStep === steps.length - 1
                   ? <Button onClick={handleSubmit(onSubmit)} isLoading={isSubmitting} variant="pendown-primary">Submit</Button> : (
-                    <Button isDisabled={typeof (files.pdf) === 'undefined'} onClick={nextStep} variant="pendown-primary">
+                    <Button isDisabled={checkFile(files)} onClick={nextStep} variant="pendown-primary">
                       Next
                     </Button>
                   )}
-                {/* <Button onClick={nextStep} variant="pendown-primary">
-                  {activeStep === steps.length - 1 ? 'Submit' : 'Next'}
-                </Button> */}
               </Flex>
             )}
           </Flex>
