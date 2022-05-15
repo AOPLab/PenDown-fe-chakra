@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -25,27 +25,27 @@ export default function People() {
     dispatch(searchPeople(search.q, search.accounts.cur_offset + 12));
   };
 
-  useEffect(() => {
-    if (search.q !== null && search.q !== '' && !search.accounts.ids[0]) {
-      dispatch(searchPeople(search.q, 0));
-    }
-  }, [dispatch, search.accounts.ids, search.q]);
+  // useEffect(() => {
+  //   if (search.q !== null && search.q !== '' && !search.accounts.ids[0]) {
+  //     dispatch(searchPeople(search.q, 0));
+  //   }
+  // }, [dispatch, search.accounts.ids, search.q]);
 
-  if (loading.searchPeople) {
-    return (
-      <Box borderWidth="4px" border="3px black" borderBottom="3px solid black" py="8" my="2">
-        <Heading>People</Heading>
-        <SearchLoading />
-      </Box>
-    );
-  }
+  // if (loading.searchPeople) {
+  //   return (
+  //     <Box borderWidth="4px" border="3px black" borderBottom="3px solid black" py="8" my="2">
+  //       <Heading>People</Heading>
+  //       <SearchLoading />
+  //     </Box>
+  //   );
+  // }
 
   return (
     <>
       <Box borderWidth="4px" border="3px black" borderBottom="3px solid black" py="8" my="2">
         <Heading>People</Heading>
         {search.accounts.ids[0] && search.accounts.ids[0].length !== 0
-          ? (
+          && (
             <SimpleGrid
               minChildWidth="120px"
               spacing={4}
@@ -56,15 +56,19 @@ export default function People() {
             >
               {Object.keys(search.accounts.ids).map((key) => search.accounts.ids[key].map((id) => (<SearchAvatar key={id} onClick={() => history.push(`/account/${id}`)} username={accounts[id].username} />)))}
             </SimpleGrid>
-          ) : (
-            <Flex
-              w="full"
-              justifyContent="center"
-              alignItems="center"
-            >
-              <NoData />
-            </Flex>
           )}
+        { loading.searchPeople && (
+        <SearchLoading />
+        ) }
+        { !loading.searchPeople && (search.accounts.totalCnt === 0 || search.accounts.totalCnt === null) && (
+        <Flex
+          w="full"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <NoData />
+        </Flex>
+        ) }
         {search.accounts.totalCnt && search.accounts.totalCnt !== 0 && (search.accounts.cur_offset + 12) < search.accounts.totalCnt
           ? (
             <Center mt={8}>
