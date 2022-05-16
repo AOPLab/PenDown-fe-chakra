@@ -45,7 +45,7 @@ export default function Courses() {
             && (
               <SimpleGrid
                 columns={{
-                  base: 1, md: 2, lg: 2, xl: 3,
+                  base: 1, md: 1, lg: 2, xl: 2,
                 }}
                 spacing={{ base: 10, md: 12 }}
                 mt={8}
