@@ -8,6 +8,8 @@ import {
 import StatsCard from '../../components/ui/cards/StatsCard';
 import BannerBadge from '../../components/ui/cards/BannerBadge';
 import CourseSection from '../../components/ui/CourseSection';
+import GeneralLoading from '../../components/GeneralLoading';
+import NoMatch from '../../components/noMatch';
 import { statFormatting } from '../../components/util/Helper';
 import { getSchool } from '../../actions/school/school';
 import { fetchSchoolCourses } from '../../actions/course/course';
@@ -16,6 +18,7 @@ function School() {
   const { schoolId } = useParams();
   const schools = useSelector((state) => state.school.byId);
   const courses = useSelector((state) => state.course);
+  const loading = useSelector((state) => state.loading);
   // const history = useHistory();
   const dispatch = useDispatch();
   const tabs = ['Popular', 'Recent'];
@@ -23,6 +26,9 @@ function School() {
   const [courseIds, setcourseIds] = useState([]);
   const [courseCnt, setCourseCnt] = useState(statFormatting(0));
   const [noteCnt, setNoteCnt] = useState(statFormatting(0));
+
+  const color = useColorModeValue('gray.100', 'gray.500');
+
   const handleTabsChange = (index) => {
     setTabIndex(index);
     // tabIndex == 0 ; popular
@@ -52,6 +58,13 @@ function School() {
     setCourseCnt(statFormatting(parseInt(courseIds.length, 10)));
   }, [schoolId, courses, tabIndex, courseIds.length]);
 
+  if (!schools[schoolId]) {
+    if (loading.school.getSchool || loading.course.getSchoolCourses) {
+      return <GeneralLoading />;
+    }
+    return <NoMatch />;
+  }
+
   return (
     <>
       <Flex direction="column" align="left" gap={10} pt={4} px={8}>
@@ -76,7 +89,7 @@ function School() {
               justify="space-between"
               textAlign="center"
               rounded="pendown"
-              bg={useColorModeValue('gray.100', 'gray.500')}
+              bg={color}
               border="2px solid black"
             >
               <TabList

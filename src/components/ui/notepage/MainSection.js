@@ -210,7 +210,7 @@ function MainSection({ property }) {
             </HStack>
             <Box py={1} />
             {property.username && property.fullName
-              ? <NoteBigAvatar username={property.username} fullName={property.fullName} userId={property.userId} onClick={() => history.push(`/account/${property.userId}`)} />
+              ? <NoteBigAvatar username={property.username} fullName={property.fullName} userId={property.userId} />
               : <NoteBigAvatar username="Alice" fullName="Bob" />}
           </Flex>
           <VStack

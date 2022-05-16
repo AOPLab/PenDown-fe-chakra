@@ -1,5 +1,5 @@
 import React from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory, useLocation, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Box, Heading, SimpleGrid, Flex, Center, Button,
@@ -53,7 +53,11 @@ export default function Schools() {
                 py={0}
                 mx="auto"
               >
-                {Object.keys(search.schools.ids).map((key) => search.schools.ids[key].map((id) => (<MiscCard key={id} onClick={() => history.push(`/school/${id}`)} property={{ title: `${schools[id].name}` }} />)))}
+                {Object.keys(search.schools.ids).map((key) => search.schools.ids[key].map((id) => (
+                  <Link key={`link-${id}`} to={`/school/${id}`}>
+                    <MiscCard key={id} property={{ title: `${schools[id].name}` }} />
+                  </Link>
+                )))}
               </SimpleGrid>
             )}
         </Flex>

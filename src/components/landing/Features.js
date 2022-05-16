@@ -1,12 +1,14 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import {
   Heading, Box, SimpleGrid, chakra,
   Flex, useColorModeValue, Button,
   Image,
 } from '@chakra-ui/react';
 
-function Features(props) {
+function Features() {
   // const { variant, ...rest } = props;
+  const history = useHistory();
 
   // const styles = useStyleConfig('Step', { variant: props.variant });
 
@@ -63,6 +65,7 @@ function Features(props) {
                   w={{ base: 'full', sm: 'auto' }}
                   size="lg"
                   variant="pendown-primary"
+                  onClick={() => history.push('/register')}
                 >
                   Sign Up Now
                 </Button>
@@ -99,14 +102,15 @@ function Features(props) {
                 >
                   Looking for some notes? We&apos;ve got your back. Browse through our collection of notes uploaded by other users and find the one that suits your choice.
                 </chakra.p>
-                <Button
+                {/* <Button
                   w={{ base: 'full', sm: 'auto' }}
                   size="lg"
                   variant="pendown-primary"
+                  onClick={() => history.push('/search/all')}
                   // padding={4}
                 >
                   Visit Search Page
-                </Button>
+                </Button> */}
               </Box>
               <Image
                 w="full"

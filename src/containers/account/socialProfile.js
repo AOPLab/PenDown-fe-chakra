@@ -11,6 +11,7 @@ import {
 import { avatarSrc } from '../../components/util/Helper';
 import CardSection from '../../components/ui/CardSection';
 import StatsCard from '../../components/ui/cards/StatsCard';
+import GeneralLoading from '../../components/GeneralLoading';
 import { browsePublicUserNotes } from '../../actions/note/note';
 import {
   readAccount, addAccountFollowing, deleteAccountFollowing, fetchAccountFollowings,
@@ -139,7 +140,7 @@ function SocialProfile() {
   }, [accountId, accounts, noteType]);
 
   if (!accounts[accountId]) {
-    return (<h1>Loading</h1>);
+    return (<GeneralLoading />);
   }
   return (
     <>
