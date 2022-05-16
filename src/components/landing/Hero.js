@@ -1,4 +1,5 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import {
   Box, chakra,
   Flex, useColorModeValue, Button,
@@ -10,6 +11,7 @@ import {
 
 function Hero(props) {
   // const { variant, ...rest } = props;
+  const history = useHistory();
   const Feature = ({ ft }) => (
     <Flex alignItems="center" color={useColorModeValue(null, 'white')}>
       <Icon
@@ -86,6 +88,7 @@ function Hero(props) {
               mb={{ base: 2, sm: 0 }}
               size="lg"
               cursor="pointer"
+              onClick={() => history.push('/login')}
             >
               Get Started
               <Icon boxSize={4} ml={1} viewBox="0 0 20 20" fill="currentColor">
