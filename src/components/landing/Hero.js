@@ -9,7 +9,7 @@ import {
   Image,
 } from '@chakra-ui/react';
 
-function Hero(props) {
+function Hero() {
   // const { variant, ...rest } = props;
   const history = useHistory();
   const Feature = ({ ft }) => (

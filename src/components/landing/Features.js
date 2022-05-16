@@ -6,7 +6,7 @@ import {
   Image,
 } from '@chakra-ui/react';
 
-function Features(props) {
+function Features() {
   // const { variant, ...rest } = props;
   const history = useHistory();
 
@@ -102,7 +102,7 @@ function Features(props) {
                 >
                   Looking for some notes? We&apos;ve got your back. Browse through our collection of notes uploaded by other users and find the one that suits your choice.
                 </chakra.p>
-                <Button
+                {/* <Button
                   w={{ base: 'full', sm: 'auto' }}
                   size="lg"
                   variant="pendown-primary"
@@ -110,7 +110,7 @@ function Features(props) {
                   // padding={4}
                 >
                   Visit Search Page
-                </Button>
+                </Button> */}
               </Box>
               <Image
                 w="full"
