@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -25,20 +25,11 @@ export default function Courses() {
     dispatch(searchCourses(search.q, search.courses.cur_offset + 12));
   };
 
-  useEffect(() => {
-    if (search.q !== null && search.q !== '' && !search.courses.ids[0]) {
-      dispatch(searchCourses(search.q, 0));
-    }
-  }, [dispatch, search.courses.ids, search.q]);
-
-  if (loading.searchCourses) {
-    return (
-      <Box borderWidth="4px" border="3px black" borderBottom="3px solid black" py="8" my="2">
-        <Heading>Courses</Heading>
-        <SearchLoading />
-      </Box>
-    );
-  }
+  // useEffect(() => {
+  //   if (search.q !== null && search.q !== '' && !search.courses.ids[0]) {
+  //     dispatch(searchCourses(search.q, 0));
+  //   }
+  // }, [dispatch, search.courses.ids, search.q]);
 
   return (
     <>
@@ -51,7 +42,7 @@ export default function Courses() {
           alignItems="center"
         >
           {search.courses.ids[0] && search.courses.ids[0].length !== 0
-            ? (
+            && (
               <SimpleGrid
                 columns={{
                   base: 1, md: 1, lg: 1, xl: 2,
@@ -64,9 +55,12 @@ export default function Courses() {
               >
                 {Object.keys(search.courses.ids).map((key) => search.courses.ids[key].map((id) => (<MiscCard key={id} onClick={() => history.push(`/school/${courses[id].school_id}/course/${id}`)} property={{ title: `${courses[id].no}: ${courses[id].name}`, description: `${courses[id].school_name}`, noteCount: `${courses[id].note_cnt}` }} />)))}
               </SimpleGrid>
-            )
-            : <NoData />}
+            )}
         </Flex>
+        { loading.searchCourses && (
+          <SearchLoading />
+        ) }
+        { !loading.searchCourses && (search.courses.totalCnt === 0 || search.courses.totalCnt === null) && <NoData /> }
         {search.courses.totalCnt && search.courses.totalCnt !== 0 && (search.courses.cur_offset + 12) < search.courses.totalCnt
           ? (
             <Center mt={8}>

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -25,24 +25,15 @@ export default function Templates() {
     dispatch(searchTemplates(search.q, search.type, search.templates.cur_offset + 12));
   };
 
-  useEffect(() => {
-    if (search.q !== null && search.q !== '' && !search.templates.ids[0]) {
-      if (search.type === null) {
-        dispatch(searchTemplates(search.q, 'all', 0));
-      } else {
-        dispatch(searchTemplates(search.q, search.type, 0));
-      }
-    }
-  }, [dispatch, search.q, search.templates.ids, search.type]);
-
-  if (loading.searchTemplates) {
-    return (
-      <Box borderWidth="4px" border="3px black" borderBottom="3px solid black" py="8" my="2">
-        <Heading>Templates</Heading>
-        <SearchLoading />
-      </Box>
-    );
-  }
+  // useEffect(() => {
+  //   if (search.q !== null && search.q !== '' && !search.templates.ids[0]) {
+  //     if (search.type === null) {
+  //       dispatch(searchTemplates(search.q, 'all', 0));
+  //     } else {
+  //       dispatch(searchTemplates(search.q, search.type, 0));
+  //     }
+  //   }
+  // }, [dispatch, search.q, search.templates.ids, search.type]);
 
   return (
     <>
@@ -55,7 +46,7 @@ export default function Templates() {
           alignItems="center"
         >
           {search.templates.ids[0] && search.templates.ids[0].length !== 0
-            ? (
+            && (
               <SimpleGrid
                 columns={{
                   base: 1, md: 2, lg: 2, xl: 3,
@@ -69,8 +60,12 @@ export default function Templates() {
               >
                 {Object.keys(search.templates.ids).map((key) => search.templates.ids[key].map((id) => ((<NoteCard key={id} noteId={id} imageUrl={notes[id].preview_url} username={notes[id].username} viewCount={notes[id].view_cnt} savedCount={notes[id].saved_cnt} title={notes[id].title} dateCreated={notes[id].created_at} noteType={notes[id].note_type} />))))}
               </SimpleGrid>
-            ) : <NoData />}
+            ) }
         </Flex>
+        { loading.searchTemplates && (
+          <SearchLoading />
+        ) }
+        { !loading.searchTemplates && (search.templates.totalCnt === 0 || search.templates.totalCnt === null) && <NoData /> }
         {search.templates.totalCnt && search.templates.totalCnt !== 0 && (search.templates.cur_offset + 12) < search.templates.totalCnt
           ? (
             <Center mt={8}>

@@ -34,15 +34,16 @@ function Tag() {
   const [noteCnt, setNoteCnt] = useState(statFormatting(0));
 
   const handleTabsChange = (index) => {
+    if (index === 0) {
+      setViewType('Popular');
+    } else if (index === 1) {
+      setViewType('Recent');
+    }
     setTabIndex(index);
   };
 
   const handleNoteTypeChange = (event) => {
     setNoteType(event.target.value);
-  };
-
-  const handleViewTypeChange = (event) => {
-    setViewType(event.target.value);
   };
 
   useEffect(() => {
@@ -137,7 +138,6 @@ function Tag() {
                     _selected={{ bg: 'primary.400', borderRadius: 'pendown' }}
                     fontSize="md"
                     fontWeight="bold"
-                    onClick={handleViewTypeChange}
                   >
                     {tab}
                   </Tab>
