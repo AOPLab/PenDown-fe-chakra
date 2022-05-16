@@ -14,7 +14,7 @@ import {
   InputRightElement,
   VStack, Stack,
   Box, Icon, HStack, Textarea,
-  RadioGroup, Radio,
+  RadioGroup, Radio, Center,
 } from '@chakra-ui/react';
 import {
   AutoComplete,
@@ -32,6 +32,9 @@ import CardBadge from '../cards/CardBadge';
 
 import { fetchAllSchools } from '../../../actions/school/school';
 import { fetchSchoolCourses } from '../../../actions/course/course';
+
+import '../../../theme/css/pdf.css';
+
 // using react hook form without control this time
 
 // FiEye, FiHeart, FiBookmark
@@ -110,6 +113,14 @@ export default function AddDescriptions({
     }
   };
 
+  const handleCourseOptionChange = (e) => {
+    setCourseOption(e);
+    if (e === 'No') {
+      setSchoolId('');
+      setCourseId('');
+    }
+  };
+
   const handleSchoolIdChange = (e) => {
     dispatch(fetchSchoolCourses(parseInt(e, 10)));
     setSchoolId(e);
@@ -179,15 +190,15 @@ export default function AddDescriptions({
               </Box>
             </HStack>
           </Box>
-          <Box border="2px solid black" borderRadius="pendown" p="5px">
+          <Center border="2px solid black" borderRadius="pendown" p="5px" maxW="290px">
             <Document file={files.pdf}>
               <Page
                 pageNumber={1}
-                height={376}
-                width={275}
+                width={276}
+                // className="page-container"
               />
             </Document>
-          </Box>
+          </Center>
         </VStack>
       </Flex>
       <Stack spacing="8" px="4" py="8" marginTop="-16">
@@ -209,7 +220,7 @@ export default function AddDescriptions({
         </FormControl>
         <FormControl isInvalid={errors.course} isRequired>
           <FormLabel fontSize="lg" fontWeight="bold" marginBottom="4" htmlFor="course">Are you taking this for a course?</FormLabel>
-          <RadioGroup onChange={setCourseOption} value={courseOption}>
+          <RadioGroup onChange={handleCourseOptionChange} value={courseOption}>
             <Stack direction="row" spacing={16}>
               <Radio {...register('isCourse?', { required: true })} type="radio" value="Yes" size="lg" colorScheme="primary">Yes</Radio>
               <Radio {...register('isCourse?', { required: true })} type="radio" value="No" size="lg" colorScheme="primary">No</Radio>

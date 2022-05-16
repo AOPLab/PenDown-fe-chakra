@@ -1,0 +1,12 @@
+.thumbnail-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px 0;
+  padding: 10px;
+}
+
+.page-container {
+  max-width: calc('100% - 2em');
+  margin: 1em;
+}

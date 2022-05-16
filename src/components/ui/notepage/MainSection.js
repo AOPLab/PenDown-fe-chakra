@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import moment from 'moment';
@@ -11,7 +11,6 @@ import {
   VStack,
   HStack,
   Icon,
-  Image,
   Text,
   Tooltip,
   Modal,
@@ -32,7 +31,7 @@ import {
   AlertDialogCloseButton,
 } from '@chakra-ui/react';
 import { ExternalLinkIcon } from '@chakra-ui/icons';
-
+import Magnifier from 'react-magnifier';
 import {
   FiCalendar,
   FiEye,
@@ -62,14 +61,14 @@ function MainSection({ property }) {
 
   const errorToast = useToast();
 
-  const ref = useRef();
-  const [imageHeight, setImageHeight] = useState(0);
-  const handleImageLoad = (event) => {
-    setImageHeight(event.target.clientHeight);
-  };
-  useEffect(() => {
-    setImageHeight(ref.current.clientHeight);
-  }, []);
+  // const ref = useRef();
+  // const [imageHeight, setImageHeight] = useState(0);
+  // const handleImageLoad = (event) => {
+  //   setImageHeight(event.target.clientHeight);
+  // };
+  // useEffect(() => {
+  //   setImageHeight(ref.current.clientHeight);
+  // }, []);
 
   const downloadAllFile = () => {
     if (config.isAuthenticated) {
@@ -169,21 +168,30 @@ function MainSection({ property }) {
             </Box>
           </HStack>
         </Box>
-        <Box>
-          <Image
+        <Box
+          maxWidth="full"
+        >
+          <Magnifier
             src={property.imageUrl}
             alt={property.imageAlt}
-            ref={ref}
+            className="inner-image-zoom"
             width="290px"
-            maxWidth="full"
-            maxHeight="376px"
-            objectFit="cover"
-            onLoad={handleImageLoad}
-            borderRadius="pendown"
-            border="2px solid black"
+            mgShowOverflow={false}
           />
         </Box>
-        <Flex justifyContent="space-between" width="100%">
+        {/* <Flex direction="column" align="left" gap={4} py={4}>
+          <Text px="32px" color="gray.600" fontWeight={600} fontSize="md">school/</Text>
+          <Flex alignItems="top" gap={10} flexWrap="wrap" px="32px">
+            <VStack spacing={3}>
+              <BannerBadge>{ schools[schoolId].name }</BannerBadge>
+            </VStack>
+            <HStack spacing={4}>
+              <StatsCard title="Courses" stat="123" />
+              <StatsCard title="Notes" stat="1" />
+            </HStack>
+          </Flex>
+        </Flex> */}
+        <Flex justifyContent="space-between" width="100%" flexWrap="wrap" gap={4}>
           <Flex direction="column" align="flex-start" justify="center">
             <HStack
               color="gray.500"
@@ -202,7 +210,7 @@ function MainSection({ property }) {
             </HStack>
             <Box py={1} />
             {property.username && property.fullName
-              ? <NoteBigAvatar username={property.username} fullName={property.fullName} userId={property.userId} onClick={() => history.push(`/account/${property.userId}`)} />
+              ? <NoteBigAvatar username={property.username} fullName={property.fullName} userId={property.userId} />
               : <NoteBigAvatar username="Alice" fullName="Bob" />}
           </Flex>
           <VStack
@@ -221,7 +229,7 @@ function MainSection({ property }) {
                   onClick={() => unsaveNote()}
                   leftIcon={<Icon as={FaBookmark} color="black" css={{ strokeWidth: '3' }} />}
                 >
-                  <Text align="left">Saved</Text>
+                  <Text align="left" fontSize={{ base: 'md', md: 'lg' }}>Saved</Text>
                 </Button>
               )
               : (
@@ -235,7 +243,7 @@ function MainSection({ property }) {
                   role="button"
                   leftIcon={<Icon as={FiBookmark} color="black" css={{ strokeWidth: '3' }} />}
                 >
-                  <Text align="left">Save</Text>
+                  <Text align="left" fontSize={{ base: 'md', md: 'lg' }}>Save</Text>
                 </Button>
               )}
 
@@ -251,7 +259,7 @@ function MainSection({ property }) {
                   role="button"
                   leftIcon={<Icon as={CustomIcon.NoteBean} color="black" css={{ strokeWidth: '3' }} />}
                 >
-                  Download
+                  <Text fontSize={{ base: 'md', md: 'lg' }}>Download</Text>
                 </Button>
               )
               : (
@@ -265,11 +273,11 @@ function MainSection({ property }) {
                   role="button"
                   leftIcon={<Icon as={CustomIcon.NoteBean} color="black" css={{ strokeWidth: '3' }} />}
                 >
-                  {`Buy this note for ${property.formattedPrice} beans`}
+                  <Text fontSize={{ base: 'md', md: 'lg' }}>{`Buy now for ${property.formattedPrice} beans`}</Text>
                 </Button>
               )}
             <Box width="100%">
-              <Text align="right" color="gray.600" fontWeight={500} fontSize="xs">
+              <Text align={{ base: 'left', md: 'right' }} color="gray.600" fontWeight={500} fontSize="xs">
                 Not enough beans?
                 {' '}
                 <Text

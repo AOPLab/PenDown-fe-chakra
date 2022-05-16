@@ -11,6 +11,7 @@ import {
 import { avatarSrc } from '../../components/util/Helper';
 import CardSection from '../../components/ui/CardSection';
 import StatsCard from '../../components/ui/cards/StatsCard';
+import GeneralLoading from '../../components/GeneralLoading';
 import { browsePublicUserNotes } from '../../actions/note/note';
 import {
   readAccount, addAccountFollowing, deleteAccountFollowing, fetchAccountFollowings,
@@ -39,15 +40,13 @@ function SocialProfile() {
     setNoteType(value);
   };
 
-  const handleViewTypeChange = (event) => {
-    const {
-      target: { value },
-    } = event;
-    setViewType(value);
-  };
-
   const [tabIndex, setTabIndex] = useState(0);
   const handleTabsChange = (index) => {
+    if (index === 0) {
+      setViewType('Recent');
+    } else if (index === 1) {
+      setViewType('Popular');
+    }
     setTabIndex(index);
   };
 
@@ -141,7 +140,7 @@ function SocialProfile() {
   }, [accountId, accounts, noteType]);
 
   if (!accounts[accountId]) {
-    return (<h1>Loading</h1>);
+    return (<GeneralLoading />);
   }
   return (
     <>
@@ -215,7 +214,6 @@ function SocialProfile() {
                     _selected={{ bg: 'primary.400', borderRadius: 'pendown' }}
                     fontSize="md"
                     fontWeight="bold"
-                    onClick={handleViewTypeChange}
                   >
                     {tab}
                   </Tab>

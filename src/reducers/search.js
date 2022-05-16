@@ -37,6 +37,43 @@ const initialState = {
 
 const search = (state = initialState, action) => {
   switch (action.type) {
+    case commonConstants.SEARCH_PEOPLE_START:
+    case commonConstants.SEARCH_TAGS_START:
+    case commonConstants.SEARCH_SCHOOLS_START:
+    case commonConstants.SEARCH_COURSES_START:
+      if (state.q !== action.payload) {
+        return {
+          ...initialState,
+          q: action.payload,
+          type: state.type,
+        };
+      }
+      return state;
+    case commonConstants.SEARCH_NOTES_START:
+    case commonConstants.SEARCH_TEMPLATES_START:
+      if (state.q !== action.payload.q) {
+        return {
+          ...initialState,
+          q: action.payload.q,
+          type: state.type,
+        };
+      }
+      if (state.type !== action.payload.type) {
+        return {
+          ...state,
+          notes: {
+            cur_offset: 0,
+            ids: {},
+            totalCnt: null,
+          },
+          templates: {
+            cur_offset: 0,
+            ids: {},
+            totalCnt: null,
+          },
+        };
+      }
+      return state;
     case commonConstants.SEARCH_COURSES_SUCCESS:
       if (state.q !== action.payload.q) {
         return {

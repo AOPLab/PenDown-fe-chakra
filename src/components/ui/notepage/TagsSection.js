@@ -1,5 +1,5 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import {
   // Container,
@@ -34,13 +34,15 @@ function TagsSection({ property }) {
             minChildWidth="140px"
             width="100%"
             spacing={4}
-            mt={8}
+            mt={2}
             px={0}
             py={0}
             mx="auto"
           >
             {property.tagIds.map((id) => (
-              <TagBadge key={id} onClick={() => history.push(`/tag/${id}`)}>{`#${tags[id].name}`}</TagBadge>
+              <Link key={`link-${id}`} to={`/tag/${id}`}>
+                <TagBadge key={id}>{`#${tags[id].name}`}</TagBadge>
+              </Link>
             ))}
           </SimpleGrid>
         </Box>

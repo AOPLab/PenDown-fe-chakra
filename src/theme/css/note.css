@@ -1,4 +1,10 @@
-.textHover:hover { 
+.textHover:hover {
     opacity: 0.5;
     cursor: pointer
+}
+
+.inner-image-zoom {
+  max-height: 376px;
+  border: 2px solid black;
+  border-radius: 16px;
 }

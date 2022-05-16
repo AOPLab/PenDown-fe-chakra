@@ -13,6 +13,7 @@ export default function BannerBadge({ children, ...props }) {
       border="2px black solid"
       fontWeight={800}
       fontSize="lg"
+      whiteSpace="wrap"
       // style={props.style}
       {...props}
     >

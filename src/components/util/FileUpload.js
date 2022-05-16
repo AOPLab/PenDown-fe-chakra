@@ -1,9 +1,17 @@
 /* eslint-disable react/jsx-no-bind */
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
-  Input, FormControl, FormLabel, InputGroup, InputLeftElement, Icon, // FormErrorMessage, Icon,
+  Input,
+  FormControl,
+  FormLabel,
+  InputGroup,
+  InputLeftElement,
+  InputRightElement,
+  Icon,
+  // FormErrorMessage
 } from '@chakra-ui/react';
+import { CloseIcon } from '@chakra-ui/icons';
 import { FiFile } from 'react-icons/fi';
 import { useController } from 'react-hook-form';
 
@@ -22,9 +30,19 @@ export const FileUpload = ({
     rules: { required: isRequired },
   });
 
+  const [filename, setFilename] = useState('');
+
   useEffect(() => {
     setValue(value);
+    setFilename((value && value.name) || '');
   }, [setValue, value]);
+
+  const handleClick = () => {
+    inputRef.current.value = '';
+    setFilename('');
+    onChange(undefined);
+    setValue(undefined);
+  };
 
   return (
     <>
@@ -49,8 +67,12 @@ export const FileUpload = ({
             placeholder={placeholder || 'Your file ...'}
             onClick={() => inputRef.current.click()}
             readOnly
-            value={(value && value.name) || ''}
+            value={filename}
+            focusBorderColor="primary.400"
           />
+          <InputRightElement width="2.5rem">
+            {filename !== '' ? <CloseIcon ml={1} w={3} h={3} cursor="pointer" onClick={handleClick} /> : <></>}
+          </InputRightElement>
         </InputGroup>
         {/* <FormErrorMessage>
           {invalid}

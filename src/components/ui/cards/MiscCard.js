@@ -1,22 +1,21 @@
 import React from 'react';
 import {
-  Box, useColorModeValue, Icon, HStack, VStack,
+  Box, useColorModeValue, Icon, HStack, VStack, Tooltip,
 } from '@chakra-ui/react';
 import {
   FiList, FiFile,
 } from 'react-icons/fi';
-import Marquee from 'react-fast-marquee';
 // FiEye, FiHeart, FiBookmark
 import Card from '../Card';
 
-export default function MiscCard({ onClick, property }) {
+export default function MiscCard({ property }) {
   return (
-    <Box minWidth="fit-content" onClick={onClick}>
+    <Box minWidth="fit-content">
       <Card variant="pendown" maxW="full">
         <Box
           bg={useColorModeValue('white', 'gray.800')}
-          maxW="300px"
-          width="250px"
+          maxW={{ base: '300px', md: '300px', lg: '330px' }}
+          width="400px"
           borderRadius="pendown"
           position="relative"
         >
@@ -27,11 +26,14 @@ export default function MiscCard({ onClick, property }) {
               fontSize="2xl"
               as="h1"
               lineHeight="tight"
-              isTruncated
+              noOfLines={2}
+              height="3em"
             >
-              <Marquee play={false} gradient={false} speed={50}>
+              <Tooltip label={property.title} placement="right">
                 {property.title}
-              </Marquee>
+              </Tooltip>
+              {/* <Marquee play={false} gradient={false} speed={50}>
+              </Marquee> */}
             </Box>
 
             {property.description ? (

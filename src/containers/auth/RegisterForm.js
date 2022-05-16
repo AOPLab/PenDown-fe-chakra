@@ -157,7 +157,7 @@ export default function RegisterForm() {
       <Stack spacing="8">
         <Box borderRadius="card" border="2px solid black" bg={useColorModeValue('white', 'gray.700')} boxShadow="lg" p={8}>
           <Stack spacing="8">
-            <Stack align="center" justify="center" spacing="8">
+            <Stack align="center" justify="center" spacing="8" onClick={() => history.push('/home')} cursor="pointer">
               <Image boxSize="70%" alt="Logo" src="../logo/big-logo.png" />
               <Text align="center" fontWeight={800} color="gray.600">Sign up to see notes from other note-takers from all over the world.</Text>
             </Stack>

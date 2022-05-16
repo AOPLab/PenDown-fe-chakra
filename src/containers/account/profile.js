@@ -9,7 +9,7 @@ import {
 import Icon from '../../components/ui/icon/index';
 import { avatarSrc } from '../../components/util/Helper';
 import StatsCard from '../../components/ui/cards/StatsCard';
-import SelfCardSection from '../../components/ui/SelfCardSection';
+import CardSection from '../../components/ui/CardSection';
 import { browseUserOwnNotes } from '../../actions/note/note';
 import { readSelfAccount } from '../../actions/user/user';
 
@@ -35,19 +35,21 @@ function PersonalProfile() {
     setNoteType(value);
   };
 
-  const handleViewTypeChange = (event) => {
-    const {
-      target: { value },
-    } = event;
-    setViewType(value);
-  };
-
   const handleTabsChange = (index) => {
+    if (index === 0) {
+      setViewType('Notes');
+    } else if (index === 1) {
+      setViewType('Saved');
+    } else if (index === 2) {
+      setViewType('Library');
+    }
     setTabIndex(index);
   };
 
   useEffect(() => {
-    dispatch(readSelfAccount(auth.token));
+    if (auth.token) {
+      dispatch(readSelfAccount(auth.token));
+    }
   }, [auth.token, dispatch]);
 
   useEffect(() => {
@@ -189,7 +191,6 @@ function PersonalProfile() {
                     _selected={{ bg: 'primary.400', borderRadius: 'pendown' }}
                     fontSize="md"
                     fontWeight="bold"
-                    onClick={handleViewTypeChange}
                   >
                     {tab}
                   </Tab>
@@ -205,7 +206,7 @@ function PersonalProfile() {
                 alignItems="center"
                 flexDirection="column"
               >
-                <SelfCardSection noteType={noteType} handleNoteTypeChange={handleNoteTypeChange} noteIds={uploadedNoteIds} />
+                <CardSection noteType={noteType} handleNoteTypeChange={handleNoteTypeChange} noteIds={uploadedNoteIds} />
               </Flex>
             </TabPanel>
             <TabPanel key="Saved">
@@ -215,7 +216,7 @@ function PersonalProfile() {
                 alignItems="center"
                 flexDirection="column"
               >
-                <SelfCardSection noteType={noteType} handleNoteTypeChange={handleNoteTypeChange} noteIds={savededNoteIds} />
+                <CardSection noteType={noteType} handleNoteTypeChange={handleNoteTypeChange} noteIds={savededNoteIds} />
               </Flex>
             </TabPanel>
             <TabPanel key="Library">
@@ -225,7 +226,7 @@ function PersonalProfile() {
                 alignItems="center"
                 flexDirection="column"
               >
-                <SelfCardSection noteType={noteType} handleNoteTypeChange={handleNoteTypeChange} noteIds={libraryNoteIds} />
+                <CardSection noteType={noteType} handleNoteTypeChange={handleNoteTypeChange} noteIds={libraryNoteIds} />
               </Flex>
             </TabPanel>
           </TabPanels>

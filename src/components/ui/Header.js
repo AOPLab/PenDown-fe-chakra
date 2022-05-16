@@ -48,8 +48,9 @@ export default function Header() {
   // const systemLoading = useSelector((state) => state.loading.admin.system);
   const [menuList] = useState([
     { id: 1, title: 'View Profile', link: '/account/my-profile' },
-    { id: 2, title: 'Settings', link: '/account/my-profile/setting' },
-    { id: 3, title: 'Logout', link: '/logout' },
+    { id: 2, title: 'Payment', link: '/account/payment' },
+    { id: 3, title: 'Settings', link: '/account/my-profile/setting' },
+    { id: 4, title: 'Logout', link: '/logout' },
   ]);
 
   const [activeHeaderItemIndex] = useState(0);
@@ -104,10 +105,6 @@ export default function Header() {
 
           <Flex
             alignItems="center"
-            // flexGrow={1}
-            // mx={{
-            //   base: 'none', sm: '10', md: '10', lg: '20', xl: '200',
-            // }}
           >
             <SearchField />
           </Flex>
@@ -146,30 +143,17 @@ export default function Header() {
                           src={avatarSrc(user.username)}
                         />
                       </MenuButton>
-                      <MenuList alignItems="center">
-                        {/* <br />
-                        <Center>
-                          <Avatar
-                            border="2px solid black"
-                            size="xl"
-                            src={`https://source.boringavatars.com/beam/40/${user.username}?colors=264653,2a9d8f,e9c46a,f4a261,e76f51`}
-                          />
-                        </Center>
-                        <br />
-                        <Center>
-                          <Text fontWeight="bold">{user.username}</Text>
-                        </Center>
-                        <br />
-                        <MenuDivider /> */}
+                      <MenuList alignItems="center" border="2px black solid" borderRadius="pendown" shadow="xl">
                         {menuList.map((item, index) => (
                           <>
-                            {index === 2 ? <MenuDivider key="divider" /> : <></>}
+                            {index === 3 ? <MenuDivider key="divider" border="black" /> : <></>}
                             <MenuItem
                               key={item.link}
                               tabIndex={item.id}
                               role="button"
                               onClick={() => goto(item.link)}
                               onKeyDown={() => goto(item.link)}
+                              _hover={{ borderRadius: 'md' }}
                             >
                               {item.title}
                             </MenuItem>
@@ -215,22 +199,7 @@ export default function Header() {
                         src={avatarSrc(user.username)}
                       />
                     </MenuButton>
-                    <MenuList alignItems="center">
-                      {/* <br />
-                      <Center>
-                        <Avatar
-                          border="2px solid black"
-                          variant="pendown-navbar"
-                          size="xl"
-                          src={`https://source.boringavatars.com/beam/40/${user.username}?colors=264653,2a9d8f,e9c46a,f4a261,e76f51`}
-                        />
-                      </Center>
-                      <br />
-                      <Center>
-                        <Text fontWeight="bold">{user.username}</Text>
-                      </Center>
-                      <br />
-                      <MenuDivider /> */}
+                    <MenuList alignItems="center" border="2px black solid" borderRadius="pendown" shadow="xl">
                       <MenuItem
                         key="/"
                         tabIndex="/"
@@ -250,10 +219,10 @@ export default function Header() {
                       >
                         Notifications
                       </MenuItem>
-                      <MenuDivider />
+                      <MenuDivider border="black" />
                       {menuList.map((item, index) => (
                         <>
-                          {index === 2 ? <MenuDivider /> : <></>}
+                          {index === 3 ? <MenuDivider border="black" /> : <></>}
                           <MenuItem
                             key={item.link}
                             tabIndex={item.link}
@@ -297,111 +266,3 @@ export default function Header() {
     </>
   );
 }
-
-// <AppBar className={classes.appbar} elevation={0}>
-// {/* <Toolbar className={classes.toolbar}>
-// <div className={classes.logo}>
-//   <Icon.SmallLogo className={classes.logoContent} onClick={() => history.push('/home')} />
-//   {/* {auth.isAuthenticated ? <Icon.SmallLogo className={classes.logoContent} onClick={() => history.push('/home')} />
-//     : <Icon.BigLogo className={classes.logoContent} onClick={() => history.push('/home')} />} */}
-// </div>
-// {theme.headerStyle.hasIndicator && <div className={classes.itemActiveIndicator} style={indicatorStyles} />}
-
-// <div className={classes.center}>
-//   <Paper
-//     component="form"
-//     sx={{
-//       p: '2px 4px', display: 'flex', alignItems: 'center', width: 400,
-//     }}
-//   >
-//     <Icon.SearchIcon className={classes.searchIcon} />
-//     <InputBase
-//       sx={{ ml: 1, flex: 1 }}
-//       className={classes.searchCol}
-//       placeholder="Search"
-//       inputProps={{ 'aria-label': 'search' }}
-//     />
-//   </Paper>
-//   <Select
-//     defaultValue="Choose Note Type"
-//     value={noteType}
-//     onChange={handleNoteTypeChange}
-//     input={<OutlinedInput />}
-//     className={classes.selectCol}
-//   >
-//     <MenuItem key="Choose Note Type" value="Choose Note Type">Choose Note Type</MenuItem>
-//     <MenuItem key="All" value="All">All</MenuItem>
-//     <MenuItem key="Notability" value="Notability">Notability</MenuItem>
-//     <MenuItem key="Goodnotes" value="Goodnotes">Goodnotes</MenuItem>
-//   </Select>
-//   <Icon.Search className={classes.searchButton} onClick={handleSubmit} />
-// </div>
-
-// <div className={classes.right}>
-//   {auth.isAuthenticated
-//     ? (
-//       <>
-//         <div
-//           className={classes.notificationContainer}
-//           role="button"
-//           tabIndex="0"
-//         >
-//           <Icon.AddButton onClick={clickAddNote} className={classes.notificationIcon} />
-//           <Icon.Notification className={classes.notificationIcon} />
-//         </div>
-//         <div
-//           className={classes.userContainer}
-//           onClick={toggleUser}
-//           onKeyDown={toggleUser}
-//           role="button"
-//           tabIndex="-1"
-//         >
-//           <button type="button" className={classes.userButton} ref={userButtonRef}>
-//             <Typography
-//               variant="h6"
-//               className={userButtonActive && !theme.headerStyle.hasIndicator ? classes.active : null}
-//             >
-//               <ResizeObserver onReflow={(rect) => setUserButtonRect(rect)} />
-//               {user.username}
-//             </Typography>
-//           </button>
-//           {userDropdown && (
-//           <div className={classes.userDropdownContent} ref={userRef}>
-//             {menuList.map((item) => (
-//               <span
-//                 key={item.link}
-//                 tabIndex={item.link}
-//                 role="button"
-//                 onClick={() => goto(item.link)}
-//                 onKeyDown={() => goto(item.link)}
-//               >
-//                 {item.title}
-//               </span>
-//             ))}
-//           </div>
-//           )}
-//         </div>
-//       </>
-//     )
-//     : (
-//       <div
-//         className={classes.userContainer2}
-//         onClick={() => history.push('/login')}
-//         onKeyDown={() => history.push('/login')}
-//         role="button"
-//         tabIndex="-1"
-//       >
-//         <button type="button" className={classes.userButton} ref={userButtonRef}>
-//           <Typography
-//             variant="h6"
-//             className={userButtonActive && !theme.headerStyle.hasIndicator ? classes.active : null}
-//           >
-//             <ResizeObserver onReflow={(rect) => setUserButtonRect(rect)} />
-//             Sign in
-//           </Typography>
-//         </button>
-//       </div>
-//     )}
-// </div>
-// </Toolbar>
-// </AppBar> */}
