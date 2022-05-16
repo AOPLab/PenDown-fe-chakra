@@ -14,7 +14,7 @@ export default function MiscCard({ onClick, property }) {
       <Card variant="pendown" maxW="full">
         <Box
           bg={useColorModeValue('white', 'gray.800')}
-          maxW={{ base: '300px', md: '350px', lg: '400px' }}
+          maxW={{ base: '300px', md: '300px', lg: '330px' }}
           width="400px"
           borderRadius="pendown"
           position="relative"
