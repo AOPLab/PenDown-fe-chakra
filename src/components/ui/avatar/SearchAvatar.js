@@ -8,7 +8,7 @@ import { avatarSrc } from '../../util/Helper';
 // FiEye, FiHeart, FiBookmark
 
 export default function SearchAvatar({
-  username, onClick,
+  username,
 }) {
   // const [pdfFile, setPdfFile] = useState(null);
   // const [noteFile, setNoteFile] = useState(null);
@@ -20,7 +20,6 @@ export default function SearchAvatar({
     <>
       <Flex direction="column" align="center" justify="center" cursor="pointer" onMouseOver={() => setHover(true)} onMouseOut={() => setHover(false)}>
         <Avatar
-          onClick={onClick}
           border="3px solid black"
           variant="pendown-navbar"
           size="lg"

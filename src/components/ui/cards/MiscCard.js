@@ -8,9 +8,9 @@ import {
 // FiEye, FiHeart, FiBookmark
 import Card from '../Card';
 
-export default function MiscCard({ onClick, property }) {
+export default function MiscCard({ property }) {
   return (
-    <Box minWidth="fit-content" onClick={onClick}>
+    <Box minWidth="fit-content">
       <Card variant="pendown" maxW="full">
         <Box
           bg={useColorModeValue('white', 'gray.800')}

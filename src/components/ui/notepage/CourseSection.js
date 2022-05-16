@@ -1,5 +1,5 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import {
   // Container,
   Box,
@@ -34,9 +34,11 @@ function CourseSection({ property }) {
           &apos;s
           {' '}
           <Box mt="2">
-            <BannerBadge onClick={() => history.push(`/school/${property.schoolId}/course/${property.courseId}`)}>
-              {property.course}
-            </BannerBadge>
+            <Link to={`/school/${property.schoolId}/course/${property.courseId}`}>
+              <BannerBadge>
+                {property.course}
+              </BannerBadge>
+            </Link>
           </Box>
         </Box>
       </VStack>

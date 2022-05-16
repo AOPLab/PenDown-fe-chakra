@@ -1,5 +1,5 @@
 import React from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory, useLocation, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Box, Heading, SimpleGrid, Button, Center, Flex,
@@ -45,7 +45,11 @@ export default function Tags() {
               py={0}
               mx="auto"
             >
-              {Object.keys(search.tags.ids).map((key) => search.tags.ids[key].map((id) => (<TagBadge key={id} onClick={() => history.push(`/tag/${id}`)}>{`#${tags[id].name}`}</TagBadge>)))}
+              {Object.keys(search.tags.ids).map((key) => search.tags.ids[key].map((id) => (
+                <Link key={`link-${id}`} to={`/tag/${id}`}>
+                  <TagBadge key={id}>{`#${tags[id].name}`}</TagBadge>
+                </Link>
+              )))}
             </SimpleGrid>
           ) }
         { loading.searchTags && (
