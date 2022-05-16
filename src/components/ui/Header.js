@@ -100,7 +100,7 @@ export default function Header() {
     <>
       <Box as="header" position="fixed" w="100%" zIndex={200} bg={useColorModeValue('grayAlpha.600', 'blackAlpha.800')} px={4} py={1} borderBottom="2px" css={{ backdropFilter: 'saturate(180%) blur(20px)' }}>
         <Flex h={16} alignItems="center" justifyContent="space-between">
-          <Box as="button" variant="pendown" onClick={() => history.push('/home')}><Icon.SmallLogo /></Box>
+          <Box as="button" variant="pendown" onClick={() => history.push('/home')} borderRadius="pendown" _hover={{ shadow: 'pendown', transition: '.3s ease' }} transition=".3s ease"><Icon.SmallLogo /></Box>
 
           <Flex
             alignItems="center"
