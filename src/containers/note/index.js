@@ -13,6 +13,7 @@ import {
   Icon,
   useDisclosure,
   useToast,
+  Link,
 } from '@chakra-ui/react';
 
 import { FiEdit2 } from 'react-icons/fi';
@@ -28,7 +29,6 @@ import NoteEdit from '../../components/ui/NoteEdit';
 
 function Note() {
   const { noteId } = useParams();
-  // const history = useHistory();
   // const location = useLocation();
   const loading = useSelector((state) => state.loading.note.note);
   const error = useSelector((state) => state.error.note);
@@ -185,7 +185,7 @@ function Note() {
             <Text align="center" color="gray.900" fontWeight={500} fontSize="xs">
               Do you find something wrong?
               {' '}
-              <Text as="span" color="red.500" fontWeight={700}>Report</Text>
+              <Link href={'https://docs.google.com/forms/d/e/1FAIpQLSdPkpDXKsRDpX04VzeCBslVv7SwLkxzXWTAyRrsMT4SNP7q1w/viewform?entry.348329674=https://pendown.icheft.tech/note/'.concat(noteId)} as="a" color="red.500" fontWeight={700} isExternal>Report</Link>
             </Text>
           </Box>
         </Stack>
