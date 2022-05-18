@@ -12,6 +12,6 @@ test.each([
   [60, "60"],
   [1832000, "1.8M"],
   [3491, "3,491"]
-])("Num %d will has result %s", (num, expected) => {
+])("statFormatting: num %d will has result %s", (num, expected) => {
   expect(statFormatting(num)).toBe(expected);
 });
