@@ -13,6 +13,9 @@ import {
   Heading,
   useBreakpointValue,
   useToast,
+  Tooltip,
+  Icon,
+  Text,
 } from '@chakra-ui/react';
 import { Step, Steps, useSteps } from 'chakra-ui-steps';
 import { FiUpload, FiEdit3 } from 'react-icons/fi';
@@ -196,21 +199,32 @@ export default function NoteUpload({
                 </Flex>
               </Flex>
             ) : (
-              <Flex width="100%" justify="flex-end">
-                <Button
-                  isDisabled={activeStep === 0}
-                  mr={4}
-                  onClick={prevStep}
-                  variant="pendown"
-                >
-                  Prev
-                </Button>
+              <Flex width="100%" justify="space-between" alignItems="center">
                 {activeStep === steps.length - 1
-                  ? <Button onClick={handleSubmit(onSubmit)} isLoading={isSubmitting} variant="pendown-primary">Submit</Button> : (
-                    <Button isDisabled={checkFile(files)} onClick={nextStep} variant="pendown-primary">
-                      Next
-                    </Button>
+                  ? <></> : (
+                    <Tooltip label="Make sure you have either uploaded a .note or a .goodnotes file before proceeding 😉" bg="secondary.600" placement="auto" closeDelay={500}>
+                      <Flex alignItems="center" cursor="pointer">
+                        <Icon color="red.600" mr={2} />
+                        <Text fontSize="xs" color="red.600">Having trouble proceeding?</Text>
+                      </Flex>
+                    </Tooltip>
                   )}
+                <Flex width="100%" justify="flex-end">
+                  <Button
+                    isDisabled={activeStep === 0}
+                    mr={4}
+                    onClick={prevStep}
+                    variant="pendown"
+                  >
+                    Prev
+                  </Button>
+                  {activeStep === steps.length - 1
+                    ? <Button onClick={handleSubmit(onSubmit)} isLoading={isSubmitting} variant="pendown-primary">Submit</Button> : (
+                      <Button isDisabled={checkFile(files)} onClick={nextStep} variant="pendown-primary">
+                        Next
+                      </Button>
+                    )}
+                </Flex>
               </Flex>
             )}
           </Flex>
