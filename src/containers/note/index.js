@@ -41,7 +41,7 @@ function Note() {
 
   // modal trigger
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [scrollBehavior, setScrollBehavior] = React.useState('inside');
+  const [scrollBehavior] = useState('inside');
   const btnRef = React.useRef();
   // modal trigger end
 
