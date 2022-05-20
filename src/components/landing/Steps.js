@@ -1,13 +1,9 @@
 import React from 'react';
 import {
-  Heading, Box, Image, Text, SimpleGrid, useStyleConfig, chakra,
+  Heading, Box, Image, Text, SimpleGrid, chakra,
 } from '@chakra-ui/react';
 
 function Steps(props) {
-  // const { variant, ...rest } = props;
-
-  const styles = useStyleConfig('Step', { variant: props.variant });
-
   return (
     <>
       <Box>
