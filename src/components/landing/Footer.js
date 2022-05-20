@@ -1,24 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   SimpleGrid,
   Stack,
   Text,
   Container,
-  Button,
   Input,
-  useStyleConfig,
-  // Center,
+  Link,
 } from '@chakra-ui/react';
 
 import Icon from '../ui/icon/index';
 import FooterBtn from '../ui/btn/FooterBtn';
 
 function Footer(props) {
-  // const { variant, ...rest } = props;
+  const [email, setEmail] = useState('');
 
-  const styles = useStyleConfig('Step', { variant: props.variant });
+  const handleChange = (e) => {
+    setEmail(e.target.value);
+  };
 
-  // Pass the computed styles into the `__css` prop
   return (
     <Container as="footer" bg="gray.900" maxWidth="100%" verticalAlign="center">
       <Stack id="footer-logo" color="white" pt={{ base: '6', md: '12' }} margin="0 5vw 0 5vw">
@@ -42,7 +41,7 @@ function Footer(props) {
       >
         <Stack minW="300px" spacing={{ base: '6', md: '8' }} align="start">
           <Text fontSize={{ base: 'xl', sm: 'xl', md: '2xl' }} fontWeight={700}>
-            Subscribe to get newsletter from us. You can cancel anytime.
+            Join our wait list to stay up-to-date. You can cancel anytime.
           </Text>
           <Stack spacing="4" direction={{ base: 'column', sm: 'row' }}>
             <Input
@@ -58,29 +57,41 @@ function Footer(props) {
               w="70%"
               maxW="420px"
               size="lg"
+              value={email}
+              onChange={handleChange}
             />
-            <Button
+            <Link
               id="subscribe_btn"
-              variant="primary"
-              p={4}
+              textAlign="center"
+              bg="black"
+              color="white"
+              border="2px solid white"
+              borderRadius="pendown"
+              _hover={{ color: 'black', bg: 'secondary.500' }}
+              _focus={{ outline: 0 }}
+              _active={{ outline: 0 }}
+              p={2}
               type="submit"
               size="lg"
-              // width="100px"
+              fontSize="lg"
+              fontWeight="bold"
+              width="100px"
               flexShrink={0}
-              _hover={{ color: 'black', bg: 'secondary.500' }}
+              href={'https://docs.google.com/forms/d/e/1FAIpQLSefrrxuqogFs3ICBQNP_YkWFCN6_O-kNOPuUART3rmIajJBww/viewform?entry.1387188781='.concat(email)}
+              isExternal
             >
-              Subscribe
-            </Button>
+              Join
+            </Link>
           </Stack>
         </Stack>
         <br />
-        <SimpleGrid columns={2} verticalAlign="center" height={{ base: '200px', sm: '100px' }} maxW="30%" minW="350px">
-          <FooterBtn>About</FooterBtn>
-          <FooterBtn>Pricing</FooterBtn>
-          <FooterBtn>Terms of Service</FooterBtn>
-          <FooterBtn>Sign Up</FooterBtn>
-          <FooterBtn>Privacy Policy</FooterBtn>
-          <FooterBtn>Discover</FooterBtn>
+        <SimpleGrid columns={2} verticalAlign="center" height={{ base: '200px', sm: '100px' }} maxW="30%" minW="350px" spacing={4}>
+          <FooterBtn href="https://aoplab.notion.site/About-d39c56d855d449d186f90a20a9d0e451">About</FooterBtn>
+          <FooterBtn href="https://pendown.icheft.tech/account/payment">Pricing</FooterBtn>
+          <FooterBtn href="https://aoplab.notion.site/Terms-Conditions-b11f01b49f4442f981df634bcd5f8cb2">Terms & Conditions</FooterBtn>
+          <FooterBtn href="https://pendown.icheft.tech/register">Sign Up</FooterBtn>
+          <FooterBtn href="https://aoplab.notion.site/Privacy-Policy-a99071c9717b4261b1f1889944795892">Privacy Policy</FooterBtn>
+          <FooterBtn href="https://pendown.icheft.tech/search/all">Discover</FooterBtn>
         </SimpleGrid>
       </Stack>
       <Stack color="white" pt={{ base: '6', md: '12' }} pb="3vh" margin="0 5vw 0 5vw">
