@@ -108,8 +108,8 @@ function MainSection({ property }) {
 
   const onBuyNote = () => {
     if (config.isAuthenticated) {
-      setIsBuying(true);
       dispatch(buyNote(config.token, property.noteId));
+      setIsBuying(true);
     } else {
       errorToast({
         title: 'Not login',
@@ -151,13 +151,22 @@ function MainSection({ property }) {
   };
 
   useEffect(() => {
-    if (!loading.buyNote && error.buyNote && isBuying) {
-      errorToast({
-        title: 'You have not enough beans.',
-        status: 'error',
-        duration: 3000,
-        isClosable: true,
-      });
+    if (!loading.buyNote && isBuying) {
+      if (error.buyNote) {
+        errorToast({
+          title: 'You have not enough beans.',
+          status: 'error',
+          duration: 3000,
+          isClosable: true,
+        });
+      } else {
+        errorToast({
+          title: 'Buy note successfully',
+          status: 'success',
+          duration: 3000,
+          isClosable: true,
+        });
+      }
       setIsBuying(false);
     }
   }, [error.buyNote, errorToast, isBuying, loading.buyNote]);
