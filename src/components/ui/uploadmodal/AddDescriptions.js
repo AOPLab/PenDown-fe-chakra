@@ -12,9 +12,17 @@ import {
   Heading,
   InputGroup,
   InputRightElement,
-  VStack, Stack,
-  Box, Icon, HStack, Textarea,
-  RadioGroup, Radio, Center,
+  VStack,
+  Stack,
+  Box,
+  Icon,
+  HStack,
+  Textarea,
+  RadioGroup,
+  Radio,
+  Center,
+  Text,
+  Link,
 } from '@chakra-ui/react';
 import {
   AutoComplete,
@@ -306,6 +314,18 @@ export default function AddDescriptions({
             </AutoComplete>
             {/* <FormHelperText>Who do you support.</FormHelperText> */}
           </FormControl>
+          <Text align={{ base: 'left', md: 'right' }} color="gray.600" fontWeight={500} fontSize="xs">
+            Can&apos;t find your course?
+            {' '}
+            <Link
+              color="red.500"
+              className="textHover"
+              href="https://docs.google.com/forms/d/e/1FAIpQLSdh56X2yBwo4ZMxlRbVNj8L4xL58UUbXsMpMzd0v3BIc8EhEw/viewform"
+              isExternal
+            >
+              Let us know!
+            </Link>
+          </Text>
         </>
         )}
         <FormControl isInvalid={errors.template} isRequired>

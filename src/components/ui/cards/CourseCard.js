@@ -1,13 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import {
-  Box, useColorModeValue, Icon, HStack, VStack,
+  Box, useColorModeValue, Icon, HStack, VStack, Tooltip,
 } from '@chakra-ui/react';
 import {
-  FiList,
+  FiList, FiFile,
 } from 'react-icons/fi';
-import Marquee from 'react-fast-marquee';
-// FiEye, FiHeart, FiBookmark
 import Card from '../Card';
 
 export default function CourseCard(props) {
@@ -17,8 +15,8 @@ export default function CourseCard(props) {
         <Card variant="pendown" maxW="full">
           <Box
             bg={useColorModeValue('white', 'gray.800')}
-            maxW="300px"
-            width="250px"
+            maxW={{ base: '300px', md: '300px', lg: '330px' }}
+            width="400px"
             borderRadius="pendown"
             position="relative"
           >
@@ -29,11 +27,14 @@ export default function CourseCard(props) {
                 fontSize="2xl"
                 as="h1"
                 lineHeight="tight"
-                isTruncated
+                noOfLines={2}
+                height="3em"
               >
-                <Marquee play={false} gradient={false} speed={50}>
+                <Tooltip label={props.title} placement="right">
                   {props.title}
-                </Marquee>
+                </Tooltip>
+                {/* <Marquee play={false} gradient={false} speed={50}>
+              </Marquee> */}
               </Box>
 
               {props.description ? (
@@ -46,6 +47,36 @@ export default function CourseCard(props) {
                   </HStack>
                 </Box>
               ) : <></>}
+
+              {props.noteCount && (
+              <Box d="flex" alignItems="center" w="100%">
+                <HStack
+                  color="gray.500"
+                  fontWeight="semibold"
+                  fontSize="xs"
+                  textTransform="uppercase"
+                >
+                  <>
+                    <Icon as={FiFile} w="18px" h="18px" color="black" css={{ strokeWidth: '3' }} />
+                    <Box as="span" color="black" fontSize="sm" fontWeight={800}>
+                      {props.noteCount}
+                    </Box>
+                  </>
+                  {/* {property.viewCount && (
+                  <>
+                  <Icon as={FiEye} w="18px" h="18px" color="black" css={{ strokeWidth: '3' }} />
+                  <Box as="span" color="black" fontSize="sm" fontWeight={800}>
+                  {property.viewCount}
+                  </Box>
+                  </>
+                )} */}
+                  {/* <Icon as={FiBookmark} w="18px" h="18px" color="black" css={{ strokeWidth: '3' }} />
+                <Box as="span" color="black" fontSize="sm" fontWeight={800}>
+                  {property.savedCount}
+                </Box> */}
+                </HStack>
+              </Box>
+              )}
             </VStack>
           </Box>
         </Card>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import moment from 'moment';
@@ -55,11 +55,14 @@ function MainSection({ property }) {
   const history = useHistory();
   // const location = useLocation();
   const config = useSelector((state) => state.auth);
+  const loading = useSelector((state) => state.loading.note.note);
+  const error = useSelector((state) => state.error.note);
   // const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const errorToast = useToast();
+  const [isBuying, setIsBuying] = useState(false);
 
   // const ref = useRef();
   // const [imageHeight, setImageHeight] = useState(0);
@@ -106,6 +109,7 @@ function MainSection({ property }) {
   const onBuyNote = () => {
     if (config.isAuthenticated) {
       dispatch(buyNote(config.token, property.noteId));
+      setIsBuying(true);
     } else {
       errorToast({
         title: 'Not login',
@@ -145,6 +149,27 @@ function MainSection({ property }) {
       });
     }
   };
+
+  useEffect(() => {
+    if (!loading.buyNote && isBuying) {
+      if (error.buyNote) {
+        errorToast({
+          title: 'You have not enough beans.',
+          status: 'error',
+          duration: 3000,
+          isClosable: true,
+        });
+      } else {
+        errorToast({
+          title: 'Buy note successfully',
+          status: 'success',
+          duration: 3000,
+          isClosable: true,
+        });
+      }
+      setIsBuying(false);
+    }
+  }, [error.buyNote, errorToast, isBuying, loading.buyNote]);
 
   return (
     <>
