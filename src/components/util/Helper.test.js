@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import { avatarSrc, statFormatting } from './Helper';
 
 test('avatarSrc Function Test', () => {
@@ -7,11 +8,11 @@ test('avatarSrc Function Test', () => {
 });
 
 test.each([
-  [1000, "1,000"],
-  [15000, "15K"],
-  [60, "60"],
-  [1832000, "1.8M"],
-  [3491, "3,491"]
-])("statFormatting: num %d will has result %s", (num, expected) => {
+  [1000, '1,000'],
+  [15000, '15K'],
+  [60, '60'],
+  [1832000, '1.8M'],
+  [3491, '3,491'],
+])('statFormatting: num %d will has result %s', (num, expected) => {
   expect(statFormatting(num)).toBe(expected);
 });

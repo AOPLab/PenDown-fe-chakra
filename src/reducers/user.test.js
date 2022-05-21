@@ -1,5 +1,6 @@
+/* eslint-disable no-undef */
 import user from './user';
-import { authConstants, userConstants } from '../actions/user/constants';
+import { authConstants } from '../actions/user/constants';
 
 test('Initial State', () => {
   const currentUser = user(undefined, {});

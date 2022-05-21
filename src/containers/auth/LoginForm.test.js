@@ -1,6 +1,9 @@
+/* eslint-disable no-tabs */
 /* eslint-disable no-undef */
 import React from 'react';
-import { render, fireEvent, screen, waitFor } from '@testing-library/react';
+import {
+  render, fireEvent, screen,
+} from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 
 import { Provider } from 'react-redux';
@@ -563,7 +566,7 @@ test('Only send password', () => {
   const store = mockStore(initialState);
   const container = render(
     <BrowserRouter>
-      <Provider store={ store }>
+      <Provider store={store}>
         <LoginForm />
       </Provider>
     </BrowserRouter>,
@@ -1091,7 +1094,7 @@ test('Send both boxes', () => {
   const store = mockStore(initialState);
   const container = render(
     <BrowserRouter>
-      <Provider store={ store }>
+      <Provider store={store}>
         <LoginForm />
       </Provider>
     </BrowserRouter>,

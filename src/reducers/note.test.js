@@ -1,6 +1,6 @@
+/* eslint-disable no-undef */
 import note from './school';
 import { noteConstants } from '../actions/note/constant';
-import { commonConstants } from '../actions/common/constant';
 
 test('byId: Initial State', () => {
   const currentNote = note(undefined, {}).byId;
@@ -20,7 +20,7 @@ test('byId: GET_NOTE_SUCCESS', () => {
       note: {
         id: 1,
         note: 2,
-      }
+      },
     },
   }).byId;
 
