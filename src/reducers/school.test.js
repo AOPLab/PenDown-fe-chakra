@@ -42,7 +42,7 @@ test('byId: SEARCH_SCHOOLS_SUCCESS', () => {
   );
 });
 
-/* 
+/*
 test('byId: BROWSE_SCHOOL_SUCCESS', () => {
   const currentSchool = school({}, {
     type: schoolConstants.SEARCH_SCHOOLS_SUCCESS,

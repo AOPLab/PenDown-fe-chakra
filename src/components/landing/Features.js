@@ -114,7 +114,7 @@ function Features() {
               </Box>
               <Image
                 w="full"
-                src="./images/gettingStarted/step1.png"
+                src="./images/gettingStarted/step2.png"
               />
             </SimpleGrid>
             <SimpleGrid
@@ -146,7 +146,7 @@ function Features() {
               </Box>
               <Image
                 w="full"
-                src="./images/gettingStarted/step1.png"
+                src="./images/gettingStarted/step3.png"
               />
             </SimpleGrid>
             <SimpleGrid
@@ -180,7 +180,7 @@ function Features() {
               </Box>
               <Image
                 w="full"
-                src="./images/gettingStarted/step1.png"
+                src="./images/gettingStarted/step4.png"
               />
             </SimpleGrid>
           </Box>

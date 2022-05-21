@@ -1,11 +1,13 @@
+/* eslint-disable no-undef */
 import '@fontsource/caveat';
 import React from 'react';
-import { render, fireEvent, screen, waitFor } from '@testing-library/react';
+import {
+  render,
+} from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
 
 import Home from './index';
 

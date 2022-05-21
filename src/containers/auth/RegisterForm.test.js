@@ -1,3 +1,4 @@
+/* eslint-disable no-tabs */
 /* eslint-disable no-undef */
 import React from 'react';
 import { render, fireEvent, screen } from '@testing-library/react';
@@ -44,7 +45,7 @@ test('RegisterForm Initial Display', () => {
       <Provider store={store}>
         <RegisterForm />
       </Provider>
-    </BrowserRouter>
+    </BrowserRouter>,
   );
 
   expect(container).toMatchInlineSnapshot(`

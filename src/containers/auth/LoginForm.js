@@ -35,6 +35,8 @@ export default function LoginForm() {
   const loginError = useSelector((state) => state.error.user.auth);
   const loginLoading = useSelector((state) => state.loading.user.auth);
 
+  const color = useColorModeValue('white', 'gray.700');
+
   useEffect(() => {
     if (!loginLoading.login) {
       if (loginError.login != null) {
@@ -84,7 +86,7 @@ export default function LoginForm() {
 
   return (
     <Stack spacing="8">
-      <Box borderRadius="card" border="2px solid black" bg={useColorModeValue('white', 'gray.700')} boxShadow="lg" p={8}>
+      <Box borderRadius="card" border="2px solid black" bg={color} boxShadow="lg" p={8}>
         <Stack spacing="8">
           <Stack direction="row" align="center" justify="center" onClick={() => history.push('/home')} cursor="pointer">
             <Image boxSize="70%" alt="Logo" src="../logo/big-logo.png" />
@@ -174,7 +176,7 @@ export default function LoginForm() {
           </form>
         </Stack>
       </Box>
-      <Box borderRadius="card" border="2px solid black" bg={useColorModeValue('white', 'gray.700')} boxShadow="lg" p={8}>
+      <Box borderRadius="card" border="2px solid black" bg={color} boxShadow="lg" p={8}>
         <Stack spacing="8">
           <Text align="center" fontSize="sm" fontWeight={800}>
             Don&apos;t have an account?
