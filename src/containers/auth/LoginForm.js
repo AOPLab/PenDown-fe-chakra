@@ -176,7 +176,7 @@ export default function LoginForm() {
           </form>
         </Stack>
       </Box>
-      <Box borderRadius="card" border="2px solid black" bg={useColorModeValue('white', 'gray.700')} boxShadow="lg" p={8}>
+      <Box borderRadius="card" border="2px solid black" bg={color} boxShadow="lg" p={8}>
         <Stack spacing="8">
           <Text align="center" fontSize="sm" fontWeight={800}>
             Don&apos;t have an account?
