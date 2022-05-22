@@ -26,6 +26,7 @@ import GeneralLoading from '../../components/GeneralLoading';
 
 import { getNote, editNote } from '../../actions/note/note';
 import NoteEdit from '../../components/ui/NoteEdit';
+import NoMatch from '../../components/noMatch';
 
 function Note() {
   const { noteId } = useParams();
@@ -150,9 +151,12 @@ function Note() {
     );
   }
 
+  if (property.pdf_filename !== '') {
+    return <NoMatch />;
+  }
+
   return (
     <>
-      {/* <Container maxW="5xl"> */}
       {(user.id === property.userId)
         && (
           <Button size="lg" fontSize="24px" position="fixed" variant="pendown-yellow" top="20" mt="2" left="4" onClick={onOpen}><Icon as={FiEdit2} strokeWidth="3px" /></Button>
