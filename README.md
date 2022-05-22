@@ -32,10 +32,11 @@ You have two options:
 
   ```
   SKIP_PREFLIGHT_CHECK = true
-  REACT_APP_API_ROOT='http://127.0.0.1:8000'
-  REACT_APP_OAUTH_ID=''
-  OAUTH_PASSWD=''
+  REACT_APP_API_ROOT='http://127.0.0.1:8080'
+  REACT_APP_OAUTH_ID=YOUR_AUTH_ID
   ```
+
+  > You should sign up for your own "Continue with Google" AUTH ID. That said, it won't cost you anything if you don't do so, that'll allow your clients to continue without Google.
 
   That'll do it.
 
