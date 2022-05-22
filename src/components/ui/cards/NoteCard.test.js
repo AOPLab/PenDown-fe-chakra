@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import React from 'react';
 import { render, fireEvent, screen, waitFor } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
@@ -288,7 +289,7 @@ Object {
                 <img
                   alt="No Preview Image"
                   class="chakra-image css-11jrw4b"
-                  src="img.url"
+                  src="${imageUrl_}"
                 />
               </div>
             </div>
@@ -505,4 +506,23 @@ Object {
   "unmount": [Function],
 }
 `);
+});
+
+test.each([
+  [1, 1, 'Goodnotes', 'img.url', 'Test Note', '2000/12/15', 'tester', 10, 10],
+  [2, 2, 'Notability', 'img.url', 'Test Note', '2000/12/15', 'tester', 5, 10],
+])('NoteCard link id %d', (id, noteId_, noteType_, imageUrl_, title_, dateCreated_, username_, viewCount_, savedCount_) => {
+  const initialState = {};
+  const mockStore = configureStore();
+  const store = mockStore(initialState);
+
+  const container = render(
+    <BrowserRouter>
+      <Provider store={store}>
+        <NoteCard noteId={noteId_} noteType={noteType_} imageUrl={imageUrl_} title={title_} dateCreated={dateCreated_} username={username_} viewCount={viewCount_} savedCount={savedCount_} />
+      </Provider>
+    </BrowserRouter>,
+  );
+  fireEvent.click(screen.getByRole('heading', { }));
+  expect(mockHistoryPush).toHaveBeenCalledWith(`/note/${noteId_}`);
 });
