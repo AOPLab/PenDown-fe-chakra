@@ -153,6 +153,7 @@ export default function Header() {
                               role="button"
                               onClick={() => goto(item.link)}
                               onKeyDown={() => goto(item.link)}
+                              borderRadius="md"
                               _hover={{ borderRadius: 'md' }}
                             >
                               {item.title}
@@ -206,6 +207,8 @@ export default function Header() {
                         role="button"
                         // onClick={() => goto('/')}
                         onClick={onOpen}
+                        borderRadius="md"
+                        _hover={{ borderRadius: 'md' }}
                         // onKeyDown={() => goto('/')}
                       >
                         Add note
@@ -216,6 +219,8 @@ export default function Header() {
                         role="button"
                         onClick={() => goto('/')}
                         onKeyDown={() => goto('/')}
+                        borderRadius="md"
+                        _hover={{ borderRadius: 'md' }}
                       >
                         Notifications
                       </MenuItem>
@@ -229,6 +234,8 @@ export default function Header() {
                             role="button"
                             onClick={() => goto(item.link)}
                             onKeyDown={() => goto(item.link)}
+                            borderRadius="md"
+                            _hover={{ borderRadius: 'md' }}
                           >
                             {item.title}
                           </MenuItem>

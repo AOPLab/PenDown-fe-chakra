@@ -56,8 +56,8 @@ export default function NoteCard(props) {
                   width="290px"
                   maxWidth="full"
                   maxHeight="376px"
-                  roundedTop={(imageHeight >= 350) ? 'pendown' : 'md'}
-                  rounded={(imageHeight < 350) ? 'md' : ''}
+                  roundedTop={(imageHeight >= 350) ? 'pendown' : 'lg'}
+                  rounded={(imageHeight < 350) ? 'lg' : ''}
                   objectFit="cover"
                   onLoad={handleImageLoad}
                 />
