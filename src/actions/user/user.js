@@ -65,7 +65,7 @@ const readSelfAccount = (token) => async (dispatch) => {
 };
 
 // Use to edit self info
-const editAccount = (token, username, full_name, email, description) => async (dispatch) => {
+const editAccount = (token, username, full_name, email, description, onSuccess) => async (dispatch) => {
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -82,6 +82,7 @@ const editAccount = (token, username, full_name, email, description) => async (d
     await agent.patch('/api/account', accountInfo, config);
     dispatch({ type: userConstants.EDIT_SELF_ACCOUNT_SUCCESS });
     // Then read account info again
+    onSuccess();
     dispatch(readSelfAccount(token));
   } catch (error) {
     dispatch({
@@ -92,7 +93,7 @@ const editAccount = (token, username, full_name, email, description) => async (d
 };
 
 // Use to edit self password
-const editPassword = (token, id, oldPassword, newPassword) => async (dispatch) => {
+const editPassword = (token, id, oldPassword, newPassword, onSuccess) => async (dispatch) => {
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -106,6 +107,7 @@ const editPassword = (token, id, oldPassword, newPassword) => async (dispatch) =
       new_password: newPassword,
     }, config);
     dispatch({ type: userConstants.EDIT_SELF_PASSWORD_SUCCESS });
+    onSuccess();
   } catch (error) {
     dispatch({
       type: userConstants.EDIT_SELF_PASSWORD_FAIL,
