@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
 import {
   useToast, Button, Box, Flex,
   FormControl, FormLabel, Input, Stack, Icon,
@@ -16,7 +15,7 @@ function ProfileSetting() {
   const config = useSelector((state) => state.auth);
   const user = useSelector((state) => state.user);
   const error = useSelector((state) => state.error.user.user);
-  const history = useHistory();
+  // const history = useHistory();
   const dispatch = useDispatch();
 
   const [editError, setEditError] = useState(null);
@@ -27,7 +26,15 @@ function ProfileSetting() {
   const errorToast = useToast();
 
   const onSubmit = () => {
-    dispatch(editAccount(config.token, username, fullName, email, bio));
+    const onSuccess = () => {
+      errorToast({
+        title: 'Edit Success',
+        status: 'success',
+        duration: 2000,
+        isClosable: true,
+      });
+    };
+    dispatch(editAccount(config.token, username, fullName, email, bio, onSuccess));
     // history.push('/account/my-profile');
   };
 

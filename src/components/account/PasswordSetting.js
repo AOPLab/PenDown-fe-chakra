@@ -46,7 +46,15 @@ function PasswordSetting() {
       setMatchError(true);
       return;
     }
-    dispatch(editPassword(config.token, user.id, oldPassword, newPassword));
+    const onSuccess = () => {
+      errorToast({
+        title: 'Edit Success',
+        status: 'success',
+        duration: 2000,
+        isClosable: true,
+      });
+    };
+    dispatch(editPassword(config.token, user.id, oldPassword, newPassword, onSuccess));
   };
 
   useEffect(() => {
