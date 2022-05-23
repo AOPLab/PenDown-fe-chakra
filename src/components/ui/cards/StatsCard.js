@@ -13,13 +13,13 @@ export default function StatsCard({ title, stat }) {
       px={{ base: 4, md: 8 }}
       py="5"
       // shadow="xl"
-      width="150px"
+      width={{ base: '80px', md: '150px' }}
       border="2px solid"
       borderColor={useColorModeValue('gray.800', 'gray.500')}
       rounded="pendown"
       alignItems="center"
     >
-      <StatNumber fontSize="2xl" fontWeight="bold" align="center">
+      <StatNumber fontSize={{ base: 'xl', md: '2xl' }} fontWeight="bold" align="center">
         {stat}
       </StatNumber>
       <StatLabel fontWeight="medium" fontSize="xs" isTruncated align="center">
