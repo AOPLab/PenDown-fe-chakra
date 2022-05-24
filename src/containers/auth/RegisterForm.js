@@ -88,7 +88,6 @@ export default function RegisterForm() {
         ),
       );
       setHasRequest(true);
-      history.push('/login');
     }
   };
 
@@ -139,14 +138,16 @@ export default function RegisterForm() {
         }
         errorToast({
           title: 'Register Fail',
-          description: registerError,
+          description: 'Username Exists',
           status: 'error',
           duration: 2000,
           isClosable: true,
         });
+      } else {
+        history.push('/login');
       }
     }
-  }, [errorToast, hasRequest, registerError, registerLoading]);
+  }, [errorToast, hasRequest, history, registerError, registerLoading]);
 
   if (auth.isAuthenticated) {
     history.push('/home');
