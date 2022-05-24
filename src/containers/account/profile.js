@@ -161,13 +161,13 @@ function PersonalProfile() {
                 Setting
               </Button>
             </VStack>
-            <VStack>
-              <HStack spacing={4}>
+            <VStack alignItems="left">
+              <Flex gap={4} wrap="wrap">
                 <StatsCard title="Followers" stat={user.followersNum} />
                 <StatsCard title="Following" stat={user.followingNum} />
                 <StatsCard title="Notes" stat={user.noteNum} />
-              </HStack>
-              <Text width="420px" textAlign="left" size="md">{user.description}</Text>
+              </Flex>
+              <Text width="420px" textAlign="left">{user.description}</Text>
             </VStack>
           </Flex>
         </Flex>

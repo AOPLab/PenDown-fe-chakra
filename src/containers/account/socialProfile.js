@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 // import { useHistory, useLocation } from 'react-router-dom';
 import {
-  HStack, Flex, VStack, Button, Text, Avatar, Stack, useColorModeValue, TabList, Tab, TabPanel, Tabs, TabPanels, useToast,
+  Flex, VStack, Button, Text, Avatar, Stack, useColorModeValue, TabList, Tab, TabPanel, Tabs, TabPanels, useToast,
 } from '@chakra-ui/react';
 
 import { avatarSrc } from '../../components/util/Helper';
@@ -150,11 +150,11 @@ function SocialProfile() {
             <VStack spacing={3}>
               <Avatar
                 border="2px solid black"
-                width="5vw"
+                width="6vw"
                 height="auto"
                 src={avatarSrc(accounts[accountId].username)}
               />
-              <Text align="center" width="15vw">
+              <Text align="center" width="16vw">
                 <Text color="black.900" fontWeight={900} fontSize="2xl">
                   {accounts[accountId].fullName}
                 </Text>
@@ -183,13 +183,13 @@ function SocialProfile() {
               )
               }
             </VStack>
-            <VStack>
-              <HStack spacing={4}>
+            <VStack alignItems="left">
+              <Flex gap={4} wrap="wrap">
                 <StatsCard title="Followers" stat={accounts[accountId].followersNum} />
                 <StatsCard title="Following" stat={accounts[accountId].followingNum} />
                 <StatsCard title="Notes" stat={accounts[accountId].noteNum} />
-              </HStack>
-              <Text width="100%" textAlign="left">{accounts[accountId].description}</Text>
+              </Flex>
+              <Text width="420px" textAlign="left">{accounts[accountId].description}</Text>
             </VStack>
           </Flex>
           {/* <HStack spacing={8} mx="auto" maxW="3xl" width="80%" py={12} px={6} align="flex-start" /> */}
