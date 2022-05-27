@@ -176,6 +176,7 @@ const search = (state = initialState, action) => {
       if (state.type === action.payload.type) {
         return {
           ...state,
+          type: action.payload.type,
           notes: {
             cur_offset: action.payload.offset,
             ids: { ...state.notes.ids, [action.payload.offset]: action.payload.notes.map((note) => note.note_id) },
@@ -217,6 +218,7 @@ const search = (state = initialState, action) => {
       }
       return {
         ...state,
+        type: action.payload.type,
         templates: {
           cur_offset: action.payload.offset,
           ids: { [action.payload.offset]: action.payload.templates.map((note) => note.note_id) },
