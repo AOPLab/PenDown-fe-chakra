@@ -1349,7 +1349,7 @@ test('Fail to Login (only submit password and confirm password)', () => {
 test('Sign up Success to Login Page', () => {
   const initialState = {
     auth: {
-      isAuthenticated: true,
+      isAuthenticated: false,
     },
     loading: {
       user: {
@@ -1361,7 +1361,7 @@ test('Sign up Success to Login Page', () => {
     error: {
       user: {
         auth: {
-          signup: false,
+          signup: null,
         },
       },
     },
@@ -1388,5 +1388,5 @@ test('Sign up Success to Login Page', () => {
   const password2 = screen.getByPlaceholderText('Confirm Password');
   fireEvent.change(password2, { target: { value: 'test1' } });
   fireEvent.click(screen.getByText('Sign up'));
-  expect(mockHistoryPush).toHaveBeenCalledWith('/home');
+  expect(mockHistoryPush).toHaveBeenCalledWith('/login');
 });
