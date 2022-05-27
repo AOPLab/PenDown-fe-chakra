@@ -1349,7 +1349,7 @@ test('Fail to Login (only submit password and confirm password)', () => {
 test('Sign up Success to Login Page', () => {
   const initialState = {
     auth: {
-      isAuthenticated: false,
+      isAuthenticated: true,
     },
     loading: {
       user: {
