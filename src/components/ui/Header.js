@@ -1,8 +1,8 @@
 import React, {
-  useState, useEffect, useRef, useMemo,
+  useState, useRef,
 } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import {
   Box,
   Flex,
@@ -16,7 +16,6 @@ import {
   MenuList,
   Avatar,
   useColorModeValue,
-  useColorMode,
   useDisclosure,
 } from '@chakra-ui/react';
 import { ArrowForwardIcon } from '@chakra-ui/icons';
@@ -29,19 +28,19 @@ import { avatarSrc } from '../util/Helper';
 
 export default function Header() {
   // chakra
-  const { colorMode, toggleColorMode } = useColorMode();
+  // const { colorMode, toggleColorMode } = useColorMode();
 
   // modal trigger
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [scrollBehavior, setScrollBehavior] = React.useState('inside');
-  const btnRef = React.useRef();
+  const [scrollBehavior] = useState('inside');
+  const btnRef = useRef();
   // modal trigger end
 
-  const mobileNav = useDisclosure();
+  // const mobileNav = useDisclosure();
 
   const dispatch = useDispatch();
   const history = useHistory();
-  const location = useLocation();
+  // const location = useLocation();
 
   const user = useSelector((state) => state.user);
   const auth = useSelector((state) => state.auth);
@@ -53,29 +52,29 @@ export default function Header() {
     { id: 4, title: 'Logout', link: '/logout' },
   ]);
 
-  const [activeHeaderItemIndex] = useState(0);
-  const [userButtonActive, setUserButtonActive] = useState(false);
+  // const [activeHeaderItemIndex] = useState(0);
+  // const [userButtonActive, setUserButtonActive] = useState(false);
 
-  const headerItemRef = useRef([]);
-  const [userButtonRect, setUserButtonRect] = useState({ left: 0, width: 0 });
+  // const headerItemRef = useRef([]);
+  // const [userButtonRect, setUserButtonRect] = useState({ left: 0, width: 0 });
 
-  const indicatorStyles = useMemo(
-    () => ({
-      left:
-        activeHeaderItemIndex !== undefined && activeHeaderItemIndex !== -1
-          ? headerItemRef.current[activeHeaderItemIndex]?.offsetLeft
-          : userButtonRect.left,
-      width:
-        activeHeaderItemIndex !== undefined && activeHeaderItemIndex !== -1
-          ? headerItemRef.current[activeHeaderItemIndex]?.offsetWidth
-          : userButtonRect.width,
-    }),
-    [activeHeaderItemIndex, userButtonRect.left, userButtonRect.width],
-  );
+  // const indicatorStyles = useMemo(
+  //   () => ({
+  //     left:
+  //       activeHeaderItemIndex !== undefined && activeHeaderItemIndex !== -1
+  //         ? headerItemRef.current[activeHeaderItemIndex]?.offsetLeft
+  //         : userButtonRect.left,
+  //     width:
+  //       activeHeaderItemIndex !== undefined && activeHeaderItemIndex !== -1
+  //         ? headerItemRef.current[activeHeaderItemIndex]?.offsetWidth
+  //         : userButtonRect.width,
+  //   }),
+  //   [activeHeaderItemIndex, userButtonRect.left, userButtonRect.width],
+  // );
 
-  useEffect(() => {
-    setUserButtonActive(location.pathname === '/account/my-profile' || location.pathname === '/account/my-profile/setting');
-  }, [location.pathname]);
+  // useEffect(() => {
+  //   setUserButtonActive(location.pathname === '/account/my-profile' || location.pathname === '/account/my-profile/setting');
+  // }, [location.pathname]);
 
   const goto = (link) => {
     if (link === '/logout') {
@@ -153,6 +152,7 @@ export default function Header() {
                               role="button"
                               onClick={() => goto(item.link)}
                               onKeyDown={() => goto(item.link)}
+                              borderRadius="md"
                               _hover={{ borderRadius: 'md' }}
                             >
                               {item.title}
@@ -206,6 +206,8 @@ export default function Header() {
                         role="button"
                         // onClick={() => goto('/')}
                         onClick={onOpen}
+                        borderRadius="md"
+                        _hover={{ borderRadius: 'md' }}
                         // onKeyDown={() => goto('/')}
                       >
                         Add note
@@ -216,6 +218,8 @@ export default function Header() {
                         role="button"
                         onClick={() => goto('/')}
                         onKeyDown={() => goto('/')}
+                        borderRadius="md"
+                        _hover={{ borderRadius: 'md' }}
                       >
                         Notifications
                       </MenuItem>
@@ -229,6 +233,8 @@ export default function Header() {
                             role="button"
                             onClick={() => goto(item.link)}
                             onKeyDown={() => goto(item.link)}
+                            borderRadius="md"
+                            _hover={{ borderRadius: 'md' }}
                           >
                             {item.title}
                           </MenuItem>
