@@ -1388,5 +1388,5 @@ test('Sign up Success to Login Page', () => {
   const password2 = screen.getByPlaceholderText('Confirm Password');
   fireEvent.change(password2, { target: { value: 'test1' } });
   fireEvent.click(screen.getByText('Sign up'));
-  expect(mockHistoryPush).toHaveBeenCalledWith('/login');
+  expect(mockHistoryPush).toHaveBeenCalledWith('/home');
 });

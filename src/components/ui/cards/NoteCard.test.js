@@ -94,7 +94,7 @@ Object {
                 >
                   <img
                     alt="No Preview Image"
-                    class="chakra-image css-11jrw4b"
+                    class="chakra-image css-o1m57x"
                     src="${imageUrl_}"
                   />
                 </div>
@@ -288,7 +288,7 @@ Object {
               >
                 <img
                   alt="No Preview Image"
-                  class="chakra-image css-11jrw4b"
+                  class="chakra-image css-o1m57x"
                   src="${imageUrl_}"
                 />
               </div>
